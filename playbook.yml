@@ -1,0 +1,21 @@
+---
+- hosts: all
+  vars:
+    ruby: ruby-1.9.3-p392
+    phantomjs: phantomjs-1.9.0-linux-x86_64
+    dev_db: dev
+    test_db: test
+  tasks:
+    - name: make sure the system encoding is utf-8
+      sudo: yes
+      template: src=templates/locale dest=/etc/default/locale
+                owner=root group=root mode=644
+
+    - include: tasks/apt.yml
+    - include: tasks/ruby.yml
+    - include: tasks/shell_setup.yml
+    - include: tasks/db.yml
+    - include: tasks/phantomjs.yml
+
+    - name: bundle install
+      shell: 'executable=/bin/bash chdir=/vagrant . "/usr/local/rvm/bin/rvm" && rvm use --default {{ ruby }} && bundle'

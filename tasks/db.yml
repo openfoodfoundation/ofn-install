@@ -1,0 +1,40 @@
+---
+- name: check if dbs are created already
+  shell: "psql {{ dev_db }} vagrant -c 'select 1'"
+  register: db_setup
+  ignore_errors: yes
+
+- name: setup postgres cluster to default to utf8
+  # if the dbs haven't been created yet, we want to destroy the whole db
+  # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
+  sudo: yes
+  sudo_user: postgres
+  shell: "pg_dropcluster --stop 9.1 main"
+  when: db_setup.rc != 0 # only do this if the dbs haven't been created yet
+  ignore_errors: yes
+
+- name: setup postgres cluster to default to utf8
+  # if the dbs haven't been created yet, we want to destroy the whole db
+  # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
+  sudo: yes
+  sudo_user: postgres
+  shell: "pg_createcluster --start 9.1 main"
+  when: db_setup.rc != 0 # only do this if the dbs haven't been created yet
+
+- name: create db user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: name=vagrant password=secret
+                   role_attr_flags=SUPERUSER
+- name: create dbs
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name= {{ item }} owner=vagrant
+                 encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'
+                 state=present
+  with_items:
+    - "{{ dev_db }}"
+    - "{{ test_db }}"
+
+- name: create user
+  postgresql_user: name=ofn password=secret role_attr_flags=CREATEDB,NOSUPERUSER

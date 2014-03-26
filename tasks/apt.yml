@@ -1,0 +1,21 @@
+---
+- name: Update apt
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install base packages
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - git-core
+    - build-essential
+    - fontconfig # needed for phantomjs
+    - nodejs
+    - curl
+    - python-psycopg2
+    - postgresql
+    - postgresql-client
+    - libpq-dev
+    - postgresql-contrib
+    - nfs-common # make virtualbox faster
+    - imagemagick
