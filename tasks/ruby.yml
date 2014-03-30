@@ -1,7 +1,0 @@
----
-- name: install rvm
-  shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
-
-- name: install ruby
-  shell: /usr/local/rvm/bin/rvm install --default {{ ruby }} creates=~/.rvm/rubies/{{ ruby }}
-  # sudo: yes

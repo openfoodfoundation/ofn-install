@@ -19,3 +19,13 @@
     - postgresql-contrib
     - nfs-common # make virtualbox faster
     - imagemagick
+    - fail2ban
+    - unattended-upgrades
+
+- name: copy up .bashrc
+  copy: dest=~/.bashrc
+        src=bashrc
+
+- name: copy up .bash_profile
+  copy: dest=~/.bash_profile
+        src=bash_profile

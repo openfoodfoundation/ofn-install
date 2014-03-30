@@ -1,9 +1,19 @@
 ---
+- name: install rvm
+  shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
+
+- name: install ruby
+  shell: /usr/local/rvm/bin/rvm install --default {{ ruby }} creates=~/.rvm/rubies/{{ ruby }}
+  # sudo: yes
+
 - name: download phantomjs
   get_url: url=https://phantomjs.googlecode.com/files/{{ phantomjs }}.tar.bz2
            dest=/var/tmp/{{ phantomjs }}.tar.bz2
+
 - name: untar phantomjs
   shell: chdir=/var/tmp tar xjf {{ phantomjs }}.tar.bz2 creates=/var/tmp/{{ phantomjs }}
+
 - name: symlink the phantomjs executable
   file: dest=/usr/bin/phantomjs src=/var/tmp/{{ phantomjs }}/bin/phantomjs state=link
   sudo: yes
+
