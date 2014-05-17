@@ -1,4 +1,19 @@
 ---
+- name: install unicorn
+  template: src=unicorn_init.erb dest=/tmp/unicorn_init
+  # TODO: Use 'file' module?
+  shell: chmod +x /tmp/unicorn_init
+  shell: mv /tmp/unicorn_init /etc/init.d/unicorn_{{ app }}
+  shell: update-rc.d -f unicorn_#{application} defaults
+
+- name: setup unicorn
+  file: path={{ shared_path }}/config state=directory
+  template: src=unicorn.rb.erb dest={{ shared_path }}/config/unicorn_config
+
+- name: run unicorn
+  service: name=unicorn_{{ app }} state=started
+  # TODO: #     after "deploy:#{command}", "unicorn:#{command}"
+
 - name: install rvm
   shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
 

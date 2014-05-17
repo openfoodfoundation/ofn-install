@@ -7,9 +7,23 @@
     dev_db: dev
     test_db: test
 
+    # OFN variables
+    app: openfoodnetwork
+    app_user: openfoodweb1
+    application: openfoodnetwork
+    shared_path: "/home/{{ app_user }}/apps/{{ application }}/shared"
+
+    # nginx variables
+    protocol: http
+    domain: www.openfoodnetwork.org
+    app_root: /vagrant
+    port: 3000
+
   roles:
     - common
+    - zzet.rbenv
     - webserver
+    - mortik.nginx-rails
     - dbserver
     - ofn
 

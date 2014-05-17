@@ -17,3 +17,12 @@ as quickly as you read this.
   [Ansible]: http://ansible.cc
   [Vagrant]: http://www.vagrantup.com
   [RVM]: https://rvm.io
+
+Setup
+-----
+
+Ansible needs some additional modules. Run the following:
+
+* `ansible-galaxy install zzet.rbenv`
+* `ansible-galaxy install mortik.nginx-rails`
+
