@@ -24,7 +24,7 @@
 - name: create db user
   sudo: yes
   sudo_user: postgres
-  postgresql_user: name=ofn password=f00d
+  postgresql_user: name={{ db_user_name}} password={{ db_pass }}
                    role_attr_flags=SUPERUSER
 - name: create dbs
   sudo: yes
@@ -36,4 +36,4 @@
 
 - name: create user
   sudo_user: postgres
-  postgresql_user: name=ofn password=f00d role_attr_flags=CREATEDB,NOSUPERUSER
+  postgresql_user: name={{ db_user_name }} password={{ db_pass }} role_attr_flags=CREATEDB,NOSUPERUSER

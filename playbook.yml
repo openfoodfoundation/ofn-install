@@ -6,6 +6,8 @@
     phantomjs: phantomjs-1.9.0-linux-x86_64
     dev_db: dev
     test_db: test
+    db_user_name: ofn
+    db_pass: f00d
 
     # OFN variables
     app: openfoodnetwork
