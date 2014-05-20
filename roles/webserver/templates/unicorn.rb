@@ -1,4 +1,4 @@
-working_directory "{{ current_path }}"
+working_directory "{{ app_path }}"
 pid "{{ unicorn_pid }}"
 stderr_path "{{ unicorn_log }}"
 stdout_path "{{ unicorn_log }}"

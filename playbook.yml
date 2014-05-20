@@ -13,14 +13,15 @@
     app: openfoodnetwork
     app_user: openfoodweb1
     application: openfoodnetwork
-    shared_path: "/home/{{ app_user }}/apps/{{ application }}/shared"
+    app_path: "/home/{{ app_user }}/apps/{{ application }}"
+    shared_path: "{{ app_path }}/shared"
 
     # Unicorn variables (from cap unicorn.rb)
     unicorn_user: {{ app_user }}
-    unicorn_pid: {{ current_path }}/tmp/pids/unicorn.pid
+    unicorn_pid: {{ app_path }}/tmp/pids/unicorn.pid
     unicorn_config: {{ shared_path }}/config/unicorn.rb
     unicorn_log: {{ shared_path }}/log/unicorn.log
-    git_post_receive: {{current_path }}/.git/hooks/post-receive
+    git_post_receive: {{app_path }}/.git/hooks/post-receive
     unicorn_workers: 2
     unicorn_timeout: 30
 
