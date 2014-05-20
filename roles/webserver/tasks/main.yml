@@ -1,6 +1,6 @@
 ---
 - name: install unicorn
-  template: src=unicorn_init.erb dest=/tmp/unicorn_init
+  template: src=unicorn_init dest=/tmp/unicorn_init
   # TODO: Use 'file' module?
   shell: chmod +x /tmp/unicorn_init
   shell: mv /tmp/unicorn_init /etc/init.d/unicorn_{{ app }}
@@ -8,7 +8,7 @@
 
 - name: setup unicorn
   file: path={{ shared_path }}/config state=directory
-  template: src=unicorn.rb.erb dest={{ shared_path }}/config/unicorn_config
+  template: src=unicorn.rb dest={{ shared_path }}/config/unicorn.rb
 
 - name: run unicorn
   service: name=unicorn_{{ app }} state=started
