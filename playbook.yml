@@ -22,6 +22,7 @@
     unicorn_log: {{ shared_path }}/log/unicorn.log
     git_post_receive: {{current_path }}/.git/hooks/post-receive
     unicorn_workers: 2
+    unicorn_timeout: 30
 
     # nginx variables
     protocol: http

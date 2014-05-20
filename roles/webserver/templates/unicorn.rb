@@ -4,5 +4,5 @@ stderr_path "{{ unicorn_log }}"
 stdout_path "{{ unicorn_log }}"
 
 listen "/tmp/unicorn.{{ application }}.sock"
-worker_processes {{ unicorn_workers %}}
-timeout 30
+worker_processes {{ unicorn_workers }}
+timeout {{ unicorn_timeout }}
