@@ -4,7 +4,7 @@
   # TODO: Use 'file' module?
   shell: chmod +x /tmp/unicorn_init
   shell: mv /tmp/unicorn_init /etc/init.d/unicorn_{{ app }}
-  shell: update-rc.d -f unicorn_#{application} defaults
+  shell: update-rc.d -f unicorn_{{ app }} defaults
 
 - name: setup unicorn
   file: path={{ shared_path }}/config state=directory
