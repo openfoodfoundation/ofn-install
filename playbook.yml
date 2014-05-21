@@ -6,6 +6,7 @@
     user: ubuntu
     ruby: ruby-1.9.3-p392
     phantomjs: phantomjs-1.9.0-linux-x86_64
+    
 
     # Database
     db: ofn
@@ -42,50 +43,57 @@
 
   roles:
     - common
-    - zzet.rbenv
+    - role: zzet.rbenv
+      env: user
+      version: v0.4.0
+      ruby_version: 1.9.3-p392
+      sudo: yes
     - webserver
     - mortik.nginx-rails
        # Use custom unicorn config template.
-       templates:
-         - { 
-           src: "roles/webserver/templates/nginx_unicorn" 
-           dest: "{{ nginx_path }}/sites-available/{{ app }}" 
-           owner: root
-           group: root
-           mode: "0600"
-         }
+       #templates:
+         #- { 
+           #src: "roles/webserver/templates/nginx_unicorn" 
+           #dest: "{{ nginx_path }}/sites-available/{{ app }}" 
+           #owner: root
+           #group: root
+           #mode: "0600"
+         #}
     - dbserver
-    - ofn
+    #- ofn
 
-    - role: nicolai86.prepare-release
-      repo: git@github.com:openfoodfoundation/openfoodnetwork.git
-      branch: master
+    #- 
+      #role: ansible-rails-deployment.prepare-release
+      #repo: git@github.com:openfoodfoundation/openfoodnetwork.git
+      #branch: master
 
-      symlinks:
-        - { src: "{{ shared_path }}/public/assets", dest: "{{ current_path }}/public/assets" }
-        - { src: "{{ shared_path }}/public/system", dest: "{{ current_path }}/public/system" }
-        - { src: "{{ shared_path }}/config/database.yml", dest: "{{ current_path }}/config/database.yml" }
+      #symlinks:
+        #- { src: "{{ shared_path }}/public/assets", dest: "{{ current_path }}/public/assets" }
+        #- { src: "{{ shared_path }}/public/system", dest: "{{ current_path }}/public/system" }
+        #- { src: "{{ shared_path }}/config/database.yml", dest: "{{ current_path }}/config/database.yml" }
 
-      directories:
-        - "{{ shared_path }}/config"
+      #directories:
+        #- "{{ shared_path }}/config"
 
-      templates:
-        - { src: "templates/env.js", dest: "{{ shared_path }}/.env" }
+      #templates:
+        #- { src: "templates/env.js", dest: "{{ shared_path }}/.env" }
 
-      tags: deploy
+      #tags: deploy
 
-    - role: nicolai86.rails-deployment
-      migrate: yes
-      compile_assets: yes
-      force_migrate: no
-      force_asset_compilation: no
-      tags: deploy
+    #- 
+      #role: ansible-rails-deployment.rails-deployment
+      #migrate: yes
+      #compile_assets: yes
+      #force_migrate: no
+      #force_asset_compilation: no
+      #tags: deploy
 
-    - role: nicolai86.finalize-release
-      tags: deploy
+    #- 
+      #role: ansible-rails-deployment.finalize-release
+      #tags: deploy
 
-    - role: restart
-      service: application:*
-      tags:
-        - deploy
-        - rollback
+    #- role: restart
+      #service: application:*
+      #tags:
+        #- deploy
+        #- rollback
