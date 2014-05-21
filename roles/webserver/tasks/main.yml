@@ -1,24 +1,26 @@
 ---
-- name: install unicorn
-  template: src=unicorn_init dest=/tmp/unicorn_init
-  # TODO: Use 'file' module?
-  shell: chmod +x /tmp/unicorn_init
-  shell: mv /tmp/unicorn_init /etc/init.d/unicorn_{{ app }}
-  shell: update-rc.d -f unicorn_{{ app }} defaults
-
-- name: setup unicorn
+- name: make config dir
   file: path={{ shared_path }}/config state=directory
+
+- name: copy unicorn_init
+  template: src=unicorn_init dest=/etc/init.d/unicorn_{{ app }}
+  sudo: yes
+
+- name: copy unicorn.rb
   template: src=unicorn.rb dest={{ shared_path }}/config/unicorn.rb
+    
+- name: update unicorn 
+  shell: update-rc.d -f unicorn_{{ app }} defaults
 
 - name: run unicorn
   service: name=unicorn_{{ app }} state=started
   # TODO: #     after "deploy:#{command}", "unicorn:#{command}"
 
-- name: install rvm
-  shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
+#- name: install rvm
+  #shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
 
-- name: install ruby
-  shell: /usr/local/rvm/bin/rvm install --default {{ ruby }} creates=~/.rvm/rubies/{{ ruby }}
+#- name: install ruby
+  #shell: /usr/local/rvm/bin/rvm install --default {{ ruby }} creates=~/.rvm/rubies/{{ ruby }}
   # sudo: yes
 
 - name: download phantomjs
