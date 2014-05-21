@@ -1,12 +1,12 @@
 upstream unicorn {
-  server unix:/tmp/unicorn.{{ application }}.sock fail_timeout=0;
+  server unix:/tmp/unicorn.{{ app }}.sock fail_timeout=0;
 }
 
 server {
   listen 80 default deferred;
   listen 443 default ssl;
   # server_name example.com;
-  root {{ app_path }}/public;
+  root {{ current_path }}/public;
 
   #ssl                 on;
   ssl_certificate      server.crt;

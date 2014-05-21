@@ -12,9 +12,9 @@ set -e
 
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
-APP_ROOT={{ app_path }}
+APP_ROOT={{ current_path }}
 PID={{ unicorn_pid }}
-CMD="cd {{ app_path }}; bundle exec unicorn -D -c {{ unicorn_config }} -E production"
+CMD="cd {{ current_path }}; bundle exec unicorn -D -c {{ unicorn_config }} -E production"
 AS_USER={{ unicorn_user }}
 set -u
 
