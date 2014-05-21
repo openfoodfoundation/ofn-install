@@ -37,3 +37,8 @@
 - name: create user
   sudo_user: postgres
   postgresql_user: name={{ db_user_name }} password={{ db_pass }} role_attr_flags=CREATEDB,NOSUPERUSER
+
+- name: Generate the database.yml configuration file.
+  template: src=postgresql.yml dest={{ shared_path }}/config/database.yml
+  template: src=pgpass dest={{ home_path }}/.pgpass
+                            
