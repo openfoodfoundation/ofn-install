@@ -1,6 +1,6 @@
 ---
 - name: check if dbs are created already
-  shell: "psql {{ dev_db }} vagrant -c 'select 1'"
+  shell: "psql {{ db }} {{ user }} -c 'select 1'"
   register: db_setup
   ignore_errors: yes
 
@@ -24,21 +24,22 @@
 - name: create db user
   sudo: yes
   sudo_user: postgres
-  postgresql_user: name={{ db_user_name }} password={{ db_pass }}
-                   role_attr_flags=SUPERUSER
+  postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
 - name: create dbs
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ item }} owner=ofn encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0' state=present
+  postgresql_db: name={{ item }} owner={{ db_user }} encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0' state=present
   with_items:
-    - "{{ dev_db }}"
+    - "{{ db }}"
     - "{{ test_db }}"
 
 - name: create user
   sudo_user: postgres
-  postgresql_user: name={{ db_user_name }} password={{ db_pass }} role_attr_flags=CREATEDB,NOSUPERUSER
+  postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=CREATEDB,NOSUPERUSER
 
 - name: Generate the database.yml configuration file.
   template: src=postgresql.yml dest={{ shared_path }}/config/database.yml
+
+- name: Generate the .pgpass file
   template: src=pgpass dest={{ home_path }}/.pgpass
                             
