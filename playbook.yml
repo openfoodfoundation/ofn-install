@@ -11,8 +11,9 @@
     # Database
     db: ofn
     test_db: ofn_test
-    db_user_name: ofn_user
+    db_user: ofn_user
     db_pass: f00d
+    db_host: localhost
 
     # nginx variables
     protocol: http
@@ -42,13 +43,13 @@
     unicorn_timeout: 30
 
   roles:
+    - dbserver
     - common
     - role: zzet.rbenv
       env: user
       version: v0.4.0
       ruby_version: 1.9.3-p392
       sudo: yes
-    - webserver
     - mortik.nginx-rails
        # Use custom unicorn config template.
        #templates:
@@ -59,8 +60,8 @@
            #group: root
            #mode: "0600"
          #}
-    - dbserver
     #- ofn
+    - webserver
 
     #- 
       #role: ansible-rails-deployment.prepare-release
