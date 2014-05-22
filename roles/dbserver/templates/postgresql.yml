@@ -1,8 +1,8 @@
 production:
   adapter: postgresql
   encoding: unicode
-  database: {{ postgresql_database }}
+  database: {{ db }}
   pool: 5
-  username: {{ postgresql_user }}
-  password: {{ postgresql_password }}
+  username: {{ db_user }}
+  password: {{ db_pass }}
   host: {{ postgresql_host }}

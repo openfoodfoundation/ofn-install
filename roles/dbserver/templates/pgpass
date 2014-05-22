@@ -1,2 +1,2 @@
-localhost:*:{{ postgresql_database }}:{{ postgresql_user }}:{{ postgresql_password }}
+localhost:*:{{ db }}:{{ db_user }}:{{ db_pass }}
 
