@@ -1,0 +1,21 @@
+--- # OFN
+- name: clone openfoodnetwork repo 
+  git: repo="{{ repo }}" dest="{{ current_path }}"
+
+- name: Make sure the config directory exisits
+  file: dest={{ current_path }}/config state=directory
+
+- name: Copy the post receive hook
+  template: src=post-receive dest={{ git_post_receive }}
+
+- name: Symlink the database.yml configuration file to current project dir.
+  file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
+
+- name: Install dependencies with bundle install
+  command: bash -lc bundle install chdir="{{ current_path }}"
+
+- name: Setup database with rake schema load
+  command: bash -lc rake db:schema:load db:seed chdir="{{ current_path }}"
+
+
+
