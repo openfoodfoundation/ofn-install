@@ -1,5 +1,5 @@
---- # OFN
-- name: clone openfoodnetwork repo 
+--- # App
+- name: clone repo 
   git: repo="{{ repo }}" dest="{{ current_path }}"
 
 - name: Make sure the config directory exisits
