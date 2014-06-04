@@ -1,37 +1,39 @@
 ---
-- hosts: all
+- hosts: do
   remote_user: ubuntu
 
   vars:
     user: ubuntu
     ruby: ruby-1.9.3-p392
     phantomjs: phantomjs-1.9.0-linux-x86_64
-    
+    bundle: /home/ubuntu/.rbenv/shims/bundle
 
     # Database
-    db: ofn
+    db: openfoodnetwork
     test_db: ofn_test
     db_user: ofn_user
     db_pass: f00d
     db_host: localhost
 
-    # nginx variables
+    # OFN variables
+    app: openfoodnetwork
+    application: "{{ app }}"
+    home_path: "/home/{{ user }}"
+    app_path: "{{ home_path }}/apps/{{ app }}"
+    current_path: "{{ app_path }}/current"
+    build_path: "{{ app_path }}/build"
+    shared_path: "{{ app_path }}/shared"
+    repo: https://github.com/openfoodfoundation/openfoodnetwork.git
+
+    # Rails deploy variables
+    rails_env: production
+    home_directory: "{{ home_path }}"
+
+    # Nginx variables
     protocol: http
     domain: www.openfoodnetwork.org
     app_root: "{{ current_path }}"
     port: 3000
-
-    # OFN variables
-    app: openfoodnetwork
-    application: "{{ app }}"
-    app_path: "/home/{{ user }}/apps/{{ app }}"
-    current_path: "{{ app }}/current"
-    build_path: "{{ app }}/build"
-    shared_path: "{{ app_path }}/shared"
-
-    # rails deploy variables
-    rails_env: production
-    home_directory: "/home/{{ user }}"
 
     # Unicorn variables
     unicorn_user: "{{ user }}"
@@ -43,59 +45,30 @@
     unicorn_timeout: 30
 
   roles:
-    - dbserver # create user error...
+
     - common # runs fine
+
     - role: zzet.rbenv # runs fine
-
-      env: user
-      version: v0.4.0
-      ruby_version: 1.9.3-p392
+      rbenv:
+        env: user
+        version: v0.4.0
+        ruby_version: 1.9.3-p392
+      rbenv_users: 
+      - { name: "ubuntu", home: "/home/ubuntu/", comment: "Main user" }
       sudo: yes
-    - mortik.nginx-rails # runs fine, template overrides below causes error?
-       # Use custom unicorn config template.
-       #templates:
-         #- { 
-           #src: "roles/webserver/templates/nginx_unicorn" 
-           #dest: "{{ nginx_path }}/sites-available/{{ app }}" 
-           #owner: root
-           #group: root
-           #mode: "0600"
-         #}
-    #- ofn
-    - webserver # runs fine
 
-    #- 
-      #role: ansible-rails-deployment.prepare-release
-      #repo: git@github.com:openfoodfoundation/openfoodnetwork.git
-      #branch: master
+    - bundler
 
-      #symlinks:
-        #- { src: "{{ shared_path }}/public/assets", dest: "{{ current_path }}/public/assets" }
-        #- { src: "{{ shared_path }}/public/system", dest: "{{ current_path }}/public/system" }
-        #- { src: "{{ shared_path }}/config/database.yml", dest: "{{ current_path }}/config/database.yml" }
+    - role: dbserver # sometimes hangs - was it language?
+      tags: db
 
-      #directories:
-        #- "{{ shared_path }}/config"
+    - role: ofn
+      tags: ofn
 
-      #templates:
-        #- { src: "templates/env.js", dest: "{{ shared_path }}/.env" }
+    - role: webserver # runs fine - unicorn wont start without project?
+      tags: ws
 
-      #tags: deploy
+    - role: "mortik.nginx-rails" # runs fine, wont start?
+      sudo: yes
+      tags: nginx
 
-    #- 
-      #role: ansible-rails-deployment.rails-deployment
-      #migrate: yes
-      #compile_assets: yes
-      #force_migrate: no
-      #force_asset_compilation: no
-      #tags: deploy
-
-    #- 
-      #role: ansible-rails-deployment.finalize-release
-      #tags: deploy
-
-    #- role: restart
-      #service: application:*
-      #tags:
-        #- deploy
-        #- rollback
