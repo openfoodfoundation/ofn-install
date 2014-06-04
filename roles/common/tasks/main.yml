@@ -1,4 +1,4 @@
----
+--- # common
 - name: Update apt
   apt: update_cache=yes
   sudo: yes
@@ -9,23 +9,32 @@
   with_items:
     - git-core
     - build-essential
-    - fontconfig # needed for phantomjs
+    #- fontconfig # needed for phantomjs
     - nodejs
     - curl
-    - python-psycopg2
-    - postgresql
-    - postgresql-client
-    - libpq-dev
-    - postgresql-contrib
-    - nfs-common # make virtualbox faster
+    - python-psycopg2 # needed for some ansible libraries
+    - python-software-properties
+    - libxslt-dev 
+    - libxml2-dev
+    #- libpq-dev
+    #- nfs-common # make virtualbox faster
     - imagemagick
     - fail2ban
     - unattended-upgrades
-
+    #- tklib
+    #- zlib1g-dev 
+    #- libssl-dev
+    #- libreadline-gplv2-dev
+    #- libxml2 
+    #- libxml2-dev 
+    #- libxslt1-dev
+    - language-pack-en-base
+  tags: install-base
+    
 - name: copy up .bashrc
-  copy: dest=~/.bashrc
+  copy: dest=/{{ home_path }}/.bashrc
         src=bashrc
 
 - name: copy up .bash_profile
-  copy: dest=~/.bash_profile
+  copy: dest=/{{ home_path }}/.bash_profile
         src=bash_profile
