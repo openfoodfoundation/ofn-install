@@ -1,2 +1,0 @@
-45 2 * * * /bin/bash -l -c 'cd /home/{{ deploy_user  }} }}/apps/{{ application }}/current && bundle exec rake db2fog:clean RAILS_ENV=production >> /home/{{ deploy_user }}/apps/{{ application }}/current/log/cron.stdout.log'
-0 0,4,8,12,16,20 * * * /bin/bash -l -c 'cd /home/{{deploy_user  }} }}/apps/{{ application }}/current && bundle exec rake db2fog:backup RAILS_ENV=production >> /home/{{ deploy_user }}/apps/{{ application }}/current/log/cron.stdout.log'
