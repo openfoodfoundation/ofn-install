@@ -1,4 +1,5 @@
 --- # webserver
+
 - name: make config dir
   file: path={{ shared_path }}/config state=directory
 
@@ -8,30 +9,35 @@
 - name: make config dir
   file: path={{ current_path }}/tmp/pids state=directory
 
+
 - name: copy unicorn_init
   template: src=unicorn_init dest=/etc/init.d/unicorn_{{ app }} mode=744
   sudo: yes
-  tags: unicorn
 
 - name: copy unicorn.rb
   template: src=unicorn.rb dest={{ shared_path }}/config/unicorn.rb
-  tags: unicorn
     
 - name: update unicorn 
   shell: update-rc.d -f unicorn_{{ app }} defaults
   sudo: yes
-  tags: unicorn
 
-- name: setup uniconr with nginx
+
+- name: setup unicorn app with nginx
   template: src=roles/webserver/templates/nginx_unicorn dest={{ nginx_path }}/sites-available/{{ app }} owner=root group=root mode=0600
   sudo: yes
   tags: unicorn-nginx
 
+- name: enable unicorn app in nginx
+  file: src=dest={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link
+  sudo: yes
+  tags: unicorn-nginx
+
+
 - name: run unicorn
   service: name=unicorn_{{ app }} state=started
   sudo: yes
-  tags: unicorn
   # TODO: #     after "deploy:#{command}", "unicorn:#{command}"
+
 
 #- name: download phantomjs
   #get_url: url=https://phantomjs.googlecode.com/files/{{ phantomjs }}.tar.bz2
