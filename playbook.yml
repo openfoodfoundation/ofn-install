@@ -1,37 +1,37 @@
 ---
-- hosts: do
+- hosts: all
   remote_user: ubuntu
 
   vars:
     user: ubuntu
-    ruby: ruby-1.9.3-p392
-    phantomjs: phantomjs-1.9.0-linux-x86_64
-    bundle: /home/ubuntu/.rbenv/shims/bundle
 
-    # Database
+    # Rails variables
+    rails_env: production
+    ruby: 1.9.3-p392
+    bundle: /home/ubuntu/.rbenv/shims/bundle
+    #phantomjs: phantomjs-1.9.0-linux-x86_64
+
+    # Database variables
     db: openfoodnetwork
     test_db: ofn_test
     db_user: ofn_user
     db_pass: f00d
     db_host: localhost
 
-    # OFN variables
+    # App variables
     app: openfoodnetwork
-    application: "{{ app }}"
+    repo: https://github.com/openfoodfoundation/openfoodnetwork.git
+
     home_path: "/home/{{ user }}"
     app_path: "{{ home_path }}/apps/{{ app }}"
     current_path: "{{ app_path }}/current"
     build_path: "{{ app_path }}/build"
     shared_path: "{{ app_path }}/shared"
-    repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-
-    # Rails deploy variables
-    rails_env: production
-    home_directory: "{{ home_path }}"
+    git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
 
     # Nginx variables
     protocol: http
-    domain: www.openfoodnetwork.org
+    domain: 80.240.137.79 
     app_root: "{{ current_path }}"
     port: 3000
 
@@ -40,35 +40,39 @@
     unicorn_config: "{{ shared_path }}/config/unicorn.rb"
     unicorn_log: "{{ shared_path }}/log/unicorn.log"
     unicorn_pid: "{{ current_path }}/tmp/pids/unicorn.pid"
-    git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
     unicorn_workers: 2
     unicorn_timeout: 30
 
   roles:
 
-    - common # runs fine
+    - role: common # runs fine
+      tags: common
 
     - role: zzet.rbenv # runs fine
+      sudo: yes
       rbenv:
         env: user
         version: v0.4.0
-        ruby_version: 1.9.3-p392
+        ruby_version: "{{ ruby }}"
       rbenv_users: 
-      - { name: "ubuntu", home: "/home/ubuntu/", comment: "Main user" }
+      - { name: "ubuntu", home: "/home/ubuntu/", comment: "Main user"}
       sudo: yes
 
-    - bundler
+    - role: bundler
+      tags: bundler
 
     - role: dbserver # sometimes hangs - was it language?
       tags: db
 
-    - role: ofn
-      tags: ofn
-
-    - role: webserver # runs fine - unicorn wont start without project?
-      tags: ws
+    - role: app
+      tags: app
 
     - role: "mortik.nginx-rails" # runs fine, wont start?
       sudo: yes
+      templates:
+        - { src: "templates/nginx.conf", dest: "{{ nginx_path }}/nginx.conf" }
       tags: nginx
+
+    - role: webserver # runs fine - unicorn wont start without project?
+      tags: ws
 
