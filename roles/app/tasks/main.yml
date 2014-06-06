@@ -11,11 +11,29 @@
 - name: Symlink the database.yml configuration file to current project dir.
   file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
 
-- name: Install dependencies with bundle install
-  command: bash -lc bundle install chdir="{{ current_path }}"
+- name: Copy/create system folder to shared
+  file: src={{ current_path }}/public/system state=directory dest={{ shared_path }}/system force=yes 
 
-- name: Setup database with rake schema load
-  command: bash -lc rake db:schema:load db:seed chdir="{{ current_path }}"
+- name: Copy/create assets folder to shared
+  file: src={{ current_path }}/public/assets state=directory dest={{ shared_path }}/assets force=yes 
+
+- name: Remove system folder
+  file: dest={{ current_path }}/public/system state=absent
+
+- name: Remove assets folder
+  file: dest={{ current_path }}/public/system state=absent
+
+- name: Symlink the system folder to the current dir.
+  file: src={{ shared_path }}/system dest={{ current_path }}/public/system state=link force=yes
+
+- name: Symlink the assets folder to the current dir.
+  file: src={{ shared_path }}/assets dest={{ current_path }}/public/assets state=link force=yes
+
+- name: Install dependencies with bundle install
+  shell: bash -lc bundle install chdir="{{ current_path }}" executable=/bin/bash
+
+#- name: Setup database with rake schema load
+  #command: bash -lc rake db:schema:load db:seed chdir="{{ current_path }}"
 
 
 
