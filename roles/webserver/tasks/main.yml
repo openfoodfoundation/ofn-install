@@ -27,8 +27,8 @@
   sudo: yes
   tags: unicorn-nginx
 
-- name: enable unicorn app in nginx
-  file: src=dest={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link
+- name: enable unicorn app with nginx
+  file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link
   sudo: yes
   tags: unicorn-nginx
 
