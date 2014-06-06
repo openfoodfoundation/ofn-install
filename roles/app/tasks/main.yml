@@ -29,8 +29,11 @@
 - name: Symlink the assets folder to the current dir.
   file: src={{ shared_path }}/assets dest={{ current_path }}/public/assets state=link force=yes
 
+  # This is bad practise usig raw but only working through the shell currently due to a languge error. 
+  # We may need to set language environment variables in ansible.
 - name: Install dependencies with bundle install
-  shell: bash -lc bundle install chdir="{{ current_path }}" executable=/bin/bash
+  raw: bash -lc bundle install chdir="{{ current_path }}"
+  tags: bundle_app
 
 #- name: Setup database with rake schema load
   #command: bash -lc rake db:schema:load db:seed chdir="{{ current_path }}"
