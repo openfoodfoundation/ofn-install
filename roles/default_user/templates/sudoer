@@ -1,0 +1,2 @@
+# {{ user }} needs passwordless sudo functionality.
+{{ user }} ALL=(ALL) NOPASSWD:ALL
