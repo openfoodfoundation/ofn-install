@@ -1,4 +1,4 @@
-et -e
+#!/bin/sh
 
 APP_ROOT={{ current_path }}
 SHARED_PATH={{ shared_path }}
@@ -6,17 +6,17 @@ BUNDLE={{ bundle }}
 
 cd $APP_ROOT || exit 1
 
-unset GIT_DIR
-NEWREF=$(cat /dev/stdin | cut -d ' ' -f 2)
+#unset GIT_DIR
+#NEWREF=$(cat /dev/stdin | cut -d ' ' -f 2) --uncomment this!
 
 # Check out the new revision
-git reset --hard $NEWREF
+#git reset --hard $NEWREF --uncomment this!
 
 # Symlink shared files
 rm -f $APP_ROOT/config/database.yml
 ln -s $SHARED_PATH/config/database.yml $APP_ROOT/config/database.yml
-ln -s -f $SHARED_PATH/config/s3.yml $APP_ROOT/config/s3.yml
-ln -s -f $SHARED_PATH/config/newrelic.yml $APP_ROOT/config/newrelic.yml
+#ln -s -f $SHARED_PATH/config/s3.yml $APP_ROOT/config/s3.yml
+#ln -s -f $SHARED_PATH/config/newrelic.yml $APP_ROOT/config/newrelic.yml
 
 # Install the required gems
 # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
@@ -37,9 +37,9 @@ $BUNDLE exec rake RAILS_ENV=production assets:precompile:nondigest RAILS_GROUPS=
 
 # Restart the unicorns
 # We use stop/start instead of restart because the latter doesn't deal with Gemfile updates
-service unicorn_openfoodweb stop 
+service unicorn_{{ app }} stop 
 sleep 5
-service unicorn_openfoodweb start
+service unicorn_{{ app }} start
 
 # Tell bugsnag about the deploy, keeps the error history clean
 $BUNDLE exec rake RAILS_ENV=production bugsnag:deploy TO=production
