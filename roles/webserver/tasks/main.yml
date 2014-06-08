@@ -1,17 +1,16 @@
 --- # webserver
+- name: make tmp/pids dir
+  file: path={{ shared_path }}/pids state=directory
 
-- name: make config dir
-  file: path={{ shared_path }}/config state=directory
+- name: make tmp dir
+  file: path={{ current_path }}/tmp state=directory
 
-- name: make config dir
-  file: path={{ shared_path }}/log state=directory
-
-- name: make config dir
-  file: path={{ current_path }}/tmp/pids state=directory
+- name: make tmp/pids dir
+  file: src={{ shared_path }}/pids dest={{ current_path }}/tmp/pids state=link
 
 
 - name: copy unicorn_init
-  template: src=unicorn_init dest=/etc/init.d/unicorn_{{ app }} mode=744
+  template: src=unicorn_init dest=/etc/init.d/unicorn_{{ app }} mode=744 owner=ubuntu
   sudo: yes
 
 - name: copy unicorn.rb
@@ -32,11 +31,17 @@
   sudo: yes
   tags: unicorn-nginx
 
-
-- name: run unicorn
-  service: name=unicorn_{{ app }} state=started
+- name: remove default nginx site
+  file: dest={{ nginx_path }}/sites-enabled/default state=absent
   sudo: yes
-  # TODO: #     after "deploy:#{command}", "unicorn:#{command}"
+  tags: unicorn-nginx
+
+
+# This will only work when bundler is run during the playbook.
+#- name: run unicorn
+  #service: name=unicorn_{{ app }} state=started
+  #sudo: yes
+  ## TODO: #     after "deploy:#{command}", "unicorn:#{command}"
 
 
 #- name: download phantomjs
