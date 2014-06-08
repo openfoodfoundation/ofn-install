@@ -2,7 +2,7 @@
 
 APP_ROOT={{ current_path }}
 SHARED_PATH={{ shared_path }}
-BUNDLE={{ bundle }}
+BUNDLE={{ bundle_path }}
 
 cd $APP_ROOT || exit 1
 
