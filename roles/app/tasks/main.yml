@@ -1,21 +1,20 @@
 --- # App
-- name: clone repo 
+
+- name: Clone repo 
   git: repo="{{ repo }}" dest="{{ current_path }}"
 
-- name: Make sure the config directory exisits
+
+- name: Make config dir
   file: dest={{ current_path }}/config state=directory
 
-- name: Copy the post receive hook
-  template: src=post-receive dest={{ git_post_receive }}
-
-- name: Symlink the database.yml configuration file to current project dir.
-  file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
+- name: Make log dir
+  file: path={{ shared_path }}/log state=directory
 
 - name: Copy/create system folder to shared
-  file: src={{ current_path }}/public/system state=directory dest={{ shared_path }}/system force=yes 
+  file: src={{ current_path }}/public/system state=directory dest={{ shared_path }}/system
 
 - name: Copy/create assets folder to shared
-  file: src={{ current_path }}/public/assets state=directory dest={{ shared_path }}/assets force=yes 
+  file: src={{ current_path }}/public/assets state=directory dest={{ shared_path }}/assets
 
 - name: Remove system folder
   file: dest={{ current_path }}/public/system state=absent
@@ -24,19 +23,32 @@
   file: dest={{ current_path }}/public/system state=absent
 
 - name: Symlink the system folder to the current dir.
-  file: src={{ shared_path }}/system dest={{ current_path }}/public/system state=link force=yes
+  file: src={{ shared_path }}/system dest={{ current_path }}/public/system state=link
 
 - name: Symlink the assets folder to the current dir.
-  file: src={{ shared_path }}/assets dest={{ current_path }}/public/assets state=link force=yes
+  file: src={{ shared_path }}/assets dest={{ current_path }}/public/assets state=link
 
-  # This is bad practise usig raw but only working through the shell currently due to a languge error. 
-  # We may need to set language environment variables in ansible.
-- name: Install dependencies with bundle install
-  raw: bash -lc bundle install chdir="{{ current_path }}"
-  tags: bundle_app
 
+- name: Symlink the database.yml configuration file to current project dir.
+  file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
+
+- name: Copy the post receive hook
+  template: src=post-receive dest={{ git_post_receive }} mode=775
+  tags: hooks
+
+
+#- name: Build
+  #raw: "sh {{ git_post_receive }}"
+  #tags: build
+
+
+  # TODO This is bad practise using raw mode, but it is only working through the shell currently 
+  # due to a locale error. We may need to set locale in ansible evironment vars.
+#- name: Install dependencies with bundle install
+#raw: bash -lc LANG=en_US.UTF-8 {{ bundle_path }} install --gemfile $APP_ROOT/Gemfile --path /home/<%= app_user %>/.gem --deployment --without development test
+#bundle install chdir="{{ current_path }}"
+  #tags: bundle_app
+
+  # TODO use variables for spree email etc propts for full automation.
 #- name: Setup database with rake schema load
   #command: bash -lc rake db:schema:load db:seed chdir="{{ current_path }}"
-
-
-
