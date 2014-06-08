@@ -1,11 +1,9 @@
 --- # Default user
-- name: add ubuntu user
-  user: name="{{ user }}" groups=adm,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,sudo append=yes state=present shell=/bin/bash password="{{ pass }}"
+- name: add default user
+  user: name="{{ user }}" groups=adm,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,sudo append=yes state=present shell=/bin/bash
 
-- name: Add ssh user keys
+- name: add ssh key for the default user
   authorized_key: user="{{ user }}" key="{{ pubkey }}"
 
-  # For any tricky permissions things like no password sudo. Probably not needed if they can be done in other ways.
-#- name: add custom sudoers file
-  #template: src=sudoers dest=/etc/sudoers
-
+- name: add custom sudoer file
+  template: src=sudoer dest="/etc/sudoers.d/90-{{ user }}" mode=0440
