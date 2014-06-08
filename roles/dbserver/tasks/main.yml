@@ -12,7 +12,7 @@
     - python-pycurl
     - python-psycopg2
     
-  # Locales. This should be done better and probably elsewhere.
+  # TODO use variables for locales, and move to common role.
 - name: update locales
   shell: "update-locale LANG=en_AU.UTF-8 LC_ALL=en_AU.UTF-8 LC_CTYPE=en_AU.UTF-8"
   sudo: yes
@@ -22,7 +22,7 @@
   sudo: yes
 
   # Setup database.
-- name: check if dbs are created already
+- name: check if dbs are created already - currently not working ???
   shell: "psql {{ db }} {{ db_user }} -c 'select 1'"
   sudo: yes
   sudo_user: postgres
@@ -73,5 +73,3 @@
 - name: Setup cron for the user
   sudo: yes
   command: "crontab -u {{ user }} {{ home_path }}/crontab"
-  
-
