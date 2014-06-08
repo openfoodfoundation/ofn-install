@@ -4,6 +4,7 @@
   git: repo="{{ repo }}" dest="{{ current_path }}"
 
 
+  # TODO this could all be cleaned up and maybe dobe with with_item syntax.
 - name: Make config dir
   file: dest={{ current_path }}/config state=directory
 
@@ -35,20 +36,3 @@
 - name: Copy the post receive hook
   template: src=post-receive dest={{ git_post_receive }} mode=775
   tags: hooks
-
-
-#- name: Build
-  #raw: "sh {{ git_post_receive }}"
-  #tags: build
-
-
-  # TODO This is bad practise using raw mode, but it is only working through the shell currently 
-  # due to a locale error. We may need to set locale in ansible evironment vars.
-#- name: Install dependencies with bundle install
-#raw: bash -lc LANG=en_US.UTF-8 {{ bundle_path }} install --gemfile $APP_ROOT/Gemfile --path /home/<%= app_user %>/.gem --deployment --without development test
-#bundle install chdir="{{ current_path }}"
-  #tags: bundle_app
-
-  # TODO use variables for spree email etc propts for full automation.
-#- name: Setup database with rake schema load
-  #command: bash -lc rake db:schema:load db:seed chdir="{{ current_path }}"
