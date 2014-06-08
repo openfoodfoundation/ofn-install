@@ -1,0 +1,35 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  vars_files:
+    - vars/vars.yml
+  roles:
+    - role: common
+      tags: common
+
+    - role: zzet.rbenv
+      sudo: yes
+      rbenv:
+        env: user
+        version: v0.4.0
+        ruby_version: "{{ ruby }}"
+      rbenv_users: 
+      - { name: "ubuntu", home: "/home/ubuntu/", comment: "Main user"}
+
+    - role: bundler
+      tags: bundler
+
+    - role: dbserver
+      tags: db
+
+    - role: app
+      tags: app
+
+    - role: "mortik.nginx-rails" 
+      sudo: yes
+      templates:
+        - { src: "templates/nginx.conf", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
+      tags: nginx
+
+    - role: webserver
+      tags: ws
