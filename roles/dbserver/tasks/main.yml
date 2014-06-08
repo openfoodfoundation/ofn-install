@@ -31,7 +31,7 @@
 
   # if the dbs haven't been created yet, we want to destroy the whole db
   # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
-- name: remove existing postgrs cluster
+- name: remove existing postgres cluster
   shell: "pg_dropcluster --stop 9.1 main"
   sudo: yes
   sudo_user: postgres
