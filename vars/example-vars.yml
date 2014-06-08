@@ -1,0 +1,43 @@
+# Vars
+user: ubuntu
+# Location of ssh public key for the default user, on the host machine.
+pubkey: "{{ lookup('file', '~/.ssh/ofnuk_rsa.pub') }}"
+
+# Rails variables
+rails_env: production
+ruby: 1.9.3-p392
+bundle: /home/ubuntu/.rbenv/shims/bundle
+#phantomjs: phantomjs-1.9.0-linux-x86_64
+
+# Database variables
+db: openfoodnetwork
+test_db: ofn_test
+db_user: ofn_user
+db_pass: f00d
+db_host: localhost
+
+# App variables
+app: openfoodnetwork
+repo: https://github.com/openfoodfoundation/openfoodnetwork.git
+
+home_path: "/home/{{ user }}"
+app_path: "{{ home_path }}/apps/{{ app }}"
+current_path: "{{ app_path }}/current"
+build_path: "{{ app_path }}/build"
+shared_path: "{{ app_path }}/shared"
+git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
+
+# Nginx variables
+protocol: http
+domain: openfoodnetwork.org.uk
+app_root: "{{ current_path }}"
+port: 3000
+
+# Unicorn variables
+unicorn_user: "{{ user }}"
+unicorn_config: "{{ shared_path }}/config/unicorn.rb"
+unicorn_log: "{{ shared_path }}/log/unicorn.log"
+unicorn_pid: "{{ current_path }}/tmp/pids/unicorn.pid"
+unicorn_workers: 2
+unicorn_timeout: 30
+
