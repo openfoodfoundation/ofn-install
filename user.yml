@@ -1,14 +1,10 @@
-# This playbook simply creates a ubuntu (or whatever) user for digital ocean images that oly have root.
+# Add the default user as root. AWS ubuntu images generally have a default user (ubuntu) and wont let this be run as root. 
+# But digital ocean images don't.
 - hosts: all
-  remote_user: root
+    remote_user: root
+    vars_files:
+      - vars/vars.yml
+    roles: 
+      - default_user
 
-  vars:
-    user: ubuntu
-    # Location of users ssh public key on the host machine.
-    pubkey: "{{ lookup('file', '~/.ssh/ofnuk_rsa.pub') }}"
 
-  vars_prompt:
-    pass: "Enter a password for the default user?"
-
-  roles: 
-    - default_user
