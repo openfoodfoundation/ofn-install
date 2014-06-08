@@ -30,6 +30,7 @@
     - libxml2-dev 
     - libxslt1-dev
     - language-pack-en-base
+    - ranger
     
 - name: copy up .bashrc
   copy: dest=/{{ home_path }}/.bashrc src=bashrc
