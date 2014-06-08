@@ -3,10 +3,16 @@ user: ubuntu
 # Location of ssh public key for the default user, on the host machine.
 pubkey: "{{ lookup('file', '~/.ssh/ofnuk_rsa.pub') }}"
 
+
 # Rails variables
 rails_env: production
 ruby: 1.9.3-p392
-bundle: /home/ubuntu/.rbenv/shims/bundle
+gem_home: /home/ubuntu/.rbenv/shims/
+bundle_path: /home/ubuntu/.rbenv/shims/bundle
+env:
+  RAILS_ENV: "{{ rails_env }}"
+  PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
+  GEM_HOME: "{{ gem_home }}"
 #phantomjs: phantomjs-1.9.0-linux-x86_64
 
 # Database variables
