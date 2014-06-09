@@ -3,26 +3,43 @@ upstream unicorn {
 }
 
 server {
-  listen 80;# default deferred;
-  #listen 443 default ssl;
-  # server_name example.com;
+  listen 80;
+{% if protocol == 'https' %}
+  server_name  www.{{ domain }} {{ domain }};
+{% else %}
+  server_name  www.{{ domain }};
+{% endif %}
+  rewrite ^/(.*) {{ protocol }}://{{ domain }}/$1 permanent;
+}
+
+{% if protocol == 'https' %}
+server {
+  listen 443;
+
+  include {{ app }}_ssl;
+
+  server_name www.{{ domain }};
+  rewrite ^(.*) {{ protocol }}://{{ domain }}/$1 permanent;
+}
+{% endif %}
+
+server {
+{% if protocol == 'https' %}
+  listen 443;
+{% else %}
+  listen 80;
+{% endif %}
+  server_name {{ domain }};
   root {{ current_path }}/public;
+{% if protocol == 'https' %}
 
-  #ssl                 on;
-  #ssl_certificate      server.crt;
-  #ssl_certificate_key  server.key;
+  include {{ app }}_ssl;
+{% endif %}
+{% if basic_auth %}
 
-  #ssl_session_timeout  5m;
-
-  #ssl_protocols  SSLv2 SSLv3 TLSv1;
-  #ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
-  #ssl_prefer_server_ciphers   on;
-
-  location ^~ /assets/ {
-    gzip_static on;
-    expires max;
-    add_header Cache-Control public;
-  }
+  auth_basic            "Restricted";
+  auth_basic_user_file  {{ app }}_htpasswd;
+{% endif %}
 
   try_files $uri/index.html $uri @unicorn;
   location @unicorn {
@@ -33,6 +50,13 @@ server {
     proxy_pass http://unicorn;
   }
 
+  location ~ ^/(assets)/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+    #add_header Last-Modified "";
+    #add_header ETag "";
+  }
   error_page 500 502 503 504 /500.html;
   client_max_body_size 4G;
   keepalive_timeout 60;
