@@ -32,7 +32,7 @@
   tags: unicorn-nginx
 
 - name: enable unicorn app with nginx
-  file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link
+  file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link mode=644
   sudo: yes
   tags: unicorn-nginx
 
