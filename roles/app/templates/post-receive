@@ -23,17 +23,17 @@ ln -s $SHARED_PATH/config/database.yml $APP_ROOT/config/database.yml
 LANG=en_US.UTF-8 $BUNDLE install --gemfile $APP_ROOT/Gemfile --path /home/ubuntu/.gem --deployment --without development test
 
 # Update the DB schema
-$BUNDLE exec rake RAILS_ENV=production db:migrate
-$BUNDLE exec rake RAILS_ENV=production db:seed
+$BUNDLE exec rake RAILS_ENV={{ rails_env }} db:migrate
+$BUNDLE exec rake RAILS_ENV={{ rails_env }} db:seed
 
 # Note: Calling standard assets:precompile is overkill and chews up heaps of memory.
 #       Hence do steps one-by-one
 #echo Doing total bundle install thing
-#$BUNDLE exec rake RAILS_ENV=production assets:precompile RAILS_GROUPS=assets
+#$BUNDLE exec rake RAILS_ENV={{ rails_env }} assets:precompile RAILS_GROUPS=assets
 echo Doing asset:precompile:primary...
-$BUNDLE exec rake RAILS_ENV=production assets:precompile:primary RAILS_GROUPS=assets
+$BUNDLE exec rake RAILS_ENV={{ rails_env }} assets:precompile:primary RAILS_GROUPS=assets
 echo Doing asset:precompile:nondigest...
-$BUNDLE exec rake RAILS_ENV=production assets:precompile:nondigest RAILS_GROUPS=assets
+$BUNDLE exec rake RAILS_ENV={{ rails_env }} assets:precompile:nondigest RAILS_GROUPS=assets
 
 # Restart the unicorns
 # We use stop/start instead of restart because the latter doesn't deal with Gemfile updates
@@ -42,4 +42,4 @@ sleep 5
 service unicorn_{{ app }} start
 
 # Tell bugsnag about the deploy, keeps the error history clean
-$BUNDLE exec rake RAILS_ENV=production bugsnag:deploy TO=production
+$BUNDLE exec rake RAILS_ENV={{ rails_env }} bugsnag:deploy TO={{ rails_env }}
