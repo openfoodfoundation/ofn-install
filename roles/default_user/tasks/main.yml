@@ -3,7 +3,7 @@
   user: name="{{ user }}" groups=adm,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,sudo append=yes state=present shell=/bin/bash
 
 - name: add ssh key for the default user
-  authorized_key: user="{{ user }}" key="{{ pubkey }}"
+  authorized_key: user="{{ user }}" key="{{ ssh_pubkey }}"
 
 - name: add custom sudoer file
   template: src=sudoer dest="/etc/sudoers.d/90-{{ user }}" mode=0440
