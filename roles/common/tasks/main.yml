@@ -33,7 +33,7 @@
     - ranger
     
 - name: copy up .bashrc
-  copy: dest=/{{ home_path }}/.bashrc src=bashrc
+  template: dest=/{{ home_path }}/.bashrc src=bashrc
 
 - name: copy up .bash_profile
-  template: dest=/{{ home_path }}/.profile src=bash_profile
+  template: dest=/{{ home_path }}/.bash_profile src=bash_profile
