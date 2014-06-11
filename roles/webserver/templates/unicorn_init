@@ -15,7 +15,8 @@ TIMEOUT=${TIMEOUT-60}
 APP_ROOT={{ current_path }}
 PID={{ unicorn_pid }}
 CMD="cd {{ current_path }}; bundle exec unicorn -D -c {{ unicorn_config }} -E {{ rails_env }}"
-AS_USER={{ unicorn_user }}
+USER={{ unicorn_user }}
+PATH="/home/$USER/.rbenv/shims:/home/$USER/.rbenv/bin:$PATH"
 set -u
 
 OLD_PIN="$PID.oldbin"
@@ -29,10 +30,10 @@ oldsig () {
 }
 
 run () {
-  if [ "$(id -un)" = "$AS_USER" ]; then
+  if [ "$(id -un)" = "$USER" ]; then
     eval $1
   else
-    su -c "$1" - $AS_USER
+    su -c "$1" - $USER
   fi
 }
 
