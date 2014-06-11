@@ -1,3 +1,4 @@
 .vagrant/
-Vagrantfile
-vars/vars.yml
+ssl.crt
+ssl.key
+vars.yml
