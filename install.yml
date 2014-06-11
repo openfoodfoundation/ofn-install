@@ -2,7 +2,7 @@
 - hosts: all
   remote_user: ubuntu
   vars_files:
-    - vars/vars.yml
+    - vars.yml
   roles:
     - role: common
       tags: common

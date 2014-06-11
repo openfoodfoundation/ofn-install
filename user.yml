@@ -5,7 +5,7 @@
 - hosts: all
   remote_user: root
   vars_files:
-    - vars/vars.yml
+    - vars.yml
   roles: 
     - default_user
 
