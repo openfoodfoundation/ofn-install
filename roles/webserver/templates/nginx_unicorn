@@ -1,27 +1,6 @@
 upstream unicorn {
-  server unix:/tmp/unicorn.{{ app }}.sock fail_timeout=0;
+  server unix:{{ app_path }}/tmp/unicorn.{{ app }}.sock fail_timeout=0;
 }
-
-server {
-  listen 80;
-{% if protocol == 'https' %}
-  server_name  www.{{ domain }} {{ domain }};
-{% else %}
-  server_name  www.{{ domain }};
-{% endif %}
-  rewrite ^/(.*) {{ protocol }}://{{ domain }}/$1 permanent;
-}
-
-{% if protocol == 'https' %}
-server {
-  listen 443;
-
-  include {{ app }}_ssl;
-
-  server_name www.{{ domain }};
-  rewrite ^(.*) {{ protocol }}://{{ domain }}/$1 permanent;
-}
-{% endif %}
 
 server {
 {% if protocol == 'https' %}
@@ -29,7 +8,7 @@ server {
 {% else %}
   listen 80;
 {% endif %}
-  server_name {{ domain }};
+  # server_name {{ domain }};
   root {{ current_path }}/public;
 {% if protocol == 'https' %}
 

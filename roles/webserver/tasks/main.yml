@@ -6,6 +6,9 @@
 - name: make tmp dir
   file: path={{ current_path }}/tmp state=directory
 
+- name: make other tmp dir
+  file: path={{ app_path }}/tmp state=directory
+
 - name: make tmp/pids dir
   file: src={{ shared_path }}/pids dest={{ current_path }}/tmp/pids state=link
 
