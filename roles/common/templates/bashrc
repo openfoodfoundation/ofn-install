@@ -110,6 +110,5 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export PATH="{{ gem_home }}:$PATH"
-export GEM_HOME="{{ gem_home }}"
 eval "$(rbenv init -)"
 
