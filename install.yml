@@ -4,10 +4,13 @@
   vars_files:
     - vars.yml
   roles:
+    - role: language
+      tags: lang
+
     - role: common
       tags: common
 
-    - role: zzet.rbenv
+    - role: zzet.rbenv # If missing run: ansible-galaxy install zzet.rbenv
       sudo: yes
       rbenv:
         env: user
@@ -25,7 +28,7 @@
     - role: app
       tags: app
 
-    - role: "mortik.nginx-rails" 
+    - role: mortik.nginx-rails # If missing run: ansible-galaxy install mortik.nginx-rails
       sudo: yes
       templates:
         - { src: "templates/nginx.conf", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
