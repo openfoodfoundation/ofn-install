@@ -20,26 +20,54 @@ It installs basic packages such as curl and git, then installs:
   [Nginx]: http://nginx.org/h
   [Unicorn]: http://unicorn.bogomips.org/
 
-Setup
------
+Modules
+-------
 
-You will need to install some additional ansible modules before running the playbooks. 
+You will need to install some additional ansible modules before running these playbooks. 
 
 Run the following:
 
 * `ansible-galaxy install zzet.rbenv`
 * `ansible-galaxy install mortik.nginx-rails`
-* `ansible-galaxy install nicolai86.rails`
 
-Then copy the provided example-vars.yml to vars.yml and fill in your site-specific variables. Many will not need to be changed.
+Variables
+---------
+
+Copy the provided example-vars.yml to vars.yml and fill in your site-specific variables.
 
 * `cp vars/example-vars.yml vars/vars.yml`
 
-On digital ocean servers and any time there is no default user set up, you will need to run the user playbook
+Seed Data
+---------
+
+You will need to provide country, state and postcode data for your location.
+
+* states.yml
+* seeds.rb
+* suburb_seeds.rb
+
+(For examples see the existing files in the openfoodnetwork repo db folder.)
+
+Place them in the app/files folder.
+
+SSL
+---
+
+For production and staging environments you need to provide SSL certificates.
+
+* server.crt 
+* server.key 
+
+Place these in the directory you find this readme.
+
+Setup Default User
+------------------
+
+On digital ocean servers and any system where there is no default user set up, you will need to run the user playbook.
 
 `ansible-playbook user.yml -f 10 -vvvv`
 
-(It won't run on standard AWS images)
+(It won't run on standard AWS ubuntu images)
 
 Run
 ---
