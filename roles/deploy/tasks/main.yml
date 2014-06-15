@@ -1,10 +1,11 @@
 --- # Deploy
 
 - name: Install dependencies with bundle install
+  #TODO make the development part conditonal on rails_env
   command: bash -lc " {{ bundle_path }} install --gemfile {{ current_path }}/Gemfile --path /home/{{ user }}/.gem --deployment --without development test"
   environment: 
-    # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
-    LANG: en_US.UTF-8
+    # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17... fails even though server has correct locale setting
+    LANG: "{{ language }}"
   tags: bundle_app
   #notify: restart unicorn
 
