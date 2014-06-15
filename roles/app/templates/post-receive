@@ -3,6 +3,7 @@
 APP_ROOT={{ current_path }}
 SHARED_PATH={{ shared_path }}
 BUNDLE={{ bundle_path }}
+GEM_PATH={{ gem_path }}
 
 cd $APP_ROOT || exit 1
 
@@ -20,7 +21,7 @@ ln -s $SHARED_PATH/config/database.yml $APP_ROOT/config/database.yml
 
 # Install the required gems
 # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
-LANG=en_US.UTF-8 $BUNDLE install --gemfile $APP_ROOT/Gemfile --path /home/ubuntu/.gem --deployment --without development test
+LANG=en_US.UTF-8 $BUNDLE install --gemfile $APP_ROOT/Gemfile --path $GEM_PATH --deployment --without development test
 
 # Update the DB schema
 $BUNDLE exec rake RAILS_ENV={{ rails_env }} db:migrate
