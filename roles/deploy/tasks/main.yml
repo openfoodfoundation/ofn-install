@@ -1,29 +1,31 @@
 --- # Deploy
 
-- name: Clone repo 
-  git: repo="{{ repo }}" dest="{{ current_path }}"
-
 - name: Install dependencies with bundle install
-  shell: LANG=en_US.UTF-8 {{ bundle_path }} install --gemfile {{ current_path }}/Gemfile --path /home/{{ user }}/.gem --deployment --without development test
+  command: bash -lc " {{ bundle_path }} install --gemfile {{ current_path }}/Gemfile --path /home/{{ user }}/.gem --deployment --without development test"
+  environment: 
+    # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
+    LANG: en_US.UTF-8
   tags: bundle_app
+  #notify: restart unicorn
 
-  # TODO use variables for spree email etc propts for full automation.
+  ## TODO use variables for spree email etc propts for full automation.
 - name: Setup database with rake schema load
-  command: "{{ bundle_path }} exec rake db:migrate chdir={{ current_path }}" 
-  environment: "{{ env }}"
+  command: bash -lc "{{ bundle_path }} exec rake db:migrate" chdir="{{ current_path }}"
+  ignore_errors: yes
   tags: rake
+  #notify: restart unicorn
   
 - name: Seed database
-  command: "{{ bundle_path }} exec rake db:seed chdir={{ current_path }}"
-  environment: "{{ env }}"
-  tags: rake
+  command: bash -lc "{{ bundle_path }} exec rake db:seed" chdir="{{ current_path }}"
+  tags: seed
+  #notify: restart unicorn
 
-- name: precompile primary
-  command: "{{ bundle_path }} exec rake assets:precompile:primary RAILS_GROUPS=assets chdir={{ current_path }}" 
-  environment: "{{ env }}"
+- name: Precompile primary
+  command: bash -lc "{{ bundle_path }} exec rake assets:precompile:primary RAILS_GROUPS=assets" chdir="{{ current_path }}"
   tags: precompile
+  #notify: restart unicorn
 
-- name: precompile primary
-  command: "{{ bundle_path }} exec rake assets:precompile:nondigest RAILS_GROUPS=assets chdir={{ current_path }}" 
-  environment: "{{ env }}"
+- name: Precompile nondigest
+  command: bash -lc "{{ bundle_path }} exec rake assets:precompile:nondigest RAILS_GROUPS=assets" chdir="{{ current_path }}"
   tags: precompile
+  #notify: restart unicorn
