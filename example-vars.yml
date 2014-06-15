@@ -4,49 +4,45 @@
 # Copy this file to vars.yml before filling out.
 #----------------------------------------------------------------------
 
-
 ########################################################################################
-# IMPORTANT VARIABLES - You will probably want to change these. 
+# IMPORTANT VARIABLES - You may want to change these. 
 
 # Your domain name - without http://www etc.
 domain: openfoodnetwork.xxx 
 
-# Choose the environment, either production, staging, development or testing. 
-# production and staging environments require SSL certificates.
-rails_env: production 
+# Production and staging environments require SSL certificates and protocol set to https.
+# For SSL add server.crt and server.key files to the directory this file is in.
+rails_env: development # production, staging, development or testing. 
+protocol: http # http or https 
 
 # Choose git repo. The branch and commit_id are optional, leave empty to use the latest commit on master.
 git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-branch:
+branch: master
 commit_id:
-
-# For digital ocean builds or anywhere you have to set up the default user (by running user.yml), 
-# you will need to suply location of an SSH public key for the connection, on your local machine.
-ssh_pubkey_path: ~/.ssh/ofn_rsa.pub 
 
 # You will want to set a new db password in production and staging environments.
 db_pass: f00d
 
+# For digital ocean builds or anywhere you have to set up the default user (by running "ansible user.yml -f 10"), 
+# you will need to suply location of an SSH public key for the connection, on your local machine.
+ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
+
   
-
 ########################################################################################
-# OTHER VARIABLES - you probably don't need to change these.
-
+# OTHER VARIABLES - you can probably leave these as is.
 
 #----------------------------------------------------------------------
 # User variables
 user: ubuntu
-ssh_pubkey: lookup('file', '{{ ssh_pubkey_path }}')
 
 #----------------------------------------------------------------------
 # Rails variables
 ruby: 1.9.3-p392
-gem_home: /home/ubuntu/.gem
+gem_path: /home/ubuntu/.gem
 bundle_path: /home/ubuntu/.rbenv/shims/bundle
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
-  GEM_HOME: "{{ gem_home }}"
 #phantomjs: phantomjs-1.9.0-linux-x86_64
 
 #----------------------------------------------------------------------
@@ -68,7 +64,6 @@ git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
 
 #----------------------------------------------------------------------
 # Nginx variables
-protocol: http
 app_root: "{{ current_path }}"
 port: 3000
 
