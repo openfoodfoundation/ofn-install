@@ -1,10 +1,11 @@
 --- # App
 
 - name: Clone repo 
-  git: repo="{{ repo }}" dest="{{ current_path }}"
+  git: repo="{{ git_repo }}" dest="{{ current_path }}" version="{{ version }}"
 
 
-  # TODO this could all be cleaned up and maybe dobe with with_item syntax.
+# Setup symlinked files and folders
+
 - name: Make config dir
   file: dest={{ current_path }}/config state=directory
 
@@ -13,26 +14,47 @@
 
 - name: Copy/create system folder to shared
   file: src={{ current_path }}/public/system state=directory dest={{ shared_path }}/system
-
-- name: Copy/create assets folder to shared
-  file: src={{ current_path }}/public/assets state=directory dest={{ shared_path }}/assets
-
 - name: Remove system folder
   file: dest={{ current_path }}/public/system state=absent
-
-- name: Remove assets folder
-  file: dest={{ current_path }}/public/system state=absent
-
 - name: Symlink the system folder to the current dir.
   file: src={{ shared_path }}/system dest={{ current_path }}/public/system state=link
 
+- name: Copy/create assets folder to shared
+  file: src={{ current_path }}/public/assets state=directory dest={{ shared_path }}/assets
+- name: Remove assets folder
+  file: dest={{ current_path }}/public/system state=absent
 - name: Symlink the assets folder to the current dir.
   file: src={{ shared_path }}/assets dest={{ current_path }}/public/assets state=link
-
 
 - name: Symlink the database.yml configuration file to current project dir.
   file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
 
 - name: Copy the post receive hook
-  template: src=post-receive dest={{ git_post_receive }} mode=775
-  tags: hooks
+  template: src=post-receive dest={{ current_path }}/config/post-receive mode=775
+- name: Symlink the post receive hook
+  file: src={{ current_path }}/config/post-receive dest={{ git_post_receive }} state=link
+
+
+# Copy custom seed data. Maybe not the best way to do this but fine for now.
+
+  # Custom seed data. Maybe not the best way to do this but fine for now.
+- name: Symlink the seeds.rb to db folder
+  copy: src=suburb_seeds.rb dest={{ shared_path }}/config/suburb_seeds.rb mode=775
+  tags: seed
+- name: Symlink the suburb_seeds.rb to db folder
+  file: src={{ shared_path }}/config/suburb_seeds.rb dest={{ current_path }}/db/suburb_seeds.rb state=link force=yes
+  tags: seed
+
+- name: Symlink the suburb_seeds.rb to db folder
+  copy: src=seeds.rb dest={{ shared_path }}/config/seeds.rb mode=775
+  tags: seed
+- name: Symlink the seeds.rb to db folder
+  file: src={{ shared_path }}/config/seeds.rb dest={{ current_path }}/db/seeds.rb state=link force=yes
+  tags: seed
+
+- name: Symlink the states.yml to db defaults folder
+  copy: src=states.yml dest={{ shared_path }}/config/states.yml mode=775
+  tags: seed
+- name: Symlink the states.yml to db defaults folder
+  file: src={{ shared_path }}/config/states.yml dest={{ current_path }}/db/default/states.yml state=link force=yes
+  tags: seed
