@@ -17,8 +17,7 @@ protocol: http # http or https
 
 # Choose git repo. The branch and commit_id are optional, leave empty to use the latest commit on master.
 git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-branch: master
-commit_id:
+version: HEAD # Tag, branch, commit reference or HEAD
 
 # You will want to set a new db password in production and staging environments.
 db_pass: f00d
@@ -27,8 +26,15 @@ db_pass: f00d
 # you will need to suply location of an SSH public key for the connection, on your local machine.
 ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 
+# set the language type for your locale
+language: en_au.utf-8
+# set the language pack to download
+language_packages: 
+  - language-pack-en-base
+
+
   
-########################################################################################
+#######################################################################################
 # OTHER VARIABLES - you can probably leave these as is.
 
 #----------------------------------------------------------------------
