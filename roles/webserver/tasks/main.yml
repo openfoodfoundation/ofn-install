@@ -20,10 +20,6 @@
 - name: copy unicorn.rb
   template: src=unicorn.rb dest={{ shared_path }}/config/unicorn.rb
     
-  # This step actually isnt happening on the ofn live server.
-#- name: symlink unicorn.rb to current directory
-  #file: src={{ shared_path }}/config/unicorn.rb dest={{ current_path }}/config/unicorn.rb force=yes state=link
-
 - name: update unicorn 
   shell: update-rc.d -f unicorn_{{ app }} defaults
   sudo: yes
