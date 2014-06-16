@@ -4,23 +4,21 @@
   apt: update_cache=yes
   sudo: yes
 
+  #TODO remove unnecesary packages from this list.
 - name: Install base packages
   apt: pkg={{ item }} state=latest
   sudo: yes
   with_items:
-    - git-core
     - build-essential
-    #- fontconfig # needed for phantomjs
+    - git-core
     - nodejs
-    - curl
-    - python-psycopg2 # needed for some ansible libraries
-    - python-software-properties
-    - libxslt-dev 
-    - libxml2-dev
-    - libpq-dev
-    #- nfs-common # make virtualbox faster
     - imagemagick
     - fail2ban
+    - curl
+    - python-pycurl
+    - python-psycopg2 # needed for some ansible libraries
+    - python-software-properties
+    - libpq-dev
     - unattended-upgrades
     - tklib
     - zlib1g-dev 
@@ -29,8 +27,9 @@
     - libxml2 
     - libxml2-dev 
     - libxslt1-dev
-    - language-pack-en-base
     - ranger
+    #- fontconfig # needed for phantomjs
+    #- nfs-common # make virtualbox faster
     
 - name: copy up .bashrc
   template: dest=/{{ home_path }}/.bashrc src=bashrc
