@@ -58,7 +58,7 @@ For production and staging environments you need to provide SSL certificates.
 * server.crt 
 * server.key 
 
-Place these in the directory you find this readme.
+Place these in the directory where you found this readme.
 
 Setup Default User
 ------------------
@@ -67,7 +67,7 @@ On digital ocean servers and any system where there is no default user set up, y
 
 `ansible-playbook user.yml -f 10 -vvvv`
 
-(It won't run on standard AWS ubuntu images)
+(It won't run, and dosnt need to, on standard AWS ubuntu images)
 
 Build the server
 ----------------
@@ -76,17 +76,9 @@ Install:
 
 `ansible-playbook install.yml -f 10 -vvvv`
 
+Due to some module bugs you may need to run
 
-Setup your OFN instance
------------------------
-
-Currently (yes this is a hack) ssh into the server and run sh ~/aps/openfoodnetwork/current/.git/hooks/post-receive to build the site.
-
-Or run:
-
-`ansible-playbook deploy.yml -f 10 -vvvv`
-
-then fix whatever breaks, and send me a merge request ;)
-
+`ansible-playbook install.yml -f 10 -vvvv` --tags deploy
+to finish it off.
 
 Written by Rafael Schouten, after inital work from Paul Mackey.
