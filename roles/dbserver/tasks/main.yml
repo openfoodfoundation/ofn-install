@@ -1,6 +1,5 @@
 --- # dbserver
 
-  # Database package requirements.
 - name: Install postgres packages
   apt: pkg={{ item }} state=latest
   sudo: yes
@@ -8,55 +7,45 @@
     - postgresql
     - postgresql-client
     - postgresql-contrib
-    - libpq-dev
-    - python-pycurl
-    - python-psycopg2
     
-  # TODO use variables for locales, and move to common role.
-- name: update locales
-  shell: "update-locale LANG=en_AU.UTF-8 LC_ALL=en_AU.UTF-8 LC_CTYPE=en_AU.UTF-8"
-  sudo: yes
-    
-- name: reconfigure locales
-  shell: "dpkg-reconfigure locales"
-  sudo: yes
+# Setup database.
 
-  # Setup database.
 - name: check if dbs are created already
-  shell: psql -l | grep {{ db }} | wc -l && psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='{{ db_user }}'"
+  shell: psql -l | grep {{ db }} | wc -l 
   sudo: yes
   sudo_user: postgres
   register: db_setup
   ignore_errors: yes
 
-  # if the dbs haven't been created yet, we want to destroy the whole db
+  # If the dbs haven't been created yet, we want to destroy the whole db
   # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
 - name: remove existing postgres cluster
   shell: "pg_dropcluster --stop 9.1 main"
   sudo: yes
   sudo_user: postgres
-  when: db_setup.rc != 0 # only do this if the dbs haven't been created yet
+  when: db_setup != 1 # only do this if the dbs haven't been created yet
   ignore_errors: yes
 
 - name: rebuild postgres cluster to default to utf8
   shell: "pg_createcluster --start 9.1 main"
   sudo: yes
   sudo_user: postgres
-  when: db_setup.rc != 0 # only do this if the dbs haven't been created yet
+  when: db_setup != 1 # only do this if the dbs haven't been created yet
 
 - name: create db user
   sudo: yes
   sudo_user: postgres
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
-  when: db_setup.rc != 0 # only do this if the dbs haven't been created yet
+  when: db_setup != 1 # only do this if the dbs haven't been created yet
 
 - name: create dbs
   postgresql_db: name={{ db }} owner={{ db_user }} encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0' state=present
   sudo: yes
   sudo_user: postgres
-  when: db_setup.rc != 0 # only do this if the dbs haven't been created yet
+  when: db_setup != 1 # only do this if the dbs haven't been created yet
 
-  # Config
+# Config files
+
 - name: make config dir
   file: path={{ shared_path }}/config state=directory
 
@@ -66,7 +55,8 @@
 - name: Generate the .pgpass file
   template: src=pgpass dest={{ home_path }}/.pgpass mode=600
 
-  # Cron. Maybe this should go somewhere else too.
+# Cron. Maybe this should go somewhere else too.
+
 - name: Generate the crontab file for automated backups.
   template: src=crontab.j2 dest={{ home_path }}/crontab
 
