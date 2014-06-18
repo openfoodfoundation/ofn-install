@@ -1,7 +1,7 @@
 --- # App
 
 - name: Clone repo 
-  git: repo="{{ git_repo }}" dest="{{ current_path }}" version="{{ version }}"
+  git: repo="{{ git_repo }}" dest="{{ current_path }}" # version="{{ version }}"
 
 
 # Setup symlinked files and folders
@@ -29,6 +29,13 @@
 - name: Symlink the database.yml configuration file to current project dir.
   file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
 
+- name: Copy the newrelic.yml to shared folder
+  template: src=newrelic.yml dest={{ shared_path }}/config/newrelic.yml mode=775
+  when: newrelic_key != ""
+- name: Symlink the newrelic.yml file to the current project dir.
+  file: src={{ shared_path }}/config/newrelic.yml dest={{ current_path }}/config/newrelic.yml state=link force=yes
+  when: newrelic_key != ""
+
 - name: Copy the post receive hook
   template: src=post-receive dest={{ current_path }}/config/post-receive mode=775
 - name: Symlink the post receive hook
@@ -38,18 +45,18 @@
 # Copy custom seed data. Maybe not the best way to do this but fine for now.
 
   # Custom seed data. Maybe not the best way to do this but fine for now.
-- name: Symlink the seeds.rb to db folder
-  copy: src=suburb_seeds.rb dest={{ shared_path }}/config/suburb_seeds.rb mode=775
-  tags: seed
-- name: Symlink the suburb_seeds.rb to db folder
-  file: src={{ shared_path }}/config/suburb_seeds.rb dest={{ current_path }}/db/suburb_seeds.rb state=link force=yes
-  tags: seed
-
-- name: Symlink the suburb_seeds.rb to db folder
+- name: Copy the seeds.rb to shared folder
   copy: src=seeds.rb dest={{ shared_path }}/config/seeds.rb mode=775
   tags: seed
 - name: Symlink the seeds.rb to db folder
   file: src={{ shared_path }}/config/seeds.rb dest={{ current_path }}/db/seeds.rb state=link force=yes
+  tags: seed
+
+- name: Copy the suburb_seeds.rb to shared folder
+  copy: src=suburb_seeds.rb dest={{ shared_path }}/config/suburb_seeds.rb mode=775
+  tags: seed
+- name: Symlink the suburb_seeds.rb to db folder
+  file: src={{ shared_path }}/config/suburb_seeds.rb dest={{ current_path }}/db/suburb_seeds.rb state=link force=yes
   tags: seed
 
 - name: Symlink the states.yml to db defaults folder
@@ -58,3 +65,9 @@
 - name: Symlink the states.yml to db defaults folder
   file: src={{ shared_path }}/config/states.yml dest={{ current_path }}/db/default/states.yml state=link force=yes
   tags: seed
+
+# Copy custom seed shell script.
+- name: Copy seed.sh to shared folder
+  template: src=seed.sh dest={{ shared_path }}/config/seed.sh mode=775
+  tags: seed
+
