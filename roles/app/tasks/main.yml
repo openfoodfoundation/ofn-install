@@ -71,3 +71,11 @@
   template: src=seed.sh dest={{ shared_path }}/config/seed.sh mode=775
   tags: seed
 
+# Cron. 
+
+- name: Generate the crontab file for automated backups.
+  template: src=crontab.j2 dest={{ home_path }}/crontab
+
+- name: Setup cron for the user
+  sudo: yes
+  command: "crontab -u {{ user }} {{ home_path }}/crontab"
