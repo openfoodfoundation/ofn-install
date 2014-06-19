@@ -46,21 +46,21 @@
 
   # Custom seed data. Maybe not the best way to do this but fine for now.
 - name: Copy the seeds.rb to shared folder
-  copy: src=seeds.rb dest={{ shared_path }}/config/seeds.rb mode=775
+  copy: src=files/seeds.rb dest={{ shared_path }}/config/seeds.rb mode=775
   tags: seed
 - name: Symlink the seeds.rb to db folder
   file: src={{ shared_path }}/config/seeds.rb dest={{ current_path }}/db/seeds.rb state=link force=yes
   tags: seed
 
 - name: Copy the suburb_seeds.rb to shared folder
-  copy: src=suburb_seeds.rb dest={{ shared_path }}/config/suburb_seeds.rb mode=775
+  copy: src=files/suburb_seeds.rb dest={{ shared_path }}/config/suburb_seeds.rb mode=775
   tags: seed
 - name: Symlink the suburb_seeds.rb to db folder
   file: src={{ shared_path }}/config/suburb_seeds.rb dest={{ current_path }}/db/suburb_seeds.rb state=link force=yes
   tags: seed
 
 - name: Symlink the states.yml to db defaults folder
-  copy: src=states.yml dest={{ shared_path }}/config/states.yml mode=775
+  copy: src=files/states.yml dest={{ shared_path }}/config/states.yml mode=775
   tags: seed
 - name: Symlink the states.yml to db defaults folder
   file: src={{ shared_path }}/config/states.yml dest={{ current_path }}/db/default/states.yml state=link force=yes
