@@ -55,11 +55,3 @@
 - name: Generate the .pgpass file
   template: src=pgpass dest={{ home_path }}/.pgpass mode=600
 
-# Cron. Maybe this should go somewhere else too.
-
-- name: Generate the crontab file for automated backups.
-  template: src=crontab.j2 dest={{ home_path }}/crontab
-
-- name: Setup cron for the user
-  sudo: yes
-  command: "crontab -u {{ user }} {{ home_path }}/crontab"
