@@ -33,8 +33,7 @@ language_packages:
   - language-pack-en-base
 
 
-  
-#######################################################################################
+########################################################################################
 # OTHER VARIABLES - you can probably leave these as is.
 
 #----------------------------------------------------------------------
@@ -66,18 +65,28 @@ app_path: "{{ home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 build_path: "{{ app_path }}/build"
 shared_path: "{{ app_path }}/shared"
+backup_path: "{{ app_path }}/backup"
+assets_path: "{{ shared_path }}/assets"
+system_path: "{{ shared_path }}/system"
+config_path: "{{ shared_path }}/config"
+log_path: "{{ shared_path }}/log"
+pid_path: "{{ shared_path }}/pids"
+sock_path: "{{ shared_path }}/sock"
 git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
 
 #----------------------------------------------------------------------
 # Nginx variables
 app_root: "{{ current_path }}"
 port: 3000
+# domain: is set above
 
 #----------------------------------------------------------------------
 # Unicorn variables
 unicorn_user: "{{ user }}"
-unicorn_config: "{{ shared_path }}/config/unicorn.rb"
-unicorn_log: "{{ shared_path }}/log/unicorn.log"
-unicorn_pid: "{{ current_path }}/tmp/pids/unicorn.pid"
+unicorn_config: "{{ config_path }}/unicorn.rb"
+unicorn_log: "{{ log_path }}/unicorn.log"
+unicorn_pid: "{{ pid_path }}/unicorn.pid"
+unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
 unicorn_workers: 2
 unicorn_timeout: 30
+
