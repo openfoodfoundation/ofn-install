@@ -8,49 +8,13 @@
     - postgresql-client
     - postgresql-contrib
     
-# Setup database.
-
-- name: check if dbs are created already
-  shell: psql -l | grep {{ db }} | wc -l 
-  sudo: yes
-  sudo_user: postgres
-  register: db_setup
-  ignore_errors: yes
-
-  # If the dbs haven't been created yet, we want to destroy the whole db
-  # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
-- name: remove existing postgres cluster
-  shell: "pg_dropcluster --stop 9.1 main"
-  sudo: yes
-  sudo_user: postgres
-  when: db_setup != 1 # only do this if the dbs haven't been created yet
-  ignore_errors: yes
-
-- name: rebuild postgres cluster to default to utf8
-  shell: "pg_createcluster --start 9.1 main"
-  sudo: yes
-  sudo_user: postgres
-  when: db_setup != 1 # only do this if the dbs haven't been created yet
-
 - name: create db user
   sudo: yes
   sudo_user: postgres
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
-  when: db_setup != 1 # only do this if the dbs haven't been created yet
 
-- name: create dbs
-  postgresql_db: name={{ db }} owner={{ db_user }} encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0' state=present
-  sudo: yes
-  sudo_user: postgres
-  when: db_setup != 1 # only do this if the dbs haven't been created yet
-
-# Config files
-
-- name: make config dir
-  file: path={{ shared_path }}/config state=directory
-
-- name: Generate the database.yml configuration file.
-  template: src=postgresql.yml dest={{ shared_path }}/config/database.yml 
+- name: Generate the database configuration file.
+  template: src=postgresql.yml dest={{ config_path }}/database.yml mode=0775
 
 - name: Generate the .pgpass file
   template: src=pgpass dest={{ home_path }}/.pgpass mode=600
