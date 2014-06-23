@@ -1,78 +1,45 @@
 --- # App
 
-- name: Clone repo 
-  git: repo="{{ git_repo }}" dest="{{ current_path }}" # version="{{ version }}"
+# Setup shared files and folders
 
+- name: Make dirs
+  file: path={{ item }} state=directory
+  with_items:
+    - "{{ app_path }}"
+    - "{{ shared_path }}"
+    - "{{ backup_path }}"
+    - "{{ system_path }}"
+    - "{{ assets_path }}"
+    - "{{ log_path }}"
+    - "{{ pid_path }}"
+    - "{{ sock_path }}"
+    - "{{ config_path }}"
 
-# Setup symlinked files and folders
+  tags: dirs
 
-- name: Make config dir
-  file: dest={{ current_path }}/config state=directory
-
-- name: Make log dir
-  file: path={{ shared_path }}/log state=directory
-
-- name: Copy/create system folder to shared
-  file: src={{ current_path }}/public/system state=directory dest={{ shared_path }}/system
-- name: Remove system folder
-  file: dest={{ current_path }}/public/system state=absent
-- name: Symlink the system folder to the current dir.
-  file: src={{ shared_path }}/system dest={{ current_path }}/public/system state=link
-
-- name: Copy/create assets folder to shared
-  file: src={{ current_path }}/public/assets state=directory dest={{ shared_path }}/assets
-- name: Remove assets folder
-  file: dest={{ current_path }}/public/system state=absent
-- name: Symlink the assets folder to the current dir.
-  file: src={{ shared_path }}/assets dest={{ current_path }}/public/assets state=link
-
-- name: Symlink the database.yml configuration file to current project dir.
-  file: src={{ shared_path }}/config/database.yml dest={{ current_path }}/config/database.yml state=link force=yes
-
+- name: Template files
+  template: src={{ item.src }} dest={{ item.dest }} mode=775
+  with_items:
+    - { src: "post-receive", dest: "{{ config_path }}/post-receive" }
+    - { src: "seed.sh", dest: "{{ config_path }}/seed.sh" }
+      
 - name: Copy the newrelic.yml to shared folder
   template: src=newrelic.yml dest={{ shared_path }}/config/newrelic.yml mode=775
   when: newrelic_key != ""
-- name: Symlink the newrelic.yml file to the current project dir.
-  file: src={{ shared_path }}/config/newrelic.yml dest={{ current_path }}/config/newrelic.yml state=link force=yes
-  when: newrelic_key != ""
 
-- name: Copy the post receive hook
-  template: src=post-receive dest={{ current_path }}/config/post-receive mode=775
-- name: Symlink the post receive hook
-  file: src={{ current_path }}/config/post-receive dest={{ git_post_receive }} state=link
+# This is a temporary solution to having hard coded australian data in the repo,
+# without adding a fork that does the same thing for uk - just copy over the files.
 
+- name: Copy files
+  copy: src={{ item.src }} dest={{ item.dest }} mode=775 force=yes
+  with_items:
+    - { src: "files/seeds.rb", dest: "{{ config_path }}/seeds.rb" }
+    - { src: "files/suburb_seeds.rb", dest: "{{ config_path }}/suburb_seeds.rb" }
+    - { src: "files/spree.rb", dest: "{{ config_path }}/spree.rb" }
+    - { src: "files/states.yml", dest: "{{ config_path }}/states.yml" }
+    - { src: "files/countries.yml", dest: "{{ config_path }}/countries.yml" }
 
-# Copy custom seed data. Maybe not the best way to do this but fine for now.
-
-  # Custom seed data. Maybe not the best way to do this but fine for now.
-- name: Copy the seeds.rb to shared folder
-  copy: src=files/seeds.rb dest={{ shared_path }}/config/seeds.rb mode=775
-  tags: seed
-- name: Symlink the seeds.rb to db folder
-  file: src={{ shared_path }}/config/seeds.rb dest={{ current_path }}/db/seeds.rb state=link force=yes
-  tags: seed
-
-- name: Copy the suburb_seeds.rb to shared folder
-  copy: src=files/suburb_seeds.rb dest={{ shared_path }}/config/suburb_seeds.rb mode=775
-  tags: seed
-- name: Symlink the suburb_seeds.rb to db folder
-  file: src={{ shared_path }}/config/suburb_seeds.rb dest={{ current_path }}/db/suburb_seeds.rb state=link force=yes
-  tags: seed
-
-- name: Symlink the states.yml to db defaults folder
-  copy: src=files/states.yml dest={{ shared_path }}/config/states.yml mode=775
-  tags: seed
-- name: Symlink the states.yml to db defaults folder
-  file: src={{ shared_path }}/config/states.yml dest={{ current_path }}/db/default/states.yml state=link force=yes
-  tags: seed
-
-# Copy custom seed shell script.
-- name: Copy seed.sh to shared folder
-  template: src=seed.sh dest={{ shared_path }}/config/seed.sh mode=775
-  tags: seed
-
-# Cron. 
-
+# Cron. TODO use ansible cron module for this.
 - name: Generate the crontab file for automated backups.
   template: src=crontab.j2 dest={{ home_path }}/crontab
 
