@@ -2,4 +2,4 @@
 ssl.crt
 ssl.key
 vars.yml
-roles/app/files/
+files/
