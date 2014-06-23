@@ -23,11 +23,11 @@
     - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
       tags: bundler
 
+    - role: app # Build the app directory structure and support files.
+      tags: app
+
     - role: dbserver # Set up database server and user for the app.
       tags: db
-
-    - role: app # Build the app codebase and directory structure.
-      tags: app
 
     - role: mortik.nginx-rails # Install nginx. If missing run: ansible-galaxy install mortik.nginx-rails
       sudo: yes
@@ -38,7 +38,7 @@
     - role: webserver # Build the unicorn webserver.
       tags: ws
 
-    - role: deploy # Run the app.
+    - role: deploy # (Re)Build and run the app.
       tags: deploy
       notify: 
         - restart unicorn
