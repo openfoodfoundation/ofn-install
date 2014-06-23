@@ -1,52 +1,33 @@
 --- # webserver
-
-- name: make tmp/pids dir
-  file: path={{ shared_path }}/pids state=directory
-
-- name: make tmp dir
-  file: path={{ current_path }}/tmp state=directory
-
-- name: make other tmp dir
-  file: path={{ app_path }}/tmp state=directory
-
-- name: make tmp/pids dir
-  file: src={{ shared_path }}/pids dest={{ current_path }}/tmp/pids state=link
-
-
-- name: copy unicorn_init
-  template: src=unicorn_init dest=/etc/init.d/unicorn_{{ app }} mode=744 owner=ubuntu
+- name: copy unicorn files
+  template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
   sudo: yes
-
-- name: copy unicorn.rb
-  template: src=unicorn.rb dest={{ shared_path }}/config/unicorn.rb
+  with_items:
+    - { src: "unicorn_init", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
+    - { src: "unicorn.rb", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
+    - { src: "roles/webserver/templates/nginx_unicorn", dest: "{{ nginx_path }}/sites-available/{{ app }}", mode: "0600", owner: root, group: root }
+  notify: 
+    - restart unicorn
+    - restart nginx
     
 - name: update unicorn 
-  shell: update-rc.d -f unicorn_{{ app }} defaults
-  sudo: yes
-
-
-- name: setup unicorn app with nginx
-  template: src=roles/webserver/templates/nginx_unicorn dest={{ nginx_path }}/sites-available/{{ app }} owner=root group=root mode=0600
-  sudo: yes
-  tags: unicorn-nginx
+  service: name=unicorn_{{ app }} enabled=yes
 
 - name: enable unicorn app with nginx
   file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link mode=644
   sudo: yes
   tags: unicorn-nginx
+  notify: 
+    - restart unicorn
+    - restart nginx
 
 - name: remove default nginx site
   file: dest={{ nginx_path }}/sites-enabled/default state=absent
   sudo: yes
   tags: unicorn-nginx
-
-
-# This will only work when bundler is run during the playbook.
-#- name: run unicorn
-  #service: name=unicorn_{{ app }} state=started
-  #sudo: yes
-  ## TODO: #     after "deploy:#{command}", "unicorn:#{command}"
-
+  notify: 
+    - restart unicorn
+    - restart nginx
 
 #- name: download phantomjs
   #get_url: url=https://phantomjs.googlecode.com/files/{{ phantomjs }}.tar.bz2

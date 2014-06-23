@@ -3,6 +3,6 @@ pid "{{ unicorn_pid }}"
 stderr_path "{{ unicorn_log }}"
 stdout_path "{{ unicorn_log }}"
 
-listen "{{ app_path }}/tmp/unicorn.{{ app }}.sock"
+listen "{{ unicorn_sock }}"
 worker_processes {{ unicorn_workers }}
 timeout {{ unicorn_timeout }}
