@@ -1,4 +1,10 @@
 ---
+#TODO make sure both of these things trun as one handler.
+- name: start unicorn
+  service: 
+    name: unicorn_{{ app }} 
+    state: started
+
 - name: restart unicorn
   service: 
     name: unicorn_{{ app }} 
