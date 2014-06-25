@@ -5,5 +5,5 @@
   # Alternately rbenv could be set in environment variables somehow?
   command: bash -lc "gem install bundler  --no-ri --no-rdoc"
 
-- name: rbenv rehash
+- name: Reload rbenv
   command: bash -lc "rbenv rehash"

@@ -3,10 +3,10 @@
   apt: pkg={{ item }} state=latest
   with_items: "{{ language_packages }}"
 
-- name: update locales
+- name: Update locales
   shell: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
   sudo: yes
     
-- name: reconfigure locales
+- name: Reconfigure locales
   shell: "dpkg-reconfigure locales"
   sudo: yes

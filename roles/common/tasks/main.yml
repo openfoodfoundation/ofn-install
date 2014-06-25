@@ -31,8 +31,8 @@
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster
     
-- name: copy up .bashrc
+- name: Copy up .bashrc
   template: dest=/{{ home_path }}/.bashrc src=bashrc
 
-- name: copy up .bash_profile
+- name: Copy up .bash_profile
   template: dest=/{{ home_path }}/.bash_profile src=bash_profile

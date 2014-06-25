@@ -8,7 +8,7 @@
     - postgresql-client
     - postgresql-contrib
     
-- name: create db user
+- name: Create db user
   sudo: yes
   sudo_user: postgres
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
