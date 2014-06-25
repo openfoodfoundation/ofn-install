@@ -5,5 +5,4 @@
   vars_files:
     - vars.yml
   roles: 
-    - nicolai86.rails
     - deploy
