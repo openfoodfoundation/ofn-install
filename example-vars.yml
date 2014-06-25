@@ -32,6 +32,15 @@ language: en_au.utf-8
 language_packages: 
   - language-pack-en-base
 
+# Set newrelic key for application monitoring. Set to "none" to not use newrelic.
+
+newrelic_key: none
+
+# Set amazon s3 image hosting keys if you want to use it, otherwise set to "none".
+s3_bucket: none
+s3_access_key_id: none
+s3_secret_access_key: none
+
 
 ########################################################################################
 # OTHER VARIABLES - you can probably leave these as is.
