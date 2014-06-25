@@ -1,27 +1,25 @@
 #!/bin/sh
 
-APP_ROOT={{ current_path }}
-SHARED_PATH={{ shared_path }}
 BUNDLE={{ bundle_path }}
 GEM_PATH={{ gem_path }}
 
 cd $APP_ROOT || exit 1
 
 #unset GIT_DIR
-#NEWREF=$(cat /dev/stdin | cut -d ' ' -f 2) --uncomment this!
+NEWREF=$(cat /dev/stdin | cut -d ' ' -f 2)
 
 # Check out the new revision
-#git reset --hard $NEWREF --uncomment this!
+git reset --hard $NEWREF
 
 # Symlink shared files
-rm -f $APP_ROOT/config/database.yml
-ln -s $SHARED_PATH/config/database.yml $APP_ROOT/config/database.yml
-#ln -s -f $SHARED_PATH/config/s3.yml $APP_ROOT/config/s3.yml
-#ln -s -f $SHARED_PATH/config/newrelic.yml $APP_ROOT/config/newrelic.yml
+rm -f {{ current_path }}/config/database.yml
+ln -s {{ config_path }}/database.yml  {{ current_path }}/config/database.yml
+ln -s -f {{ config_path }}/s3.yml  {{ current_path }}/config/s3.yml
+ln -s -f {{ config_path }}/newrelic.yml  {{ current_path }}/config/newrelic.yml
 
 # Install the required gems
 # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
-LANG=en_US.UTF-8 $BUNDLE install --gemfile $APP_ROOT/Gemfile --path $GEM_PATH --deployment --without development test
+LANG=en_US.UTF-8 $BUNDLE install --gemfile  {{ current_path }}/Gemfile --path $GEM_PATH --deployment --without development test
 
 # Update the DB schema
 $BUNDLE exec rake RAILS_ENV={{ rails_env }} db:migrate
