@@ -1,51 +1,62 @@
 --- # Deploy
 
-- name: Get current date
-  shell: date +"%Y-%m-%d-%I-%M-%S" 
-  register: current_date 
+#----------------
+# Build codebase
 
-- name: Backup existing repo
-  command: mv {{ current_path }} {{ backup_path }}/{{ current_date.stdout }} removes={{ current_path }}
-  ignore_errors: yes
-  tags: clone
-
-- name: Clone repo 
-  git: repo="{{ git_repo }}" dest="{{ current_path }}" version="{{ version }}" force=yes
+- name: Clone repo
+  git: repo="{{ git_repo }}" dest="{{ build_path }}" version="{{ version }}" force=yes
   tags: clone
 
 - name: Symlink into the repo
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
   with_items:
-    - { src: "{{ assets_path }}", dest: "{{ current_path }}/public/assets" }
-    - { src: "{{ system_path }}", dest: "{{ current_path }}/public/system" }
+    - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
+    - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
     - { src: "{{ config_path }}/post-receive", dest: "{{ git_post_receive }}" }
-    - { src: "{{ config_path }}/database.yml", dest: "{{ current_path }}/config/database.yml" }
-    - { src: "{{ config_path }}/seeds.rb", dest: "{{ current_path }}/db/seeds.rb" }
-    - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ current_path }}/db/suburb_seeds.rb" }
-    - { src: "{{ config_path }}/states.yml", dest: "{{ current_path }}/db/default/spree/states.yml" }
-    - { src: "{{ config_path }}/countries.yml", dest: "{{ current_path }}/db/default/spree/countries.yml" }
+    - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
+    - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
+    - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
+    - { src: "{{ config_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
+    - { src: "{{ config_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
   tags: symlink
 
 - name: Symlink the newrelic.yml file into the repo
-  file: src={{ config_path }}/newrelic.yml dest={{ current_path }}/config/newrelic.yml state=link force=yes
+  file: src={{ config_path }}/newrelic.yml dest={{ build_path }}/config/newrelic.yml state=link force=yes
   when: newrelic_key != "none"
   tags: symlink
 
 - name: Symlink the s3.yml file into the repo
-  file: src={{ config_path }}/s3.yml dest={{ current_path }}/config/s3.yml state=link force=yes
+  file: src={{ config_path }}/s3.yml dest={{ build_path }}/config/s3.yml state=link force=yes
   when: s3_bucket != "none"
   tags: symlink
 
 - name: Install app dependencies
   #TODO make the "--without development" part conditonal on rails_env
-  command: bash -lc "LANG=en_US.UTF-8 {{ bundle_path }} install --gemfile {{ current_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
-  environment: 
+  command: bash -lc "LANG=en_US.UTF-8 {{ bundle_path }} install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
+  environment:
   # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17... fails even though server has correct locale setting
     LANG: en_US.UTF-8
   tags: bundle_app
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
+
+#-------------------------
+# Move new code into place
+
+- name: Get current date
+  shell: date +"%Y-%m-%d-%I-%M-%S"
+  register: current_date
+
+- name: Backup existing repo
+  command: mv {{ current_path }} {{ backup_path }}/{{ current_date.stdout }} removes={{ current_path }}
+  ignore_errors: yes
+
+- name: Move build to current
+  command: mv {{ build_path }} {{ current_path }} removes={{ build_path }}
+
+#--------------------
+# Update the database
 
 - name: Check database status
   command: psql -U postgres -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
@@ -60,19 +71,11 @@
   when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
-- name: Check database status
-  command: psql -U postgres -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
-  sudo: yes
-  sudo_user: postgres
-  register: table_exists
-  ignore_errors: yes
-  tags: rake
-
 # We could just use migrate here but in practise there were frequently errors, so load schema is more reliable for now.
 - name: Load Schema
   command: bash -lc "{{ bundle_path }} exec rake db:schema:load RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   # TODO check that both database and table do not exist so this still runs if the database is already there but empty.
-  when: table_exists.stderr.find('does not exist') != -1 
+  when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
 - name: Migrate database
@@ -83,26 +86,29 @@
   # We run a shell script that passes the default email and password to rake with an EOF block, so we don't hang on the prompts.
   command: bash -lc "{{ config_path }}/seed.sh RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   tags: rake
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
 
-# Fix to get around database errors when this is done before schema:load. TODO fix this elsewhere. 
+# Fix to get around database errors when this is done before schema:load. TODO fix this elsewhere.
 - name: Symlink spree initializer into the repo
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
   with_items:
     - { src: "{{ config_path }}/spree.rb", dest: "{{ current_path }}/config/initializers/spree.rb" }
-  tags: 
+  tags:
     - spree
     - rake
+
+#------------------
+# Precompile assets
 
 # TODO make precompile conditional to speed things up.
 - name: Precompile primary assets
   command: bash -lc "{{ bundle_path }} exec rake assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
-  tags: 
+  tags:
     - precompile
     - rake
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
 
@@ -111,7 +117,7 @@
   tags:
     - precompile
     - rake
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
 
