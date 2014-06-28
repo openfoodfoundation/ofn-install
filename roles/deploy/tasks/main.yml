@@ -66,13 +66,12 @@
   ignore_errors: yes
   tags: rake
 
-- name: Create database
+- name: Create database if it doesnt exist
   command: bash -lc "{{ bundle_path }} exec rake db:create RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
-# We could just use migrate here but in practise there were frequently errors, so load schema is more reliable for now.
-- name: Load Schema
+- name: Load Schema if it isnt loaded # TODO fix this so it actually works if the database exists but the table doesn't.
   command: bash -lc "{{ bundle_path }} exec rake db:schema:load RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   # TODO check that both database and table do not exist so this still runs if the database is already there but empty.
   when: table_exists.stderr.find('does not exist') != -1
