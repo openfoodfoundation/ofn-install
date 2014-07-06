@@ -27,7 +27,7 @@ production boxes at this stage.
 Also make sure to update your vars file to match example vars.
 
 
-##Prepare project
+#Prepare project
 
 
 Local Dependencies
@@ -83,7 +83,7 @@ Add your server(s) IP or URL to your ansible hosts file, at /etc/ansible/hosts
 
 
 
-##Build the Server
+#Build the Server
 
 
 Setup a default user
@@ -108,7 +108,7 @@ Build Notes
 For production and staging servers you will need to enter the site url and smtp details through the admin mail interface before the site is fully functional.
 
 
-##Deployment
+#Deployment
 
 
 Deploy updates
