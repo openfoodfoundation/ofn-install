@@ -12,6 +12,7 @@
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
+    - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/system" }
     - { src: "{{ config_path }}/post-receive", dest: "{{ git_post_receive }}" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
@@ -41,12 +42,26 @@
     - restart unicorn
     - restart nginx
 
+#--------------------
+# Get timestamp
+
+- name: Get current date for timestamp
+  shell: date +"%Y-%m-%d-%I%M%S"
+  register: current_date
+  tags: 
+    - backup
+
+
+#--------------------
+# Backup the database
+
+  # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
+- name: Backup the database
+  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
+  tags: backup
+
 #-------------------------
 # Move new code into place
-
-- name: Get current date
-  shell: date +"%Y-%m-%d-%I-%M-%S"
-  register: current_date
 
 - name: Backup existing repo
   command: mv {{ current_path }} {{ backup_path }}/{{ current_date.stdout }} removes={{ current_path }}
