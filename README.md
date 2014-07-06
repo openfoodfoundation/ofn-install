@@ -27,17 +27,21 @@ production boxes at this stage.
 Also make sure to update your vars file to match example vars.
 
 
-Install
--------
+##Prepare project
 
-First [Install] ansible.
 
-[Install]: http://docs.ansible.com/intro_installation.html
+Local Dependencies
+------------------
+
+First [Install ansible].
+
+[Install ansible]: http://docs.ansible.com/intro_installation.html
 
 You will also need to install some additional ansible modules before running these playbooks. 
 
 * `ansible-galaxy install zzet.rbenv`
 * `ansible-galaxy install mortik.nginx-rails`
+
 
 Variables
 ---------
@@ -71,6 +75,17 @@ For production and staging environments you will need to provide SSL certificate
 
 Place these in the main 'files' folder.
 
+
+Add Hosts
+---------
+
+Add your server(s) IP or URL to your ansible hosts file, at /etc/ansible/hosts
+
+
+
+##Build the Server
+
+
 Setup a default user
 ------------------
 
@@ -78,25 +93,35 @@ On digital ocean servers and any system where there is no default user set up, y
 
 `ansible-playbook user.yml -f 10 -vvvv`
 
-(It won't run, and dosnt need to, on standard AWS ubuntu images that block root login)
+(It won't run, and doesn't need to, on standard AWS ubuntu images that block root login)
 
 Build the server
 ----------------
 
-Install:
+Run:
 
-`ansible-playbook install.yml -f 10 -vvvv`
+`ansible-playbook install.yml -f 10` (with `-vvvv` for full debug output) 
 
-Due to some module bugs you may need to run
+Build Notes
+-----------
 
-`ansible-playbook install.yml -f 10 -vvvv` --tags deploy
-to finish it off.
+For production and staging servers you will need to enter the site url and smtp details through the admin mail interface before the site is fully functional.
 
 
-Install Notes
--------------
+##Deployment
 
-For production and staging servers you will need to enter smtp details through the admin mail interface before the site is fully functional.
+
+Deploy updates
+--------------
+
+After pushing code to your repo or branch, run: 
+
+`ansible-playbook install.yml -f 10 --tags deploy` (with `-vvvv` for full debug output) 
+
+to see them live on the server(s). 
+
+There is a timestamped backup process included in deployment but currently no automated or scripted rollback.
+
 
 
 Written by Rafael Schouten, after inital work from Paul Mackey.
