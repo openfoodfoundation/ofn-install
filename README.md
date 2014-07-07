@@ -21,17 +21,11 @@ It installs basic packages such as curl and git, then installs:
   [Unicorn]: http://unicorn.bogomips.org/
 
 
-This project is under heavy development and changing a lot, take care using it for openfoodnetwork
-production boxes at this stage.
 
-Also make sure to update your vars file to match example vars.
+#Prepare your project
 
 
-#Prepare project
-
-
-Local Dependencies
-------------------
+###Local Dependencies
 
 First [Install ansible].
 
@@ -43,17 +37,15 @@ You will also need to install some additional ansible modules before running the
 * `ansible-galaxy install mortik.nginx-rails`
 
 
-Variables
----------
+###Variables
 
 Copy the provided example-vars.yml to vars.yml and fill in your site-specific variables.
 
 * `cp example-vars.yml vars.yml`
 
-Seed Data
----------
+###Seed Data
 
-You will need to provide country, state and postcode data for your location. This is a work-around until a cleaner config process is available.
+Provide country, state and postcode files for your location. This is a work-around until a cleaner config process is available.
 
 * states.yml
 * countries.yml
@@ -61,33 +53,30 @@ You will need to provide country, state and postcode data for your location. Thi
 * spree.rb
 * suburb_seeds.rb
 
-(For examples see the existing files in the openfoodnetwork repo db folder.)
+(For examples have a look at the existing files - in the openfoodnetwork repo in the 'db' folder.)
 
-Place them in the main 'files' folder.
+Put them in the 'files' folder.
 
-SSL
----
+###SSL
 
-For production and staging environments you will need to provide SSL certificates connected to the supplied domain name.
+For production and staging environments provide SSL certificateso the domain name.
 
 * server.crt 
 * server.key 
 
-Place these in the main 'files' folder.
+Put these in the 'files' folder.
 
 
-Add Hosts
----------
+###Add Hosts
 
-Add your server(s) IP or URL to your ansible hosts file, at /etc/ansible/hosts
+Add your server(s) IP or URL to your local ansible hosts file, probably at /etc/ansible/hosts
 
 
 
 #Build the Server
 
 
-Setup a default user
-------------------
+###Setup a default user
 
 On digital ocean servers and any system where there is no default user set up, you will need to run the 'user.yml'playbook.
 
@@ -95,15 +84,13 @@ On digital ocean servers and any system where there is no default user set up, y
 
 (It won't run, and doesn't need to, on standard AWS ubuntu images that block root login)
 
-Build the server
-----------------
+###Build the server
 
 Run:
 
 `ansible-playbook install.yml -f 10` (with `-vvvv` for full debug output) 
 
-Build Notes
------------
+###Build Notes
 
 For production and staging servers you will need to enter the site url and smtp details through the admin mail interface before the site is fully functional.
 
@@ -111,8 +98,7 @@ For production and staging servers you will need to enter the site url and smtp 
 #Deployment
 
 
-Deploy updates
---------------
+###Deploy updates
 
 After pushing code to your repo or branch, run: 
 
@@ -122,6 +108,14 @@ to see them live on the server(s).
 
 There is a timestamped backup process included in deployment but currently no automated or scripted rollback.
 
+
+#Backups
+
+To backup on the server and to the local machine run:
+
+`ansible-playbook backup.yml -f 10`
+
+This doesn't clean up old backups automatically yet.
 
 
 Written by Rafael Schouten, after inital work from Paul Mackey.
