@@ -8,6 +8,7 @@
     - "{{ app_path }}"
     - "{{ shared_path }}"
     - "{{ backup_path }}"
+    - "{{ rollback_path }}"
     - "{{ assets_path }}"
     - "{{ system_path }}"
     - "{{ spree_path }}"

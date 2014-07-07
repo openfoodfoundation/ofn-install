@@ -1,0 +1,23 @@
+--- # Backup
+
+#--------------------
+# Get timestamp
+
+- name: Get current date for timestamp
+  shell: date +"%Y-%m-%d-%I%M%S"
+  register: current_date
+  tags: backup
+
+#-----------------
+# Backup and fetch
+
+
+- name: Backup remote
+  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
+  tags: backup
+
+- name: Sync to local
+  fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} flat=yes
+  tags: backup
+
+

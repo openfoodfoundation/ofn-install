@@ -48,23 +48,20 @@
 - name: Get current date for timestamp
   shell: date +"%Y-%m-%d-%I%M%S"
   register: current_date
-  tags: 
-    - backup
 
 
-#--------------------
-# Backup the database
+#--------------------------
+# Create a rollback release
 
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
-- name: Backup the database
-  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
-  tags: backup
+- name: Creat a database rollback version
+  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ rollback_path }}/{{ current_date.stdout }}.sql.gz
 
 #-------------------------
 # Move new code into place
 
-- name: Backup existing repo
-  command: mv {{ current_path }} {{ backup_path }}/{{ current_date.stdout }} removes={{ current_path }}
+- name: Creat a repo rollback version
+  command: mv {{ current_path }} {{ rollback_path }}/{{ current_date.stdout }} removes={{ current_path }}
   ignore_errors: yes
 
 - name: Move build to current
