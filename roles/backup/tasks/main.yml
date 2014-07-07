@@ -10,7 +10,7 @@
 
 #-----------------
 # Backup and fetch
-
+# @TODO cleanup old backups
 
 - name: Backup remote
   shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
