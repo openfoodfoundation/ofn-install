@@ -5,7 +5,7 @@ Provisioning OFN with Ansible
 
 You will need to use an apt-compatible OS (Debian or Ubuntu), it's currently been tested on Ubuntu 12.04 (64 bit) on both AWS and Digital Ocean cloud servers.
 
-#Install playbook
+#Install
 
 The install playbook installs basic packages such as curl and git, then installs:
 
