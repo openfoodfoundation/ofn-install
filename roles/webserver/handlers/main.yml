@@ -1,12 +1,15 @@
 ---
 #TODO make sure both of these things trun as one handler.
+- name: restart unicorn
+  service: 
+    name: unicorn_{{ app }} 
+    state: restarted
+  # If unicorn isn't actually started yet we probably need this:
+  notify: start_unicorn
+
 - name: start unicorn
   service: 
     name: unicorn_{{ app }} 
     state: started
 
-- name: restart unicorn
-  service: 
-    name: unicorn_{{ app }} 
-    state: restarted
 
