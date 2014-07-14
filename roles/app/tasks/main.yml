@@ -22,8 +22,9 @@
 - name: Template files
   template: src={{ item.src }} dest={{ item.dest }} mode=775
   with_items:
-    - { src: "post-receive", dest: "{{ config_path }}/post-receive" }
-    - { src: "seed.sh", dest: "{{ config_path }}/seed.sh" }
+    - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
+    - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
+    - { src: "bugsag.rb.j2", dest: "{{ config_path }}/bugnsag.rb" }
       
 - name: Copy the newrelic.yml to shared folder
   template: src=newrelic.yml dest={{ shared_path }}/config/newrelic.yml mode=775
