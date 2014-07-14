@@ -3,9 +3,9 @@
   template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
   sudo: yes
   with_items:
-    - { src: "unicorn_init", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
-    - { src: "unicorn.rb", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
-    - { src: "roles/webserver/templates/nginx_unicorn", dest: "{{ nginx_path }}/sites-available/{{ app }}", mode: "0600", owner: root, group: root }
+    - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
+    - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
+    - { src: "nginx_unicorn.j2", dest: "{{ nginx_path }}/sites-available/{{ app }}", mode: "0600", owner: root, group: root }
   notify: 
     - restart unicorn
     - restart nginx

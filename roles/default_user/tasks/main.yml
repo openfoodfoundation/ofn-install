@@ -6,4 +6,4 @@
   authorized_key: user="{{ user }}" key="{{ ssh_pubkey }}"
 
 - name: Add custom sudoer file
-  template: src=sudoer dest="/etc/sudoers.d/90-{{ user }}" mode=0440
+  template: src=sudoer.j2 dest="/etc/sudoers.d/90-{{ user }}" mode=0440

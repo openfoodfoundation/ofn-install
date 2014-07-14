@@ -14,8 +14,8 @@
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
 
 - name: Generate the database configuration file.
-  template: src=postgresql.yml dest={{ config_path }}/database.yml mode=0775
+  template: src=postgresql.yml.j2 dest={{ config_path }}/database.yml mode=0775
 
 - name: Generate the .pgpass file
-  template: src=pgpass dest={{ home_path }}/.pgpass mode=600
+  template: src=pgpass.j2 dest={{ home_path }}/.pgpass mode=600
 
