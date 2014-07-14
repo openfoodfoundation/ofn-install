@@ -3,7 +3,7 @@
 # default user (ubuntu) and wont let this be run as root. But digital ocean images don't.
 
 - hosts: all
-  remote_user: root
+  remote_user: ubuntu
   vars_files:
     - vars.yml
   roles: 
