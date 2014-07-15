@@ -3,6 +3,9 @@
 #----------------
 # Build codebase
 
+- name: Remove the old build path
+  file: dest={{ build_path }} state=absent
+
 - name: Clone repo
   git: repo="{{ git_repo }}" dest="{{ build_path }}" version="{{ version }}" force=yes
   tags: clone
@@ -12,7 +15,7 @@
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
-    - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/system" }
+    - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
     - { src: "{{ config_path }}/post-receive", dest: "{{ git_post_receive }}" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
@@ -53,16 +56,24 @@
 #--------------------------
 # Create a rollback release
 
+- name: Remove the old rollback
+  file: dest={{ rollback_path }}/rollback state=absent
+- name: Remove the old rollback database
+  file: dest={{ rollback_path }}/rollback.sql.gz state=absent
+
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
 - name: Creat a database rollback version
-  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ rollback_path }}/{{ current_date.stdout }}.sql.gz
+  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ rollback_path }}/rollback.sql.gz
+- name: Creat a database backup version
+  command: cp {{ rollback_path }}/rollback.sql.gz {{ rollback_path }}/{{ current_date.stdout }}.sql.gz
+
+- name: Create a repo rollback version
+  command: mv {{ current_path }} {{ rollback_path }}/rollback removes={{ current_path }}
+- name: Creat a repo backup version
+  command: cp -r {{ rollback_path }}/rollback {{ rollback_path }}/{{ current_date.stdout }}
 
 #-------------------------
 # Move new code into place
-
-- name: Creat a repo rollback version
-  command: mv {{ current_path }} {{ rollback_path }}/{{ current_date.stdout }} removes={{ current_path }}
-  ignore_errors: yes
 
 - name: Move build to current
   command: mv {{ build_path }} {{ current_path }} removes={{ build_path }}
@@ -131,4 +142,12 @@
   notify:
     - restart unicorn
     - restart nginx
+
+
+#------------------
+# Backup rollback version
+
+- name: Creat a repo rollback version
+  command: cp {{ current_path }} {{ rollback_path }}/{{ current_date.stdout }}
+  ignore_errors: yes
 
