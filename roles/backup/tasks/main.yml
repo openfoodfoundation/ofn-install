@@ -12,12 +12,23 @@
 # Backup and fetch
 # @TODO cleanup old backups
 
+# Create a new database backup every time
 - name: Backup remote
   shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
-  tags: backup
 
-- name: Sync to local
-  fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} flat=yes
-  tags: backup
+- name: Fetch database to local
+  fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} flat=yes fail_on_missing=yes
 
+# But we don't bother making a whole new copy of all the files every time
+- name: Sync public files to local
+  synchronize: mode=pull src={{ current_path }}/public dest={{ local_rsync_path }} copy_links=yes
+  tags: rsync
 
+# @TODO just delete anything older than the newest {{ num_remote_backups }} files
+#- name: Get number of backups
+  #shell: ls | grep ".sql.gz" | wc -w
+  #register: num_backups
+
+#- name: Delete old backups
+  #shell: rm
+  #when: num_backups.stdout > {{ num_remote_backups }}
