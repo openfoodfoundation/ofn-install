@@ -24,10 +24,12 @@
   with_items:
     - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
-    - { src: "bugsag.rb.j2", dest: "{{ config_path }}/bugnsag.rb" }
+    - { src: "bugsnag.rb.j2", dest: "{{ config_path }}/bugnsag.rb" }
+    - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
+  tags: app_templates
       
-- name: Copy the newrelic.yml to shared folder
-  template: src=newrelic.yml dest={{ shared_path }}/config/newrelic.yml mode=775
+- name: Copy the newrelic file into shared folder
+  template: src=newrelic.yml.j2 dest={{ shared_path }}/config/newrelic.yml mode=775
   when: newrelic_key != "none"
 
 - name: Copy the s3.yml to shared folder
@@ -35,8 +37,8 @@
   when: s3_bucket != "none"
 
 
-# This is a temporary solution to having hard coded australian data in the repo,
-# without adding a fork that does the same thing for the elsewhere. So we just copy over the files.
+# This is a temporary solution to having hard coded Australian data in the repo,
+# without adding a fork that does the same thing for elsewhere. So we just copy over the files.
 
 - name: Copy files
   copy: src={{ item.src }} dest={{ item.dest }} mode=775 force=yes

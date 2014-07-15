@@ -1,0 +1,35 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: {{ db }}
+  pool: 5
+  username: {{ db_user }}
+  password: {{ db_pass }}
+  host: {{ db_host }}
+
+staging:
+  adapter: postgresql
+  encoding: unicode
+  database: {{ db }}
+  pool: 5
+  username: {{ db_user }}
+  password: {{ db_pass }}
+  host: {{ db_host }}
+
+testing:
+  adapter: postgresql
+  encoding: unicode
+  database: {{ db }}
+  pool: 5
+  username: {{ db_user }}
+  password: {{ db_pass }}
+  host: {{ db_host }}
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: {{ db }}
+  pool: 5
+  username: {{ db_user }}
+  password: {{ db_pass }}
+  host: {{ db_host }}
