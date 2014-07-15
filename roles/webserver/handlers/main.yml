@@ -5,7 +5,7 @@
     name: unicorn_{{ app }} 
     state: restarted
   # If unicorn isn't actually started yet we probably need this:
-  notify: start_unicorn
+  notify: start unicorn
 
 - name: start unicorn
   service: 
