@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  remote_user: ubuntu
+  vars_files:
+    - vars.yml
+  roles: 
+    - rollback

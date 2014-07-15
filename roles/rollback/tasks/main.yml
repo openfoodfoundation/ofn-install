@@ -1,0 +1,15 @@
+--- # Rollback
+
+# Currently untested!!! use at your own risk.
+
+- name: Remove current path
+  file: dest={{ current_path }} state=absent
+
+- name: Copy rollback repo to current path
+  command: cp -r {{ rollback_path }}/rollback {{ current_path }} creates={{ current_path }}
+
+  # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
+- name: Copy rollabck db to live db
+  shell: sudo -u postgres gunzip {{ rollback_path }}/rollback.sql.gz | psql {{ db }} 
+
+
