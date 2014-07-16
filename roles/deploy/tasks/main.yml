@@ -24,12 +24,17 @@
     - { src: "{{ config_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
   tags: symlink
 
-- name: Symlink the newrelic.yml file into the repo
+- name: Symlink the bugsnag file into the repo
+  file: src={{ config_path }}/bugsnag.rb dest={{ build_path }}/config/bugsnag.rb state=link force=yes
+  when: bugsnag_key != "none"
+  tags: symlink
+
+- name: Symlink the newrelic file into the repo
   file: src={{ config_path }}/newrelic.yml dest={{ build_path }}/config/newrelic.yml state=link force=yes
   when: newrelic_key != "none"
   tags: symlink
 
-- name: Symlink the s3.yml file into the repo
+- name: Symlink the s3 file into the repo
   file: src={{ config_path }}/s3.yml dest={{ build_path }}/config/s3.yml state=link force=yes
   when: s3_bucket != "none"
   tags: symlink

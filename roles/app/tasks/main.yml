@@ -23,16 +23,19 @@
   template: src={{ item.src }} dest={{ item.dest }} mode=775
   with_items:
     - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
-    - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
-    - { src: "bugsnag.rb.j2", dest: "{{ config_path }}/bugnsag.rb" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
+    - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
       
-- name: Copy the newrelic file into shared folder
+- name: Copy the bugsnag file into the shared folder
+  template: src=bugsnag.rb.j2 dest={{ config_path }}/bugnsag.rb mode=775
+  when: bugsnag_key != "none"
+
+- name: Copy the newrelic file into the shared folder
   template: src=newrelic.yml.j2 dest={{ shared_path }}/config/newrelic.yml mode=775
   when: newrelic_key != "none"
 
-- name: Copy the s3.yml to shared folder
+- name: Copy the s3 file to the shared folder
   template: src=s3.yml dest={{ shared_path }}/config/s3.yml mode=775
   when: s3_bucket != "none"
 
