@@ -41,16 +41,17 @@
 
 
 # This is a temporary solution to having hard coded Australian data in the repo,
-# without adding a fork that does the same thing for elsewhere. So we just copy over the files.
+# without adding a fork that does the same thing for elsewhere. So we just copy over the files,
+# or not if you don't need to.
 
-- name: Copy files
+- name: Copy optional files
   copy: src={{ item.src }} dest={{ item.dest }} mode=775 force=yes
   with_items:
-    - { src: "files/seeds.rb", dest: "{{ config_path }}/seeds.rb" }
     - { src: "files/suburb_seeds.rb", dest: "{{ config_path }}/suburb_seeds.rb" }
     - { src: "files/spree.rb", dest: "{{ config_path }}/spree.rb" }
     - { src: "files/states.yml", dest: "{{ config_path }}/states.yml" }
     - { src: "files/countries.yml", dest: "{{ config_path }}/countries.yml" }
+  ignore_errors: yes
 
 # Cron. TODO use ansible cron module for this.
 - name: Generate the crontab file for automated backups.

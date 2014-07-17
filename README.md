@@ -44,13 +44,13 @@ Copy the provided example-vars.yml to vars.yml and fill in your site-specific va
 
 ###Add Seed Data
 
-Provide country, state and postcode files for your location. This is a work-around until a cleaner config process is available.
+If youd don't want to use australian data, provide country, state and postcode files for your location. This is a work-around until a cleaner config process is available.
 
 * states.yml
 * countries.yml
 * seeds.rb
 * spree.rb
-* suburb_seeds.rb
+* suburb_seeds.rb - This surburbs data is not currently used but may be again in future. But don't spend too much time on it!
 
 (For examples have a look at the existing files - in the openfoodnetwork repo in the 'db' folder.)
 
