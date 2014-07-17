@@ -27,9 +27,9 @@
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
   with_items:
     - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
-    - { src: "{{ config_path }}/bugsnag.rb" dest: "{{ build_path }}/config/bugsnag.rb" }
-    - { src: "{{ config_path }}/newrelic.yml" dest: "{{ build_path }}/config/newrelic.yml" }
-    - { src: "{{ config_path }}/s3.yml" dest: "{{ build_path }}/config/s3.yml" }
+    - { src: "{{ config_path }}/bugsnag.rb", dest: "{{ build_path }}/config/bugsnag.rb" }
+    - { src: "{{ config_path }}/newrelic.yml", dest: "{{ build_path }}/config/newrelic.yml" }
+    - { src: "{{ config_path }}/s3.yml", dest: "{{ build_path }}/config/s3.yml" }
   tags: symlink
   ignore_errors: yes
 
