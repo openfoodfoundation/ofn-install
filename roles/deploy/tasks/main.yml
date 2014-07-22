@@ -6,17 +6,22 @@
 - name: Remove the old build path
   file: dest={{ build_path }} state=absent
 
-- name: Clone repo
-  git: repo="{{ git_repo }}" dest="{{ build_path }}" version="{{ version }}" force=yes
+- name: Update repo
+  git: repo="{{ git_repo }}" dest="{{ repo_path }}" version="{{ version }}" force=yes bare=yes
   tags: clone
 
+- name: Copy repo to build
+  shell: git --git-dir={{ repo_path }}/.git --work-tree={{ build_path }} checkout HEAD -- ." 
+  tags: clone
+
+
 - name: Symlink into the repo
-  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
+  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
     - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
-    - { src: "{{ config_path }}/post-receive", dest: "{{ git_post_receive }}" }
+    - { src: "{{ config_path }}/post-receive", dest: "{{ build_path }}/.git/hooks/post-receive" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
     - { src: "{{ config_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
@@ -24,7 +29,7 @@
   tags: symlink
 
 - name: Symlink optional files into the repo
-  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
+  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
   with_items:
     - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
     - { src: "{{ config_path }}/bugsnag.rb", dest: "{{ build_path }}/config/bugsnag.rb" }
