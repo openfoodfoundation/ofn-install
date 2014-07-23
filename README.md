@@ -74,13 +74,15 @@ Add your server(s) IP or URL to your local ansible hosts file, probably at /etc/
 
 ##Build
 
-### Set up a Linux box
+### Set up a base server
 
 You will need to setup an instance of ubuntu precise 64, though this may work on other debian based releases too.
 
-For vagrant, of you don't allready have a precise64 box set up, run:
+For vagrant, if you don't allready have a precise64 box set up, run:
 
 'vagrant box add precise64 https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+
+The digital ocean ubuntu precise 64 image is solidly tested, and amazon ubuntu precise 64 images have also worked.
 
 
 ###Setup a default user
@@ -89,7 +91,7 @@ On digital ocean servers and any system where there is no default user set up, y
 
 `ansible-playbook user.yml -f 10 -vvvv`
 
-(It won't run, and doesn't need to, on standard AWS ubuntu images that block root login)
+On vagrant this is done automatically. It won't run, and doesn't need to, on standard AWS ubuntu images that block root login.
 
 ###Build the server
 
@@ -109,11 +111,16 @@ For production and staging servers you will need to enter the site url and smtp 
 
 After pushing code to your repo or branch, run: 
 
-`ansible-playbook install.yml -f 10 --tags deploy` (with `-vvvv` for full debug output) 
+`ansible-playbook deploy.yml -f 10` (with `-vvvv` for full debug output) 
 
 to see them live on the server(s). 
 
-There is a timestamped backup process included in deployment but currently no automated or scripted rollback.
+There is a timestamped backup process included in deployment and a rollback version saved each time.
+To roll back after a deployment error, currently you need to manually run:
+
+`ansible-playbook rollback.yml -f 10`
+
+making sure the deployment actually got to the point of making a rollback...
 
 
 #Backup
