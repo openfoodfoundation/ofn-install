@@ -6,7 +6,7 @@
 
   #TODO remove unnecesary packages from this list.
 - name: Install base packages
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest force=yes
   sudo: yes
   with_items:
     - build-essential
@@ -23,10 +23,11 @@
     - tklib
     - zlib1g-dev 
     - libssl-dev
-    - libreadline-gplv2-dev
+    #- libreadline-gplv2-dev
     - libxml2 
     - libxml2-dev 
     - libxslt1-dev
+    - memcached
     - ranger
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster

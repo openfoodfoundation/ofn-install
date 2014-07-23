@@ -18,13 +18,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
     vbox.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
     # VM network config.
-    config.vm.network :forwarded_port, guest: 3000, host: 3002
+    config.vm.network :forwarded_port, host: 4567, guest: 80
 
     config.vm.synced_folder ".", "/vagrant", :create => true
+    config.ssh.forward_agent = true
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "user.yml"
+    ansible.sudo = true
+    ansible.verbose =  'vvvv'
+    ansible.extra_vars = { 
+      ansible_ssh_user: 'vagrant', 
+      ansible_connection: 'ssh',
+      ansible_ssh_args: '-o ForwardAgent=yes'
+    }
   end
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "install.yml"
-    ansible.sudo = true
+    ansible.host_key_checking = false
+    ansible.verbose =  'vvvv'
+    #ansible.tags = 'deploy' # uncomment this for running only specific tags with vagrant, good for debugging.
+    ansible.extra_vars = { 
+      ansible_connection: 'ssh',
+      ansible_ssh_args: '-o ForwardAgent=yes'
+    }
   end
 end

@@ -11,8 +11,8 @@
   tags: clone
 
 - name: Copy repo to build
-  shell: git --git-dir={{ repo_path }}/.git --work-tree={{ build_path }} checkout HEAD -- ." 
-  tags: clone
+  git: repo={{ repo_path }} dest={{ build_path }} version="{{ version }}" force=yes 
+  tags: clone_local
 
 
 - name: Symlink into the repo
@@ -61,20 +61,21 @@
 # Create a rollback release
 
 - name: Remove the old rollback
-  file: dest={{ rollback_path }}/rollback state=absent
+  file: dest={{ rollback_path }} state=absent
 - name: Remove the old rollback database
-  file: dest={{ rollback_path }}/rollback.sql.gz state=absent
+  file: dest={{ rollback_sql_path }} state=absent
 
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
-- name: Creat a database rollback version
-  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ rollback_path }}/rollback.sql.gz
-- name: Creat a database backup version
-  command: cp {{ rollback_path }}/rollback.sql.gz {{ rollback_path }}/{{ current_date.stdout }}.sql.gz
+- name: Create a database rollback version
+  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ rollback_sql_path }}
+- name: Create a database backup version
+  command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ current_date.stdout }}.sql.gz
 
 - name: Create a repo rollback version
-  command: mv {{ current_path }} {{ rollback_path }}/rollback removes={{ current_path }}
-- name: Creat a repo backup version
-  command: cp -r {{ rollback_path }}/rollback {{ rollback_path }}/{{ current_date.stdout }}
+  command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
+- name: Create a repo backup version
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} removes={{ rollback_path }}
+
 
 #-------------------------
 # Move new code into place

@@ -3,12 +3,12 @@
 # Setup shared files and folders
 
 - name: Make dirs
-  file: path={{ item }} state=directory
+  file: path={{ item }} state=directory owner={{ user }} 
   with_items:
     - "{{ app_path }}"
     - "{{ shared_path }}"
     - "{{ backup_path }}"
-    - "{{ rollback_path }}"
+    - "{{ releases_path }}"
     - "{{ assets_path }}"
     - "{{ system_path }}"
     - "{{ spree_path }}"
@@ -20,7 +20,7 @@
   tags: dirs
 
 - name: Template files
-  template: src={{ item.src }} dest={{ item.dest }} mode=775
+  template: src={{ item.src }} dest={{ item.dest }} owner={{ user }} mode=775
   with_items:
     - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
@@ -32,11 +32,11 @@
   when: bugsnag_key != "none"
 
 - name: Copy the newrelic file into the shared folder
-  template: src=newrelic.yml.j2 dest={{ shared_path }}/config/newrelic.yml mode=775
+  template: src=newrelic.yml.j2 dest={{ shared_path }}/config/newrelic.yml owner={{ user }} mode=775
   when: newrelic_key != "none"
 
 - name: Copy the s3 file to the shared folder
-  template: src=s3.yml dest={{ shared_path }}/config/s3.yml mode=775
+  template: src=s3.yml dest={{ shared_path }}/config/s3.yml owner={{ user }} mode=775
   when: s3_bucket != "none"
 
 
@@ -45,7 +45,7 @@
 # or not if you don't need to.
 
 - name: Copy optional files
-  copy: src={{ item.src }} dest={{ item.dest }} mode=775 force=yes
+  copy: src={{ item.src }} dest={{ item.dest }} owner={{ user }} mode=775 force=yes
   with_items:
     - { src: "files/suburb_seeds.rb", dest: "{{ config_path }}/suburb_seeds.rb" }
     - { src: "files/spree.rb", dest: "{{ config_path }}/spree.rb" }

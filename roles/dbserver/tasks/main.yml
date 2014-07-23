@@ -1,7 +1,7 @@
 --- # dbserver
 
 - name: Install postgres packages
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest force=yes
   sudo: yes
   with_items:
     - postgresql

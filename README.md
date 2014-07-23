@@ -72,7 +72,15 @@ Add your server(s) IP or URL to your local ansible hosts file, probably at /etc/
 
 
 
-##Build the Server
+##Build
+
+### Set up a Linux box
+
+You will need to setup an instance of ubuntu precise 64, though this may work on other debian based releases too.
+
+For vagrant, of you don't allready have a precise64 box set up, run:
+
+'vagrant box add precise64 https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
 
 
 ###Setup a default user
