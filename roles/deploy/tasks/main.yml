@@ -40,10 +40,12 @@
 
 - name: Install app dependencies
   #TODO make the "--without development" part conditonal on rails_env
-  command: bash -lc "LANG=en_US.UTF-8 {{ bundle_path }} install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
+  # Note: the 'LANG=...' is a fix fro broken rubygems utf8 handling.
+  command: bash -lc "LANG={{ language }} LC_ALL={{ language }} LC_COLLATE={{ language }} {{ bundle_path }} install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
   environment:
-  # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17... fails even though server has correct locale setting
-    LANG: en_US.UTF-8
+    LANG: "{{ language }}"
+    LC_ALL: "{{ language }}"
+    LC_COLLATE: "{{ language }}"
   tags: bundle_app
   notify:
     - restart unicorn
