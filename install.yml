@@ -4,11 +4,11 @@
   vars_files:
     - vars.yml
   roles:
-    - role: language # Setup locale.
-      tags: lang
-
     - role: common # Install common apps and libraries, and setup shell.
       tags: common
+
+    - role: language # Setup locale.
+      tags: lang
 
     - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
       sudo: yes
