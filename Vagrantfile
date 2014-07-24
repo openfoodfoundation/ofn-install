@@ -24,16 +24,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.ssh.forward_agent = true
   end
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "user.yml"
-    ansible.sudo = true
-    ansible.verbose =  'vvvv'
-    ansible.extra_vars = { 
-      ansible_ssh_user: 'vagrant', 
-      ansible_connection: 'ssh',
-      ansible_ssh_args: '-o ForwardAgent=yes'
-    }
-  end
+  #config.vm.provision "ansible" do |ansible|
+    #ansible.playbook = "user.yml"
+    #ansible.sudo = true
+    #ansible.verbose =  'vvvv'
+    #ansible.extra_vars = { 
+      #ansible_ssh_user: 'vagrant', 
+      #ansible_connection: 'ssh',
+      #ansible_ssh_args: '-o ForwardAgent=yes'
+    #}
+  #end
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "install.yml"

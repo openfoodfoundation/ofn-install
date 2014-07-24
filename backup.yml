@@ -1,9 +1,6 @@
 ---
-# Add the default user as root. AWS ubuntu images generally have a 
-# default user (ubuntu) and wont let this be run as root. But digital ocean images don't.
-
 - hosts: all
-  remote_user: ubuntu
+  remote_user: {{ user }}
   vars_files:
     - vars.yml
   roles: 

@@ -8,6 +8,10 @@
 ###########################################################################################
 # IMPORTANT VARIABLES - This is your chance! express your true individuality and set these. 
 
+# User variables - we use vagrant for vagrant boxes and otherwise 'ubuntu' as it's a common default on systems where the user is allready set up.
+user: vagrant #ubuntu
+user_pass: vagrant #ubuntu
+
 # Your domain name - without http://www etc.
 domain: openfoodnetwork.xxx 
 
@@ -59,15 +63,10 @@ s3_secret_access_key: none
 # OTHER VARIABLES - You can probably go with the herd and leave these as is. we won't tell.
 
 #----------------------------------------------------------------------
-# User variables - we default to 'ubuntu' here as its a common default on systems where the user is allready set up.
-user: ubuntu
-user_pass: ubuntu
-
-#----------------------------------------------------------------------
 # Rails variables
 ruby: 1.9.3-p392
-gem_path: /home/ubuntu/.gem
-bundle_path: /home/ubuntu/.rbenv/shims/bundle
+gem_path: /home/{{ user }}/.gem
+bundle_path: /home/{{ user }}/.rbenv/shims/bundle
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
