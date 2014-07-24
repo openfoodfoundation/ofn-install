@@ -18,22 +18,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
     vbox.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
     # VM network config.
-    config.vm.network :forwarded_port, host: 4567, guest: 80
+    config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "private_network", type: "dhcp"
 
     config.vm.synced_folder ".", "/vagrant", :create => true
     config.ssh.forward_agent = true
   end
-
-  #config.vm.provision "ansible" do |ansible|
-    #ansible.playbook = "user.yml"
-    #ansible.sudo = true
-    #ansible.verbose =  'vvvv'
-    #ansible.extra_vars = { 
-      #ansible_ssh_user: 'vagrant', 
-      #ansible_connection: 'ssh',
-      #ansible_ssh_args: '-o ForwardAgent=yes'
-    #}
-  #end
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "install.yml"
