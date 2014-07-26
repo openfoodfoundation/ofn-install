@@ -116,12 +116,14 @@ After pushing code to your repo or branch, run:
 to see them live on the server(s). 
 
 There is a timestamped backup process included in deployment and a rollback version saved each time.
-To roll back after a deployment error, currently you need to manually run:
+
+###Rollback
+
+If the deployment script fails after the "Create a repo backup version" task you may need to roll it back to have a functional site.
 
 `ansible-playbook rollback.yml -f 10`
 
-making sure the deployment actually got to the point of making a rollback...
-
+Failures before this don't need rollback, and it will not run. Just run deployment again. This could be automated at some point.
 
 #Backup
 
