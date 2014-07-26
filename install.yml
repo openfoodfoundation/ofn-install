@@ -40,7 +40,3 @@
 
     - role: deploy # (Re)Build and run the app.
       tags: deploy
-      notify: 
-        - restart unicorn
-        - restart nginx
-

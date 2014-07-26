@@ -1,9 +1,12 @@
 ---
 - name: deploy
   hosts: all
-  remote_user: {{ user }}
+  remote_user: "{{ user }}"
   vars_files:
     - vars.yml
   roles: 
-    - deploy
-- include: roles/webserver/handlers/main.yml
+    - role: deploy
+      notify:
+        - restart unicorn
+  handlers:
+    - include: roles/webserver/handlers/main.yml

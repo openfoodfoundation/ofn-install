@@ -48,8 +48,8 @@
     LC_COLLATE: "{{ language }}"
   tags: bundle_app
   notify:
+    - precompile assets
     - restart unicorn
-    - restart nginx
 
 #--------------------
 # Get timestamp
@@ -76,8 +76,7 @@
 - name: Create a repo rollback version
   command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
 - name: Create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} removes={{ rollback_path }}
-
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} 
 
 #-------------------------
 # Move new code into place
@@ -116,8 +115,8 @@
   command: bash -lc "{{ config_path }}/seed.sh RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   tags: rake
   notify:
+    - precompile assets
     - restart unicorn
-    - restart nginx
 
 # Fix to get around database errors when this is done before schema:load. TODO fix this elsewhere.
 - name: Symlink spree initializer into the repo
@@ -125,36 +124,5 @@
   with_items:
     - { src: "{{ config_path }}/spree.rb", dest: "{{ current_path }}/config/initializers/spree.rb" }
   tags:
-    - spree
     - rake
-
-#------------------
-# Precompile assets
-
-# TODO make precompile conditional to speed things up.
-- name: Precompile primary assets
-  command: bash -lc "{{ bundle_path }} exec rake assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
-  tags:
-    - precompile
-    - rake
-  notify:
-    - restart unicorn
-    - restart nginx
-
-- name: Precompile nondigest assets
-  command: bash -lc "{{ bundle_path }} exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
-  tags:
-    - precompile
-    - rake
-  notify:
-    - restart unicorn
-    - restart nginx
-
-
-#------------------
-# Backup rollback version
-
-- name: Creat a repo rollback version
-  command: cp {{ current_path }} {{ rollback_path }}/{{ current_date.stdout }}
-  ignore_errors: yes
 

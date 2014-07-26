@@ -1,8 +1,11 @@
 ---
 
 - hosts: all
-  remote_user: {{ user }}
+  remote_user: "{{ user }}"
   vars_files:
     - vars.yml
+  handlers:
+    - include: roles/webserver/handlers/main.yml
+    - include: roles/deploy/handlers/main.yml
   roles: 
-    - rollback
+    - role: rollback
