@@ -1,5 +1,11 @@
 --- # Deploy
 
+# Remove old rollbacks so they aren't used accidentally after errors.
+- name: Remove the old rollback
+  file: dest={{ rollback_path }} state=absent
+- name: Remove the old rollback database
+  file: dest={{ rollback_sql_path }} state=absent
+
 #----------------
 # Build codebase
 
@@ -61,11 +67,6 @@
 
 #--------------------------
 # Create a rollback release
-
-- name: Remove the old rollback
-  file: dest={{ rollback_path }} state=absent
-- name: Remove the old rollback database
-  file: dest={{ rollback_sql_path }} state=absent
 
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
 - name: Create a database rollback version
