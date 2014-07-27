@@ -77,7 +77,7 @@
 - name: Create a repo rollback version
   command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
 - name: Create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} 
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} removes={{ rollback_path }}
 
 #-------------------------
 # Move new code into place
