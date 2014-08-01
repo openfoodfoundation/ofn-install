@@ -18,7 +18,7 @@ user_pass: vagrant #ubuntu
 
 
 # Connecting to the server
-#   ssh_pubkey - Location of the SSH public key file for the user created by running "ansible user.yml -f 10"  The location is on your local machine.  Ex: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
+#   ssh_pubkey - Location of the SSH public key file for the user created by running "ansible user.yml -f 10"  The location given is the path on your local machine.  Ex: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 #  The Ansible scripts will put it up onto the proper location on the OFN server. This might be used by hosts (like DigitalOcean) that require or encourage you to connect using SSH instead of just passwords.
 ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 
