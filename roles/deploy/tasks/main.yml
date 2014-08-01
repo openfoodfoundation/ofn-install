@@ -39,8 +39,8 @@
   ignore_errors: yes
 
 - name: Install app dependencies
-  #TODO make the "--without development" part conditonal on rails_env
-  # Note: the 'LANG=...' is a fix fro broken rubygems utf8 handling.
+  #TODO make the "--without development" part conditional on rails_env
+  # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: bash -lc "LANG={{ language }} LC_ALL={{ language }} LC_COLLATE={{ language }} {{ bundle_path }} install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
   environment:
     LANG: "{{ language }}"
