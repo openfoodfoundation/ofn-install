@@ -1,62 +1,96 @@
 #----------------------------------------------------------------------
-# Variables to get your open foo network instance running
+# Variables to get your Open Food Network instance running
 # 
 # Copy this file to vars.yml before filling out!
 #----------------------------------------------------------------------
 
 
 ###########################################################################################
-# IMPORTANT VARIABLES - This is your chance! express your true individuality and set these. 
+# IMPORTANT VARIABLES - This is your chance! express your true individuality and set these.
+#  Modify these to suit your particular system and configuration.
 
-# User variables - we use vagrant for vagrant boxes and otherwise 'ubuntu' as it's a common default on systems where the user is allready set up.
+# User name and password for running scripts
+#   user - the user (name) that will be used to run these playbooks as.  Ex:  vagrant Ex: ubuntu
+#   user_pass - password for 'user'
+# We use 'vagrant' as the user for vagrant boxes and  otherwise use 'ubuntu' as the user.  'ubuntu' is a common default user on systems where the user is already set up.  (Be sure to replace the password with something strong!)
 user: vagrant #ubuntu
 user_pass: vagrant #ubuntu
 
-# Your domain name - without http://www etc.
-domain: openfoodnetwork.xxx 
 
-# Production and staging environments require SSL certificates and protocol set to https.
-rails_env: development # production, staging, development or testing. 
-# For https you will need to add server.crt and server.key files to the 'files' directory.
-protocol: http # http or https 
-
-# Set the git repository
-git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-version: HEAD # Tag, branch, commit reference or HEAD
-
-# You will want to set a new db password in production and staging environments.
-db_pass: f00d
-
-# Set admin email and password for logging in to the app.
-admin_email: admin@example.com
-admin_pass: f00dies
-
-# For digital ocean builds or anywhere you have to set up the default user (by running "ansible user.yml -f 10"), 
-# you will need to suply location of an SSH public key for the connection, on your local machine.
+# Connecting to the server
+#   ssh_pubkey - Location of the SSH public key file for the user created by running "ansible user.yml -f 10"  The location given is the path on your local machine.  Ex: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
+#  The Ansible scripts will put it up onto the proper location on the OFN server. This might be used by hosts (like DigitalOcean) that require or encourage you to connect using SSH instead of just passwords.
 ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 
-# Place to store database backups on your local machine (where ansible runs)  when running the backup task.
-local_backup_path: /home/your_username/backups/{{ app }}
 
-# Place to store rsynced files locally when running the backup task.
-local_rsync_path: /home/your_username/backups/{{ app }}
-
+# Language/Locale info
+#   language - the i18n language and encoding. Used by bundler and apt Ex: en_au.utf-8
+#   language_packages - the language pack(s) to download; should be a list of 1 or more language packs.  Used by apt. Ex: language-pack-en-base
 # Set the language type for your locale
 language: en_au.utf-8
 # Set the language pack to download
-language_packages: 
+language_packages:
   - language-pack-en-base
 
-# Set newrelic key for application monitoring. Set to "none" to not use newrelic.
-newrelic_key: none
 
-# Set bugnsag key for bug monitoring. Set to "none" to not use bugsnag.
+# OFN domain name
+#   domain - the domain name for the OFN system. Used by nginx. Ex: openfoodnetwork.co.uk  Do not include "http://www." or "http://" or "https://" or "https://www" etc.  Can be replaced with an IP address during development or testing
+domain: openfoodnetwork.xxx 
+
+
+# Current Rails environment and protocol
+#   rails_env - Must be one of: production, staging, development, or testing.
+#   protocol - Must be either  http or https
+# Note that the production and staging environments REQUIRE that the protocol be set to https and that you have SSL certificate files ('server.crt' and 'server.key').  Put these SSL certificate files in the /files directory so that the ansible scripts can find them and install them as necessary.
+rails_env: development # production, staging, development or testing.
+protocol: http # http or https
+
+
+# Git repository and tag to use
+#   git_repo - git repository URL to use Ex:  https://github.com/openfoodfoundation/openfoodnetwork.git
+#   version - exactly which tag, branch, commit reference, or HEAD in the repository to use  Ex: HEAD
+git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
+version: HEAD # Tag, branch, commit reference or HEAD
+
+
+# Database password used by OFN
+#   db_pass - the db password used by OFN; this is put into the /config/database.yml file
+# NOTE: You will want to set a new (different) db password in production and staging environments.
+db_pass: f00d
+
+# OFN users
+#   admin_email - the OFN admin user created by these scripts. Needed so you can log in to OFN to configure the system and enter information.  Ex: admin@example.com
+#   admin_pass - the password for the OFN admin user created by these scripts.  Ex: f00dies
+admin_email: admin@example.com
+admin_pass: f00dies
+
+
+# OFN monitoring and instrumentation
+#   newrelic_key - the Newrelic key for application monitoring. Set to "none" to NOT use newrelic.
+#   bugsnag_key - the Bugnsag key for bug monitoring. Set to "none" to not use bugsnag.
+newrelic_key: none
 bugsnag_key: none
 
-# Set amazon s3 image hosting keys. Set to "none" to not use s3.
+
+# Asset and content delivery
+#  Amazon S3 image hosting:
+#   s3_bucket -  The bucket id.  Set to none to NOT use s3
+#   s3_access_key_id - The access key.  Set to none to NOT use s3
+#   s3_secret_access_key - The secret access key.  Set to none to NOT use s3
 s3_bucket: none
 s3_access_key_id: none
 s3_secret_access_key: none
+
+
+##----------------------
+##  BACKUPS
+
+# Paths
+#   local_backup_path - Place to store database backups on your local machine (where ansible runs)  when running the backup task. Ex: /home/your_username/backups/{{ app }}
+#   local_rsync_path - Place to store rsynced files locally when running the backup task. Ex: /home/your_username/backups/{{ app }}
+local_backup_path: /home/your_username/backups/{{ app }}
+local_rsync_path: /home/your_username/backups/{{ app }}
+
 
 
 ###########################################################################################
