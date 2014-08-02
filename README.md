@@ -42,6 +42,9 @@ You will need to install the following additional Ansible modules before running
 ##4. A vars.yml File that has Values Set for Your Specific OFN Installation
 The playbooks use values set in the `vars.yml` file to accomplish their tasks. Information includes such things as the specific domain name for your OFN system, the password to the database used by OFN, file names, paths, etc.  This repository does *not* have a `vars.yml` file by default:  You must copy the `example-vars.yml` file to create your own `vars.yml` file.  (Ex: `cp example-vars.yml vars.yml`)  Then you must edit the `vars.yml` file and put in the values that are appropriate for your system and set-up.  Note that you may need to edit your `vars.yml` file before running a playbook; you may want to change the `rails_env` from `testing` to `staging` for example.  In other words, you don't just create and edit the `vars.yml` file once and forget about it.
 
+If you're not familiar with YAML, read more at [the official YAML site.](http://www.yaml.org/)  
+
+You can validate the syntax of your vars.yml file with the [Online YAML Parser.](http://yaml-online-parser.appspot.com)
    
 
 

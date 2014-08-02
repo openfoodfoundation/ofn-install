@@ -2,6 +2,17 @@
 # Variables to get your Open Food Network instance running
 # 
 # Copy this file to vars.yml before filling out!
+#
+# This is a YAML file. Read more about YAML syntax at the official YAML site:
+#  http://www.yaml.org
+#
+#  Note that YAML expects a space after the colon that follows a key (variable) name.
+#  For example, given the key "user", and the value "ubuntu" YAML expects the line
+#  to be written like this:
+#    user: ubuntu   # note the space after the colon
+#
+# You can validate the syntax of your vars.yml file with the Online YAML Parser:
+#  http://yaml-online-parser.appspot.com
 #----------------------------------------------------------------------
 
 
