@@ -2,4 +2,5 @@
 ssl.crt
 ssl.key
 vars.yml
-files/
+files/*
+-files/README.md
