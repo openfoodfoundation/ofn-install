@@ -32,7 +32,7 @@
     - role: mortik.nginx-rails # Install nginx. If missing run: ansible-galaxy install mortik.nginx-rails
       sudo: yes
       templates:
-        - { src: "templates/nginx.conf", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
+        - { src: "templates/nginx.conf.j2", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
       tags: nginx
 
     - role: webserver # Build the unicorn webserver.
