@@ -21,7 +21,7 @@
   tags: clone_local
 
 
-- name: Symlink into the repo
+- name: Symlink into the repo. Ugly hack until we have better configuration management.
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
@@ -32,6 +32,8 @@
     - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
     - { src: "{{ config_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
     - { src: "{{ config_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
+    - { src: "{{ config_path }}/open_food_network.rb", dest: "{{ build_path }}/config/initializers/open_food_network.rb" }
+    - { src: "{{ config_path }}/secet_token.rb", dest: "{{ build_path }}/config/initializers/secret_token.rb" }
   tags: symlink
 
 - name: Symlink optional files into the repo
