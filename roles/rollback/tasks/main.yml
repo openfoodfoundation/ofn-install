@@ -1,7 +1,5 @@
 --- # Rollback
 
-# Currently untested!!! use at your own risk.
-
 - name: Remove current path
   file: dest={{ current_path }} state=absent
 
@@ -9,7 +7,7 @@
   command: cp -r {{ rollback_path }} {{ current_path }} creates={{ current_path }}
 
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
-- name: Copy rollabck db to live db
+- name: Copy rollback db to live db
   shell: gunzip -c {{ rollback_sql_path }} | sudo -u postgres psql {{ db }} 
   notify:
     - precompile assets
