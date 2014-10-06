@@ -3,22 +3,21 @@
 # Remove old rollbacks so they aren't used accidentally after errors.
 - name: Remove the old rollback
   file: dest={{ rollback_path }} state=absent
+  tags: clone
 - name: Remove the old rollback database
   file: dest={{ rollback_sql_path }} state=absent
+  tags: clone
 
 #----------------
 # Build codebase
 
 - name: Remove the old build path
   file: dest={{ build_path }} state=absent
-
-- name: Update repo
-  git: repo="{{ git_repo }}" dest="{{ repo_path }}" version="{{ version }}" force=yes bare=yes
   tags: clone
 
-- name: Copy repo to build
-  git: repo={{ repo_path }} dest={{ build_path }} version="{{ version }}" force=yes 
-  tags: clone_local
+- name: Build codebase from git repo at version
+  git: repo={{ git_repo }} dest={{ build_path }} version="{{ version }}" force=yes 
+  tags: clone
 
 
 - name: Symlink into the repo. Ugly hack until we have better configuration management.
@@ -112,10 +111,14 @@
 - name: Migrate database
   command: bash -lc "{{ bundle_path }} exec rake db:migrate RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   tags: rake
+  notify:
+    - precompile assets
+    - restart unicorn
 
 - name: Seed database
   # We run a shell script that passes the default email and password to rake with an EOF block, so we don't hang on the prompts.
   command: bash -lc "{{ config_path }}/seed.sh RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
+  when: table_exists.stderr.find('does not exist') != -1
   tags: rake
   notify:
     - precompile assets
