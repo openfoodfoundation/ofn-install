@@ -17,8 +17,8 @@
 
 
 ###########################################################################################
-# IMPORTANT VARIABLES - This is your chance! express your true individuality and set these.
-#  Modify these to suit your particular system and configuration.
+# IMPORTANT VARIABLES 
+# Modify these to suit your particular system and configuration.
 
 # User name and password for running scripts
 #   user - the user (name) that will be used to run these playbooks as.  Ex:  vagrant Ex: ubuntu
@@ -35,19 +35,24 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 
 
 # Language/Locale info
-#   language - the i18n language and encoding. Used by bundler and apt Ex: en_AU.UTF-8
+#   country_code      - iso standard country code, two uppercase letters. Ex: AU
+#   language          - the i18n language and encoding.  Ex: en_AU.UTF-8
 #   language_packages - the language pack(s) to download; should be a list of 1 or more language packs.  Used by apt. Ex: language-pack-en-base
 # Set the language type for your locale
+country_code: AU
 language: en_AU.UTF-8
 # Set the language pack to download
 language_packages:
   - language-pack-en-base
 
-
 # OFN domain name
 #   domain - the domain name for the OFN system. Used by nginx. Ex: openfoodnetwork.co.uk  Do not include "http://www." or "http://" or "https://" or "https://www" etc.  Can be replaced with an IP address during development or testing
 domain: openfoodnetwork.xxx 
 
+# Secret Token
+# This is required to verify session. It must me 30 characters and random. This must be changed for a production server.
+# Generate one with a bash command like: openssl rand -hex 128
+secret_token: '6d784d49173d0ec820f20cfce151717bd12570e9d261460e9d3c295b90c1fd81e3843eb1bec79d9e6d4a7f04d0fd76170ca0c326ffb0f2da5b7a0b50c7442a4c'
 
 # Current Rails environment and protocol
 #   rails_env - Must be one of: production, staging, development, or testing.
@@ -70,7 +75,8 @@ version: HEAD # Tag, branch, commit reference or HEAD
 db_pass: f00d
 
 # OFN users
-#   admin_email - the OFN admin user created by these scripts. Needed so you can log in to OFN to configure the system and enter information.  Ex: admin@example.com
+#   admin_email - the OFN admin user created by these scripts. Needed so you can log in to OFN to 
+#       configure the system and enter information.  Ex: admin@example.com
 #   admin_pass - the password for the OFN admin user created by these scripts.  Ex: f00dies
 admin_email: admin@example.com
 admin_pass: f00dies
@@ -105,7 +111,7 @@ local_rsync_path: /home/your_username/backups/{{ app }}
 
 
 ###########################################################################################
-# OTHER VARIABLES - You can probably go with the herd and leave these as is. we won't tell.
+# OTHER VARIABLES - You can probably go with the herd and leave these as is.
 
 #----------------------------------------------------------------------
 # Rails variables
