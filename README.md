@@ -5,16 +5,10 @@ These are [Ansible] playbooks (scripts)  for managing an Open Food Network app s
 
 These are the main Ansible playbooks:
 
-* **Install** the underlying software and systems needed by OFN onto a server, then use the **deploy** playbook to install and deploy OFN on the server.
-* **Deploy** OFN to a server by copying OFN from a git repo to the server and using ruby/rake/rails tasks to configure OFN so it will run.
-* **Backup** database files on the server and also to a local machine
-
-
-You first must set up a server with the **install** playbook.  This will set up the software and systems that OFN needs and will also call the **deploy** playbook to put OFN onto your server and get it up and running.
-
-You can use the **deploy** playbook repeatedly to deploy specific (e.g. newer/updated) versions of OFN onto your server.
-
-You can use the **backup** playbook to make backups of the OFN database.
+* install.yml - Install the underlying software and systems needed by OFN onto a server,.
+* deploy.yml - Deploy OFN to the server by copying a git repo to the server and using ruby/rake/rails tasks to configure and migrate.
+* rollback.yml - rollback the database and codebase to the previous version.
+* backup.yml - Backup database and image files on the server to the local machine.
 
 
 The playbooks take information from the vars.yml file. You *must* create your own copy of the file and edit it to put in information that is specific to your OFN installation. Read more in the Requirements section below.
@@ -40,7 +34,7 @@ You will need to install the following additional Ansible modules before running
 * `ansible-galaxy install mortik.nginx-rails`
 
 ##4. A vars.yml File that has Values Set for Your Specific OFN Installation
-The playbooks use values set in the `vars.yml` file to accomplish their tasks. Information includes such things as the specific domain name for your OFN system, the password to the database used by OFN, file names, paths, etc.  This repository does *not* have a `vars.yml` file by default:  You must copy the `example-vars.yml` file to create your own `vars.yml` file.  (Ex: `cp example-vars.yml vars.yml`)  Then you must edit the `vars.yml` file and put in the values that are appropriate for your system and set-up.  Note that you may need to edit your `vars.yml` file before running a playbook; you may want to change the `rails_env` from `testing` to `staging` for example.  In other words, you don't just create and edit the `vars.yml` file once and forget about it.
+The playbooks use values set in the `vars.yml` file to accomplish their tasks. Information includes such things as the specific domain name for your OFN system, the password to the database used by OFN, file names, paths, etc.  This repository does *not* have a `vars.yml` file by default:  You must copy the `example-vars.yml` file to create your own `vars.yml` file.  (Ex: `cp example-vars.yml vars.yml`)  Then you must edit the `vars.yml` file and put in the values that are appropriate for your system and set-up.  
 
 If you're not familiar with YAML, read more at [the official YAML site.](http://www.yaml.org/)  
 
@@ -144,9 +138,7 @@ Run:
 
 ##Build and Install Notes
 
-For production and staging servers you will need to enter the site url and smtp details through the admin mail interface before the site is fully functional.
-
-*@TODO What does this mean?  What "admin mail interface" is this?  OFN?  ubuntu?*
+For production and staging servers you will need to enter the site url and smtp details through the OFN admin interface before the site is fully functional.
 
 
 #Deploy
@@ -173,14 +165,14 @@ Be sure that you have specified the git repo that you want and the exact version
 
 ###2. Add Seed Data Specific to your OFN Installation (optional)
 
-If you don't want to use seed (initial) data specific to Australia *and you haven't already provided it,* or if you want to update it, provide your own country, state and postcode (a.k.a. suburb or zipcode) files for your location. This is a work-around until a cleaner config process is available.
+If you don't want to use seed (initial) data specific to Australia or if you want to update it, provide your own country, state and postcode (a.k.a. suburb or zipcode) files for your location. This is a work-around until a cleaner config process is available.
 
 These are the files that are used for seed data:
 
 * db/default/spree/states.yml
 * db/default/spree/countries.yml
 * db/seeds.rb
-* db/suburb_seeds.rb - This suburbs data is not currently used but may be again in future. But don't spend too much time on it!
+* db/suburb_seeds.rb
 * config/initializers/spree.rb
 
 Look at the existing files in the openfoodnetwork repo for examples of how the files are used.
