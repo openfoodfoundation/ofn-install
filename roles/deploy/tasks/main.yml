@@ -19,7 +19,6 @@
   git: repo={{ git_repo }} dest={{ build_path }} version="{{ version }}" force=yes 
   tags: clone
 
-
 - name: Symlink into the repo. Ugly hack until we have better configuration management.
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
   with_items:
@@ -30,20 +29,25 @@
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
     - { src: "{{ config_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
+    - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
     - { src: "{{ config_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
-    - { src: "{{ config_path }}/open_food_network.rb", dest: "{{ build_path }}/config/initializers/open_food_network.rb" }
-    - { src: "{{ config_path }}/secet_token.rb", dest: "{{ build_path }}/config/initializers/secret_token.rb" }
+    - { src: "{{ config_path }}/secret_token.rb", dest: "{{ build_path }}/config/initializers/secret_token.rb" }
   tags: symlink
 
-- name: Symlink optional files into the repo
-  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
-  with_items:
-    - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
-    - { src: "{{ config_path }}/bugsnag.rb", dest: "{{ build_path }}/config/bugsnag.rb" }
-    - { src: "{{ config_path }}/newrelic.yml", dest: "{{ build_path }}/config/newrelic.yml" }
-    - { src: "{{ config_path }}/s3.yml", dest: "{{ build_path }}/config/s3.yml" }
+- name: Symlink the bugsnag file into the config folder
+  file: src="{{ config_path }}/bugsnag.rb" dest={{ build_path }}/config/bugnsag.rb state=link force=yes owner={{ user }} mode=775 
+  when: bugsnag_key != "none"
   tags: symlink
-  ignore_errors: yes
+
+- name: Symlink the newrelic file into the config folder
+  file: src="{{ config_path }}/newrelic.yml" dest={{ build_path }}/config/newrelic.yml state=link force=yes owner={{ user }} mode=775
+  when: newrelic_key != "none"
+  tags: symlink
+
+- name: Symlink the s3 file to the config folder
+  file: src="{{ config_path }}/s3.yml" dest={{ build_path }}/config/s3.yml state=link force=yes owner={{ user }} mode=775
+  when: s3_bucket != "none"
+  tags: symlink
 
 - name: Install app dependencies
   #TODO make the "--without development" part conditional on rails_env

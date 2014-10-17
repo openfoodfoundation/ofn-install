@@ -25,7 +25,6 @@
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
     - { src: "secret_token.rb.j2", dest: "{{ config_path }}/secret_token.rb" }
-    - { src: "open_food_network.rb.j2", dest: "{{ config_path }}/open_food_network.rb" }
   tags: app_templates
       
 - name: Copy the bugsnag file into the shared folder
@@ -33,11 +32,11 @@
   when: bugsnag_key != "none"
 
 - name: Copy the newrelic file into the shared folder
-  template: src=newrelic.yml.j2 dest={{ shared_path }}/config/newrelic.yml owner={{ user }} mode=775
+  template: src=newrelic.yml.j2 dest={{ config_path }}/newrelic.yml owner={{ user }} mode=775
   when: newrelic_key != "none"
 
 - name: Copy the s3 file to the shared folder
-  template: src=s3.yml dest={{ shared_path }}/config/s3.yml owner={{ user }} mode=775
+  template: src=s3.yml dest={{ config_path }}/s3.yml owner={{ user }} mode=775
   when: s3_bucket != "none"
 
 
