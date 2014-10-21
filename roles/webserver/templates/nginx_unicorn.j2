@@ -4,11 +4,12 @@ upstream unicorn {
 
 server {
 {% if protocol == 'https' %}
-  listen 443;
+  listen 80 default deferred;
+  listen 443 default ssl;
 {% else %}
   listen 80;
 {% endif %}
-  # server_name {{ domain }};
+  server_name {{ domain }};
   root {{ current_path }}/public;
 {% if protocol == 'https' %}
 
