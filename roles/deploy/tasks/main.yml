@@ -52,7 +52,7 @@
 - name: Install app dependencies
   #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
-  command: bash -lc "LANG={{ language }} LC_ALL={{ language }} LC_COLLATE={{ language }} {{ bundle_path }} install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
+  command: bash -lc "bundle install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
   environment:
     LANG: "{{ language }}"
     LC_ALL: "{{ language }}"
@@ -102,18 +102,18 @@
   tags: rake
 
 - name: Create database if it doesnt exist
-  command: bash -lc "{{ bundle_path }} exec rake db:create RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
+  command: bash -lc "bundle exec rake db:create RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
 - name: Load Schema if it isnt loaded # TODO fix this so it actually works if the database exists but the table doesn't.
-  command: bash -lc "{{ bundle_path }} exec rake db:schema:load RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
+  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   # TODO check that both database and table do not exist so this still runs if the database is already there but empty.
   when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
 - name: Migrate database
-  command: bash -lc "{{ bundle_path }} exec rake db:migrate RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
+  command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   tags: rake
   notify:
     - precompile assets

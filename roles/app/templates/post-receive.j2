@@ -1,6 +1,5 @@
 #!/bin/sh
 
-BUNDLE={{ bundle_path }}
 GEM_PATH={{ gem_path }}
 
 cd $APP_ROOT || exit 1
@@ -19,7 +18,7 @@ ln -s -f {{ config_path }}/newrelic.yml  {{ current_path }}/config/newrelic.yml
 
 # Install the required gems
 # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
-LANG=en_US.UTF-8 $BUNDLE install --gemfile  {{ current_path }}/Gemfile --path $GEM_PATH --deployment --without development test
+LANG=en_US.UTF-8 bundle install --gemfile  {{ current_path }}/Gemfile --path $GEM_PATH --deployment --without development test
 
 # Update the DB schema
 $BUNDLE exec rake RAILS_ENV={{ rails_env }} db:migrate

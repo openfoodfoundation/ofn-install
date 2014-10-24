@@ -3,8 +3,8 @@
 
 # TODO make precompile conditional to speed things up.
 - name: precompile assets
-  command: bash -lc "{{ bundle_path }} exec rake assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
+  command: bash -lc "bundle exec rake assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   notify: precompile nondigest assets
 
 - name: precompile nondigest assets
-  command: bash -lc "{{ bundle_path }} exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
+  command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
