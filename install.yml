@@ -33,6 +33,7 @@
       sudo: yes
       templates:
         - { src: "templates/nginx.conf.j2", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
+        - { src: "templates/ssl.js.j2", dest: "{{ nginx_path }}/{{ app }}_ssl", mode: "644" }
       tags: nginx
 
     - role: webserver # Build the unicorn webserver.

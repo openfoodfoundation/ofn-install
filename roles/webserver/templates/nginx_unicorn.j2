@@ -3,18 +3,39 @@ upstream unicorn {
 }
 
 server {
+  listen 80;
 {% if protocol == 'https' %}
-  listen 80 default deferred;
-  listen 443 default ssl;
+  server_name  www.{{ domain }} {{ domain }};
+{% else %}
+  server_name  www.{{ domain }};
+{% endif %}
+  rewrite ^/(.*) {{ protocol }}://{{ domain }}/$1 permanent;
+}
+
+{% if protocol == 'https' %}
+server {
+  listen 443;
+
+  include {{ app }}_ssl;
+
+  server_name www.{{ domain }};
+  rewrite ^(.*) {{ protocol }}://{{ domain }}/$1 permanent;
+}
+{% endif %}
+
+server {
+{% if protocol == 'https' %}
+  listen 443;
 {% else %}
   listen 80;
 {% endif %}
   server_name {{ domain }};
-  root {{ current_path }}/public;
+  root {{ app_root }}/public;
 {% if protocol == 'https' %}
 
   include {{ app }}_ssl;
 {% endif %}
+
 {% if basic_auth %}
 
   auth_basic            "Restricted";
