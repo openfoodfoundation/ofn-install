@@ -117,7 +117,6 @@ local_rsync_path: /home/your_username/backups/{{ app }}
 # Rails variables
 ruby: 1.9.3-p392
 gem_path: /home/{{ user }}/.gem
-bundle_path: /home/{{ user }}/.rbenv/shims/bundle
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
