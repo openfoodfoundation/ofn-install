@@ -92,8 +92,8 @@ Put these seed files into the 'files' folder.  (Do not put them into any subdire
 
 For production and staging environments, you will need SSL certificates for the OFN domain name.  (The domain name is specified in the `vars.yml` file.)  Specifically, you will need to provide these two files with these exact file names:
 
-* server.crt 
-* server.key 
+* ssl.crt 
+* ssl.key 
 
 Put these in the `files` folder.
 
