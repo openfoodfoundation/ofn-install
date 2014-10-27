@@ -124,7 +124,7 @@ Ansible needs at least one user created on the system so that it can run and ins
 
 On DigitalOcean servers and any system where there is no default user set up, you will need to run the `user.yml` playbook.
 
-`ansible-playbook user.yml -f 10 -vvvv`
+`ansible-playbook user.yml`
 
 On Vagrant this is done automatically.
 
@@ -135,7 +135,7 @@ On standard Amazon (AWS) Ubuntu images that block root login, the `user.yml` pla
 
 Run:
 
-`ansible-playbook install.yml -f 10`
+`ansible-playbook install.yml`
 
 (with `-vvvv` for full debug output)
 
@@ -165,7 +165,7 @@ This list isn't comprehensive; those are the highlights.
 
 Make sure that the git repo has the OFN code (e.g. by pushing code to your repo or branch, or cloning from a different repo), then run:
 
-`ansible-playbook deploy.yml -f 10`
+`ansible-playbook deploy.yml`
 
 (with `-vvvv` for full debug output)
 
@@ -180,7 +180,7 @@ There is a timestamped backup process included in deployment and a rollback vers
 
 If the deployment script fails after the "Create a repo backup version" task you may need to roll it back to have a functional site, by running:
 
-`ansible-playbook rollback.yml -f 10`
+`ansible-playbook rollback.yml`
 
 Failures before this don't need rollback, and it will not run. Just run deployment again. This could be automated at some point.
 
@@ -194,7 +194,7 @@ Be sure that you have specified paths for where the backups should be on your se
 
 To backup on the server and to the local machine run:
 
-`ansible-playbook backup.yml -f 10`
+`ansible-playbook backup.yml`
 
 ### Backup notes
 
