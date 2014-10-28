@@ -1,10 +1,10 @@
 ---
 - name: deploy
-  hosts: all
+  hosts: ofn_servers
   remote_user: "{{ user }}"
   vars_files:
     - vars.yml
-  roles: 
+  roles:
     - role: deploy
       notify:
         - restart unicorn
