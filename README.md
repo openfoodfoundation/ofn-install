@@ -124,12 +124,12 @@ staging.openfoodnetwork.org ansible_ssh_host=<your IP here>
 
 Change the URL as appropriate for a production or test server.
 
-Note: `ansible-playbook` commands need to include `-i staging` to use this inventory file.
+**Note**: `ansible-playbook` commands need to include `-i staging` to use this inventory file.
 
 
-## Set up the server and a user
+## Setup the server and a user
 
-### Set Up an Ubuntu Precise 64 Box
+### Setup an Ubuntu Precise 64 box
 
 You will need to set up an instance of [Ubuntu "Precise Pangolin" x64 server](https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuServer) (a.k.a. *an Ubuntu Precise 64 box*), though this may work on other Debian based systems too.
 
@@ -142,7 +142,7 @@ The DigitalOcean Ubuntu precise 64 image is solidly tested, and Amazon Ubuntu pr
 
 ### Set up a default user
 
-Ansible needs at least one user created on the system so that it can run and install software as that user. You specify the user name and password user in your `vars.yml` file.  (On Ubuntu systems, it is standard practice to create a user named "ubuntu" for this purpose.)
+Ansible needs at least one user created on the system so that it can run and install software as that user. You specify the user name and password user in your `vars.yml` file.  (On Ubuntu systems, it is standard practice to create a user named `ubuntu` for this purpose.)
 
 On DigitalOcean servers and any system where there is no default user set up, you will need to run the `user.yml` playbook.
 
@@ -163,17 +163,17 @@ Run:
 
 ### Build and install notes
 
-For production and staging servers you will need to enter the site url and smtp details through the OFN admin interface before the site is fully functional.
+For production and staging servers you will need to enter the site URL and SMTP details through the OFN admin interface before the site is fully functional.
 
 
 
 ## Deployment
 
-This gets a copy of `openfoodnetwork` from a git repo that your specify (in `vars.yml`), put it onto the server, and then do ruby/rake/rails tasks and configuration needed so that it can run.  The main tasks accomplished are:
+This gets a copy of [openfoodnetwork](https://github.com/openfoodfoundation/openfoodnetwork) from a git repo that your specify (in `vars.yml`), put it onto the server, and then do ruby/rake/rails tasks and configuration needed so that it can run.  The main tasks accomplished are:
 
 * copy OFN from a git repo to the server
-* create the db if needed
-* run db migrations
+* create the database if needed
+* run database migrations
 * precompile assets used by OFN
 * creates seed data
 * creates an initial admin user
