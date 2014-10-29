@@ -10,7 +10,7 @@ These are the main Ansible playbooks:
 * `rollback.yml` - Rollback the database and codebase to the previous version.
 * `backup.yml` - Backup database and image files on the server to the local machine.
 
-The playbooks take information from the `vars.yml` file. You *must* create your own copy of the file and edit it to put in information that is specific to your OFN installation. Read more in the Requirements section below.
+The playbooks take information from the `vars.yml` file. You *must* create your own copy of the file and edit it to put in information that is specific to your OFN installation. Read more in the Setup section below.
 
 You may want to use the [anisble option "checkrun"](http://docs.ansible.com/playbooks_checkmode.html) to do a dry-run of the playbooks.  (With this option, Ansible will run the playbooks, but not actually make changes on the server.)
 
@@ -30,25 +30,24 @@ Install Ansible by following the documentation on [the official Ansible site.]  
 You will need to install the following additional Ansible modules before running the OFN provisioning playbooks: `zzet.rbenv` and `mortik.nginx-rails`.  Install by running:
 
 `ansible-galaxy install zzet.rbenv`
+
 `ansible-galaxy install mortik.nginx-rails`
 
 
 
 ## Setup
 
-### A vars.yml File that has Values Set for Your Specific OFN Installation
-The playbooks use values set in the `vars.yml` file to accomplish their tasks. Information includes such things as the specific domain name for your OFN system, the password to the database used by OFN, file names, paths, etc.  This repository does *not* have a `vars.yml` file by default:  You must copy the `example-vars.yml` file to create your own `vars.yml` file.  (Ex: `cp example-vars.yml vars.yml`)  Then you must edit the `vars.yml` file and put in the values that are appropriate for your system and set-up.
+### Setup vars.yml file
+
+The playbooks use values set in the `vars.yml` file to accomplish their tasks. Information includes such things as the specific domain name for your OFN system, the password to the database used by OFN, file names, paths, etc. If you haven't already created a `vars.yml` file, copy the provided `example-vars.yml` to `vars.yml` and fill in your site-specific variables:
+
+`cp example-vars.yml vars.yml`
+
+Then you must edit the `vars.yml` file and put in the values that are appropriate for your system and set-up.
 
 If you're not familiar with YAML, read more at [the official YAML site.](http://www.yaml.org/)
 
 You can validate the syntax of your vars.yml file with the [Online YAML Parser.](http://yaml-online-parser.appspot.com)
-
-
-### Configure settings in vars.yml
-
-If you haven't already created a `vars.yml` file, copy the provided `example-vars.yml` to `vars.yml` and fill in your site-specific variables:
-
-`cp example-vars.yml vars.yml`
 
 ### Add specific seed data
 
@@ -75,13 +74,25 @@ For production and staging environments, you will need SSL certificates for the 
 
 Put these in the `files` folder.
 
-@TOOD: info on how to format these files.
+#### Creating SSL certificate files
+
+* Purchase a certificate from a provider.
+* Create the two text files above.
+* In `ssl.crt` add the content of the certificate and chain bundle.
+* In `ssl.key` add the content of the private key.
+
+Note: the formatting of these text blocks must be that there are no spaces other than in the start/end lines and each line is 64 characters long.
 
 
 
-## Install
+## Installation
 
-The install playbook installs basic packages (software) and configures them as needed for OFN, then calls the **deploy** playbook to install and deploy OFN onto the server.
+The `install.yml` playbook includes two other playbooks:
+
+* `provision.yml` - install basic packages (software) and configure them as needed
+* `deploy.yml` - install and deploy OFN onto the server
+
+This means all the software can be installed with one command.
 
 Specifically, it installs packages such as curl and git, then installs:
 
@@ -98,11 +109,22 @@ Specifically, it installs packages such as curl and git, then installs:
   [Unicorn]: http://unicorn.bogomips.org/
 
 
-### Specify the Server IP in your local Ansible hosts file
+### Define the inventory
 
-Add the IP or URL for your server(s) to your local ansible hosts file.  (On a unix system, this file is probably at `/etc/ansible/hosts`)
+This is for a staging server:
 
-@TODO: Should this suggest a specific section for OFN?
+* Create a file called `staging`. Add the text below:
+
+```
+# file: staging
+
+[ofn_servers]
+staging.openfoodnetwork.org ansible_ssh_host=<your IP here>
+```
+
+Change the URL as appropriate for a production or test server.
+
+Note: `ansible-playbook` commands need to include `-i staging` to use this inventory file.
 
 
 ## Set up the server and a user
@@ -124,7 +146,7 @@ Ansible needs at least one user created on the system so that it can run and ins
 
 On DigitalOcean servers and any system where there is no default user set up, you will need to run the `user.yml` playbook.
 
-`ansible-playbook user.yml`
+`ansible-playbook -i staging user.yml`
 
 On Vagrant this is done automatically.
 
@@ -135,7 +157,7 @@ On standard Amazon (AWS) Ubuntu images that block root login, the `user.yml` pla
 
 Run:
 
-`ansible-playbook install.yml`
+`ansible-playbook -i staging install.yml`
 
 (with `-vvvv` for full debug output)
 
@@ -165,7 +187,7 @@ This list isn't comprehensive; those are the highlights.
 
 Make sure that the git repo has the OFN code (e.g. by pushing code to your repo or branch, or cloning from a different repo), then run:
 
-`ansible-playbook deploy.yml`
+`ansible-playbook -i staging deploy.yml`
 
 (with `-vvvv` for full debug output)
 
@@ -180,7 +202,7 @@ There is a timestamped backup process included in deployment and a rollback vers
 
 If the deployment script fails after the "Create a repo backup version" task you may need to roll it back to have a functional site, by running:
 
-`ansible-playbook rollback.yml`
+`ansible-playbook -i staging rollback.yml`
 
 Failures before this don't need rollback, and it will not run. Just run deployment again. This could be automated at some point.
 
@@ -194,7 +216,7 @@ Be sure that you have specified paths for where the backups should be on your se
 
 To backup on the server and to the local machine run:
 
-`ansible-playbook backup.yml`
+`ansible-playbook -i staging backup.yml`
 
 ### Backup notes
 
