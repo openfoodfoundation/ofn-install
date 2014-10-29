@@ -122,14 +122,14 @@ This is for a staging server:
 staging.openfoodnetwork.org ansible_ssh_host=<your IP here>
 ```
 
-Change the URL as appropriate for a production or test server.
+Change the URL as appropriate for a production or test server. This is not needed for Vagrant.
 
 **Note**: `ansible-playbook` commands need to include `-i staging` to use this inventory file.
 
 
-## Setup the server and a user
+### Setup the server and a user
 
-### Setup an Ubuntu Precise 64 box
+#### Setup an Ubuntu Precise 64 box
 
 You will need to set up an instance of [Ubuntu "Precise Pangolin" x64 server](https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuServer) (a.k.a. *an Ubuntu Precise 64 box*), though this may work on other Debian based systems too.
 
@@ -140,7 +140,7 @@ For Vagrant, if you don't already have an Ubuntu Precise 64 box set up, run:
 The DigitalOcean Ubuntu precise 64 image is solidly tested, and Amazon Ubuntu precise 64 images have also worked.
 
 
-### Set up a default user
+#### Set up a default user
 
 Ansible needs at least one user created on the system so that it can run and install software as that user. You specify the user name and password user in your `vars.yml` file.  (On Ubuntu systems, it is standard practice to create a user named `ubuntu` for this purpose.)
 
