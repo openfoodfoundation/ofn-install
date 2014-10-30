@@ -1,5 +1,5 @@
 ---
-#TODO make sure both of these things trun as one handler.
+#TODO make sure both of these things run as one handler.
 - name: restart unicorn
   service: 
     name: unicorn_{{ app }} 
