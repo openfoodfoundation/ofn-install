@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vbox|
     config.vm.box = "precise64"
-    # Set box memory.  
+    # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "1792"]
     # Optimise virtualbox.
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
@@ -30,9 +30,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.host_key_checking = false
     ansible.verbose =  'vvvv'
     #ansible.tags = 'deploy' # uncomment this for running only specific tags with vagrant, good for debugging.
-    ansible.extra_vars = { 
+    ansible.extra_vars = {
       ansible_connection: 'ssh',
       ansible_ssh_args: '-o ForwardAgent=yes'
+    }
+    ansible.groups = {
+      "ofn_servers" => ["default"],
+      "all_groups:children" => ["ofn_servers"]
     }
   end
 end
