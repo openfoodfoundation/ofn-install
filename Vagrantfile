@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vbox.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
     # VM network config.
     config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "forwarded_port", guest: 443, host: 44343
     config.vm.network "private_network", type: "dhcp"
 
     config.vm.synced_folder ".", "/vagrant", :create => true
@@ -27,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "install.yml"
+    #ansible.playbook = "deploy.yml"
     ansible.host_key_checking = false
     ansible.verbose =  'vvvv'
     #ansible.tags = 'deploy' # uncomment this for running only specific tags with vagrant, good for debugging.

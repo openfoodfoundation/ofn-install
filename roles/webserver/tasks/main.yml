@@ -1,12 +1,5 @@
 --- # webserver
 
-- name: Check database status
-  command: psql -U postgres -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
-  sudo: yes
-  sudo_user: postgres
-  register: table_exists
-  ignore_errors: yes
-
 - name: copy unicorn files
   template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
   sudo: yes
