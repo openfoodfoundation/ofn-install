@@ -1,0 +1,13 @@
+# Add application configuration variables here, as shown below.
+#
+# Change this, it has serious security implications.
+# Minimum 30 but usually 128 characters. To obtain run 'rake secret', or faster, 'openssl rand -hex 128'
+SECRET_TOKEN: {{ secret_token }}
+
+TIMEZONE: {{ timezone }}
+# Default country for dropdowns etc.
+DEFAULT_COUNTRY: {{ country_code }}
+# Locale for translation.
+LOCALE: {{ locale }}
+# Spree zone.
+CHECKOUT_ZONE: {{ checkout_zone }}

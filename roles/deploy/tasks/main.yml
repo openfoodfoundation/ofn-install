@@ -4,6 +4,7 @@
 - name: Remove the old rollback
   file: dest={{ rollback_path }} state=absent
   tags: clone
+
 - name: Remove the old rollback database
   file: dest={{ rollback_sql_path }} state=absent
   tags: clone
@@ -32,6 +33,7 @@
     - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
     - { src: "{{ config_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
     - { src: "{{ config_path }}/secret_token.rb", dest: "{{ build_path }}/config/initializers/secret_token.rb" }
+    - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
   tags: symlink
 
 - name: Symlink the bugsnag file into the config folder
