@@ -1,4 +1,5 @@
 --- # webserver
+
 - name: copy unicorn files
   template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
   sudo: yes
@@ -6,18 +7,18 @@
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ user }}", group: "{{ user }}" }
     - { src: "nginx_unicorn.j2", dest: "{{ nginx_path }}/sites-available/{{ app }}", mode: "0600", owner: root, group: root }
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
-    
-- name: update unicorn 
+
+- name: update unicorn
   service: name=unicorn_{{ app }} enabled=yes
 
 - name: enable unicorn app with nginx
   file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link mode=644
   sudo: yes
   tags: unicorn-nginx
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
 
@@ -25,7 +26,7 @@
   file: dest={{ nginx_path }}/sites-enabled/default state=absent
   sudo: yes
   tags: unicorn-nginx
-  notify: 
+  notify:
     - restart unicorn
     - restart nginx
 

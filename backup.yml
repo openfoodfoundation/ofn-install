@@ -1,9 +1,10 @@
 ---
-- hosts: all
+- name: backup
+  hosts: ofn_servers
   remote_user: "{{ user }}"
   vars_files:
     - vars.yml
-  roles: 
+  roles:
     - backup
 
 

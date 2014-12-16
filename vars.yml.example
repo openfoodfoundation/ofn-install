@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------
 # Variables to get your Open Food Network instance running
-# 
+#
 # Copy this file to vars.yml before filling out!
 #
 # This is a YAML file. Read more about YAML syntax at the official YAML site:
@@ -17,48 +17,67 @@
 
 
 ###########################################################################################
-# IMPORTANT VARIABLES 
+# IMPORTANT VARIABLES
 # Modify these to suit your particular system and configuration.
 
 # User name and password for running scripts
 #   user - the user (name) that will be used to run these playbooks as.  Ex:  vagrant Ex: ubuntu
 #   user_pass - password for 'user'
-# We use 'vagrant' as the user for vagrant boxes and  otherwise use 'ubuntu' as the user.  'ubuntu' is a common default user on systems where the user is already set up.  (Be sure to replace the password with something strong!)
+# We use 'vagrant' as the user for vagrant boxes and  otherwise use 'ubuntu' as
+# the user.  'ubuntu' is a common default user on systems where the user is
+# already set up.  (Be sure to replace the password with something strong!)
 user: vagrant #ubuntu
 user_pass: vagrant #ubuntu
 
 
 # Connecting to the server
-#   ssh_pubkey - Location of the SSH public key file for the user created by running "ansible user.yml -f 10"  The location given is the path on your local machine.  Ex: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
-#  The Ansible scripts will put it up onto the proper location on the OFN server. This might be used by hosts (like DigitalOcean) that require or encourage you to connect using SSH instead of just passwords.
+#   ssh_pubkey - Location of the SSH public key file for the user created by
+#   running "ansible user.yml -f 10"  The location given is the path on your
+#   local machine.  Ex: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
+# The Ansible scripts will put it up onto the proper location on the OFN server.
+# This might be used by hosts (like DigitalOcean) that require or encourage you
+# to connect using SSH instead of just passwords.
 ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 
 
 # Language/Locale info
 #   country_code      - iso standard country code, two uppercase letters. Ex: AU
+#   locale            - locale code, e.g. 'en' or 'en-AU' (note dash not underscore)
 #   language          - the i18n language and encoding.  Ex: en_AU.UTF-8
-#   language_packages - the language pack(s) to download; should be a list of 1 or more language packs.  Used by apt. Ex: language-pack-en-base
+#   timezone          - timezone name
+#   checkout_zone     - as defined by Spree
+#   language_packages - the language pack(s) to download; should be a list of 1
+#   or more language packs.  Used by apt. Ex: language-pack-en-base
 # Set the language type for your locale
 country_code: AU
+locale: en
 language: en_AU.UTF-8
+timezone: London
+checkout_zone: Europe
 # Set the language pack to download
 language_packages:
   - language-pack-en-base
 
 # OFN domain name
-#   domain - the domain name for the OFN system. Used by nginx. Ex: openfoodnetwork.co.uk  Do not include "http://www." or "http://" or "https://" or "https://www" etc.  Can be replaced with an IP address during development or testing
-domain: openfoodnetwork.xxx 
+#   domain - the domain name for the OFN system. Used by nginx. Ex: openfoodnetwork.co.uk
+#   Do not include "http://www." or "http://" or "https://" or "https://www" etc.
+#   Can be replaced with an IP address during development or testing.
+domain: openfoodnetwork.xxx
 
 # Secret Token
-# This is required to verify session. It must me 30 characters and random. This must be changed for a production server.
+# This is required to verify session. It must me 30 characters and random. This
+# must be changed for a production server.
 # Generate one with a bash command like: openssl rand -hex 128
 secret_token: '6d784d49173d0ec820f20cfce151717bd12570e9d261460e9d3c295b90c1fd81e3843eb1bec79d9e6d4a7f04d0fd76170ca0c326ffb0f2da5b7a0b50c7442a4c'
 
 # Current Rails environment and protocol
 #   rails_env - Must be one of: production, staging, development, or testing.
 #   protocol - Must be either  http or https
-# Note that the production and staging environments REQUIRE that the protocol be set to https and that you have SSL certificate files ('server.crt' and 'server.key').  Put these SSL certificate files in the /files directory so that the ansible scripts can find them and install them as necessary.
-rails_env: development # production, staging, development or testing.
+# Note that the production and staging environments REQUIRE that the protocol be
+# set to https and that you have SSLcertificate files ('ssl.crt' and'ssl.key').
+# Put these SSL certificate files in the /files directory so that the ansible
+# scripts can find them and install them as necessary.
+rails_env: development # production, staging, development or test.
 protocol: http # http or https
 
 
@@ -75,7 +94,7 @@ version: HEAD # Tag, branch, commit reference or HEAD
 db_pass: f00d
 
 # OFN users
-#   admin_email - the OFN admin user created by these scripts. Needed so you can log in to OFN to 
+#   admin_email - the OFN admin user created by these scripts. Needed so you can log in to OFN to
 #       configure the system and enter information.  Ex: admin@example.com
 #   admin_pass - the password for the OFN admin user created by these scripts.  Ex: f00dies
 admin_email: admin@example.com
@@ -103,8 +122,10 @@ s3_secret_access_key: none
 ##  BACKUPS
 
 # Paths
-#   local_backup_path - Place to store database backups on your local machine (where ansible runs)  when running the backup task. Ex: /home/your_username/backups/{{ app }}
-#   local_rsync_path - Place to store rsynced files locally when running the backup task. Ex: /home/your_username/backups/{{ app }}
+#   local_backup_path - Place to store database backups on your local machine
+#   (where ansible runs)  when running the backup task. Ex: /home/your_username/backups/{{ app }}
+#   local_rsync_path - Place to store rsynced files locally when running the
+#   backup task. Ex: /home/your_username/backups/{{ app }}
 local_backup_path: /home/your_username/backups/{{ app }}
 local_rsync_path: /home/your_username/backups/{{ app }}
 

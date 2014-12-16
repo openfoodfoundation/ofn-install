@@ -1,0 +1,41 @@
+---
+- name: provision
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+  vars_files:
+    - vars.yml
+  roles:
+    - role: common # Install common apps and libraries, and setup shell.
+      tags: common
+
+    - role: language # Setup locale.
+      tags: lang
+
+    - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
+      sudo: yes
+      rbenv:
+        env: user
+        version: v0.4.0
+        ruby_version: "{{ ruby }}"
+      rbenv_users:
+      - { name: "{{ user }}", home: "{{ home_path }}", comment: "Main user"}
+      tags: ruby
+
+    - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
+      tags: bundler
+
+    - role: app # Build the app directory structure and support files.
+      tags: app
+
+    - role: dbserver # Set up database server and user for the app.
+      tags: db
+
+    - role: mortik.nginx-rails # Install nginx. If missing run: ansible-galaxy install mortik.nginx-rails
+      sudo: yes
+      templates:
+        - { src: "templates/nginx.conf.j2", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
+        - { src: "templates/ssl.js.j2", dest: "{{ nginx_path }}/{{ app }}_ssl", mode: "644" }
+      tags: nginx
+
+    - role: webserver # Build the unicorn webserver.
+      tags: ws
