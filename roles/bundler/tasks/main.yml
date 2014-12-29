@@ -2,6 +2,7 @@
 
 - name: Install bundler
   # This needs to be run inside a bash shell to initialise rbenv, might be doable with shell command somehow...
+  # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible for more info.
   # Alternately rbenv could be set in environment variables somehow?
   command: bash -lc "gem install bundler  --no-ri --no-rdoc"
 
