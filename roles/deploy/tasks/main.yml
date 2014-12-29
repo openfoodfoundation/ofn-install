@@ -1,26 +1,26 @@
 --- # Deploy
 
 # Remove old rollbacks so they aren't used accidentally after errors.
-- name: Remove the old rollback
+- name: remove the old rollback
   file: dest={{ rollback_path }} state=absent
   tags: clone
 
-- name: Remove the old rollback database
+- name: remove the old rollback database
   file: dest={{ rollback_sql_path }} state=absent
   tags: clone
 
 #----------------
 # Build codebase
 
-- name: Remove the old build path
+- name: remove the old build path
   file: dest={{ build_path }} state=absent
   tags: clone
 
-- name: Build codebase from git repo at version
+- name: build codebase from git repo at version
   git: repo={{ git_repo }} dest={{ build_path }} version="{{ version }}" force=yes
   tags: clone
 
-- name: Symlink into the repo. Ugly hack until we have better configuration management.
+- name: symlink into the repo. Ugly hack until we have better configuration management.
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
@@ -36,22 +36,22 @@
     - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
   tags: symlink
 
-- name: Symlink the bugsnag file into the config folder
+- name: symlink the bugsnag file into the config folder
   file: src="{{ config_path }}/bugsnag.rb" dest={{ build_path }}/config/bugnsag.rb state=link force=yes owner={{ user }} mode=775
   when: bugsnag_key != "none"
   tags: symlink
 
-- name: Symlink the newrelic file into the config folder
+- name: symlink the newrelic file into the config folder
   file: src="{{ config_path }}/newrelic.yml" dest={{ build_path }}/config/newrelic.yml state=link force=yes owner={{ user }} mode=775
   when: newrelic_key != "none"
   tags: symlink
 
-- name: Symlink the s3 file to the config folder
+- name: symlink the s3 file to the config folder
   file: src="{{ config_path }}/s3.yml" dest={{ build_path }}/config/s3.yml state=link force=yes owner={{ user }} mode=775
   when: s3_bucket != "none"
   tags: symlink
 
-- name: Install app dependencies
+- name: install app dependencies
   #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: bash -lc "bundle install --gemfile {{ build_path }}/Gemfile --path /home/{{ user }}/.gem --deployment" #--without development test"
@@ -67,7 +67,7 @@
 #--------------------
 # Get timestamp
 
-- name: Get current date for timestamp
+- name: get current date for timestamp
   shell: date +"%Y-%m-%d-%I%M%S"
   register: current_date
 
@@ -76,26 +76,26 @@
 # Create a rollback release
 
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
-- name: Create a database rollback version
+- name: create a database rollback version
   shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ rollback_sql_path }}
-- name: Create a database backup version
+- name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ current_date.stdout }}.sql.gz
 
-- name: Create a repo rollback version
+- name: create a repo rollback version
   command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
-- name: Create a repo backup version
+- name: create a repo backup version
   command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} removes={{ rollback_path }}
 
 #-------------------------
 # Move new code into place
 
-- name: Move build to current
+- name: move build to current
   command: mv {{ build_path }} {{ current_path }} removes={{ build_path }}
 
 #--------------------
 # Update the database
 
-- name: Check database status
+- name: check database status
   command: psql -U postgres -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
   sudo: yes
   sudo_user: postgres
@@ -103,26 +103,26 @@
   ignore_errors: yes
   tags: rake
 
-- name: Create database if it doesnt exist
+- name: create database if it doesnt exist
   command: bash -lc "bundle exec rake db:create RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
 # TODO fix this so it actually works if the database exists but the table doesn't.
-- name: Load Schema if it isnt loaded
+- name: load schema if it isnt loaded
   command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   # TODO check that both database and table do not exist so this still runs if the database is already there but empty.
   when: table_exists.stderr.find('does not exist') != -1
   tags: rake
 
-- name: Migrate database
+- name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   tags: rake
   notify:
     - precompile assets
     - restart unicorn
 
-- name: Seed database
+- name: seed database
   # We run a shell script that passes the default email and password to rake with an EOF block, so we don't hang on the prompts.
   command: bash -lc "{{ config_path }}/seed.sh RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   when: table_exists.stderr.find('does not exist') != -1
@@ -132,7 +132,7 @@
     - restart unicorn
 
 # Fix to get around database errors when this is done before schema:load. TODO fix this elsewhere.
-- name: Symlink spree initializer into the repo
+- name: symlink spree initializer into the repo
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
   with_items:
     - { src: "{{ config_path }}/spree.rb", dest: "{{ current_path }}/config/initializers/spree.rb" }

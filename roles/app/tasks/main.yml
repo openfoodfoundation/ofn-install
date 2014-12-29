@@ -2,7 +2,7 @@
 
 # Setup shared files and folders
 
-- name: Make dirs
+- name: make dirs
   file: path={{ item }} state=directory owner={{ user }}
   with_items:
     - "{{ app_path }}"
@@ -18,7 +18,7 @@
     - "{{ config_path }}"
   tags: dirs
 
-- name: Template files
+- name: template files
   template: src={{ item.src }} dest={{ item.dest }} owner={{ user }} mode=775
   with_items:
     - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
@@ -28,15 +28,15 @@
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
   tags: app_templates
 
-- name: Copy the bugsnag file into the shared folder
+- name: copy the bugsnag file into the shared folder
   template: src=bugsnag.rb.j2 dest={{ config_path }}/bugnsag.rb mode=775
   when: bugsnag_key != "none"
 
-- name: Copy the newrelic file into the shared folder
+- name: copy the newrelic file into the shared folder
   template: src=newrelic.yml.j2 dest={{ config_path }}/newrelic.yml owner={{ user }} mode=775
   when: newrelic_key != "none"
 
-- name: Copy the s3 file to the shared folder
+- name: copy the s3 file to the shared folder
   template: src=s3.yml dest={{ config_path }}/s3.yml owner={{ user }} mode=775
   when: s3_bucket != "none"
 
@@ -45,7 +45,7 @@
 # without adding a fork that does the same thing for elsewhere. So we just copy over the files,
 # or not if you don't need to.
 
-- name: Copy optional files
+- name: copy optional files
   copy: src={{ item.src }} dest={{ item.dest }} owner={{ user }} mode=775 force=yes
   with_items:
     - { src: "files/suburb_seeds.rb", dest: "{{ config_path }}/suburb_seeds.rb" }
@@ -55,9 +55,9 @@
   ignore_errors: yes
 
 # Cron. TODO use ansible cron module for this.
-- name: Generate the crontab file for automated backups.
+- name: generate the crontab file for automated backups
   template: src=crontab.j2 dest={{ home_path }}/crontab
 
-- name: Setup cron for the user
+- name: setup cron for the user
   sudo: yes
   command: "crontab -u {{ user }} {{ home_path }}/crontab"

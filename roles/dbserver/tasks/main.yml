@@ -1,6 +1,6 @@
 --- # dbserver
 
-- name: Install postgres packages
+- name: install postgres packages
   apt: pkg={{ item }} state=latest force=yes
   sudo: yes
   with_items:
@@ -8,19 +8,19 @@
     - postgresql-client
     - postgresql-contrib
 
-- name: Create db user
+- name: create db user
   sudo: yes
   sudo_user: postgres
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
 
-- name: Generate the .pgpass file
+- name: generate the .pgpass file
   template: src=pgpass.j2 dest={{ home_path }}/.pgpass mode=600
 
-- name: Copy fix_pg_encoding PG script
+- name: copy fix_pg_encoding PG script
   copy: src=fix_pg_encoding.txt dest={{ home_path }}
   tags: pg-en
 
-- name: Fix postgres db encoding problem
+- name: fix postgres db encoding problem
   command: psql -U postgres -f {{ home_path }}/fix_pg_encoding.txt
   sudo: yes
   sudo_user: postgres
