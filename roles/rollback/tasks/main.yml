@@ -1,14 +1,14 @@
 --- # Rollback
 
-- name: Remove current path
+- name: remove current path
   file: dest={{ current_path }} state=absent
 
-- name: Copy rollback repo to current path
+- name: copy rollback repo to current path
   command: cp -r {{ rollback_path }} {{ current_path }} creates={{ current_path }}
 
   # Uses sudo inline (instead of ansible format) as postgres user can't save files. @TODO need to set this up for ofn_user.
-- name: Copy rollback db to live db
-  shell: gunzip -c {{ rollback_sql_path }} | sudo -u postgres psql {{ db }} 
+- name: copy rollback db to live db
+  shell: gunzip -c {{ rollback_sql_path }} | sudo -u postgres psql {{ db }}
   notify:
     - precompile assets
     - restart unicorn

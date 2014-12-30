@@ -3,7 +3,7 @@
 #--------------------
 # Get timestamp
 
-- name: Get current date for timestamp
+- name: get current date for timestamp
   shell: date +"%Y-%m-%d-%I%M%S"
   register: current_date
   tags: backup
@@ -13,14 +13,14 @@
 # @TODO cleanup old backups
 
 # Create a new database backup every time
-- name: Backup remote database
+- name: backup remote database
   shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
 
-- name: Fetch database to local
+- name: fetch database to local
   fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} flat=yes fail_on_missing=yes
 
 # But we don't bother making a whole new copy of all the files every time, just rsync them.
-- name: Sync public files to local
+- name: sync public files to local
   synchronize: mode=pull src={{ current_path }}/public dest={{ local_rsync_path }} copy_links=yes
   tags: rsync
 

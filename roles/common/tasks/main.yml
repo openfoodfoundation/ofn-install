@@ -1,11 +1,11 @@
 --- # common
 
-- name: Update apt
+- name: update apt
   apt: update_cache=yes
   sudo: yes
 
   #TODO remove unnecesary packages from this list.
-- name: Install base packages
+- name: install base packages
   apt: pkg={{ item }} state=latest force=yes
   sudo: yes
   with_items:
@@ -21,19 +21,19 @@
     - libpq-dev
     - unattended-upgrades
     - tklib
-    - zlib1g-dev 
+    - zlib1g-dev
     - libssl-dev
     #- libreadline-gplv2-dev
-    - libxml2 
-    - libxml2-dev 
+    - libxml2
+    - libxml2-dev
     - libxslt1-dev
     - memcached
     - ranger
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster
-    
-- name: Copy up .bashrc
-  template: src=bashrc.j2 dest=/{{ home_path }}/.bashrc 
 
-- name: Copy up .bash_profile
+- name: copy up .bashrc
+  template: src=bashrc.j2 dest=/{{ home_path }}/.bashrc
+
+- name: copy up .bash_profile
   template: src=bash_profile.j2 dest=/{{ home_path }}/.bash_profile

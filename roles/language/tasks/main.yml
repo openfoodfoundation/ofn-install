@@ -1,13 +1,13 @@
 ---
-- name: Install language package(s)
+- name: install language package(s)
   sudo: yes
   apt: pkg={{ item }} state=latest force=yes
   with_items: language_packages
 
-- name: Update locales
+- name: update locales
   shell: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
   sudo: yes
 
-- name: Reconfigure locales
+- name: reconfigure locales
   shell: "dpkg-reconfigure locales"
   sudo: yes

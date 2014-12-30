@@ -1,9 +1,9 @@
 --- # Setup a default user - needs to be run as root.
-- name: Create default user
+- name: create default user
   user: name="{{ user }}" groups=adm,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,sudo password="{{ user_pass }}" append=yes state=present shell=/bin/bash
 
-- name: Add ssh key
+- name: add ssh key
   authorized_key: user="{{ user }}" key="{{ ssh_pubkey }}"
 
-- name: Add custom sudoer file
+- name: add custom sudoer file
   template: src=sudoer.j2 dest="/etc/sudoers.d/90-{{ user }}" mode=0440
