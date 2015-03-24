@@ -20,7 +20,8 @@
   git: repo={{ git_repo }} dest={{ build_path }} version="{{ version }}" force=yes
   tags: clone
 
-- name: symlink into the repo. Ugly hack until we have better configuration management.
+# TODO: Ugly hack until we have better configuration management
+- name: symlink into the repo
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
@@ -32,7 +33,6 @@
     - { src: "{{ config_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
     - { src: "{{ config_path }}/suburb_seeds.rb", dest: "{{ build_path }}/db/suburb_seeds.rb" }
     - { src: "{{ config_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
-    - { src: "{{ config_path }}/secret_token.rb", dest: "{{ build_path }}/config/initializers/secret_token.rb" }
     - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
   tags: symlink
 

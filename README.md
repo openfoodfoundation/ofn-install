@@ -29,9 +29,25 @@ Install Ansible by following the documentation on [the official Ansible site.]  
 ### Additional Ansible modules
 You will need to install the following additional Ansible modules before running the OFN provisioning playbooks: `zzet.rbenv` and `mortik.nginx-rails`.  Install by running:
 
-`ansible-galaxy install zzet.rbenv`
+`ansible-galaxy install zzet.rbenv,1.3.0`
 
-`ansible-galaxy install mortik.nginx-rails`
+`ansible-galaxy install mortik.nginx-rails,v0.3`
+
+### Seed data
+
+If you don't want to use seed (initial) data specific to Australia, you need to provide your own country, state and postcode (a.k.a. suburb or zipcode) files for your location.
+
+These are the files that are used for seed data:
+
+* `db/default/spree/states.yml`
+* `db/default/spree/countries.yml`
+* `db/seeds.rb`
+* `db/suburb_seeds.rb` - This suburbs data is not currently used but may be again in future. But don't spend too much time on it!
+* `config/initializers/spree.rb`
+
+Look at the existing files in the `openfoodnetwork` repo for examples of how the files are used.
+
+Put these seed files into a project that is named `i10n_<country-code>`, e.g. `i10n_gb`. Add this to https://github.com/openfoodfoundation. It will be automatically cloned and used on the server.
 
 
 
@@ -49,23 +65,7 @@ If you're not familiar with YAML, read more at [the official YAML site.](http://
 
 You can validate the syntax of your vars.yml file with the [Online YAML Parser.](http://yaml-online-parser.appspot.com)
 
-### Add specific seed data
-
-If you don't want to use seed (initial) data specific to Australia, provide your own country, state and postcode (a.k.a. suburb or zipcode) files for your location. This is a work-around until a cleaner config process is available.
-
-These are the files that are used for seed data:
-
-* `db/default/spree/states.yml`
-* `db/default/spree/countries.yml`
-* `db/seeds.rb`
-* `db/suburb_seeds.rb` - This suburbs data is not currently used but may be again in future. But don't spend too much time on it!
-* `config/initializers/spree.rb`
-
-Look at the existing files in the `openfoodnetwork` repo for examples of how the files are used.
-
-Put these seed files into the `files` folder.  (Do not put them into any subdirectories. The playbooks will simply look for the files named `states.yml`, `countries.yml`, `seeds.rb`, `suburb_seeds.rb`, and `spree.rb` in the `files` directory; the playbooks will not look for the files in any subdirectories.)
-
-### Add SSL certificate files
+### SSL certificate files
 
 For production and staging environments, you will need SSL certificates for the OFN domain name.  (The domain name is specified in the `vars.yml` file.)  Specifically, you will need to provide these two files with these exact file names:
 
@@ -225,10 +225,7 @@ This doesn't clean up old backups automatically yet.
 
 ## Credits
 
-Written by Rafael Schouten.
-
-Contributors:
-
-* Paul Mackay
-* Ashley Englund
+* Rafael Schouten (https://github.com/rafaqz)
+* Paul Mackay (https://github.com/pmackay)
+* Ashley Englund (https://github.com/weedySeaDragon)
 

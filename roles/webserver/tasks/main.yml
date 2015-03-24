@@ -13,6 +13,7 @@
 
 - name: update unicorn
   service: name=unicorn_{{ app }} enabled=yes
+  sudo: yes
 
 - name: enable unicorn app with nginx
   file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link mode=644

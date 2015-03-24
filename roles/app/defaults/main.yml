@@ -1,0 +1,3 @@
+---
+
+i10n_repo: https://github.com/openfoodfoundation/i10n_{{ country_code | lower }}.git
