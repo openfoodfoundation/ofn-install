@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  tasks:
+    - name: test
+      debug: msg="{{ foo }} {{ foo2 }}"
+
+  # include: ../provision.yml
+
