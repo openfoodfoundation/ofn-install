@@ -39,6 +39,6 @@ script:
   - ansible-playbook -i ofn_deployment_inventory provision.yml -v
   - ansible-playbook -i ofn_deployment_inventory deploy.yml -v
   - ansible-playbook -i tests/inventory tests/test_site.yml -e user=travis -vvvv
-  # - ansible-playbook -i tests/inventory tests/cleanup.yml -e user=travis -vvvv
+  - ansible-playbook -i tests/inventory tests/cleanup.yml -e user=travis -vvvv
 
 
