@@ -131,11 +131,3 @@
     - precompile assets
     - restart unicorn
 
-# Fix to get around database errors when this is done before schema:load. TODO fix this elsewhere.
-- name: symlink spree initializer into the repo
-  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes
-  with_items:
-    - { src: "{{ config_path }}/spree.rb", dest: "{{ current_path }}/config/initializers/spree.rb" }
-  tags:
-    - rake
-

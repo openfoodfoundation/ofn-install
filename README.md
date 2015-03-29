@@ -43,7 +43,6 @@ These are the files that are used for seed data:
 * `db/default/spree/countries.yml`
 * `db/seeds.rb`
 * `db/suburb_seeds.rb` - This suburbs data is not currently used but may be again in future. But don't spend too much time on it!
-* `config/initializers/spree.rb`
 
 Look at the existing files in the `openfoodnetwork` repo for examples of how the files are used.
 

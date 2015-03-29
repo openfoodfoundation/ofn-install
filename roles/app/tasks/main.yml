@@ -52,7 +52,6 @@
   shell: cp -v {{ item.src }} {{ item.dest }}
   with_items:
     - { src: "{{ shared_path }}/i10n/suburb_seeds.rb", dest: "{{ config_path }}/suburb_seeds.rb" }
-    - { src: "{{ shared_path }}/i10n/spree.rb", dest: "{{ config_path }}/spree.rb" }
     - { src: "{{ shared_path }}/i10n/states.yml", dest: "{{ config_path }}/states.yml" }
     - { src: "{{ shared_path }}/i10n/countries.yml", dest: "{{ config_path }}/countries.yml" }
   ignore_errors: yes
