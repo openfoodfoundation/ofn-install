@@ -54,8 +54,8 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 country_code: AU
 locale: en
 language: en_AU.UTF-8
-timezone: London
-checkout_zone: Europe
+timezone: Melbourne
+checkout_zone: Australia
 # Set the language pack to download
 language_packages:
   - language-pack-en-base
