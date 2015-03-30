@@ -55,7 +55,11 @@ country_code: AU
 locale: en
 language: en_AU.UTF-8
 timezone: Melbourne
+
+# Find currency codes at http://en.wikipedia.org/wiki/ISO_4217.
+currency: AUD
 checkout_zone: Australia
+
 # Set the language pack to download
 language_packages:
   - language-pack-en-base
