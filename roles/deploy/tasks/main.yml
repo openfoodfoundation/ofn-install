@@ -28,8 +28,8 @@
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
     - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
-    - { src: "{{ config_path  }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
-    - { src: "{{ i10n_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
+    - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
+    - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
     - { src: "{{ i10n_path  }}/suburbs.csv", dest: "{{ build_path }}/db/suburbs.csv" }
     - { src: "{{ i10n_path  }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
     # - { src: "{{ i10n_path  }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
