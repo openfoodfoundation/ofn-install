@@ -51,6 +51,7 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 #   language_packages - the language pack(s) to download; should be a list of 1
 #   or more language packs.  Used by apt. Ex: language-pack-en-base
 # Set the language type for your locale
+country_name: Australia
 country_code: AU
 locale: en
 language: en_AU.UTF-8
