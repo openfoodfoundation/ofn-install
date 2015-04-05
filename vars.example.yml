@@ -184,7 +184,7 @@ log_path: "{{ shared_path }}/log"
 pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
 git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
-i10n_path: "{{ shared_path }}ki10n"
+i10n_path: "{{ shared_path }}/i10n"
 
 #----------------------------------------------------------------------
 # Nginx variables
