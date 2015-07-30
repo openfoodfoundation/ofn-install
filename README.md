@@ -1,7 +1,12 @@
 Deploying Open Food Network
 ===========================
 
-These are [Ansible] playbooks (scripts) for managing an Open Food Network app server using nginx, unicorn and rails.
+These are [Ansible] playbooks (scripts) for managing an Open Food Network app server using Nginx, Unicorn and Rails.
+
+The [Open Food Network](http://openfoodnetwork.org) is an online marketplace for local food. Instructions for configuring a development environment can be found on [the project's GitHub repository](https://github.com/openfoodfoundation/openfoodnetwork).
+
+
+## Playbooks
 
 These are the main Ansible playbooks:
 
@@ -227,4 +232,3 @@ This doesn't clean up old backups automatically yet.
 * Rafael Schouten (https://github.com/rafaqz)
 * Paul Mackay (https://github.com/pmackay)
 * Ashley Englund (https://github.com/weedySeaDragon)
-
