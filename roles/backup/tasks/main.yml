@@ -17,7 +17,7 @@
   shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
 
 - name: fetch database to local
-  fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} flat=yes fail_on_missing=yes
+  fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} fail_on_missing=yes
 
 # But we don't bother making a whole new copy of all the files every time, just rsync them.
 - name: sync public files to local
