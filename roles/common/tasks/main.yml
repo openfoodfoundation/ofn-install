@@ -29,6 +29,7 @@
     - libxslt1-dev
     - memcached
     - ranger
+    - monit
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster
 

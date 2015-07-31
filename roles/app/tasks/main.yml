@@ -64,3 +64,8 @@
 - name: setup cron for the user
   sudo: yes
   command: "crontab -u {{ user }} {{ home_path }}/crontab"
+
+- name: setup monit config
+  template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
+  sudo: yes
+
