@@ -16,7 +16,11 @@
     - "{{ pid_path }}"
     - "{{ sock_path }}"
     - "{{ config_path }}"
-  tags: dirs
+ ttags: dirs
+
+- name: copy seeds.rb
+  copy: src=seeds.rb dest={{ config_path }}/seeds.rb
+  tags: app_templates
 
 - name: template files
   template: src={{ item.src }} dest={{ item.dest }} owner={{ user }} mode=775
@@ -28,38 +32,28 @@
   tags: app_templates
 
 - name: copy the bugsnag file into the shared folder
-  template: src=bugsnag.rb.j2 dest={{ config_path }}/bugnsag.rb mode=775
+  template: src=bugsnag.rb.j2 dest={{ config_path }}/bugsnag.rb mode=775
+  tags: app_templates
   when: bugsnag_key != "none"
 
 - name: copy the newrelic file into the shared folder
   template: src=newrelic.yml.j2 dest={{ config_path }}/newrelic.yml owner={{ user }} mode=775
+  tags: app_templates
   when: newrelic_key != "none"
 
 - name: copy the s3 file to the shared folder
   template: src=s3.yml dest={{ config_path }}/s3.yml owner={{ user }} mode=775
+  tags: app_templates
   when: s3_bucket != "none"
 
-
-# This is a temporary solution to having hard coded Australian data in the repo,
-# without adding a fork that does the same thing for elsewhere. So we just copy over the files,
-# or not if you don't need to.
-
 - name: get i10n repo
-  git: repo={{ i10n_repo }} dest={{ shared_path }}/i10n force=yes
-  tags: i10n
-
-- name: copy optional files
-  shell: cp -v {{ item.src }} {{ item.dest }}
-  with_items:
-    - { src: "{{ shared_path }}/i10n/suburb_seeds.rb", dest: "{{ config_path }}/suburb_seeds.rb" }
-    - { src: "{{ shared_path }}/i10n/states.yml", dest: "{{ config_path }}/states.yml" }
-    - { src: "{{ shared_path }}/i10n/countries.yml", dest: "{{ config_path }}/countries.yml" }
-  ignore_errors: yes
+  git: repo={{ i10n_repo }} dest={{ i10n_path }} force=yes
   tags: i10n
 
 # Cron. TODO use ansible cron module for this.
 - name: generate the crontab file for automated backups
   template: src=crontab.j2 dest={{ home_path }}/crontab
+  tags: app_templates
 
 - name: setup cron for the user
   sudo: yes
