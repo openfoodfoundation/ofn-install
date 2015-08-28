@@ -16,7 +16,7 @@
     - "{{ pid_path }}"
     - "{{ sock_path }}"
     - "{{ config_path }}"
- ttags: dirs
+  tags: dirs
 
 - name: copy seeds.rb
   copy: src=seeds.rb dest={{ config_path }}/seeds.rb
