@@ -1,0 +1,18 @@
+---
+
+#----------------------------------------------------------------------
+# Nginx variables
+app_root: "{{ current_path }}"
+port: 3000
+# domain: is set above
+
+#----------------------------------------------------------------------
+# Unicorn variables
+unicorn_user: "{{ user }}"
+unicorn_config: "{{ config_path }}/unicorn.rb"
+unicorn_log: "{{ log_path }}/unicorn.log"
+unicorn_pid: "{{ pid_path }}/unicorn.pid"
+unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
+unicorn_workers: 2
+unicorn_timeout: 30
+

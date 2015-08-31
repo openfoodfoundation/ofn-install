@@ -16,7 +16,7 @@
     - "{{ pid_path }}"
     - "{{ sock_path }}"
     - "{{ config_path }}"
- ttags: dirs
+  tags: dirs
 
 - name: copy seeds.rb
   copy: src=seeds.rb dest={{ config_path }}/seeds.rb
@@ -40,11 +40,6 @@
   template: src=newrelic.yml.j2 dest={{ config_path }}/newrelic.yml owner={{ user }} mode=775
   tags: app_templates
   when: newrelic_key != "none"
-
-- name: copy the s3 file to the shared folder
-  template: src=s3.yml dest={{ config_path }}/s3.yml owner={{ user }} mode=775
-  tags: app_templates
-  when: s3_bucket != "none"
 
 - name: get i10n repo
   git: repo={{ i10n_repo }} dest={{ i10n_path }} force=yes

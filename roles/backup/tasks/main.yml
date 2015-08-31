@@ -17,11 +17,19 @@
   shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
 
 - name: fetch database to local
-  fetch: src={{ backup_path }}/{{ current_date.stdout }}.sql.gz dest={{ local_backup_path }} fail_on_missing=yes
+  fetch:
+    src={{ backup_path }}/{{ current_date.stdout }}.sql.gz
+    dest={{ local_backup_path }}/{{ ansible_hostname }}/databases/
+    fail_on_missing=yes
+    flat=yes
 
 # But we don't bother making a whole new copy of all the files every time, just rsync them.
 - name: sync public files to local
-  synchronize: mode=pull src={{ current_path }}/public dest={{ local_rsync_path }} copy_links=yes
+  synchronize:
+    mode=pull
+    src={{ current_path }}/public
+    dest={{ local_rsync_path }}/{{ ansible_hostname }}/files
+    copy_links=yes
   tags: rsync
 
 # @TODO just delete anything older than the newest {{ num_remote_backups }} files

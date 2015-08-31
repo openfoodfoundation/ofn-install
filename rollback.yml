@@ -2,10 +2,14 @@
 
 - hosts: ofn_servers
   remote_user: "{{ user }}"
+
   vars_files:
+    - vars/default_vars.yml
     - vars.yml
+
   handlers:
     - include: roles/webserver/handlers/main.yml
     - include: roles/deploy/handlers/main.yml
+
   roles:
     - role: rollback

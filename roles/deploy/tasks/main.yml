@@ -45,11 +45,6 @@
   when: newrelic_key != "none"
   tags: symlink
 
-- name: symlink the s3 file to the config folder
-  file: src="{{ config_path }}/s3.yml" dest={{ build_path }}/config/s3.yml state=link force=yes owner={{ user }} mode=775
-  when: s3_bucket != "none"
-  tags: symlink
-
 - name: install app dependencies
   #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.

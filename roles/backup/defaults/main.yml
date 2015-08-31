@@ -1,0 +1,3 @@
+---
+local_backup_path: "{{ playbook_dir }}/backups"
+local_rsync_path: "{{ playbook_dir }}/backups"

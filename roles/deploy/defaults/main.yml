@@ -1,0 +1,3 @@
+---
+rollback_path: "{{ app_path }}/rollback"
+rollback_sql_path: "{{ app_path }}/rollback.sql.gz"

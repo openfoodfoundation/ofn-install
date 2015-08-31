@@ -2,8 +2,11 @@
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"
+
   vars_files:
+    - vars/default_vars.yml
     - vars.yml
+
   roles:
     - role: common # Install common apps and libraries, and setup shell.
       tags: common

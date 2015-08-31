@@ -4,3 +4,6 @@ ssl.key
 vars.yml
 files/*
 -files/README.md
+production
+staging
+backups/*

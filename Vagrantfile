@@ -17,11 +17,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Optimise virtualbox.
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
     vbox.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
+
     # VM network config.
     config.vm.network "forwarded_port", guest: 80, host: 8080
-    config.vm.network "forwarded_port", guest: 443, host: 44343
-    config.vm.network "private_network", type: "dhcp"
-
+    #config.vm.network "forwarded_port", guest: 443, host: 44343
     config.vm.synced_folder ".", "/vagrant", :create => true
     config.ssh.forward_agent = true
   end
@@ -30,9 +29,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "install.yml"
     #ansible.playbook = "deploy.yml"
     ansible.host_key_checking = false
-    ansible.verbose =  'vvvv'
+    ansible.verbose =  ''
     #ansible.tags = 'deploy' # uncomment this for running only specific tags with vagrant, good for debugging.
     ansible.extra_vars = {
+      ansible_ssh_user: 'vagrant',
       ansible_connection: 'ssh',
       ansible_ssh_args: '-o ForwardAgent=yes'
     }
@@ -40,5 +40,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "ofn_servers" => ["default"],
       "all_groups:children" => ["ofn_servers"]
     }
+    #ansible.start_at_task = 'seed database'
   end
 end

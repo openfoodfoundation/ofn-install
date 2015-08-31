@@ -1,0 +1,2 @@
+---
+# home_path: "/home/{{ user }}"
