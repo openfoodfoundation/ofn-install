@@ -45,15 +45,6 @@
   git: repo={{ i10n_repo }} dest={{ i10n_path }} force=yes
   tags: i10n
 
-# Cron. TODO use ansible cron module for this.
-- name: generate the crontab file for automated backups
-  template: src=crontab.j2 dest={{ home_path }}/crontab
-  tags: app_templates
-
-- name: setup cron for the user
-  sudo: yes
-  command: "crontab -u {{ user }} {{ home_path }}/crontab"
-
 - name: setup monit config
   template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
   sudo: yes
