@@ -20,6 +20,11 @@
   git: repo={{ git_repo }} dest={{ build_path }} version="{{ version }}" force=yes
   tags: clone
 
+- name: detach head for git push deployment
+  shell: git checkout `git rev-parse HEAD`
+  args:
+    chdir: "{{ current_path }}"
+
 # TODO: Ugly hack until we have better configuration management
 - name: symlink into the repo
   file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ user }}
@@ -133,9 +138,8 @@
 
 # tag to trigger a unicorn restart
 - name: reset
-  # needs to do something here 
+  # needs to do something here
   command: echo 1
   tags: reset
   notify:
     - restart unicorn
-    
