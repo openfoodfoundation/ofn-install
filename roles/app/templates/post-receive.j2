@@ -1,10 +1,12 @@
 #!/bin/sh
 
-GEM_PATH={{ gem_path }}
+set -e
 
-cd $APP_ROOT || exit 1
+BUNDLE=/home/{{ unicorn_user }}/.rbenv/shims/bundle
 
-#unset GIT_DIR
+cd {{ current_path }} || exit 1
+
+unset GIT_DIR
 NEWREF=$(cat /dev/stdin | cut -d ' ' -f 2)
 
 # Check out the new revision
@@ -18,11 +20,10 @@ ln -s -f {{ config_path }}/newrelic.yml  {{ current_path }}/config/newrelic.yml
 
 # Install the required gems
 # Note: the 'LANG=en_US.UTF-8' is a fix for jquery-rails 1.0.17...fails even though server has correct locale setting
-LANG=en_US.UTF-8 bundle install --gemfile  {{ current_path }}/Gemfile --path $GEM_PATH --deployment --without development test
+LANG=en_US.UTF-8 $BUNDLE install --gemfile  {{ current_path }}/Gemfile --path {{ gem_path }} --deployment --without development test
 
 # Update the DB schema
 $BUNDLE exec rake RAILS_ENV={{ rails_env }} db:migrate
-$BUNDLE exec rake RAILS_ENV={{ rails_env }} db:seed
 
 # Note: Calling standard assets:precompile is overkill and chews up heaps of memory.
 #       Hence do steps one-by-one
@@ -33,11 +34,17 @@ $BUNDLE exec rake RAILS_ENV={{ rails_env }} assets:precompile:primary RAILS_GROU
 echo Doing asset:precompile:nondigest...
 $BUNDLE exec rake RAILS_ENV={{ rails_env }} assets:precompile:nondigest RAILS_GROUPS=assets
 
+# Install cron jobs
+$BUNDLE exec whenever --set 'environment={{ rails_env }}' --update-crontab
+
+# Kill any DJ workers. Monit will restart them automatically
+RAILS_ENV={{ rails_env }} ./script/delayed_job -i 0 stop
+
 # Restart the unicorns
-# We use stop/start instead of restart because the latter doesn't deal with Gemfile updates
-service unicorn_{{ app }} stop 
-sleep 5
-service unicorn_{{ app }} start
+echo Restarting unicorn...
+service unicorn_{{ app }} restart
 
 # Tell bugsnag about the deploy, keeps the error history clean
+echo Notifying bugsnag...
 $BUNDLE exec rake RAILS_ENV={{ rails_env }} bugsnag:deploy TO={{ rails_env }}
+echo Done.
