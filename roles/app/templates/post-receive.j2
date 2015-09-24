@@ -38,7 +38,7 @@ $BUNDLE exec rake RAILS_ENV={{ rails_env }} assets:precompile:nondigest RAILS_GR
 $BUNDLE exec whenever --set 'environment={{ rails_env }}' --update-crontab
 
 # Kill any DJ workers. Monit will restart them automatically
-RAILS_ENV={{ rails_env }} ./script/delayed_job -i 0 stop
+RAILS_ENV={{ rails_env }} $BUNDLE exec ./script/delayed_job -i 0 stop
 
 # Restart the unicorns
 echo Restarting unicorn...
