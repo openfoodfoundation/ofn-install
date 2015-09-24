@@ -41,7 +41,7 @@
   tags: symlink
 
 - name: symlink the bugsnag file into the config folder
-  file: src="{{ config_path }}/bugsnag.rb" dest={{ build_path }}/config/bugsnag.rb state=link force=yes owner={{ user }} mode=775
+  file: src="{{ config_path }}/bugsnag.rb" dest={{ build_path }}/config/initializers/bugsnag.rb state=link force=yes owner={{ user }} mode=775
   when: bugsnag_key != "none"
   tags: symlink
 
