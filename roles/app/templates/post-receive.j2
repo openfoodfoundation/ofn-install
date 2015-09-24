@@ -45,6 +45,8 @@ echo Restarting unicorn...
 service unicorn_{{ app }} restart
 
 # Tell bugsnag about the deploy, keeps the error history clean
-echo Notifying bugsnag...
-$BUNDLE exec rake RAILS_ENV={{ rails_env }} bugsnag:deploy TO={{ rails_env }}
+if [ -f {{ current_path }}/config/initializers/bugsnag.rb ]; then
+    echo Notifying bugsnag...
+    $BUNDLE exec rake RAILS_ENV={{ rails_env }} bugsnag:deploy TO={{ rails_env }}
+fi
 echo Done.
