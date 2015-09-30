@@ -82,7 +82,7 @@ secret_token: '6d784d49173d0ec820f20cfce151717bd12570e9d261460e9d3c295b90c1fd81e
 #   rails_env - Must be one of: production, staging, development, or testing.
 #   protocol - Must be either  http or https
 # Note that the production and staging environments REQUIRE that the protocol be
-# set to https and that you have SSLcertificate files ('ssl.crt' and'ssl.key').
+# set to https and that you have SSLcertificate files ('ssl.crt' and 'ssl.key').
 # Put these SSL certificate files in the /files directory so that the ansible
 # scripts can find them and install them as necessary.
 # production, staging, development or test.
