@@ -1,0 +1,8 @@
+--- # Setup an unprivileged user - needs to be run as root.
+- name: create unprivileged user
+  user: name="{{ unicorn_user }}" password="{{ unicorn_user_pass }}" append=yes state=present shell=/bin/bash
+  sudo: yes
+
+- name: add ssh key
+  authorized_key: user="{{ unicorn_user }}" key="{{ ssh_pubkey }}"
+  sudo: yes

@@ -31,6 +31,11 @@ user_pass: ubuntu
 # user: vagrant
 # user_pass: vagrant
 
+# User name and password for the unprivileged user which runs unicorn
+# Be sure to replace the password with something strong!
+unicorn_user: openfoodnetwork
+unicorn_user_pass: openfoodnetwork
+
 
 # Connecting to the server
 #   ssh_pubkey - Location of the SSH public key file for the user created by
@@ -192,11 +197,9 @@ port: 3000
 
 #----------------------------------------------------------------------
 # Unicorn variables
-unicorn_user: "{{ user }}"
 unicorn_config: "{{ config_path }}/unicorn.rb"
 unicorn_log: "{{ log_path }}/unicorn.log"
 unicorn_pid: "{{ pid_path }}/unicorn.pid"
 unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
 unicorn_workers: 2
 unicorn_timeout: 30
-

@@ -8,6 +8,9 @@
     - vars.yml
 
   roles:
+    - role: unicorn_user # Create unprivileged user to run unicorn
+      tags: unicorn_user
+
     - role: common # Install common apps and libraries, and setup shell.
       tags: common
 
