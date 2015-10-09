@@ -85,8 +85,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias unic="CACHE=true bundle exec unicorn_rails -c config/unicorn_development.rb"
-alias uni="bundle exec unicorn_rails -c config/unicorn_development.rb"
 alias be="bundle exec"
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -111,4 +109,3 @@ fi
 
 export PATH="{{ gem_path }}:$PATH"
 eval "$(rbenv init -)"
-

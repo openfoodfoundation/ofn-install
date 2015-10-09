@@ -170,6 +170,7 @@ db_host: localhost
 app: openfoodnetwork
 # Paths
 home_path: "/home/{{ user }}"
+unicorn_home_path: "/home/{{ unicorn_user }}"
 app_path: "{{ home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"

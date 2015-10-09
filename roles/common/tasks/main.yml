@@ -33,8 +33,18 @@
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster
 
-- name: copy up .bashrc
-  template: src=bashrc.j2 dest=/{{ home_path }}/.bashrc
+- name: copy up .bashrc (admin user)
+  template: src=bashrc.j2 dest={{ home_path }}/.bashrc
 
-- name: copy up .bash_profile
-  template: src=bash_profile.j2 dest=/{{ home_path }}/.bash_profile
+- name: copy up .bash_profile (admin user)
+  template: src=bash_profile.j2 dest={{ home_path }}/.bash_profile
+
+- name: copy up .bashrc (unicorn user)
+  template: src=bashrc.j2 dest={{ unicorn_home_path }}/.bashrc
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
+
+- name: copy up .bash_profile (unicorn user)
+  template: src=bash_profile.j2 dest={{ unicorn_home_path }}/.bash_profile
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
