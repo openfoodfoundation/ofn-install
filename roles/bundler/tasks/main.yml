@@ -5,6 +5,10 @@
   # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible for more info.
   # Alternately rbenv could be set in environment variables somehow?
   command: bash -lc "gem install bundler  --no-ri --no-rdoc"
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: reload rbenv
   command: bash -lc "rbenv rehash"
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
