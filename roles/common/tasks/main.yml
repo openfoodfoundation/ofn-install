@@ -48,3 +48,7 @@
   template: src=bash_profile.j2 dest={{ unicorn_home_path }}/.bash_profile
   sudo: yes
   sudo_user: "{{ unicorn_user }}"
+
+- name: configure monit
+  template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
+  sudo: yes

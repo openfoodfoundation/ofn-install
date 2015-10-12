@@ -44,8 +44,3 @@
 - name: get i10n repo
   git: repo={{ i10n_repo }} dest={{ i10n_path }} force=yes
   tags: i10n
-
-- name: setup monit config
-  template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
-  sudo: yes
-
