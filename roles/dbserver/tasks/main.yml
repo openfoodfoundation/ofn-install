@@ -14,14 +14,23 @@
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=SUPERUSER
 
 - name: generate the .pgpass file
-  template: src=pgpass.j2 dest={{ home_path }}/.pgpass mode=600
+  template: src=pgpass.j2 dest={{ unicorn_home_path }}/.pgpass mode=600 owner={{ unicorn_user }}
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: copy fix_pg_encoding PG script
-  copy: src=fix_pg_encoding.txt dest={{ home_path }}
+  copy: src=fix_pg_encoding.sql dest={{ unicorn_home_path }}
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
   tags: pg-en
 
 - name: fix postgres db encoding problem
-  command: psql -U postgres -f {{ home_path }}/fix_pg_encoding.txt
+  command: psql -U postgres -f {{ unicorn_home_path }}/fix_pg_encoding.sql
   sudo: yes
   sudo_user: postgres
   tags: pg-en
+
+- name: remove fix_pg_encoding PG script
+  file: path={{ unicorn_home_path }}/fix_pg_encoding.sql state=absent
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
