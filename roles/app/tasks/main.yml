@@ -3,7 +3,7 @@
 # Setup shared files and folders
 
 - name: make dirs
-  file: path={{ item }} state=directory owner={{ user }}
+  file: path={{ item }} state=directory owner={{ unicorn_user }}
   with_items:
     - "{{ app_path }}"
     - "{{ shared_path }}"
@@ -17,30 +17,42 @@
     - "{{ sock_path }}"
     - "{{ config_path }}"
   tags: dirs
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: copy seeds.rb
-  copy: src=seeds.rb dest={{ config_path }}/seeds.rb
+  copy: src=seeds.rb dest={{ config_path }}/seeds.rb owner={{ unicorn_user }}
   tags: app_templates
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: template files
-  template: src={{ item.src }} dest={{ item.dest }} owner={{ user }} mode=775
+  template: src={{ item.src }} dest={{ item.dest }} owner={{ unicorn_user }} mode=775
   with_items:
     - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
   tags: app_templates
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: copy the bugsnag file into the shared folder
-  template: src=bugsnag.rb.j2 dest={{ config_path }}/bugsnag.rb mode=775
+  template: src=bugsnag.rb.j2 dest={{ config_path }}/bugsnag.rb mode=775 owner={{ unicorn_user }}
   tags: app_templates
   when: bugsnag_key != "none"
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: copy the newrelic file into the shared folder
-  template: src=newrelic.yml.j2 dest={{ config_path }}/newrelic.yml owner={{ user }} mode=775
+  template: src=newrelic.yml.j2 dest={{ config_path }}/newrelic.yml owner={{ unicorn_user }} mode=775
   tags: app_templates
   when: newrelic_key != "none"
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
 - name: get i10n repo
   git: repo={{ i10n_repo }} dest={{ i10n_path }} force=yes
   tags: i10n
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
