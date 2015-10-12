@@ -15,7 +15,7 @@
       tags: common
 
     - role: language # Setup locale.
-      tags: lang
+      tags: language
 
     - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
       sudo: yes
