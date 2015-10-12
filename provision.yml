@@ -34,7 +34,7 @@
       tags: app
 
     - role: dbserver # Set up database server and user for the app.
-      tags: db
+      tags: dbserver
 
     - role: mortik.nginx-rails # Install nginx. If missing run: ansible-galaxy install mortik.nginx-rails
       sudo: yes
