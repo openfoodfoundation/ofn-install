@@ -44,4 +44,4 @@
       tags: nginx
 
     - role: webserver # Build the unicorn webserver.
-      tags: ws
+      tags: webserver
