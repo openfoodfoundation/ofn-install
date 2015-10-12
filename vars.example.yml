@@ -152,7 +152,7 @@ local_rsync_path: /home/your_username/backups/{{ app }}
 #----------------------------------------------------------------------
 # Rails variables
 ruby: 1.9.3-p392
-gem_path: /home/{{ user }}/.gem
+gem_path: /home/{{ unicorn_user }}/.gem
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
@@ -171,7 +171,7 @@ app: openfoodnetwork
 # Paths
 home_path: "/home/{{ user }}"
 unicorn_home_path: "/home/{{ unicorn_user }}"
-app_path: "{{ home_path }}/apps/{{ app }}"
+app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"
 build_path: "{{ app_path }}/build"

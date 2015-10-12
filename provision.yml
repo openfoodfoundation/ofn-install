@@ -24,7 +24,7 @@
         version: v0.4.0
         ruby_version: "{{ ruby }}"
       rbenv_users:
-      - { name: "{{ user }}", home: "{{ home_path }}", comment: "Main user"}
+      - { name: "{{ unicorn_user }}", home: "{{ unicorn_home_path }}", comment: "Main user"}
       tags: ruby
 
     - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv

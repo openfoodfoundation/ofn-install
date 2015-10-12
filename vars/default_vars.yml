@@ -4,8 +4,8 @@
 #----------------------------------------------------------------------
 # Rails variables
 ruby: 1.9.3-p392
-gem_path: /home/{{ user }}/.gem
-bundle_path: /home/{{ user }}/.rbenv/shims/bundle
+gem_path: /home/{{ unicorn_user }}/.gem
+bundle_path: /home/{{ unicorn_user }}/.rbenv/shims/bundle
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
@@ -22,7 +22,8 @@ db_host: localhost
 app: openfoodnetwork
 
 home_path: "/home/{{ user }}"
-app_path: "{{ home_path }}/apps/{{ app }}"
+unicorn_home_path: "/home/{{ unicorn_user }}"
+app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"
 build_path: "{{ app_path }}/build"
@@ -38,4 +39,3 @@ pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
 git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
 i10n_path: "{{ shared_path }}/i10n"
-
