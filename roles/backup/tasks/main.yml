@@ -14,7 +14,7 @@
 
 # Create a new database backup every time
 - name: backup remote database
-  shell: sudo -u postgres pg_dump {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
+  shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
 
 - name: fetch database to local
   fetch:

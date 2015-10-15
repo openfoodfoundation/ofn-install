@@ -51,7 +51,7 @@
   when: newrelic_key != "none"
   tags: symlink
 
-- name: install app dependencies
+- name: bundle install app dependencies
   #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: bash -lc "bundle install --gemfile {{ build_path }}/Gemfile --path /home/{{ unicorn_user }}/.gem --deployment" #--without development test"
@@ -76,7 +76,7 @@
 # Create a rollback release
 
 - name: create a database rollback version
-  shell: pg_dump {{ db }} | gzip > {{ rollback_sql_path }}
+  shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ rollback_sql_path }}
 - name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ current_date.stdout }}.sql.gz
 
