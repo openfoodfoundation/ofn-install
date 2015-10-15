@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script passes emil and password to spree seeding for automated deployment.
+# This script automates the otherwise interactive db:seed rake task
 
 bundle exec rake db:seed <<EOF
 {{ admin_email }}

@@ -2,6 +2,8 @@
 - name: deploy
   hosts: ofn_servers
   remote_user: "{{ user }}"
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
 
   vars_files:
     - vars/default_vars.yml
