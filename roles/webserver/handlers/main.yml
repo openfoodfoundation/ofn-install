@@ -1,11 +1,11 @@
 ---
 
 - name: restart unicorn
-  command: psql -U postgres -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
-  sudo: yes
-  sudo_user: postgres
+  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
   register: table_exists
   ignore_errors: yes
+  sudo: yes
+  sudo_user: "{{ unicorn_user }}"
   notify: restart unicorn step 2
 
 #TODO make sure both of these things run as one handler.
@@ -21,5 +21,3 @@
   service:
     name: unicorn_{{ app }}
     state: started
-
-
