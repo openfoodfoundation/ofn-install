@@ -28,9 +28,13 @@
       tags: ruby
 
     - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
+      sudo: yes
+      sudo_user: "{{ unicorn_user }}"
       tags: bundler
 
     - role: app # Build the app directory structure and support files.
+      sudo: yes
+      sudo_user: "{{ unicorn_user }}"
       tags: app
 
     - role: dbserver # Set up database server and user for the app.

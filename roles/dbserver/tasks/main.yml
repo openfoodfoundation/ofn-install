@@ -18,6 +18,9 @@
   sudo: yes
   sudo_user: "{{ unicorn_user }}"
 
+
+# TODO: Surely there's a way to pipe this script over rather than copying and removing it?
+
 - name: copy fix_pg_encoding PG script
   copy: src=fix_pg_encoding.sql dest={{ unicorn_home_path }}
   sudo: yes
