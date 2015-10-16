@@ -22,19 +22,14 @@
 
 # User name and password for running scripts
 #   user - the user (name) that will be used to run these playbooks as.  Ex:  vagrant Ex: ubuntu
-#   user_pass - password for 'user'
 # We use 'vagrant' as the user for vagrant boxes and  otherwise use 'ubuntu' as
 # the user.  'ubuntu' is a common default user on systems where the user is
-# already set up.  (Be sure to replace the password with something strong!)
-user: ubuntu
-user_pass: ubuntu
-# user: vagrant
-# user_pass: vagrant
+# already set up.
+#user: ubuntu
+user: vagrant
 
-# User name and password for the unprivileged user which runs unicorn
-# Be sure to replace the password with something strong!
+# User name for the unprivileged user which runs unicorn
 unicorn_user: openfoodnetwork
-unicorn_user_pass: openfoodnetwork
 
 
 # Connecting to the server
