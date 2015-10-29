@@ -1,3 +1,4 @@
+host_vars/*
 .vagrant/
 ssl.crt
 ssl.key
