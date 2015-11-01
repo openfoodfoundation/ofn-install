@@ -10,18 +10,14 @@
 
 #TODO make sure both of these things run as one handler.
 - name: restart unicorn step 2
-#  sudo: yes
-  raw: sudo systemctl restart unicorn_ofn_america.service
-#  service:
-#    name: unicorn_{{ app }}
-#    state: restarted
+  service:
+    name: unicorn_{{ app }}
+    state: restarted
   when: table_exists.stderr.find('does not exist') == -1
   # If unicorn isn't actually started yet we probably need this:
   notify: start unicorn
 
 - name: start unicorn
- # sudo: yes
-  raw: sudo systemctl restart unicorn_ofn_america.service
-#  service:
-#    name: unicorn_{{ app }}
-#    state: started
+  service:
+    name: unicorn_{{ app }}
+    state: started
