@@ -49,14 +49,14 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 #   timezone          - timezone name
 #   checkout_zone     - as defined by Spree
 #   language_packages - the language pack(s) to download; should be a list of 1
-#   i10n_repo         - internationalization files. see https://github.com/openfoodfoundation/i10n_no.git
+#   l10n_repo         - internationalization files. see https://github.com/openfoodfoundation/l10n_no.git
 #   or more language packs.  Used by apt. Ex: language-pack-en-base
 # Set the language type for your locale
 country_code: AU
 locale: en
 language: en_AU.UTF-8
 timezone: Melbourne
-i10n_repo: https://github.com/openfoodfoundation/i10n_au.git
+l10n_repo: https://github.com/openfoodfoundation/l10n_au.git
 
 # Find currency codes at http://en.wikipedia.org/wiki/ISO_4217.
 currency: AUD
@@ -183,7 +183,7 @@ log_path: "{{ shared_path }}/log"
 pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
 git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
-i10n_path: "{{ shared_path }}/i10n"
+l10n_path: "{{ shared_path }}/l10n"
 
 #----------------------------------------------------------------------
 # Nginx variables
