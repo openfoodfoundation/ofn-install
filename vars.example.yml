@@ -146,7 +146,7 @@ local_rsync_path: /home/your_username/backups/{{ app }}
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby: 1.9.3-p392
+ruby: 2.1.5p273
 gem_path: /home/{{ unicorn_user }}/.gem
 env:
   RAILS_ENV: "{{ rails_env }}"
