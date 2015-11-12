@@ -13,7 +13,6 @@ env:
 #----------------------------------------------------------------------
 # Database variables
 db: openfoodnetwork
-test_db: ofn_test
 db_user: ofn_user
 db_host: localhost
 
@@ -38,4 +37,4 @@ log_path: "{{ shared_path }}/log"
 pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
 git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
-i10n_path: "{{ shared_path }}/i10n"
+l10n_path: "{{ shared_path }}/l10n"

@@ -46,6 +46,6 @@
   tags: app_templates
   when: newrelic_key != "none"
 
-- name: get i10n repo
-  git: repo={{ i10n_repo }} dest={{ i10n_path }} force=yes
-  tags: i10n
+- name: get l10n repo
+  git: repo={{ l10n_repo }} dest={{ l10n_path }} force=yes
+  tags: l10n
