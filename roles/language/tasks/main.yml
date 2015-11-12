@@ -4,6 +4,10 @@
 #  apt: pkg={{ item }} state=latest force=yes
 #  with_items: language_packages
 
+- name: generate locales
+  shell: "locale-gen {{ language }}"
+  sudo: yes
+  
 - name: update locales
   shell: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
   sudo: yes
