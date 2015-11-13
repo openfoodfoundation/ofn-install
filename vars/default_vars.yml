@@ -3,7 +3,7 @@
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby: 1.9.3-p392
+ruby: 2.1.5
 gem_path: /home/{{ unicorn_user }}/.gem
 bundle_path: /home/{{ unicorn_user }}/.rbenv/shims/bundle
 env:
