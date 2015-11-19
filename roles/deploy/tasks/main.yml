@@ -38,6 +38,7 @@
     - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
     - { src: "{{ l10n_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
     # - { src: "{{ l10n_path }}/countries.yml", dest: "{{ build_path }}/db/default/spree/countries.yml" }
+    - { src: "{{ config_path }}/post-receive", dest: "{{ build_path }}/.git/hooks/post-receive" }
   tags: symlink
 
 - name: symlink the bugsnag file into the config folder
