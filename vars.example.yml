@@ -156,7 +156,7 @@ env:
 #----------------------------------------------------------------------
 # Database variables
 db: openfoodnetwork
-db_user: ofn_user
+db_user: openfoodnetwork
 db_host: localhost
 
 #----------------------------------------------------------------------
