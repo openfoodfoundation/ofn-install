@@ -18,13 +18,12 @@
       tags: language
 
     - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
-      sudo: yes
       rbenv:
         env: user
         version: v0.4.0
         ruby_version: "{{ ruby }}"
       rbenv_users:
-      - { name: "{{ unicorn_user }}", home: "{{ unicorn_home_path }}", comment: "Main user"}
+        - "{{ unicorn_user }}"
       tags: ruby
 
     - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
