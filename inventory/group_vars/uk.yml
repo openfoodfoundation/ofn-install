@@ -1,0 +1,14 @@
+---
+
+checkout_zone: Europe
+country_code: GB
+# Find currency codes at http://en.wikipedia.org/wiki/ISO_4217.
+currency: AUD
+locale: en-GB
+language: en_GB.UTF-8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_gb.git
+timezone: London
+
+

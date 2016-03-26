@@ -1,0 +1,29 @@
+---
+
+domain: staging.openfoodnetwork.org.uk
+rails_env: staging
+
+
+
+# OFN users
+#   admin_email - the OFN admin user created by these scripts. Needed so you can log in to OFN to
+#       configure the system and enter information.  Ex: admin@example.com
+#   admin_pass - the password for the OFN admin user created by these scripts.  Ex: f00dies
+admin_email: admin@example.com
+
+
+
+# OFN monitoring and instrumentation
+#   newrelic_key - the Newrelic key for application monitoring. Set to "none" to NOT use newrelic.
+#   bugsnag_key - the Bugnsag key for bug monitoring. Set to "none" to not use bugsnag.
+newrelic_key: none
+bugsnag_key: none
+
+
+# Asset and content delivery
+#  Amazon S3 image hosting:
+#   s3_bucket -  The bucket id.  Set to none to NOT use s3
+#   s3_access_key_id - The access key.  Set to none to NOT use s3
+#   s3_secret_access_key - The secret access key.  Set to none to NOT use s3
+s3_bucket: none
+s3_access_key_id: none
