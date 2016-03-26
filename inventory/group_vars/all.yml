@@ -18,16 +18,6 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 protocol: https
 
 
-##----------------------
-##  BACKUPS
-
-# Paths
-#   local_backup_path - Place to store database backups on your local machine (where ansible runs)  when running the backup task. Ex: /home/your_username/backups/{{ app }}
-#   local_rsync_path - Place to store rsynced files locally when running the backup task. Ex: /home/your_username/backups/{{ app }}
-local_backup_path: /Users/pmackay/dev/openfoodnetwork/backups/{{ app }}
-local_rsync_path: /Users/pmackay/dev/openfoodnetwork/backups/{{ app }}
-
-
 
 ###########################################################################################
 # OTHER VARIABLES - You can probably go with the herd and leave these as is.
