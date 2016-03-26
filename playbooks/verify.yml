@@ -8,8 +8,8 @@
 
 - hosts: ofn_servers
   remote_user: "{{ user }}"
-  sudo: yes
-  sudo_user: "{{ unicorn_user }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
 
   vars_files:
     - vars/default_vars.yml

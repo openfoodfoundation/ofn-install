@@ -10,11 +10,11 @@
   pre_tasks:
     - name: update apt cache
       apt: update_cache=yes
-      sudo: yes
+      become: yes
 
   roles:
     - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
-      sudo: yes
+      become: yes
       rbenv:
         env: user
         version: v0.4.0

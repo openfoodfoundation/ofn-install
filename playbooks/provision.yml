@@ -4,8 +4,8 @@
   remote_user: "{{ user }}"
 
   vars_files:
-    - vars/default_vars.yml
-    - vars.yml
+    - ../vars/default_vars.yml
+    # - ../vars.yml
 
   roles:
     - role: unicorn_user # Create unprivileged user to run unicorn
@@ -27,20 +27,20 @@
       tags: ruby
 
     - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
-      sudo: yes
-      sudo_user: "{{ unicorn_user }}"
+      become: yes
+      become_user: "{{ unicorn_user }}"
       tags: bundler
 
     - role: app # Build the app directory structure and support files.
-      sudo: yes
-      sudo_user: "{{ unicorn_user }}"
+      become: yes
+      become_user: "{{ unicorn_user }}"
       tags: app
 
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
 
     - role: mortik.nginx-rails # Install nginx. If missing run: ansible-galaxy install mortik.nginx-rails
-      sudo: yes
+      become: yes
       templates:
         - { src: "templates/nginx.conf.j2", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
         - { src: "templates/ssl.js.j2", dest: "{{ nginx_path }}/{{ app }}_ssl", mode: "644" }
