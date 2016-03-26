@@ -2,12 +2,12 @@
 
 - name: update apt
   apt: update_cache=yes
-  sudo: yes
+  become: yes
 
   #TODO remove unnecesary packages from this list.
 - name: install base packages
   apt: pkg={{ item }} state=latest force=yes
-  sudo: yes
+  become: yes
   with_items:
     - build-essential
     - git-core
@@ -35,4 +35,4 @@
 
 - name: configure monit
   template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
-  sudo: yes
+  become: yes

@@ -4,8 +4,8 @@
   command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
   register: table_exists
   ignore_errors: yes
-  sudo: yes
-  sudo_user: "{{ unicorn_user }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
   notify: restart unicorn step 2
 
 #TODO make sure both of these things run as one handler.
@@ -13,8 +13,8 @@
   service:
     name: unicorn_{{ app }}
     state: restarted
-  sudo: yes
-  sudo_user: "{{ unicorn_user }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
   when: table_exists.stderr.find('does not exist') == -1
   # If unicorn isn't actually started yet we probably need this:
   notify: start unicorn
@@ -23,5 +23,5 @@
   service:
     name: unicorn_{{ app }}
     state: started
-  sudo: yes
-  sudo_user: "{{ unicorn_user }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"

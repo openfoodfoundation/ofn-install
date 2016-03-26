@@ -2,7 +2,7 @@
 
 - name: copy unicorn files
   template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
-  sudo: yes
+  become: yes
   with_items:
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
@@ -13,11 +13,11 @@
 
 - name: update unicorn
   service: name=unicorn_{{ app }} enabled=yes
-  sudo: yes
+  become: yes
 
 - name: enable unicorn app with nginx
   file: src={{ nginx_path }}/sites-available/{{ app }} dest={{ nginx_path }}/sites-enabled/{{ app }} state=link mode=644
-  sudo: yes
+  become: yes
   tags: unicorn-nginx
   notify:
     - restart unicorn
@@ -25,7 +25,7 @@
 
 - name: remove default nginx site
   file: dest={{ nginx_path }}/sites-enabled/default state=absent
-  sudo: yes
+  become: yes
   tags: unicorn-nginx
   notify:
     - restart unicorn
@@ -34,12 +34,12 @@
 #- name: download phantomjs
 #  get_url: url=https://phantomjs.googlecode.com/files/{{ phantomjs }}.tar.bz2
 #           dest=/var/tmp/{{ phantomjs }}.tar.bz2
-#  sudo: yes
+#  become: yes
 
 #- name: untar phantomjs
 #  shell: chdir=/var/tmp tar xjf {{ phantomjs }}.tar.bz2 creates=/var/tmp/{{ phantomjs }}
-#  sudo: yes
+#  become: yes
 
 #- name: symlink the phantomjs executable
 #  file: dest=/usr/bin/phantomjs src=/var/tmp/{{ phantomjs }}/bin/phantomjs state=link
-#  sudo: yes
+#  become: yes

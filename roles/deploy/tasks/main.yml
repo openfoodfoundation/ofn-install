@@ -95,8 +95,8 @@
 
 - name: move build to current
   command: mv {{ build_path }} {{ current_path }} removes={{ build_path }}
-  sudo: yes
-  sudo_user: "{{ unicorn_user }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
 
 #--------------------
 # Update the database
