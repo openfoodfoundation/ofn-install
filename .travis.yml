@@ -18,7 +18,7 @@ install:
   # - ansible-galaxy install mortik.nginx-rails,v0.3
 
 script:
-  # - bin/setup
+  - bin/setup
   - ansible-playbook -i inventory/development site.yml --syntax-check
   - ansible-lint site.yml
 
