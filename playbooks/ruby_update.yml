@@ -3,10 +3,6 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
 
-  vars_files:
-    - vars/default_vars.yml
-    - vars.yml
-
   pre_tasks:
     - name: update apt cache
       apt: update_cache=yes

@@ -5,14 +5,10 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-  vars_files:
-    - ../vars/default_vars.yml
-    # - vars.yml
-
   roles:
     - role: deploy
       notify:
         - restart unicorn
 
   handlers:
-    - include: roles/webserver/handlers/main.yml
+    - include: ../roles/webserver/handlers/main.yml

@@ -8,3 +8,4 @@ production
 staging
 backups/*
 community
+inventory/host_vars/*/secrets.yml

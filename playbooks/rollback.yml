@@ -5,13 +5,9 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-  vars_files:
-    - vars/default_vars.yml
-    - vars.yml
-
   handlers:
-    - include: roles/webserver/handlers/main.yml
-    - include: roles/deploy/handlers/main.yml
+    - include: ../roles/webserver/handlers/main.yml
+    - include: ../roles/deploy/handlers/main.yml
 
   roles:
     - role: rollback

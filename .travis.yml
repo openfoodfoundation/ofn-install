@@ -1,44 +1,25 @@
 ---
+sudo: false
 language: python
 python: "2.7"
-
-env:
-  global:
-    - secure: "jOc11fDH4Gjz1jnosJKlSp8RjRkD4QGHK9y04v0KVFG+1HCOWoXvMsMacRvMkkpGI0SiA98Vw7LW3ofOeuJP88Im0lAzTtXE/IvC5yQrTMmfCDSexA3ImlDl3DDjUEethRR94guKvd0bQrxKsOjh/ZLeFE8M+fGY517trl/lxfo="
-    - secure: "GY+49YUvwG87/mARqkX44quecHxWNabA51umY7mFMqZWD4LU8mC0G3N90PhLzkMtv3HRt0UnnyXMdGdYWndMZ3hahBYhw5cFFk20FMhHKhL4yNXS/tYv6nT0VqsT+h2sUvLbE/RHosWswiO297Wvt9kRcSUvQ2MsPxhtsxKjDr8="
-    - ANSIBLE_HOST_KEY_CHECKING=False
-
-before_install:
-  # - sudo apt-get update -qq
-  - ssh-keygen -t rsa -N "" -f ~/.ssh/ofn_rsa
-  - ls -al ~/.ssh
-  - eval `ssh-agent -s`
-  - ssh-add ~/.ssh/ofn_rsa
-  - ssh-add -l
 
 install:
   - pip install dopy
   - pip install httplib2
   - pip install ansible
+  - pip install ansible-lint
 
   # Add ansible.cfg to set a local roles path, so galaxy modules installed there
-  - printf '[defaults]\n' > ansible.cfg
-  - printf 'roles_path = ../' >> ansible.cfg
+  # - printf '[defaults]\n' > ansible.cfg
+  # - printf 'roles_path = ../' >> ansible.cfg
 
   # Add extra ansible role dependencies
-  - ansible-galaxy install zzet.rbenv,1.3.0
-  - ansible-galaxy install mortik.nginx-rails,v0.3
-
-before_script:
-  - cp vars.example.yml vars.yml
+  # - ansible-galaxy install zzet.rbenv,1.3.0
+  # - ansible-galaxy install mortik.nginx-rails,v0.3
 
 script:
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
-  - ansible-playbook -i tests/inventory tests/setup.yml -e user=travis -vvvv
-  - ansible-playbook -i ofn_deployment_inventory user.yml -vvvv
-  - ansible-playbook -i ofn_deployment_inventory provision.yml -v
-  - ansible-playbook -i ofn_deployment_inventory deploy.yml -v
-  - ansible-playbook -i tests/inventory tests/test_site.yml -e user=travis -vvvv
-  - ansible-playbook -i tests/inventory tests/cleanup.yml -e user=travis -vvvv
+  # - bin/setup
+  - ansible-playbook -i inventory/development site.yml --syntax-check
+  - ansible-lint site.yml
 
 

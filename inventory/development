@@ -1,2 +1,5 @@
+[ofn_servers]
+localhost
+
 [ofn_servers:vars]
-protocol: http
+protocol=http

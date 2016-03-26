@@ -3,10 +3,6 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
 
-  vars_files:
-    - ../vars/default_vars.yml
-    # - ../vars.yml
-
   roles:
     - role: unicorn_user # Create unprivileged user to run unicorn
       tags: unicorn_user

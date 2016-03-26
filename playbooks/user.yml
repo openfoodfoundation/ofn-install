@@ -5,10 +5,6 @@
 - hosts: ofn_servers
   remote_user: root
 
-  vars_files:
-    - vars/default_vars.yml
-    - vars.yml
-
   roles:
     - default_user
 
