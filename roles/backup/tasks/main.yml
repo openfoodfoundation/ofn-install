@@ -14,11 +14,11 @@
 
 # Create a new database backup every time
 - name: backup remote database
-  shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ backup_path }}/{{ current_date.stdout }}.sql.gz
+  shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ backup_path }}/{{ backup_filename }}
 
 - name: fetch database to local
   fetch:
-    src={{ backup_path }}/{{ current_date.stdout }}.sql.gz
+    src={{ backup_path }}/{{ backup_filename }}
     dest={{ local_backup_path }}/{{ ansible_hostname }}/databases/
     fail_on_missing=yes
     flat=yes
