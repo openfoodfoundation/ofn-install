@@ -17,13 +17,18 @@
   tags: clone
 
 - name: build codebase from git repo
-  git: repo={{ git_repo }} dest={{ build_path }} version="{{ version }}" force=yes
+  git:
+    repo={{ git_repo }}
+    dest={{ build_path }}
+    version="{{ git_version }}"
+    force=yes
   tags: clone
 
 - name: detach head for git push deployment
   shell: git checkout `git rev-parse HEAD`
   args:
     chdir: "{{ build_path }}"
+  tags: skip_ansible_lint
 
 
 # TODO: Ugly hack until we have better configuration management

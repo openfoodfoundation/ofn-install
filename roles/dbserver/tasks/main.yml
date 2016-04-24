@@ -14,7 +14,11 @@
   postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=CREATEDB,NOSUPERUSER
 
 - name: generate the .pgpass file
-  template: src=pgpass.j2 dest={{ unicorn_home_path }}/.pgpass mode=600 owner={{ unicorn_user }}
+  template:
+    src=pgpass.j2
+    dest={{ unicorn_home_path }}/.pgpass
+    owner={{ unicorn_user }}
+    mode=0600
   become: yes
   become_user: "{{ unicorn_user }}"
 
