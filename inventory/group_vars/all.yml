@@ -17,6 +17,7 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
 
 protocol: https
 
+l10n_git_version: HEAD
 
 
 ###########################################################################################
