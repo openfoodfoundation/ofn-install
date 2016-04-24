@@ -11,11 +11,11 @@ install:
 
 script:
   - bin/setup
-  - ansible-playbook -i inventory/development --syntax-check site.yml
-  - ansible-playbook -i inventory/development --syntax-check backup.yml
-  - ansible-playbook -i inventory/development --syntax-check deploy.yml
-  - ansible-playbook -i inventory/development --syntax-check provision.yml
-  - ansible-playbook -i inventory/development --syntax-check rollback.yml
-  - ansible-playbook -i inventory/development --syntax-check user.yml
-  - ansible-playbook -i inventory/development --syntax-check verify.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/site.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/backup.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/deploy.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/provision.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/rollback.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/user.yml
+  - ansible-playbook -i inventory/development --syntax-check playbooks/verify.yml
   - ansible-lint site.yml
