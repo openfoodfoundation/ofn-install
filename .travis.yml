@@ -11,7 +11,7 @@ install:
 
 script:
   - bin/setup
-  - ansible-playbook -i inventory/development --syntax-check playbooks/site.yml
+  - ansible-playbook -i inventory/development --syntax-check site.yml
   - ansible-playbook -i inventory/development --syntax-check playbooks/backup.yml
   - ansible-playbook -i inventory/development --syntax-check playbooks/deploy.yml
   - ansible-playbook -i inventory/development --syntax-check playbooks/provision.yml
