@@ -3,7 +3,7 @@
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby: 1.9.3-p392
+ruby: 2.1.5
 gem_path: /home/{{ unicorn_user }}/.gem
 bundle_path: /home/{{ unicorn_user }}/.rbenv/shims/bundle
 env:
@@ -36,5 +36,4 @@ config_path: "{{ shared_path }}/config"
 log_path: "{{ shared_path }}/log"
 pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
-git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
 l10n_path: "{{ shared_path }}/l10n"
