@@ -1,13 +1,19 @@
 upstream unicorn {
-  server unix:{{ unicorn_sock }} fail_timeout=0;
+  server unix:{{ unicorn_sock }} fail_timeout=1;
 }
+
+	{% if domain == '127.0.0.1' or domain == 'localhost'%}
+		{% set sub_domain = '' -%}
+	{% else %}
+		{% set sub_domain = 'www.' -%}
+	{% endif %}
 
 server {
   listen 80;
 {% if protocol == 'https' %}
-  server_name  www.{{ domain }} {{ domain }};
+  server_name  {{sub_domain}} {{ domain }} {{ domain }};
 {% else %}
-  server_name  www.{{ domain }};
+  server_name  {{sub_domain}} {{ domain }};
 {% endif %}
   rewrite ^/(.*) {{ protocol }}://{{ domain }}/$1 permanent;
 }
@@ -18,7 +24,7 @@ server {
 
   include {{ app }}_ssl;
 
-  server_name www.{{ domain }};
+  server_name {{sub_domain}} {{ domain }};
   rewrite ^(.*) {{ protocol }}://{{ domain }}/$1 permanent;
 }
 {% endif %}
