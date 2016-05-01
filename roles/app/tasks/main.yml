@@ -48,4 +48,4 @@
 
 - name: get l10n repo
   git: repo={{ i10n_repo }} dest={{ l10n_path }} force=yes
-  tags: l10n
+  tags: i10n
