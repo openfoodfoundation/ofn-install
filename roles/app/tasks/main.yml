@@ -44,7 +44,9 @@
     dest={{ config_path }}/bugsnag.rb
     owner={{ unicorn_user }}
     mode=0775
-  tags: app_templates
+  tags:
+    - app_templates
+    - bugsnag
   when: bugsnag_key != "none"
 
 - name: copy the db2fog file into the shared folder
@@ -53,8 +55,10 @@
     dest={{ config_path }}/db2fog.rb
     owner={{ unicorn_user }}
     mode=0775
-  tags: app_templates
-  when: s3_bucket != "none"
+  tags:
+    - app_templates
+    - db2fog
+  when: s3_backups_bucket != "none"
 
 - name: copy the newrelic file into the shared folder
   template:
@@ -62,7 +66,9 @@
     dest={{ config_path }}/newrelic.yml
     owner={{ unicorn_user }}
     mode=0775
-  tags: app_templates
+  tags:
+    - app_templates
+    - newrelic
   when: newrelic_key != "none"
 
 - name: get l10n repo
