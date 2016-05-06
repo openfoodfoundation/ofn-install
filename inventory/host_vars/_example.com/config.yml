@@ -1,0 +1,6 @@
+---
+
+domain: example.com
+rails_env: production
+
+admin_email:
