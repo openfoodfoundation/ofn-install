@@ -1,9 +1,9 @@
 ---
 
+# See https://github.com/openfoodfoundation/ofn_deployment/wiki/Setup for more info
 checkout_zone: Europe
 country_code: GB
-# Find currency codes at http://en.wikipedia.org/wiki/ISO_4217.
-currency: AUD
+currency: GBP
 locale: en-GB
 language: en_GB.UTF-8
 language_packages:

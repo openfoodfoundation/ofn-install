@@ -2,6 +2,7 @@
 www.openfoodnetwork.org.au
 
 [au-staging]
+staging1.openfoodnetwork.com.au
 staging2.openfoodnetwork.com.au
 
 [au:children]
@@ -28,10 +29,16 @@ openfoodireland.eu
 ie-prod
 
 
+[in-prod]
+www.openfoodnetwork.in
+
+[in:children]
+in-prod
+
 
 [ofn_servers:children]
 au
 ie
 uk
-
+in
 

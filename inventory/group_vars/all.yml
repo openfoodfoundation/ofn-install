@@ -20,6 +20,24 @@ protocol: https
 l10n_git_version: HEAD
 
 
+# OFN monitoring and instrumentation
+#   newrelic_key - the Newrelic key for application monitoring. Set to "none" to NOT use newrelic.
+#   bugsnag_key - the Bugnsag key for bug monitoring. Set to "none" to not use bugsnag.
+newrelic_key: none
+bugsnag_key: none
+
+
+# Asset and content delivery
+#  Amazon S3 image hosting:
+#   s3_bucket -  The bucket id.  Set to none to NOT use s3
+#   s3_access_key_id - The access key.  Set to none to NOT use s3
+#   s3_secret_access_key - The secret access key.  Set to none to NOT use s3
+s3_bucket: none
+s3_access_key_id: none
+
+
+
+
 ###########################################################################################
 # OTHER VARIABLES - You can probably go with the herd and leave these as is.
 
