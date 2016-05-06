@@ -1,7 +1,9 @@
 ---
 - name: install language package(s)
   become: yes
-  apt: pkg={{ item }} state=latest force=yes
+  apt:
+    pkg={{ item }}
+    state=present
   with_items:
     - language_packages
 

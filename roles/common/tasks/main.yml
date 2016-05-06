@@ -1,12 +1,15 @@
 --- # common
 
 - name: update apt
-  apt: update_cache=yes
+  apt:
+    update_cache=yes
   become: yes
 
   #TODO remove unnecesary packages from this list.
 - name: install base packages
-  apt: pkg={{ item }} state=latest force=yes
+  apt:
+    pkg={{ item }}
+    state=present
   become: yes
   with_items:
     - build-essential
@@ -34,5 +37,7 @@
     #- nfs-common # make virtualbox faster
 
 - name: configure monit
-  template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
+  template:
+    src=monit.j2
+    dest=/etc/monit/conf.d/{{ app }}
   become: yes

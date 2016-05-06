@@ -1,4 +1,7 @@
 
 # from galaxy
 - src: zzet.rbenv
+  version: 2.2.1
+
 - src: mortik.nginx-rails
+  version: v0.3

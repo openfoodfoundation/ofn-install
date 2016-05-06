@@ -2,18 +2,24 @@
 
 # Remove old rollbacks so they aren't used accidentally after errors.
 - name: remove the old rollback
-  file: dest={{ rollback_path }} state=absent
+  file:
+    dest={{ rollback_path }}
+    state=absent
   tags: clone
 
 - name: remove the old rollback database
-  file: dest={{ rollback_sql_path }} state=absent
+  file:
+    dest={{ rollback_sql_path }}
+    state=absent
   tags: clone
 
 #----------------
 # Build codebase
 
 - name: remove the old build path
-  file: dest={{ build_path }} state=absent
+  file:
+    dest={{ build_path }}
+    state=absent
   tags: clone
 
 - name: build codebase from git repo
@@ -33,7 +39,12 @@
 
 # TODO: Ugly hack until we have better configuration management
 - name: symlink into the repo
-  file: src={{ item.src }} dest={{ item.dest }} state=link force=yes owner={{ unicorn_user }}
+  file:
+    src={{ item.src }}
+    dest={{ item.dest }}
+    owner={{ unicorn_user }}
+    state=link
+    force=yes
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
@@ -105,11 +116,13 @@
 
 - name: create a database rollback version
   shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ rollback_sql_path }}
+
 - name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ current_date.stdout }}.sql.gz
 
 - name: create a repo rollback version
   command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
+
 - name: create a repo backup version
   command: cp -r {{ rollback_path }} {{ releases_path }}/{{ current_date.stdout }} removes={{ rollback_path }}
 

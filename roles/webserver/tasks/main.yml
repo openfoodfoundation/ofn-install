@@ -1,7 +1,12 @@
 --- # webserver
 
 - name: copy unicorn files
-  template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
+  template:
+    src={{ item.src }}
+    dest={{ item.dest }}
+    mode={{ item.mode }}
+    owner={{ item.owner }}
+    group={{ item.group }}
   become: yes
   with_items:
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
@@ -12,7 +17,9 @@
     - restart nginx
 
 - name: update unicorn
-  service: name=unicorn_{{ app }} enabled=yes
+  service:
+    name=unicorn_{{ app }}
+    enabled=yes
   become: yes
 
 - name: enable unicorn app with nginx
@@ -28,7 +35,9 @@
     - restart nginx
 
 - name: remove default nginx site
-  file: dest={{ nginx_path }}/sites-enabled/default state=absent
+  file:
+    dest={{ nginx_path }}/sites-enabled/default
+    state=absent
   become: yes
   tags: unicorn-nginx
   notify:

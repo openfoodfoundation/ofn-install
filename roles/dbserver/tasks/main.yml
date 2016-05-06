@@ -1,7 +1,9 @@
 --- # dbserver
 
 - name: install postgres packages
-  apt: pkg={{ item }} state=latest force=yes
+  apt:
+    pkg={{ item }}
+    state=present
   become: yes
   with_items:
     - postgresql
@@ -11,7 +13,10 @@
 - name: create db user
   become: yes
   become_user: postgres
-  postgresql_user: name={{ db_user }} password={{ db_pass }} role_attr_flags=CREATEDB,NOSUPERUSER
+  postgresql_user:
+    name={{ db_user }}
+    password={{ db_pass }}
+    role_attr_flags=CREATEDB,NOSUPERUSER
 
 - name: generate the .pgpass file
   template:
@@ -26,7 +31,9 @@
 # TODO: Surely there's a way to pipe this script over rather than copying and removing it?
 
 - name: copy fix_pg_encoding PG script
-  copy: src=fix_pg_encoding.sql dest={{ unicorn_home_path }}
+  copy:
+    src=fix_pg_encoding.sql
+    dest={{ unicorn_home_path }}
   become: yes
   become_user: "{{ unicorn_user }}"
   tags: pg-en
@@ -38,6 +45,8 @@
   tags: pg-en
 
 - name: remove fix_pg_encoding PG script
-  file: path={{ unicorn_home_path }}/fix_pg_encoding.sql state=absent
+  file:
+    path={{ unicorn_home_path }}/fix_pg_encoding.sql
+    state=absent
   become: yes
   become_user: "{{ unicorn_user }}"

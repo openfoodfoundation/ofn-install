@@ -19,7 +19,10 @@
   tags: dirs
 
 - name: copy seeds.rb
-  copy: src=seeds.rb dest={{ config_path }}/seeds.rb owner={{ unicorn_user }}
+  copy:
+    src=seeds.rb
+    dest={{ config_path }}/seeds.rb
+    owner={{ unicorn_user }}
   tags: app_templates
 
 - name: template files
