@@ -15,7 +15,7 @@
   become_user: postgres
   postgresql_user:
     name={{ db_user }}
-    password={{ db_pass }}
+    password={{ db_password }}
     role_attr_flags=CREATEDB,NOSUPERUSER
 
 - name: generate the .pgpass file
