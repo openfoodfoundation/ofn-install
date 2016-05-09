@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.provider :virtualbox do |vbox|
-    config.vm.box = "precise64"
+    config.vm.box = "ubuntu/trusty64"
     # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "1792"]
     # Optimise virtualbox.
@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "install.yml"
     #ansible.playbook = "deploy.yml"
     ansible.host_key_checking = false
-    ansible.verbose =  ''
+    ansible.verbose = 'v'
     #ansible.tags = 'deploy' # uncomment this for running only specific tags with vagrant, good for debugging.
     ansible.extra_vars = {
       ansible_ssh_user: 'vagrant',
