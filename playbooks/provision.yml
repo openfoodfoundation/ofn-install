@@ -35,11 +35,12 @@
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
 
-    - role: mortik.nginx-rails # Install nginx. If missing run: ansible-galaxy install mortik.nginx-rails
+      # Install nginx.
+    - role: mortik.nginx-rails
       become: yes
       templates:
-        - { src: "templates/nginx.conf.j2", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
-        - { src: "templates/ssl.js.j2", dest: "{{ nginx_path }}/{{ app }}_ssl", mode: "644" }
+        - { src: "../templates/nginx.conf.j2", dest: "{{ nginx_path }}/nginx.conf", mode: "644" }
+        - { src: "../templates/ssl.js.j2", dest: "{{ nginx_path }}/{{ app }}_ssl", mode: "644" }
       tags: nginx
 
     - role: webserver # Build the unicorn webserver.

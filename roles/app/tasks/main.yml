@@ -3,7 +3,10 @@
 # Setup shared files and folders
 
 - name: make dirs
-  file: path={{ item }} state=directory owner={{ unicorn_user }}
+  file:
+    path={{ item }}
+    state=directory
+    owner={{ unicorn_user }}
   with_items:
     - "{{ app_path }}"
     - "{{ shared_path }}"
@@ -37,39 +40,6 @@
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
   tags: app_templates
-
-- name: copy the bugsnag file into the shared folder
-  template:
-    src=bugsnag.rb.j2
-    dest={{ config_path }}/bugsnag.rb
-    owner={{ unicorn_user }}
-    mode=0775
-  tags:
-    - app_templates
-    - bugsnag
-  when: bugsnag_key != "none"
-
-- name: copy the db2fog file into the shared folder
-  template:
-    src=db2fog.rb.j2
-    dest={{ config_path }}/db2fog.rb
-    owner={{ unicorn_user }}
-    mode=0775
-  tags:
-    - app_templates
-    - db2fog
-  when: s3_backups_bucket != "none"
-
-- name: copy the newrelic file into the shared folder
-  template:
-    src=newrelic.yml.j2
-    dest={{ config_path }}/newrelic.yml
-    owner={{ unicorn_user }}
-    mode=0775
-  tags:
-    - app_templates
-    - newrelic
-  when: newrelic_key != "none"
 
 - name: get l10n repo
   git:

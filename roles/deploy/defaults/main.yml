@@ -1,3 +1,10 @@
 ---
 rollback_path: "{{ app_path }}/rollback"
 rollback_sql_path: "{{ app_path }}/rollback.sql.gz"
+
+
+newrelic_key: none
+
+bugsnag_key: none
+
+s3_backups_bucket: none

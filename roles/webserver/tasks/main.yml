@@ -13,7 +13,6 @@
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "nginx_unicorn.j2", dest: "{{ nginx_path }}/sites-available/{{ app }}", mode: "0600", owner: root, group: root }
   notify:
-    - restart unicorn
     - restart nginx
 
 - name: update unicorn
@@ -31,7 +30,6 @@
   become: yes
   tags: unicorn-nginx
   notify:
-    - restart unicorn
     - restart nginx
 
 - name: remove default nginx site
@@ -41,18 +39,5 @@
   become: yes
   tags: unicorn-nginx
   notify:
-    - restart unicorn
     - restart nginx
 
-#- name: download phantomjs
-#  get_url: url=https://phantomjs.googlecode.com/files/{{ phantomjs }}.tar.bz2
-#           dest=/var/tmp/{{ phantomjs }}.tar.bz2
-#  become: yes
-
-#- name: untar phantomjs
-#  shell: chdir=/var/tmp tar xjf {{ phantomjs }}.tar.bz2 creates=/var/tmp/{{ phantomjs }}
-#  become: yes
-
-#- name: symlink the phantomjs executable
-#  file: dest=/usr/bin/phantomjs src=/var/tmp/{{ phantomjs }}/bin/phantomjs state=link
-#  become: yes

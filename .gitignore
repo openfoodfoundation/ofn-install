@@ -1,11 +1,6 @@
 .vagrant/
 ssl.crt
 ssl.key
-vars.yml
-files/*
--files/README.md
-production
-staging
 backups/*
 community
 inventory/host_vars/*/secrets.yml

@@ -13,9 +13,12 @@ unicorn_user: openfoodnetwork
 # The Ansible scripts will put it up onto the proper location on the OFN server.
 # This might be used by hosts (like DigitalOcean) that require or encourage you
 # to connect using SSH instead of just passwords.
-ssh_pubkey: "{{ lookup('file', '~/.ssh/ofn_rsa.pub') }}"
+ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 
 protocol: https
+
+git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
+git_version:  v1.7.0
 
 l10n_git_version: HEAD
 
@@ -26,7 +29,7 @@ l10n_git_version: HEAD
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby: 1.9.3-p392
+ruby: 2.1.5
 gem_path: /home/{{ user }}/.gem
 bundle_path: /home/{{ user }}/.rbenv/shims/bundle
 env:
@@ -46,7 +49,8 @@ db_host: localhost
 app: openfoodnetwork
 # Paths
 home_path: "/home/{{ user }}"
-app_path: "{{ home_path }}/apps/{{ app }}"
+unicorn_home_path: "/home/{{ unicorn_user }}"
+app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"
 build_path: "{{ app_path }}/build"
@@ -62,6 +66,7 @@ config_path: "{{ shared_path }}/config"
 log_path: "{{ shared_path }}/log"
 pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
+l10n_path: "{{ shared_path }}/l10n"
 git_post_receive: "{{ current_path }}/.git/hooks/post-receive"
 
 #----------------------------------------------------------------------
