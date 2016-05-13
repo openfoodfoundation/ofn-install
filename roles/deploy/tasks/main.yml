@@ -161,7 +161,6 @@
 - name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
   tags: rake
-- debug: msg="{{ table_exists.stdout }}"
   notify:
     - precompile assets
     - restart unicorn

@@ -1,10 +1,7 @@
 ---
 
-# User name and password for running scripts
-user: ubuntu
-
-# User name for the unprivileged user which runs unicorn
-unicorn_user: openfoodnetwork
+# User name and password for running ansible on host
+user: ofn-admin
 
 # Connecting to the server
 #   ssh_pubkey - Location of the SSH public key file for the user created by
@@ -77,7 +74,8 @@ port: 3000
 
 #----------------------------------------------------------------------
 # Unicorn variables
-# unicorn_user: "{{ user }}"
+# User name for the unprivileged user which runs unicorn
+unicorn_user: openfoodnetwork
 unicorn_config: "{{ config_path }}/unicorn.rb"
 unicorn_log: "{{ log_path }}/unicorn.log"
 unicorn_pid: "{{ pid_path }}/unicorn.pid"

@@ -1,4 +1,14 @@
 ---
+- name: default_user
+  hosts: ofn_servers
+
+  roles:
+    - role: default_user
+      become: yes
+      tags: default_user
+
+
+
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"
