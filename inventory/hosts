@@ -1,3 +1,6 @@
+#------------------------------------------------------------------------------
+# Australia
+
 [au-prod]
 www.openfoodnetwork.org.au
 
@@ -10,17 +13,8 @@ au-prod
 au-staging
 
 
-[uk-prod]
-www.openfoodnetwork.org.uk
-
-[uk-staging]
-staging.openfoodnetwork.org.uk ansible_host=178.62.109.202
-
-[uk:children]
-uk-prod
-uk-staging
-
-
+#------------------------------------------------------------------------------
+# Ireland
 
 [ie-prod]
 openfoodireland.eu
@@ -29,6 +23,9 @@ openfoodireland.eu
 ie-prod
 
 
+#------------------------------------------------------------------------------
+# India
+
 [in-prod]
 www.openfoodnetwork.in
 
@@ -36,9 +33,45 @@ www.openfoodnetwork.in
 in-prod
 
 
+
+#------------------------------------------------------------------------------
+# UK
+
+[uk-prod]
+www.openfoodnetwork.org.uk
+
+[uk-staging]
+#staging.openfoodnetwork.org.uk ansible_host=178.62.109.202
+staging.openfoodnetwork.org.uk ansible_host=188.166.136.240
+#staging2.openfoodnetwork.org.uk ansible_host=
+
+[uk:children]
+uk-prod
+uk-staging
+
+
+#------------------------------------------------------------------------------
+# USA
+
+[us-prod]
+www.usfoodcoop.org
+
+[us-staging]
+staging.usfoodcoop.org ansible_host=
+
+[us:children]
+us-prod
+us-staging
+
+
+
+#------------------------------------------------------------------------------
+# All
+
 [ofn_servers:children]
 au
 ie
-uk
 in
+uk
+us
 
