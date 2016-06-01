@@ -15,11 +15,13 @@
 # Create a new database backup every time
 - name: backup remote database
   shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ backup_path }}/{{ backup_filename }}
+  become: yes
+  become_user: "{{ unicorn_user }}"
 
 - name: fetch database to local
   fetch:
     src={{ backup_path }}/{{ backup_filename }}
-    dest={{ local_backup_path }}/{{ ansible_hostname }}/databases/
+    dest={{ local_backup_path }}/{{ domain }}/databases/
     fail_on_missing=yes
     flat=yes
 
@@ -28,7 +30,7 @@
   synchronize:
     mode=pull
     src={{ current_path }}/public
-    dest={{ local_rsync_path }}/{{ ansible_hostname }}/files
+    dest={{ local_rsync_path }}/{{ domain }}/files
     copy_links=yes
   tags: rsync
 
