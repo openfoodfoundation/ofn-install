@@ -4,11 +4,12 @@
   apt:
     update_cache=yes
   become: yes
+  tags: packages
 
   #TODO remove unnecesary packages from this list.
 - name: install base packages
   apt:
-    pkg={{ item }}
+    pkg="{{ item }}"
     state=present
   become: yes
   with_items:
@@ -16,7 +17,6 @@
     - git-core
     - nodejs
     - imagemagick
-    - fail2ban
     - curl
     - python-pycurl
     - python-psycopg2 # needed for some ansible libraries
@@ -35,6 +35,7 @@
     - monit
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster
+  tags: packages
 
 - name: configure monit
   template:

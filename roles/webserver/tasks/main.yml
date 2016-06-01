@@ -11,7 +11,6 @@
   with_items:
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "nginx_unicorn.j2", dest: "{{ nginx_path }}/sites-available/{{ app }}", mode: "0600", owner: root, group: root }
   notify:
     - restart nginx
 
@@ -20,24 +19,3 @@
     name=unicorn_{{ app }}
     enabled=yes
   become: yes
-
-- name: enable unicorn app with nginx
-  file:
-    src={{ nginx_path }}/sites-available/{{ app }}
-    dest={{ nginx_path }}/sites-enabled/{{ app }}
-    state=link
-    mode=0644
-  become: yes
-  tags: unicorn-nginx
-  notify:
-    - restart nginx
-
-- name: remove default nginx site
-  file:
-    dest={{ nginx_path }}/sites-enabled/default
-    state=absent
-  become: yes
-  tags: unicorn-nginx
-  notify:
-    - restart nginx
-

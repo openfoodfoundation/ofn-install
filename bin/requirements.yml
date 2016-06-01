@@ -1,7 +1,14 @@
 
 # from galaxy
+- src: geerlingguy.security
+  version: 1.3.0
+
 - src: zzet.rbenv
   version: 2.2.1
 
-- src: mortik.nginx-rails
-  version: v0.3
+- src: jdauphant.nginx
+  version: v2.1.0
+
+- src: thefinn93.letsencrypt
+  # version:
+
