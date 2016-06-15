@@ -9,6 +9,7 @@
   apt: pkg={{ item }} state=latest force=yes
   sudo: yes
   with_items:
+    - acl
     - build-essential
     - git-core
     - nodejs
