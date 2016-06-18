@@ -7,7 +7,7 @@
 
   vars_files:
     - vars/default_vars.yml
-    - vars.yml
+    - host_vars/staging.vars.yml
 
   roles:
     - role: deploy

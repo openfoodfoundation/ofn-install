@@ -1,5 +1,5 @@
 upstream unicorn {
-  server unix:{{ unicorn_sock }} fail_timeout=0;
+  server unix:{{ unicorn_sock }} fail_timeout=1;
 }
 
 server {
@@ -18,7 +18,7 @@ server {
 
   include {{ app }}_ssl;
 
-  server_name www.{{ domain }};
+  server_name {{sub_domain}} {{ domain }};
   rewrite ^(.*) {{ protocol }}://{{ domain }}/$1 permanent;
 }
 {% endif %}

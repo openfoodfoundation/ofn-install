@@ -1,4 +1,4 @@
-check process openfoodnetwork_dj_worker_0
+check process ofn_america_dj_worker_0
 with pidfile {{ current_path }}/tmp/pids/delayed_job.0.pid
 start program = "/bin/bash -c 'RAILS_ENV={{ rails_env }} {{ unicorn_home_path }}/.rbenv/shims/ruby {{ current_path }}/script/delayed_job -i 0 start'"
 as uid {{ unicorn_user }} and gid {{ unicorn_user }}
