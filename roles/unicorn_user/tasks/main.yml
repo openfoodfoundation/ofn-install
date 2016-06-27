@@ -11,6 +11,9 @@
 
 - name: add ssh key
   authorized_key:
-    user="{{ unicorn_user }}"
-    key="{{ ssh_pubkey }}"
+    user={{ user }}
+    key="{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state=present
+  with_flattened:
+    - users_sysadmin
   become: yes

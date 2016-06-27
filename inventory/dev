@@ -1,17 +1,6 @@
 
 [vagrant]
-#localhost
 local_vagrant ansible_host=192.168.50.4
-#192.168.0.17
-
-[vagrant:vars]
-ssh_pubkey_name=id_rsa.pub
-inventory=./inventory/dev
-remote_user=vagrant
-
-
-[uk:children]
-vagrant
 
 [ofn_servers:children]
-uk
+vagrant
