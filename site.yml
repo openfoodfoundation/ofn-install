@@ -1,0 +1,4 @@
+---
+
+- include: playbooks/provision.yml
+- include: playbooks/deploy.yml

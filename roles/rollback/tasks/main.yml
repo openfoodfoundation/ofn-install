@@ -1,7 +1,9 @@
 --- # Rollback
 
 - name: remove current path
-  file: dest={{ current_path }} state=absent
+  file:
+    dest={{ current_path }}
+    state=absent
 
 - name: copy rollback repo to current path
   command: cp -r {{ rollback_path }} {{ current_path }} creates={{ current_path }}

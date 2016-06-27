@@ -1,8 +1,19 @@
---- # Setup an unprivileged user - needs to be run as root.
+---
+
+# Setup an unprivileged user - needs to be run as root.
 - name: create unprivileged user
-  user: name="{{ unicorn_user }}" append=yes state=present shell=/bin/bash
-  sudo: yes
+  user:
+    name="{{ unicorn_user }}"
+    state=present
+    append=yes
+    shell=/bin/bash
+  become: yes
 
 - name: add ssh key
-  authorized_key: user="{{ unicorn_user }}" key="{{ ssh_pubkey }}"
-  sudo: yes
+  authorized_key:
+    user={{ user }}
+    key="{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state=present
+  with_flattened:
+    - users_sysadmin
+  become: yes

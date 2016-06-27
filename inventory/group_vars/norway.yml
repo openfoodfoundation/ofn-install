@@ -1,0 +1,13 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn_deployment/wiki/Setup for more info
+checkout_zone: Europe
+country_code: NO
+currency: NOK
+locale:
+language:
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_no.git
+timezone:
+

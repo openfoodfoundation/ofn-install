@@ -1,0 +1,6 @@
+#!/bin/bash
+
+command -v ansible >/dev/null 2>&1 || { echo >&2 "I require ansible but it's not installed.  Aborting."; exit 1; }
+
+
+ansible-galaxy install -r bin/requirements.yml

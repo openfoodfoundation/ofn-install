@@ -1,0 +1,7 @@
+---
+
+domain: www.openfoodnetwork.in
+rails_env: production
+
+admin_email:
+

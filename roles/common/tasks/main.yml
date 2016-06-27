@@ -1,20 +1,23 @@
 --- # common
 
 - name: update apt
-  apt: update_cache=yes
-  sudo: yes
+  apt:
+    update_cache=yes
+  become: yes
+  tags: packages
 
   #TODO remove unnecesary packages from this list.
 - name: install base packages
-  apt: pkg={{ item }} state=latest force=yes
-  sudo: yes
+  apt:
+    pkg="{{ item }}"
+    state=present
+  become: yes
   with_items:
     - acl
     - build-essential
     - git-core
     - nodejs
     - imagemagick
-    - fail2ban
     - curl
     - python-pycurl
     - python-psycopg2 # needed for some ansible libraries
@@ -33,7 +36,10 @@
     - monit
     #- fontconfig # needed for phantomjs
     #- nfs-common # make virtualbox faster
+  tags: packages
 
 - name: configure monit
-  template: src=monit.j2 dest=/etc/monit/conf.d/{{ app }}
-  sudo: yes
+  template:
+    src=monit.j2
+    dest=/etc/monit/conf.d/{{ app }}
+  become: yes

@@ -29,9 +29,14 @@ You will need Ansible on your machine to run the playbooks.
 These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 12.04 (64 bit)** on both AWS and DigitalOcean cloud servers.
 
 
+---
+
+
+
 ## Credits
 
 * Rafael Schouten (https://github.com/rafaqz)
 * Paul Mackay (https://github.com/pmackay)
 * Ashley Englund (https://github.com/weedySeaDragon)
 * Rohan Mitchell (http://github.com/rohanm)
+* Maikel Linke (https://github.com/mkllnk)
