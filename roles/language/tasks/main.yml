@@ -11,5 +11,5 @@
   become: yes
 
 - name: reconfigure locales
-  shell: "dpkg-reconfigure locales"
+  shell: "dpkg-reconfigure -f noninteractive locales"
   become: yes
