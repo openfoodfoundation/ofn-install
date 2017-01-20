@@ -12,3 +12,4 @@
 - src: thefinn93.letsencrypt
   # version:
 
+- src: conorsch.create-droplet
