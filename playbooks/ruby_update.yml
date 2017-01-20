@@ -13,8 +13,10 @@
       become: yes
       rbenv:
         env: user
-        version: v0.4.0
-        ruby_version: "{{ ruby }}"
+        version: v1.0.0
+        default_ruby: "{{ ruby_version }}"
+        rubies:
+          - version: "{{ ruby_version }}"
       rbenv_users:
         - { name: "{{ unicorn_user }}", home: "{{ unicorn_home_path }}", comment: "Main user"}
       tags: ruby
