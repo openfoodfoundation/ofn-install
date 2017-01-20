@@ -12,8 +12,7 @@
     user={{ user }}
     key="{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
     state=present
-  with_flattened:
-    - users_sysadmin
+  with_flattened: "{{ users_sysadmin }}"
 
 - name: add custom sudoer file
   template:

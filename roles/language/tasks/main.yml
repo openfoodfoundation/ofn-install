@@ -2,14 +2,16 @@
 - name: install language package(s)
   become: yes
   apt:
-    pkg={{ item }}
-    state=present
-  with_items: language_packages
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{{ language_packages }}"
 
 - name: update locales
-  shell: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
+  command: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
   become: yes
+  tags: skip_ansible_lint
 
 - name: reconfigure locales
-  shell: "dpkg-reconfigure locales"
+  command: "dpkg-reconfigure locales"
   become: yes
+  tags: skip_ansible_lint
