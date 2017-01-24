@@ -21,11 +21,6 @@ l10n_git_version: HEAD
 
 
 #----------------------------------------------------------------------
-# security role variables
-security_autoupdate_enabled: false
-
-
-#----------------------------------------------------------------------
 # Rails variables
 ruby: 2.1.5
 gem_path: /home/{{ user }}/.gem
