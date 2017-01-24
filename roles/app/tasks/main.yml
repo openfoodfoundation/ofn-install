@@ -36,11 +36,21 @@
     mode=0775
   with_items:
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
-    - { src: "db2fog.rb.j2", dest: "{{ config_path }}/db2fog.rb" }
     - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
+
+- name: copy the db2fog file into the shared folder
+  template:
+    src: db2fog.rb.j2
+    dest: "{{ config_path }}/db2fog.rb"
+    owner: "{{ unicorn_user }}"
+    mode: 0775
+  tags:
+    - app_templates
+    - db2fog
+  when: s3_backups_bucket != "none"
 
 - name: get l10n repo
   git:
