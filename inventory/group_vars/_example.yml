@@ -11,8 +11,11 @@ language_packages:
 l10n_repo: https://github.com/openfoodfoundation/l10n_au.git
 timezone:
 
+
+# Used for the LetsEncrypt email setting
 developer_email: <dev email>
 
+# Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
   - <username>
 
