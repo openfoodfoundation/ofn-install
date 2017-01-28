@@ -23,7 +23,9 @@
   ignore_errors: yes
   become: yes
   become_user: "{{ unicorn_user }}"
-  notify: restart unicorn step 2
+  notify:
+    - restart unicorn step 2
+    - restart nginx
 
 #TODO make sure both of these things run as one handler.
 - name: restart unicorn step 2
@@ -39,6 +41,13 @@
 - name: start unicorn
   service:
     name: unicorn_{{ app }}
+    state: started
+  become: yes
+  become_user: "{{ unicorn_user }}"
+
+- name: restart nginx
+  service:
+    name: nginx
     state: started
   become: yes
   become_user: "{{ unicorn_user }}"

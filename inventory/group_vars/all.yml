@@ -34,8 +34,6 @@ security_autoupdate_enabled: false
 #----------------------------------------------------------------------
 # Rails variables
 ruby_version: 2.1.5
-gem_path: "{{ ansible_env.HOME }}/.gem"
-bundle_path: "{{ ansible_env.HOME }}/.rbenv/shims/bundle"
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
@@ -55,6 +53,8 @@ db_host: localhost
 app: openfoodnetwork
 # Paths
 unicorn_home_path: "/home/{{ unicorn_user }}"
+gem_path: "{{ unicorn_home_path }}/.gem"
+bundle_path: "{{ unicorn_home_path }}/.rbenv/shims/bundle"
 app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"

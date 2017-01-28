@@ -18,4 +18,4 @@ script:
   - ansible-playbook -i inventory/dev --syntax-check playbooks/rollback.yml
   - ansible-playbook -i inventory/dev --syntax-check playbooks/user.yml
   - ansible-playbook -i inventory/dev --syntax-check playbooks/verify.yml
-  - ansible-lint site.yml
+  - ansible-lint site.yml --exclude=community
