@@ -5,7 +5,7 @@ These are [Ansible](http://docs.ansible.com/ansible/) playbooks (scripts) for ma
 
 The [Open Food Network](http://openfoodnetwork.org) is an online marketplace for local food. Instructions for configuring a development environment can be found on [the project's GitHub repository](https://github.com/openfoodfoundation/openfoodnetwork).
 
-Start with our [deployment tutorial](https://github.com/openfoodfoundation/ofn_deployment/wiki) to learn how to setup your own Open Food Network server with Ansible.
+Start with our [deployment tutorial](https://github.com/openfoodfoundation/ofn-install/wiki) to learn how to setup your own Open Food Network server with Ansible.
 
 
 ## Playbooks
@@ -28,6 +28,20 @@ You may want to use the [anisble option "checkrun"](http://docs.ansible.com/play
 You will need Ansible on your machine to run the playbooks.
 These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 12.04 (64 bit)** on both AWS and DigitalOcean cloud servers.
 
+
+## Code quality
+
+Install [ansible-lint](https://github.com/willthames/ansible-lint) by running:
+```
+pip install ansible-lint
+```
+
+Run the checks using:
+```
+ansible-lint site.yml
+```
+
+This is also run by Travis.
 
 ---
 

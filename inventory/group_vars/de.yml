@@ -1,0 +1,13 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn_deployment/wiki/Setup for more info
+checkout_zone:
+country_code: DE
+currency: EUR
+locale: de
+language: de_DE.UTF-8
+language_packages:
+  - language-pack-de-base
+l10n_repo: https://github.com/orangeman/l10n_de.git
+l10n_git_version: master
+timezone: Europe/Berlin
