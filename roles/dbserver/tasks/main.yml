@@ -36,13 +36,17 @@
     dest={{ unicorn_home_path }}
   become: yes
   become_user: "{{ unicorn_user }}"
-  tags: pg-en
+  tags:
+    - pg-en
+    - skip_ansible_lint
 
 - name: fix postgres db encoding problem
   command: psql -U postgres -f {{ unicorn_home_path }}/fix_pg_encoding.sql
   become: yes
   become_user: postgres
-  tags: pg-en
+  tags:
+    - pg-en
+    - skip_ansible_lint
 
 - name: remove fix_pg_encoding PG script
   file:
@@ -50,3 +54,5 @@
     state=absent
   become: yes
   become_user: "{{ unicorn_user }}"
+  tags:
+    - skip_ansible_lint
