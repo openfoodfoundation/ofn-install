@@ -11,9 +11,8 @@
 
 - name: add ssh key
   authorized_key:
-    user={{ user }}
-    key="{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
-    state=present
-  with_flattened:
-    - users_sysadmin
+    user: "{{ unicorn_user }}"
+    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state: present
+  with_flattened: "{{ users_sysadmin }}"
   become: yes

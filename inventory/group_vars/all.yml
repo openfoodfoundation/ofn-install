@@ -23,8 +23,6 @@ l10n_git_version: HEAD
 #----------------------------------------------------------------------
 # Rails variables
 ruby: 2.1.5
-gem_path: /home/{{ user }}/.gem
-bundle_path: /home/{{ user }}/.rbenv/shims/bundle
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
@@ -45,6 +43,8 @@ app: openfoodnetwork
 # Paths
 home_path: "/home/{{ user }}"
 unicorn_home_path: "/home/{{ unicorn_user }}"
+gem_path: "{{ unicorn_home_path }}/.gem"
+bundle_path: "{{ unicorn_home_path }}/.rbenv/shims/bundle"
 app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"

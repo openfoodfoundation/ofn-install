@@ -1,0 +1,10 @@
+---
+- name: setup
+  hosts: ofn_servers
+  remote_user: "{{ unicorn_user }}"
+
+  tasks:
+    - name: restore backup
+      command: "{{ bundle_path }} exec rake db2fog:restore"
+      args:
+        chdir: "{{ current_path }}"

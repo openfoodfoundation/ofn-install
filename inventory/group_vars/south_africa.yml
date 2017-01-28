@@ -1,6 +1,6 @@
 ---
 
-# See https://github.com/openfoodfoundation/ofn_deployment/wiki/Setup for more info
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
 checkout_zone: Africa
 country_code: ZA
 currency: ZAR
