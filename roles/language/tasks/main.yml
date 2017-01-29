@@ -12,6 +12,6 @@
   tags: skip_ansible_lint
 
 - name: reconfigure locales
-  command: "dpkg-reconfigure locales"
+  command: "dpkg-reconfigure -f noninteractive locales"
   become: yes
   tags: skip_ansible_lint
