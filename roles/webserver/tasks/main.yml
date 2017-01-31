@@ -11,11 +11,14 @@
   with_items:
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
+    - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
   notify:
     - restart nginx
+  tags: unicorn
 
 - name: update unicorn
   service:
-    name=unicorn_{{ app }}
-    enabled=yes
+    name: "unicorn_{{ app }}"
+    enabled: yes
   become: yes
+  tags: unicorn

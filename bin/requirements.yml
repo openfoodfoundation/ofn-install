@@ -7,7 +7,7 @@
   version: 2.2.1
 
 - src: jdauphant.nginx
-  version: v2.1.0
+  version: v2.7.4
 
 - src: thefinn93.letsencrypt
   # version:
