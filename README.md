@@ -38,7 +38,7 @@ pip install ansible-lint
 
 Run the checks using:
 ```
-ansible-lint site.yml
+ansible-lint site.yml --exclude=community
 ```
 
 This is also run by Travis.
