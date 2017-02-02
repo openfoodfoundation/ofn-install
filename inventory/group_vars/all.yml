@@ -28,11 +28,10 @@ admin_email: "admin@{{ domain }}"
 
 #----------------------------------------------------------------------
 # security role variables
-security_autoupdate_enabled: false
+security_autoupdate_mail_to: "{{ developer_email }}"
 
 
 #----------------------------------------------------------------------
-
 # Rails variables
 ruby_version: 2.1.5
 env:

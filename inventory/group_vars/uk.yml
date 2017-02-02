@@ -13,7 +13,6 @@ timezone: London
 
 
 developer_email: dev.ofnuk@gmail.com
-security_autoupdate_mail_to: "{{ developer_email }}"
 
 users_sysadmin:
   - pmackay
