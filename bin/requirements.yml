@@ -9,7 +9,7 @@
 - src: jdauphant.nginx
   version: v2.7.4
 
-- src: thefinn93.letsencrypt
-  # version:
+- src: geerlingguy.certbot
+  version: 1.0.1
 
 - src: conorsch.create-droplet
