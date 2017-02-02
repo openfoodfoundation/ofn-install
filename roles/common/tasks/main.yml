@@ -23,7 +23,6 @@
     - python-psycopg2 # needed for some ansible libraries
     - python-software-properties
     - libpq-dev
-    - unattended-upgrades
     - tklib
     - zlib1g-dev
     - libssl-dev

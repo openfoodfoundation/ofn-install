@@ -28,7 +28,7 @@ admin_email: "admin@{{ domain }}"
 
 #----------------------------------------------------------------------
 # security role variables
-security_autoupdate_enabled: false
+security_autoupdate_mail_to: "{{ developer_email }}"
 
 
 #----------------------------------------------------------------------
