@@ -1,10 +1,10 @@
 
 # from galaxy
 - src: geerlingguy.security
-  version: 1.3.0
+  version: 1.5.0
 
 - src: zzet.rbenv
-  version: 2.2.1
+  version: 3.0.0
 
 - src: jdauphant.nginx
   version: v2.7.4
@@ -12,3 +12,4 @@
 - src: thefinn93.letsencrypt
   # version:
 
+- src: conorsch.create-droplet

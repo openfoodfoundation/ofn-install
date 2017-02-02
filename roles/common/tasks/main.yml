@@ -24,7 +24,6 @@
     - python3-psycopg2
     - python-software-properties
     - libpq-dev
-    - unattended-upgrades
     - tklib
     - zlib1g-dev
     - libssl-dev
