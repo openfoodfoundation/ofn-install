@@ -15,9 +15,15 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 protocol: https
 
 git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-git_version:  v1.7.0
+git_version:  v1.8.6
 
 l10n_git_version: HEAD
+
+
+#----------------------------------------------------------------------
+# Default values (should be overridden in each server config)
+rails_env: staging
+admin_email: "admin@{{ domain }}"
 
 
 #----------------------------------------------------------------------
@@ -27,7 +33,7 @@ security_autoupdate_enabled: false
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby: 2.1.5
+ruby_version: 2.1.5
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
@@ -46,7 +52,6 @@ db_host: localhost
 # App variables
 app: openfoodnetwork
 # Paths
-home_path: "/home/{{ user }}"
 unicorn_home_path: "/home/{{ unicorn_user }}"
 gem_path: "{{ unicorn_home_path }}/.gem"
 bundle_path: "{{ unicorn_home_path }}/.rbenv/shims/bundle"
