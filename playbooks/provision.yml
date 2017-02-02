@@ -34,8 +34,11 @@
     - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
       rbenv:
         env: user
-        version: v0.4.0
-        ruby_version: "{{ ruby }}"
+        version: v1.0.0
+        default_ruby: "{{ ruby_version }}"
+        rubies:
+          - version: "{{ ruby_version }}"
+
       rbenv_users:
         - "{{ unicorn_user }}"
       tags: ruby
