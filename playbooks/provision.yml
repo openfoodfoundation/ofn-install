@@ -56,19 +56,20 @@
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
 
+    - role: geerlingguy.certbot
+      become: yes
+      certbot_auto_renew_user: "{{ unicorn_user }}"
+      when: protocol == "https"
+      tags: cert
+
+    - role: cert
+      when: protocol == "https"
+      tags: cert
+
     - role: jdauphant.nginx
       become: yes
       tags: nginx
 
     - role: webserver # Build the unicorn webserver.
       tags: webserver
-
-    - role: thefinn93.letsencrypt
-      become: yes
-      letsencrypt_email: "{{ developer_email }}"
-      letsencrypt_cert_domains:
-        - "{{ domain }}"
-      letsencrypt_renewal_command_args: '--renew-hook "systemctl restart nginx"'
-      tags: letsencrypt
-      when: protocol == "https"
 

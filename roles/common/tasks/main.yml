@@ -21,6 +21,7 @@
     - curl
     - python-pycurl
     - python-psycopg2 # needed for some ansible libraries
+    - python3-psycopg2
     - python-software-properties
     - libpq-dev
     - tklib
