@@ -2,12 +2,17 @@
 - name: default_user
   hosts: ofn_servers
   remote_user: root
+  gather_facts: no
+  pre_tasks:
+    - name: Check if default user exists, we will skip the default_user role if already existent.
+      local_action: "command ssh -q -o BatchMode=yes -o ConnectTimeout=3 {{ user }}@{{ inventory_hostname }} 'echo ok'"
+      register: check_default_user
+      ignore_errors: true
   roles:
     - role: default_user
       become: yes
       tags: default_user
-
-
+      when: "'ok' != check_default_user.stdout"
 
 - name: provision
   hosts: ofn_servers
