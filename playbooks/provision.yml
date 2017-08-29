@@ -1,14 +1,4 @@
 ---
-- name: default_user
-  hosts: ofn_servers
-  remote_user: root
-  roles:
-    - role: default_user
-      become: yes
-      tags: default_user
-
-
-
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"
@@ -72,4 +62,3 @@
 
     - role: webserver # Build the unicorn webserver.
       tags: webserver
-
