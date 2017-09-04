@@ -2,16 +2,7 @@
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"
-
-  vars:
-    nginx_daemon_mode: off
-
   roles:
-    - role: geerlingguy.security
-      become: yes
-      become_user: root
-      tags: security
-
     - role: unicorn_user # Create unprivileged user to run unicorn
       tags: unicorn_user
 
@@ -38,28 +29,16 @@
       become_user: "{{ unicorn_user }}"
       tags: bundler
 
-    - role: app # Build the app directory structure and support files.
-      become: yes
-      become_user: "{{ unicorn_user }}"
-      tags: app
-
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
-      db_user_roles: CREATEDB
+      db_user_roles: SUPERUSER,CREATEDB
 
-    - role: geerlingguy.certbot
-      become: yes
-      certbot_auto_renew_user: "{{ unicorn_user }}"
-      when: protocol == "https"
-      tags: cert
+    # - role: devloper # Handy tools for developers
+    #   tags: devloper
 
-    - role: cert
-      when: protocol == "https"
-      tags: cert
-
-    - role: jdauphant.nginx
-      become: yes
-      tags: nginx
-
-    - role: webserver # Build the unicorn webserver.
-      tags: webserver
+  vars:
+    ansible_python_interpreter: /usr/bin/python2.7
+    language_packages:
+      - language-pack-en-base
+    language: en_US.UTF-8
+    users_sysadmin:

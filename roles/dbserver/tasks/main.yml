@@ -16,7 +16,7 @@
   postgresql_user:
     name={{ db_user }}
     password={{ db_password }}
-    role_attr_flags=CREATEDB,NOSUPERUSER
+    role_attr_flags={{ db_user_roles }}
 
 - name: generate the .pgpass file
   template:
