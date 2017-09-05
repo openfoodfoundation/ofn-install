@@ -4,16 +4,9 @@
 # Flags
 set -e
 
-# Default values
-name="ofn-dev"
-host="ofn-test.org"
-app_user="openfoodnetwork"
-inv="$PWD/inventory/dev"
-playbook="playbooks/development.yml"
 # External files
 # Get cfg values
 source "$PWD/scripts/config/lxc.cfg"
-source "$PWD/scripts/config/ansible.cfg"
 # Check if container exist
 # Install python2.7 in container:
 echo "Installing Python2.7"
@@ -25,8 +18,9 @@ echo "Installing ansible community dependencies of playbooks"
 bin/setup
 echo
 # Execute playbook development.yml:
-echo "Ansible playbook"
-ansible-playbook "$playbook" -u "$app_user" -i "$inv" -e 'ansible_python_interpreter=/usr/bin/python2.7' --limit=lxc --ask-sudo-pass
+echo "Ansible playbooks"
+ansible-playbook playbooks/default_user.yml -i "$PWD/inventory/dev" --limit=lxc -e "ssh_key_path=$ssh_path ansible_python_interpreter=/usr/bin/python2.7"
+ansible-playbook playbooks/development.yml -u openfoodnetwork -i "$PWD/inventory/dev" -e 'ansible_python_interpreter=/usr/bin/python2.7' --limit=lxc --ask-sudo-pass
 echo "Provision OK!"
 echo
 echo "Accessing $host with user $app_user to install bundle dependencies and setup db"

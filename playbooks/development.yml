@@ -42,4 +42,4 @@
     language_packages:
       - language-pack-en-base
     language: en_US.UTF-8
-    users_sysadmin:
+    users_sysadmin: []
