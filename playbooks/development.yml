@@ -32,6 +32,7 @@
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
       db_user_roles: SUPERUSER,CREATEDB
+      db_user: ofn
 
     # - role: devloper # Handy tools for developers
     #   tags: devloper
