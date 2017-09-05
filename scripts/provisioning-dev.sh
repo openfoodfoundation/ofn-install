@@ -29,17 +29,7 @@ echo "Ansible playbook"
 ansible-playbook "$playbook" -u "$app_user" -i "$inv" -e 'ansible_python_interpreter=/usr/bin/python2.7' --limit=lxc --ask-sudo-pass
 echo "Provision OK!"
 echo
-echo "Accessing $host with user $app_user"
-ssh "$app_user"@"$host" << EOF
-  cd openfoodnetwork/
-  echo "Copy example config/application.yml"
-  cp -n config/application.yml.example config/application.yml
-  echo "Installing ruby application and gem dependencies"
-  bundle install
-  echo "Doing the database setup..."
-  bundle exec rake db:setup
-  echo
-  echo "Load default data for development environment..."
-  bundle exec rake openfoodnetwork:dev:load_sample_data
-EOF
+echo "Accessing $host with user $app_user to install bundle dependencies and setup db"
+ssh "$app_user"@"$host" "bash -s" < "$PWD/scripts/db-setup.sh"
+
 echo "Databases ready!"
