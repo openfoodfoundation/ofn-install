@@ -34,9 +34,6 @@
       db_user_roles: SUPERUSER,CREATEDB
       db_user: ofn
 
-    # - role: devloper # Handy tools for developers
-    #   tags: devloper
-
   vars:
     ansible_python_interpreter: /usr/bin/python2.7
     language_packages:
