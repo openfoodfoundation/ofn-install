@@ -4,27 +4,17 @@
 # Flags
 # set -e
 
-# Default values
-name="ofn-test"
-template="/usr/share/lxc/templates/lxc-ubuntu"
-rls="trusty"
-dconfig="/tmp/ubuntu.$name.conf"
-host="ofn-test.org"
-nproject="openfoodnetwork"
-fproject="${PWD%/*}/$nproject"
-app_user="openfoodnetwork"
 # External files
 # Get cfg values
 source "$PWD/scripts/config/lxc.cfg"
 
 # Check config file
 echo "Checking config file"
-if [ ! -e "$config" ] ; then
-  config="$dconfig"
-  echo "Creating config file: $config"
+if [ ! -e "$lxc_config" ] ; then
+  echo "Creating config file: $lxc_config"
 
   network_link="$(brctl show | awk '{if ($1 != "bridge")  print $1 }')"
-  cat >"$config" <<EOL
+  cat >"$lxc_config" <<EOL
 # Network configuration
 lxc.network.type = veth
 lxc.network.flags = up
@@ -36,11 +26,11 @@ fi
 echo "* CONFIGURATION:"
 echo "  - Name: $name"
 echo "  - Template: $template"
-echo "  - Configuration: $config"
+echo "  - LXC Configuration: $lxc_config"
 echo "  - Release: $rls"
 echo "  - Host: $host"
-echo "	- Project Name: $nproject"
-echo "	- Project Directory: $fproject"
+echo "	- Project Name: $project_name"
+echo "	- Project Directory: $project_path"
 echo
 
 echo
@@ -51,7 +41,7 @@ exist_container="$(sudo lxc-ls $name)"
 echo "Check container ${exist_container}"
 if [ -z "${exist_container}" ] ; then
   echo "Creating container $name"
-  sudo lxc-create --name "$name" -f "$config" -t "$template" --logfile ./log/$name-create.log -- --release "$rls"
+  sudo lxc-create --name "$name" -f "$lxc_config" -t "$template" --logfile ./log/$name-create.log -- --release "$rls"
 fi
 echo "Container ready"
 
@@ -122,7 +112,7 @@ echo "Copy ssh key for $app_user"
 ssh-copy-id $app_user@$host
 # Mount project folder
 echo "Mounting project folder..."
-mount_entry="lxc.mount.entry = $fproject /var/lib/lxc/$name/rootfs/home/openfoodnetwork/$nproject none bind,create=dir 0.0"
+mount_entry="lxc.mount.entry = $project_path /var/lib/lxc/$name/rootfs/home/openfoodnetwork/$project_name none bind,create=dir 0.0"
 echo "$mount_entry" | sudo tee -a /var/lib/lxc/"$name"/config > /dev/null
 echo
 # Reboot the container
