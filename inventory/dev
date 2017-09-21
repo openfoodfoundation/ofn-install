@@ -2,5 +2,9 @@
 [vagrant]
 local_vagrant ansible_host=192.168.50.4
 
+[lxc]
+local.ofn.org
+
 [ofn_servers:children]
 vagrant
+lxc
