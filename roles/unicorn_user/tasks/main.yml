@@ -16,3 +16,20 @@
     state: present
   with_flattened: "{{ users_sysadmin }}"
   become: yes
+
+- name: Write OFN environment variables defaults
+  become: true
+  template:
+    src: defaults.j2
+    dest: /etc/default/openfoodnetwork
+    group: "{{ unicorn_user }}"
+    mode: 0640
+
+- name: Write bash_profile for unicorn user
+  become: true
+  template:
+    src: bash_profile.j2
+    dest: "/home/{{ unicorn_user }}/.bash_profile"
+    owner: "{{ unicorn_user }}"
+    group: "{{ unicorn_user }}"
+    mode: 0644
