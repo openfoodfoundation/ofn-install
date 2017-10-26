@@ -7,7 +7,7 @@ Description=Open Food Network unicorn server
 Type=simple
 User=openfoodnetwork
 WorkingDirectory={{ current_path }}
-Environment=RAILS_ENV=production
+Environment=RAILS_ENV={{ rails_env }}
 SyslogIdentifier=openfoodnetwork-unicorn
 PIDFile={{ unicorn_pid }}
 
