@@ -169,6 +169,8 @@ nginx_sites:
       client_max_body_size 4G;
       keepalive_timeout 60;
 
+      include /etc/nginx/sites-available/ofn/*;
+
 nginx_events_params:
   - worker_connections 768
 
