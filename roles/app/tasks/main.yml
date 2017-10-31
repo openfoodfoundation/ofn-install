@@ -53,7 +53,7 @@
   tags:
     - app_templates
     - bugsnag
-  when: bugsnag_key != "none"
+  when: bugsnag_key is defined
 
 - name: copy the db2fog file into the shared folder
   template:
