@@ -54,10 +54,9 @@ uk-staging
 # USA
 
 [us-prod]
-www.usfoodcoop.org
+openfoodnetwork.net ansible_host=52.3.171.208
 
 [us-staging]
-staging.usfoodcoop.org ansible_host=
 
 [us:children]
 us-prod
