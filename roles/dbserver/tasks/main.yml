@@ -10,6 +10,12 @@
     - postgresql-client
     - postgresql-contrib
 
+- name: start database
+  become: yes
+  service:
+    name=postgresql
+    state=started
+
 - name: create db user
   become: yes
   become_user: postgres
