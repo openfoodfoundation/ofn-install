@@ -3,10 +3,10 @@
 # Setup an unprivileged user - needs to be run as root.
 - name: create unprivileged user
   user:
-    name="{{ unicorn_user }}"
-    state=present
-    append=yes
-    shell=/bin/bash
+    name: "{{ unicorn_user }}"
+    state: present
+    append: yes
+    shell: /bin/bash
   become: yes
 
 - name: add ssh key
