@@ -1,0 +1,29 @@
+---
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: USA
+country_code: US
+currency: USD
+locale: en
+language: en_US.UTF8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_us.git
+l10n_git_version: master
+timezone: Central Time (US & Canada)
+
+# Used for the LetsEncrypt email setting
+developer_email: ofn-usa@openfoodnetwork.net
+
+# Users listed here will have their key from /files/keys added to the unicorn_user
+users_sysadmin:
+  - enricostn
+  - dani
+
+# Disabled for now
+s3_backups_bucket: none
+s3_access_key: 666
+s3_secret: 666
+
+# Disabled for now
+stripe_client_id: 666
+stripe_instance_secret_key: 666

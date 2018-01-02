@@ -1,0 +1,4 @@
+---
+domain: openfoodnetwork.net
+rails_env: production
+admin_email: ofn-usa@openfoodnetwork.net
