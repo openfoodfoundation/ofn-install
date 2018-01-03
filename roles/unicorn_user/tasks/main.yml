@@ -3,10 +3,10 @@
 # Setup an unprivileged user - needs to be run as root.
 - name: create unprivileged user
   user:
-    name="{{ unicorn_user }}"
-    state=present
-    append=yes
-    shell=/bin/bash
+    name: "{{ unicorn_user }}"
+    state: present
+    append: yes
+    shell: /bin/bash
   become: yes
 
 - name: add ssh key
@@ -33,3 +33,10 @@
     owner: "{{ unicorn_user }}"
     group: "{{ unicorn_user }}"
     mode: 0644
+
+- name: Create sudoers configuration for unicorn user
+  become: true
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ unicorn_user }}"
+    mode: 0440
