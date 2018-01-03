@@ -26,6 +26,6 @@
 
 - name: add custom sudoer file
   template:
-    src=sudoer.j2
-    dest="/etc/sudoers.d/90-{{ user }}"
-    mode=0440
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ user }}"
+    mode: 0440
