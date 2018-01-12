@@ -18,6 +18,7 @@ developer_email: ofn-usa@openfoodnetwork.net
 users_sysadmin:
   - enricostn
   - dani
+  - ravi
 
 # Disabled for now
 s3_backups_bucket: none
