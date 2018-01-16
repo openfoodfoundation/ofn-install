@@ -1,6 +1,6 @@
 --- # webserver
 
-- name: copy unicorn files
+- name: copy init scripts files
   template:
     src={{ item.src }}
     dest={{ item.dest }}
@@ -12,13 +12,20 @@
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
+    - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
   notify:
     - restart nginx
-  tags: unicorn
+  tags: init
 
-- name: update unicorn
+- name: Enable unicorn unit
   service:
     name: "unicorn_{{ app }}"
     enabled: yes
   become: yes
-  tags: unicorn
+  tags: init
+
+- name: Enable delayed_job unit
+  service:
+    name: "delayed_job_{{ app }}"
+    enabled: yes
+  tags: init

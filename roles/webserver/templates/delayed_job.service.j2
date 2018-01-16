@@ -1,0 +1,17 @@
+# Open Food Network delayed_job systemd service
+
+[Unit]
+Description=Open Food Network delayed_job
+
+[Service]
+Type=simple
+User=openfoodnetwork
+WorkingDirectory={{ current_path }}
+Environment=RAILS_ENV={{ rails_env }}
+SyslogIdentifier=openfoodnetwork-delayed_job
+PIDFile={{ delayed_job_pid }}
+
+ExecStart=script/delayed_job
+
+[Install]
+WantedBy=multi-user.target
