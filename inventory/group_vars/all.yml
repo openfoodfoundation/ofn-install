@@ -15,7 +15,7 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 protocol: https
 
 git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-git_version:  v1.8.6
+git_version:  v1.10.1
 
 l10n_git_version: HEAD
 
@@ -23,7 +23,7 @@ l10n_git_version: HEAD
 #----------------------------------------------------------------------
 # Default values (should be overridden in each server config)
 rails_env: staging
-admin_email: "admin@{{ domain }}"
+admin_email: "hello@{{ domain }}"
 
 
 #----------------------------------------------------------------------
@@ -179,7 +179,3 @@ nginx_configs:
     - upstream unicorn { server unix:{{ unicorn_sock }} fail_timeout=0; }
 
 # letsencrypt_server: https://acme-staging.api.letsencrypt.org/directory
-
-
-
-
