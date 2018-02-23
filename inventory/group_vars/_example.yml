@@ -5,7 +5,7 @@ checkout_zone:
 country_code:
 currency:
 locale: en
-available_locales: en
+available_locales: en,es
 language:
 language_packages:
   - language-pack-en-base
