@@ -25,7 +25,7 @@ You may want to use the [anisble option "checkrun"](http://docs.ansible.com/play
 ## Requirements
 
 You will need Ansible on your machine to run the playbooks.
-These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 12.04 (64 bit)** on both AWS and DigitalOcean cloud servers.
+These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 (64 bit) LTS** on AWS, DigitalOcean and Scaleway cloud servers.
 
 
 ## Code quality
