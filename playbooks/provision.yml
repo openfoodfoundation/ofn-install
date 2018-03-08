@@ -47,15 +47,11 @@
       tags: dbserver
       db_user_roles: CREATEDB
 
-    - role: geerlingguy.certbot
+    - role: coopdevs.certbot_nginx
       become: yes
-      certbot_auto_renew_user: "{{ unicorn_user }}"
-      when: protocol == "https"
-      tags: cert
-
-    - role: cert
-      when: protocol == "https"
-      tags: cert
+      vars:
+        domain_name: "{{ domain }}"
+        letsencrypt_email: "{{ developer_email }}"
 
     - role: jdauphant.nginx
       become: yes

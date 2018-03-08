@@ -4,5 +4,3 @@ domain: localhost
 rails_env: test
 
 admin_email: admin@example.com
-
-protocol: http

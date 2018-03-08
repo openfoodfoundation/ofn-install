@@ -12,8 +12,6 @@ user: ofn-admin
 # to connect using SSH instead of just passwords.
 ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 
-protocol: https
-
 git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
 git_version:  v1.8.6
 
