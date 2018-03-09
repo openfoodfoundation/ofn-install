@@ -52,7 +52,6 @@
     - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
-    - { src: "{{ config_path }}/seeds.rb", dest: "{{ build_path }}/db/seeds.rb" }
     - { src: "{{ l10n_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
     - { src: "{{ config_path }}/post-receive", dest: "{{ build_path }}/.git/hooks/post-receive" }
   tags: symlink
