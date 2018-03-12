@@ -1,6 +1,6 @@
 ---
 
 domain: staging.openfoodfrance.fr
-rails_env: production
+rails_env: staging
 
-admin_email: info@openfoodfrance.fr
+admin_email: admin@openfoodfrance.org

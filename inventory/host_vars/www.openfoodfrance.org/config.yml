@@ -3,4 +3,4 @@
 domain: www.openfoodfrance.org
 rails_env: production
 
-admin_email: info@openfoodfrance.org
+admin_email: admin@openfoodfrance.org
