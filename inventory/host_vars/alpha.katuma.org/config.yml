@@ -1,4 +1,10 @@
 ---
 domain: alpha.katuma.org
 rails_env: production
+
 admin_email: info@coopdevs.org
+
+mail_host: smtp.mandrillapp.com
+mail_port: 587
+
+smtp_username: Coopdevs

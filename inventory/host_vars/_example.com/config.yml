@@ -4,3 +4,8 @@ domain: example.com
 rails_env: production
 
 admin_email: admin@example.com
+
+mail_host: smtp.mandrillapp.com
+mail_port: 587
+
+smtp_username: Coopdevs
