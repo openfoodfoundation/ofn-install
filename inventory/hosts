@@ -12,7 +12,6 @@ staging2.openfoodnetwork.com.au
 au-prod
 au-staging
 
-
 #------------------------------------------------------------------------------
 # Ireland
 
@@ -22,7 +21,6 @@ openfoodireland.eu
 [ie:children]
 ie-prod
 
-
 #------------------------------------------------------------------------------
 # India
 
@@ -31,8 +29,6 @@ www.openfoodnetwork.in
 
 [in:children]
 in-prod
-
-
 
 #------------------------------------------------------------------------------
 # UK
@@ -48,7 +44,6 @@ staging2.openfoodnetwork.org.uk ansible_host=188.166.159.45
 [uk:children]
 uk-prod
 uk-staging
-
 
 #------------------------------------------------------------------------------
 # USA
