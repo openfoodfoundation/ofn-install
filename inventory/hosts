@@ -89,6 +89,15 @@ fr-prod
 fr-staging
 
 #------------------------------------------------------------------------------
+# Germany
+
+[de-prod]
+openfoodnetwork.de ansible_host=195.201.96.103
+
+[de:children]
+de-prod
+
+#------------------------------------------------------------------------------
 # All
 
 [ofn_servers:children]
@@ -99,3 +108,4 @@ uk
 us
 es
 fr
+de
