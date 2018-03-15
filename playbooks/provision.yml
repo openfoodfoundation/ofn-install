@@ -48,12 +48,16 @@
       db_user_roles: CREATEDB
 
     - role: geerlingguy.certbot
-      become: yes
+      certbot_install_from_source: yes
       certbot_auto_renew_user: "{{ unicorn_user }}"
-      when: protocol == "https"
-      tags: cert
-
-    - role: cert
+      certbot_create_if_missing: yes
+      certbot_create_method: standalone
+      certbot_create_standalone_stop_services: []
+      certbot_admin_email: "{{ developer_email }}"
+      certbot_certs:
+        - domains:
+          - "{{ domain }}"
+      become: yes
       when: protocol == "https"
       tags: cert
 

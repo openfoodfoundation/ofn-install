@@ -10,4 +10,4 @@
   version: v2.7.4
 
 - src: geerlingguy.certbot
-  version: 1.0.1
+  version: 3.0.0

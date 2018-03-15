@@ -1,5 +1,0 @@
----
-
-- name: Create certificates using certbot
-  command: "/opt/certbot/certbot-auto certonly --standalone --agree-tos --email {{ developer_email }} --noninteractive -d {{ domain }}"
-  tags: skip_ansible_lint
