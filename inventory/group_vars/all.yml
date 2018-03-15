@@ -15,7 +15,7 @@ ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 protocol: https
 
 git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-git_version:  v1.8.6
+git_version: master
 
 l10n_git_version: HEAD
 
