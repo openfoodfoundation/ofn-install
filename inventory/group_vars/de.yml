@@ -1,13 +1,26 @@
 ---
-
-# See https://github.com/openfoodfoundation/ofn_deployment/wiki/Setup for more info
-checkout_zone:
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Europe
 country_code: DE
 currency: EUR
-locale: de
+locale: de_DE
+available_locales: de_DE,en
 language: de_DE.UTF-8
 language_packages:
   - language-pack-de-base
-l10n_repo: https://github.com/orangeman/l10n_de.git
-l10n_git_version: master
+l10n_repo: https://github.com/coopdevs/l10n_de.git
 timezone: Europe/Berlin
+
+# Used for the LetsEncrypt email setting
+developer_email: admin@openfoodfoundation.org
+
+# Users listed here will have their key from /files/keys added to the unicorn_user
+users_sysadmin:
+  - enricostn
+
+s3_backups_bucket: none
+s3_access_key: 666
+s3_secret: 666
+
+stripe_client_id: 666
+stripe_instance_secret_key: 666
