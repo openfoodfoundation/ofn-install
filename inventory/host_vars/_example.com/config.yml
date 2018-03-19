@@ -5,6 +5,7 @@ rails_env: production
 
 admin_email: admin@example.com
 
+mail_domain: example.com
 mail_host: smtp.mandrillapp.com
 mail_port: 587
 
