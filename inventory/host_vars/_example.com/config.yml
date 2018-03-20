@@ -4,5 +4,3 @@ domain: example.com
 rails_env: production
 
 admin_email: admin@example.com
-
-skylight_authentication: xxx
