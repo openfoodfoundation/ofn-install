@@ -4,7 +4,3 @@ rails_env: staging
 admin_email: info@coopdevs.org
 
 mail_domain: katuma.org
-mail_host: smtp.mandrillapp.com
-mail_port: 587
-
-smtp_username: Coopdevs
