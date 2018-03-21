@@ -1,4 +1,7 @@
 ---
 domain: alpha.katuma.org
 rails_env: production
+
 admin_email: info@coopdevs.org
+
+mail_domain: katuma.org

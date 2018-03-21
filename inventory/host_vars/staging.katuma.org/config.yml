@@ -2,3 +2,5 @@
 domain: staging.katuma.org
 rails_env: staging
 admin_email: info@coopdevs.org
+
+mail_domain: katuma.org
