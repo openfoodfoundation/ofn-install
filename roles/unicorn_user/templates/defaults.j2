@@ -1,2 +1,5 @@
 RAILS_ENV={{ rails_env }}
-SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
+
+{% if skylight_authentication is defined %}
+  SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
+{% endif %}
