@@ -141,6 +141,14 @@
   become_user: "{{ unicorn_user }}"
 
 #--------------------
+# Update translations
+
+- name: get latest translations from Transifex
+  command: bash -lc "bundle exec tx pull -f RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ current_path }}"
+
+#--------------------
 # Update the database
 
 - name: check database status
