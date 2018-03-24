@@ -1,5 +1,14 @@
 --- # webserver
 
+- name: create directory for user's unicorn service
+  file:
+   path: "/home/{{ unicorn_user }}/.config/systemd/user"
+   owner: "{{ unicorn_user }}"
+   group: "{{ unicorn_user }}"
+   state: "directory" 
+  become: yes
+  tags: unicorn
+
 - name: copy unicorn files
   template:
     src={{ item.src }}
@@ -9,16 +18,26 @@
     group={{ item.group }}
   become: yes
   with_items:
-    - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
+    - { src: "unicorn.service.j2", dest: "/home/{{ unicorn_user }}/.config/systemd/user/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
   notify:
     - restart nginx
   tags: unicorn
 
+# suggested in https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
+- name: Register uid of unicorn user
+  command: "id -u {{ unicorn_user}}"
+  register: uid
+  tags: unicorn
+
 - name: update unicorn
-  service:
+  systemd:
     name: "unicorn_{{ app }}"
     enabled: yes
+    user: yes
+    daemon_reload: yes
   become: yes
+  become_user: "{{ unicorn_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{uid.stdout}}"
   tags: unicorn

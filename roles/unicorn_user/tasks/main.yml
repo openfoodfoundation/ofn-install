@@ -34,9 +34,7 @@
     group: "{{ unicorn_user }}"
     mode: 0644
 
-- name: Create sudoers configuration for unicorn user
+- name: Enable running services while not logged in
+  shell: "loginctl enable-linger {{ unicorn_user }}"
   become: true
-  template:
-    src: sudoers.j2
-    dest: "/etc/sudoers.d/{{ unicorn_user }}"
-    mode: 0440
+
