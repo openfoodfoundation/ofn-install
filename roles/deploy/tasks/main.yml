@@ -199,6 +199,12 @@
     - precompile assets
     - restart unicorn
 
+# suggested in https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
+- name: Register uid of unicorn user
+  command: "id -u {{ unicorn_user}}"
+  register: unicorn_user_uid
+  tags: reset
+
 
 # tag to trigger a unicorn restart
 - name: reset

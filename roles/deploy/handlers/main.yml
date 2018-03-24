@@ -29,25 +29,31 @@
 
 #TODO make sure both of these things run as one handler.
 - name: restart unicorn step 2
-  service:
+  systemd:
     name: unicorn_{{ app }}
     state: restarted
+    user: yes
   become: yes
   become_user: "{{ unicorn_user }}"
   when: table_exists.stderr.find('does not exist') == -1
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{unicorn_user_uid.stdout}}"
   # If unicorn isn't actually started yet we probably need this:
   notify: start unicorn
 
 - name: start unicorn
-  service:
+  systemd:
     name: unicorn_{{ app }}
     state: started
+    user: yes
   become: yes
   become_user: "{{ unicorn_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{unicorn_user_uid.stdout}}"
 
 - name: restart nginx
   service:
     name: nginx
     state: started
   become: yes
-  become_user: "{{ unicorn_user }}"
+
