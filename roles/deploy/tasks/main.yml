@@ -195,6 +195,14 @@
   tags:
     - seed
     - skip_ansible_lint
+
+- name: confirm admin user
+  command: bash -lc "bundle exec rails runner 'Spree::User.first.confirm!'"
+  args:
+    chdir: "{{ current_path }}"
+  tags:
+    - seed
+    - skip_ansible_lint
   notify:
     - precompile assets
     - restart unicorn
