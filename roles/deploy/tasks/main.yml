@@ -209,3 +209,4 @@
     - skip_ansible_lint
   notify:
     - restart unicorn
+    - restart delayed job workers

@@ -14,8 +14,7 @@
 
 
 - name: restart delayed job workers
-  command:  bash -lc "./script/delayed_job -i 0 stop RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
-
+  command:  bash -lc "./script/delayed_job restart --pid-dir={{ pid_path }} RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
 
 - name: restart unicorn
   command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
