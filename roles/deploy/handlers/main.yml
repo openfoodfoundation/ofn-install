@@ -32,7 +32,7 @@
     name: unicorn_{{ app }}
     state: restarted
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: root
   when: table_exists.stderr.find('does not exist') == -1
   # If unicorn isn't actually started yet we probably need this:
   notify: start unicorn
@@ -42,11 +42,11 @@
     name: unicorn_{{ app }}
     state: started
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: root
 
 - name: restart nginx
   service:
     name: nginx
-    state: started
+    state: restarted
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: root
