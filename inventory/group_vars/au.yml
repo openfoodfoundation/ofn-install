@@ -1,0 +1,31 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Australia
+country_code: AU
+currency: AUD
+locale: en
+language: en_AU.UTF-8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_au.git
+timezone: Melbourne
+
+
+# Used for the LetsEncrypt email setting
+developer_email: maikel@openfoodnetwork.org.au
+
+# Users listed here will have their key from /files/keys added to the unicorn_user
+users_sysadmin:
+  - maikel
+  - rob
+  - rohan
+  - enricostn
+  - pau
+
+s3_backups_bucket: none
+s3_access_key: ""
+s3_secret: ""
+
+stripe_client_id: ""
+stripe_instance_secret_key: ""
