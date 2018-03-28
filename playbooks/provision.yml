@@ -49,7 +49,6 @@
 
     - role: geerlingguy.certbot
       become: yes
-      certbot_auto_renew_user: "{{ unicorn_user }}"
       when: protocol == "https"
       tags: cert
 
