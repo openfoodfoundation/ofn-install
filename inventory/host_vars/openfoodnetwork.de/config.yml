@@ -2,3 +2,5 @@
 domain: openfoodnetwork.de
 rails_env: production
 admin_email: admin@openfoodfoundation.org
+
+mail_domain: openfoodnetwork.de
