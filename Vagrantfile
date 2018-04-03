@@ -11,6 +11,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vbox|
     config.vm.box = "ubuntu/trusty64"
+    # The default catalogue moved and this image is not found on
+    # atlas.hashicorp.com any more. Older versions of vagrant still try
+    # to access the old server and need the URL explicitely.
+    config.vm.box_url = "https://app.vagrantup.com/ubuntu/trusty64"
     # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "1792"]
     # Optimise virtualbox.
