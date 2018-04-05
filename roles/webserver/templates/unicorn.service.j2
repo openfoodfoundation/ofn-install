@@ -8,6 +8,11 @@ Type=simple
 User=openfoodnetwork
 WorkingDirectory={{ current_path }}
 Environment=RAILS_ENV={{ rails_env }}
+
+{% if skylight_authentication is defined %}
+  Environment=SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
+{% endif %}
+
 SyslogIdentifier=openfoodnetwork-unicorn
 PIDFile={{ unicorn_pid }}
 
