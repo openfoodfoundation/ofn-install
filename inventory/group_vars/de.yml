@@ -17,10 +17,3 @@ developer_email: admin@openfoodfoundation.org
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
   - enricostn
-
-s3_backups_bucket: none
-s3_access_key: 666
-s3_secret: 666
-
-stripe_client_id: 666
-stripe_instance_secret_key: 666
