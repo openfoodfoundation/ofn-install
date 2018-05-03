@@ -65,7 +65,7 @@ us-staging
 alpha.katuma.org ansible_host=51.15.136.157
 
 [es-staging]
-staging.katuma.org ansible_host=212.47.234.234
+staging.katuma.org ansible_host=51.15.216.10
 
 [es:children]
 es-prod
