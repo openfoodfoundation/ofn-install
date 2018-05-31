@@ -2,8 +2,7 @@
 rollback_path: "{{ app_path }}/rollback"
 rollback_sql_path: "{{ app_path }}/rollback.sql.gz"
 
-
-newrelic_key: none
+newrelic_license_key: none
 
 bugsnag_key: none
 
