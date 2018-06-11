@@ -5,7 +5,7 @@ local_vagrant ansible_host=127.0.0.1 ansible_user=vagrant ansible_port=2222 ansi
 [vagrant:vars]
 host_key_checking = false
 private_key_file = ~/.vagrant.d/insecure_private_key
-ssh_key_path = /.ssh/id_rsa.pub
+ssh_key_path = ~/.ssh/id_rsa.pub
 
 [lxc]
 local.ofn.org
