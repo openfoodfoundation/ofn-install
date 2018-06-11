@@ -52,6 +52,7 @@
       vars:
         domain_name: "{{ domain }}"
         letsencrypt_email: "{{ developer_email }}"
+      when: inventory_hostname != "local_vagrant"
 
     - role: jdauphant.nginx
       become: yes
