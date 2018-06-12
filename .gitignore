@@ -6,3 +6,4 @@ community
 inventory/host_vars/*/secrets.yml
 *.log
 **/*.retry
+.idea/
