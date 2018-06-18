@@ -38,13 +38,15 @@ in-prod
 www.openfoodnetwork.org.uk
 
 [uk-staging]
-#staging.openfoodnetwork.org.uk ansible_host=178.62.109.202
-staging.openfoodnetwork.org.uk ansible_host=188.166.136.240
-staging2.openfoodnetwork.org.uk ansible_host=188.166.159.45
+staging.openfoodnetwork.org.uk
+
+[uk-staging2]
+staging2.openfoodnetwork.org.uk
 
 [uk:children]
 uk-prod
 uk-staging
+uk-staging2
 
 #------------------------------------------------------------------------------
 # USA
