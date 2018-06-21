@@ -5,3 +5,5 @@ s3_secret: none
 
 stripe_client_id: none
 stripe_instance_secret_key: none
+stripe_instance_publishable_key: none
+stripe_endpoint_secret: none
