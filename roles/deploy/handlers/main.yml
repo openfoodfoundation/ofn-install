@@ -50,3 +50,8 @@
     state: restarted
   become: yes
   become_user: root
+
+- name: update whenever
+  command: bash -lc "bundle exec whenever --update-crontab RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ current_path }}"
