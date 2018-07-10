@@ -1,7 +1,9 @@
 ---
-s3_backups_bucket: none
-s3_access_key: none
-s3_secret: none
+s3_backups_bucket:
+s3_access_key:
+s3_secret:
 
-stripe_client_id: none
-stripe_instance_secret_key: none
+stripe_client_id:
+stripe_instance_secret_key:
+stripe_instance_publishable_key:
+stripe_endpoint_secret:

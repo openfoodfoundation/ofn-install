@@ -75,7 +75,7 @@
     force=yes
     owner={{ unicorn_user }}
     mode=0775
-  when: s3_backups_bucket != "none"
+  when: s3_backups_bucket != ""
   tags: symlink
 
 - name: symlink the newrelic file into the config folder
