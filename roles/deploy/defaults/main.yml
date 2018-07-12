@@ -6,4 +6,4 @@ newrelic_license_key: none
 
 bugsnag_key: none
 
-s3_backups_bucket: none
+s3_backups_bucket:
