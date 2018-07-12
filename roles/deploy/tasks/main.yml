@@ -199,7 +199,6 @@
     - precompile assets
     - restart unicorn
 
-
 # tag to trigger a unicorn restart
 - name: reset
   # needs to do something here
@@ -210,3 +209,4 @@
   notify:
     - restart unicorn
     - restart delayed job workers
+    - update whenever
