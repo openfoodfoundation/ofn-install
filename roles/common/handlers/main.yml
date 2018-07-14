@@ -1,0 +1,13 @@
+- name: stop monit service
+  service:
+    name: monit
+    state: stopped
+  become: yes
+  become_user: root
+
+- name: remove monit package
+  apt:
+    pkg: monit
+    state: absent
+  become: yes
+  become_user: root

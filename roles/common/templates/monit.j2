@@ -1,9 +1,0 @@
-check process openfoodnetwork_dj_worker_0
-  with pidfile {{ current_path }}/tmp/pids/delayed_job.0.pid
-  start program = "/bin/bash -c 'RAILS_ENV={{ rails_env }} {{ unicorn_home_path }}/.rbenv/shims/ruby {{ current_path }}/script/delayed_job -i 0 start'"
-  as uid {{ unicorn_user }} and gid {{ unicorn_user }}
-  with timeout 120 seconds
-  stop program = "/bin/bash -c 'RAILS_ENV={{ rails_env }} {{ unicorn_home_path }}/.rbenv/shims/ruby {{ current_path }}/script/delayed_job -i 0 stop'"
-  as uid {{ unicorn_user }} and gid {{ unicorn_user }}
-  with timeout 120 seconds
-  if mem is greater than 250.0 MB for 3 cycles then restart
