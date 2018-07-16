@@ -1,0 +1,15 @@
+--- # This role ensures Python2.7 is installed and accessible for ansible
+- name: Install python 2.7
+  raw: apt-get update -qq && apt-get install -qq python2.7
+  tags: skip_ansible_lint
+
+- name: check if softlink exists
+  stat:
+    path: /usr/bin/python
+  register: python_file
+
+- name: create softlink for python 2.7
+  raw: ln -s /usr/bin/python2.7 /usr/bin/python
+  when: python_file.stat.islnk is not defined
+  tags: skip_ansible_lint
+

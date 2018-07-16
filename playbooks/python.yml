@@ -1,0 +1,10 @@
+---
+# Ensure python is set up and accessible on the server before starting (ansible requires python2.7)
+- name: python
+  hosts: ofn_servers
+  gather_facts: no
+  become: yes
+  roles:
+    - role: python
+      become: yes
+      tags: setup
