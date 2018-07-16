@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   config.vm.provider :virtualbox do |vbox|
-    config.vm.box = "geerlingguy/ubuntu1604"
+    config.vm.box = "ubuntu/xenial64"
 
     # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "1792"]
