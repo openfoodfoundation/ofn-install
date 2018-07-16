@@ -14,3 +14,6 @@ unicorn_pid: "{{ pid_path }}/unicorn.pid"
 unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
 unicorn_workers: 2
 unicorn_timeout: 30
+
+# Delayed_job
+delayed_job_pid: "{{ pid_path }}/delayed_job.pid"
