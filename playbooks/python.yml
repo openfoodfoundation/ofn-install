@@ -4,7 +4,7 @@
   hosts: ofn_servers
   gather_facts: no
   become: yes
-  roles:
-    - role: python
-      become: yes
-      tags: setup
+  tasks:
+    - name: Install python 2.7
+      raw: apt-get update -qq && apt-get install -qq python2.7
+      tags: skip_ansible_lint
