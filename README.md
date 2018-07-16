@@ -43,13 +43,3 @@ ansible-lint site.yml --exclude=community
 This is also run by Travis.
 
 ---
-
-
-
-## Credits
-
-* Rafael Schouten (https://github.com/rafaqz)
-* Paul Mackay (https://github.com/pmackay)
-* Ashley Englund (https://github.com/weedySeaDragon)
-* Rohan Mitchell (http://github.com/rohanm)
-* Maikel Linke (https://github.com/mkllnk)
