@@ -3,7 +3,7 @@
 - name: install bundler
   # This needs to be run inside a bash shell to initialise rbenv
   # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
-  command: bash -lc "gem install bundler  --no-ri --no-rdoc"
+  command: bash -lc "RBENV_VERSION='{{ ruby_version }}' gem install bundler --no-ri --no-rdoc"
   tags: skip_ansible_lint
 
 - name: reload rbenv
