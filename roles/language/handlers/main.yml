@@ -1,0 +1,10 @@
+---
+
+- name: update locales
+  command: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
+  become: yes
+  notify: reconfigure locales
+
+- name: reconfigure locales
+  command: "dpkg-reconfigure -f noninteractive locales"
+  become: yes

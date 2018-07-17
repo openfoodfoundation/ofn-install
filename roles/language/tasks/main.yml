@@ -5,13 +5,5 @@
     pkg: "{{ item }}"
     state: present
   with_items: "{{ language_packages }}"
-
-- name: update locales
-  command: "update-locale LANG={{ language }} LC_ALL={{ language }} LC_CTYPE={{ language }}"
-  become: yes
-  tags: skip_ansible_lint
-
-- name: reconfigure locales
-  command: "dpkg-reconfigure -f noninteractive locales"
-  become: yes
-  tags: skip_ansible_lint
+  notify:
+    - update locales
