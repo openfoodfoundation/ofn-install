@@ -6,7 +6,3 @@
   command: bash -lc "RBENV_VERSION='{{ ruby_version }}' gem install bundler --no-ri --no-rdoc"
   args:
     creates: "~/.rbenv/shims/bundler"
-
-- name: reload rbenv
-  command: bash -lc "rbenv rehash"
-  tags: skip_ansible_lint
