@@ -9,3 +9,5 @@ MAIL_HOST={{ mail_host }}
 MAIL_PORT={{ mail_port }}
 SMTP_USERNAME={{ smtp_username }}
 SMTP_PASSWORD={{ smtp_password }}
+MAILS_FROM={{ mails_from | default("no-reply@{{ mail_domain }}") }}
+MAIL_BCC={{ mail_bcc | default('') }}
