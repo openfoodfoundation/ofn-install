@@ -9,5 +9,9 @@ MAIL_HOST={{ mail_host }}
 MAIL_PORT={{ mail_port }}
 SMTP_USERNAME={{ smtp_username }}
 SMTP_PASSWORD={{ smtp_password }}
-MAILS_FROM={{ mails_from | default("no-reply@{{ mail_domain }}") }}
-MAIL_BCC={{ mail_bcc | default('') }}
+{% if mails_from is defined %}
+  MAILS_FROM={{ mails_from }}
+{% endif %}
+{% if mail_bcc is defined %}
+  MAIL_BCC={{ mail_bcc }}
+{% endif %}
