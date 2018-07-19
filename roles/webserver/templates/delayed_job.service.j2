@@ -1,0 +1,18 @@
+# Open Food Network delayed_job systemd service
+
+[Unit]
+Description=Open Food Network delayed_job
+
+[Service]
+Type=forking
+PIDFile={{ delayed_job_pid }}
+RemainAfterExit=no
+Restart=on-failure
+RestartSec=60s
+User=openfoodnetwork
+SyslogIdentifier=openfoodnetwork-delayed_job
+ExecStart=/bin/bash -c "RAILS_ENV={{ rails_env }} {{ unicorn_home_path }}/.rbenv/shims/ruby {{ current_path }}/script/delayed_job start --pid-dir={{ pid_path }}"
+ExecStop=/bin/bash -c "RAILS_ENV={{ rails_env }} {{ unicorn_home_path }}/.rbenv/shims/ruby {{ current_path }}/script/delayed_job stop --pid-dir={{ pid_path }}"
+
+[Install]
+WantedBy=multi-user.target
