@@ -1,0 +1,33 @@
+---
+
+# Some hosting providers pre-install additional software like apache and mysql.
+# A running apache is conflicting with nginx and needs to be deactivated.
+# This playbook removes common packages that are undesired for OFN.
+#
+# This playbook is not part of site.yml, because there are legitimate
+# reasons for having these packages. Maybe you would like to run Wordpress with MySQL
+# on the same server or have Apache configured to listen to another port.
+
+- name: remove unwanted packages
+  hosts: ofn_servers
+  become: yes
+  tasks:
+    - name: uninstall packages
+      apt:
+        name: "{{ packages }}"
+        state: absent
+        autoremove: yes
+      vars:
+        packages:
+          - mysql-server
+          - apache2
+          - apache2-utils
+          - php
+          - php-mcrypt
+          - php-gd
+          - php-curl
+          - php-mysql
+          - php-odbc
+          - php-pgsql
+          - php-imap
+          - libapache2-mod-php
