@@ -1,0 +1,16 @@
+---
+
+domain: staging.openfoodnetwork.org.au
+rails_env: staging
+
+admin_email: maikel@openfoodnetwork.org.au
+
+mail_domain: "smtp.gmail.com"
+
+# Depending on the resources of your server, you may want to adjust these.
+unicorn_workers: 1
+unicorn_timeout: 120
+
+# Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
+# The default is `false`, not installing a swapfile.
+swapfile_size: 1G
