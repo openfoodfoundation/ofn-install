@@ -6,8 +6,8 @@
   become_user: "{{ unicorn_user }}"
 
   handlers:
-    - include: ../roles/webserver/handlers/main.yml
-    - include: ../roles/deploy/handlers/main.yml
+    - include_tasks: ../roles/webserver/handlers/main.yml
+    - include_tasks: ../roles/deploy/handlers/main.yml
 
   roles:
     - role: rollback
