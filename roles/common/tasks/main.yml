@@ -14,25 +14,34 @@
   become: yes
   vars:
     packages:
-      - acl
-      - build-essential
-      - git-core
-      - nodejs
-      - imagemagick
-      - curl
+      # Ansible support
       - python-pycurl
-      - python-psycopg2 # needed for some ansible libraries
+      - python-psycopg2
       - python3-psycopg2
       - python-software-properties
-      - libpq-dev
+
+      # unknown why needed
+      - acl
+      - nodejs
+      - curl
       - tklib
+      - ranger
+
+      # build ruby and gems
+      - build-essential
+
+      # manage code
+      - git-core
+
+      # OFN dependencies
+      - imagemagick
+      - libpq-dev
       - zlib1g-dev
       - libssl-dev
       - libxml2
       - libxml2-dev
       - libxslt1-dev
       - memcached
-      - ranger
   tags: packages
 
 # Remove monit if still installed. The notified handlers will run only once
