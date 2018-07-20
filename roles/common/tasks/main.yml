@@ -7,7 +7,6 @@
   become: yes
   tags: packages
 
-  #TODO remove unnecesary packages from this list.
 - name: install base packages
   apt:
     name: "{{ packages }}"
@@ -20,12 +19,13 @@
       - python3-psycopg2
       - python-software-properties
 
-      # unknown why needed
+      # unknown why or if needed
+      # The playbooks run without these dependencies,
+      # but they may be hidden run time dependencies
+      # like imagemagick.
       - acl
       - nodejs
       - curl
-      - tklib
-      - ranger
 
       # build ruby and gems
       - build-essential
