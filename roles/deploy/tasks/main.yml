@@ -78,17 +78,6 @@
   when: s3_backups_bucket != ""
   tags: symlink
 
-- name: symlink the newrelic file into the config folder
-  file:
-    src="{{ config_path }}/newrelic.yml"
-    dest={{ build_path }}/config/newrelic.yml
-    state=link
-    force=yes
-    owner={{ unicorn_user }}
-    mode=0775
-  when: newrelic_license_key != "none"
-  tags: symlink
-
 - name: bundle install app dependencies
   #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
