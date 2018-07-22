@@ -1,6 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Run the following command to set up this Vagrant box:
+# ansible-playbook site.yml -i inventory/dev --limit=vagrant
+
+# It takes around 20 minutes to complete the first setup/provision/deploy.
+# Your new local OFN instance will then be available at: http://localhost:8080
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -10,13 +16,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   config.vm.provider :virtualbox do |vbox|
-    config.vm.box = "ubuntu/trusty64"
-    # The default catalogue moved and this image is not found on
-    # atlas.hashicorp.com any more. Older versions of vagrant still try
-    # to access the old server and need the URL explicitely.
-    config.vm.box_url = "https://app.vagrantup.com/ubuntu/trusty64"
+    config.vm.box = "ubuntu/xenial64"
+
     # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "1792"]
+
     # Optimise virtualbox.
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
     vbox.customize [ "modifyvm", :id, "--nictype2", "virtio" ]

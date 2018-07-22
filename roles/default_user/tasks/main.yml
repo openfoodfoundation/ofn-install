@@ -16,12 +16,12 @@
   when: ssh_key_path is undefined
 
 # Add ssh key path to run playbook command with --extra-vars
-# ex.: --extra-vars "ssh_key_path=.ssh/id_rsa.pub"
+# ex.: --extra-vars "ssh_key_path=~/.ssh/id_rsa.pub"
 - name: add ssh key alternative
   authorized_key:
-    user={{ user }}
-    key="{{ lookup('file', lookup('env','HOME') + ssh_key_path) }}"
-    state=present
+    user: "{{ user }}"
+    key: "{{ lookup('file', ssh_key_path) }}"
+    state: present
   when: ssh_key_path is defined
 
 - name: add custom sudoer file
