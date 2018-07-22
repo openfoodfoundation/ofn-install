@@ -27,32 +27,10 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-
-# TODO: Surely there's a way to pipe this script over rather than copying and removing it?
-
-- name: copy fix_pg_encoding PG script
-  copy:
-    src=fix_pg_encoding.sql
-    dest={{ unicorn_home_path }}
-  become: yes
-  become_user: "{{ unicorn_user }}"
-  tags:
-    - pg-en
-    - skip_ansible_lint
-
+# Rails expects unicode databases. See the script for more details.
 - name: fix postgres db encoding problem
-  command: psql -U postgres -f {{ unicorn_home_path }}/fix_pg_encoding.sql
+  script: fix_pg_encoding.sh
   become: yes
   become_user: postgres
   tags:
     - pg-en
-    - skip_ansible_lint
-
-- name: remove fix_pg_encoding PG script
-  file:
-    path={{ unicorn_home_path }}/fix_pg_encoding.sql
-    state=absent
-  become: yes
-  become_user: "{{ unicorn_user }}"
-  tags:
-    - skip_ansible_lint
