@@ -6,5 +6,5 @@
     - name: test
       debug: msg="{{ foo }} {{ foo2 }}"
 
-  # include: ../provision.yml
+  # import_playbook: ../provision.yml
 
