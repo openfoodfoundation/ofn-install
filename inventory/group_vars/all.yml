@@ -12,8 +12,11 @@ user: ofn-admin
 # to connect using SSH instead of just passwords.
 ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 
-git_repo: https://github.com/openfoodfoundation/openfoodnetwork.git
-git_version: master
+# You can paste the repo/branch straight from a github PR here, like: "Contributor22:new_feature"
+github_key: openfoodfoundation:master
+
+git_repo: "https://github.com/{{ github_key.split(':')[0] }}/openfoodnetwork.git"
+git_version: "{{ github_key.split(':')[1] }}"
 
 l10n_git_version: HEAD
 
