@@ -1,5 +1,6 @@
 ---
 - import_playbook: playbooks/python.yml
 - import_playbook: playbooks/default_user.yml
+- import_playbook: playbooks/add_ssh_keys.yml
 - import_playbook: playbooks/provision.yml
 - import_playbook: playbooks/deploy.yml

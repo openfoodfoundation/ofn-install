@@ -1,0 +1,9 @@
+---
+# Add ssh keys
+- name: add ssh_keys
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+  roles:
+    - role: ssh_keys
+      become: yes
+      tags: ssh_keys
