@@ -7,23 +7,6 @@
     state=present
     shell=/bin/bash
 
-- name: add ssh keys users_sysadmin
-  authorized_key:
-    user={{ user }}
-    key="{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
-    state=present
-  with_flattened: "{{ users_sysadmin }}"
-  when: ssh_key_path is undefined
-
-# Add ssh key path to run playbook command with --extra-vars
-# ex.: --extra-vars "ssh_key_path=~/.ssh/id_rsa.pub"
-- name: add ssh key alternative
-  authorized_key:
-    user: "{{ user }}"
-    key: "{{ lookup('file', ssh_key_path) }}"
-    state: present
-  when: ssh_key_path is defined
-
 - name: add custom sudoer file
   template:
     src: sudoers.j2
