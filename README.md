@@ -14,7 +14,6 @@ The playbooks take information from the `vars.yml` file. You *must* create your 
 Afterwards, you can use the following playbooks:
 
 * `setup.yml` - Use a root login to ensure python is installed and create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
-* `add_ssh_keys.yml` - Add ssh keys for named sysadmins to the server.
 * `provision.yml` - Install and configure all required software on the server.
 * `deploy.yml` - Deploy OFN to the server by copying a git repo to the server and using ruby/rake/rails tasks to configure and migrate.
 * `backup.yml` - Backup database and image files on the server to the local machine.
