@@ -11,7 +11,6 @@ db_password: 'vagrant123'
 admin_password: 'spree123'
 secret_token: '511a3d0fa1551b9fa75a1aef5b47684905c64807963fa2c190272878366365'
 google_maps_api_key: 'xxx'
-newrelic_license_key: 'xxx'
 
 mail_host: 'example.com'
 mail_port: 25
