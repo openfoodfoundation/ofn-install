@@ -1,0 +1,22 @@
+--- # Playbook for the initial setup of a new server before installing main packages
+
+# Ensure python is set up and accessible on the server before starting (ansible requires python2.7)
+- name: python check
+  hosts: ofn_servers
+  gather_facts: no
+  remote_user: root
+  tasks:
+    - name: Install python 2.7
+      become: yes
+      raw: apt-get update -qq && apt-get install -qq python2.7
+      tags: skip_ansible_lint
+
+# Add the default user as root. AWS ubuntu images generally have a
+# default user (ubuntu) and wont let this be run as root. But digital ocean images don't.
+- name: set up default_user
+  hosts: ofn_servers
+  remote_user: root
+  roles:
+    - role: default_user
+      become: yes
+      tags: default_user
