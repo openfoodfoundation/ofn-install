@@ -18,3 +18,7 @@ developer_email: admin@openfoodfrance.org
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
   - paco
+  - maikel
+  - matt
+  - pau
+  - enricostn
