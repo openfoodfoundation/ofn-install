@@ -13,15 +13,9 @@
     - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
     - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
+  register: init_scripts
   notify:
     - restart nginx
-  tags: init
-
-- name: Enable unicorn unit
-  service:
-    name: "unicorn_{{ app }}"
-    enabled: yes
-  become: yes
   tags: init
 
 - name: Reload systemd
@@ -29,6 +23,16 @@
     daemon_reload: yes
   become: yes
   become_user: root
+  when: init_scripts.changed
+  tags:
+    - init
+    - skip_ansible_lint # The alternative involves flushing all handlers at this point, and we don't want to
+
+- name: Enable unicorn unit
+  service:
+    name: "unicorn_{{ app }}"
+    enabled: yes
+  become: yes
   tags: init
 
 - name: Enable delayed_job unit
