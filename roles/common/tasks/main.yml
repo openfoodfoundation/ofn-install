@@ -2,39 +2,46 @@
 
 - name: update apt
   apt:
-    update_cache=yes
+    update_cache: yes
+    cache_valid_time: 86400 # seconds = 60*60*24 seconds = 24 hours
   become: yes
   tags: packages
 
-  #TODO remove unnecesary packages from this list.
 - name: install base packages
   apt:
-    pkg="{{ item }}"
-    state=present
+    name: "{{ packages }}"
   become: yes
-  with_items:
-    - acl
-    - build-essential
-    - git-core
-    - nodejs
-    - imagemagick
-    - curl
-    - python-pycurl
-    - python-psycopg2 # needed for some ansible libraries
-    - python3-psycopg2
-    - python-software-properties
-    - libpq-dev
-    - tklib
-    - zlib1g-dev
-    - libssl-dev
-    #- libreadline-gplv2-dev
-    - libxml2
-    - libxml2-dev
-    - libxslt1-dev
-    - memcached
-    - ranger
-    #- fontconfig # needed for phantomjs
-    #- nfs-common # make virtualbox faster
+  vars:
+    packages:
+      # Ansible support
+      - python-pycurl
+      - python-psycopg2
+      - python3-psycopg2
+      - python-software-properties
+
+      # unknown why or if needed
+      # The playbooks run without these dependencies,
+      # but they may be hidden run time dependencies
+      # like imagemagick.
+      - acl
+      - nodejs
+      - curl
+
+      # build ruby and gems
+      - build-essential
+
+      # manage code
+      - git-core
+
+      # OFN dependencies
+      - imagemagick
+      - libpq-dev
+      - zlib1g-dev
+      - libssl-dev
+      - libxml2
+      - libxml2-dev
+      - libxslt1-dev
+      - memcached
   tags: packages
 
 # Remove monit if still installed. The notified handlers will run only once
