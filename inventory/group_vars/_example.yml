@@ -4,10 +4,10 @@
 checkout_zone:
 country_code:
 currency:
-locale: en
-available_locales: en,es
-language:
-language_packages:
+locale: en                  # Default locale for OFN instance
+available_locales: en,es    # Available locales for OFN instance
+language: en_US.UTF-8       # Default language for the server
+language_packages:          # Language packages for the server
   - language-pack-en-base
 l10n_repo: https://github.com/openfoodfoundation/l10n_au.git
 timezone:
