@@ -6,8 +6,9 @@ country_code: FR
 currency: EUR
 locale: fr
 available_locales: fr
-language: fr_FR.UTF-8
+language: en_US.UTF-8
 language_packages:
+  - language-pack-en-base
   - language-pack-fr-base
 l10n_repo: https://github.com/openfoodfoundation/l10n_fr.git
 timezone: Paris
