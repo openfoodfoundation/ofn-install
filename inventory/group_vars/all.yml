@@ -33,6 +33,10 @@ security_autoupdate_mail_to: "{{ developer_email }}"
 
 
 #----------------------------------------------------------------------
+# swapfile variables
+swapfile_size: false
+
+#----------------------------------------------------------------------
 # Rails variables
 ruby_version: 2.1.5
 env:

@@ -10,3 +10,6 @@
 
 - src: coopdevs.certbot_nginx
   version: 0.0.1
+
+- src: oefenweb.swapfile
+  version: v2.0.7
