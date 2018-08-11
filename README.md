@@ -13,7 +13,7 @@ Start with our [deployment tutorial](https://github.com/openfoodfoundation/ofn-i
 The playbooks take information from the `vars.yml` file. You *must* create your own copy of the file and edit it to put in information that is specific to your OFN installation.
 Afterwards, you can use the following playbooks:
 
-* `default_user.yml` - Use a root login to create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
+* `setup.yml` - Use a root login to ensure python is installed and create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
 * `provision.yml` - Install and configure all required software on the server.
 * `deploy.yml` - Deploy OFN to the server by copying a git repo to the server and using ruby/rake/rails tasks to configure and migrate.
 * `backup.yml` - Backup database and image files on the server to the local machine.

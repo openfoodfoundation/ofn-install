@@ -1,5 +1,4 @@
 ---
-- import_playbook: playbooks/python.yml
-- import_playbook: playbooks/default_user.yml
+- import_playbook: playbooks/setup.yml
 - import_playbook: playbooks/provision.yml
 - import_playbook: playbooks/deploy.yml

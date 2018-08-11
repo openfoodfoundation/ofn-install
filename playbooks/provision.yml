@@ -7,6 +7,10 @@
     nginx_daemon_mode: off
 
   roles:
+    - role: ssh_keys # Add sysadmin ssh keys to server
+      become: yes
+      tags: ssh_keys
+
     - role: geerlingguy.security
       become: yes
       become_user: root
