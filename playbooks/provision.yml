@@ -16,6 +16,11 @@
       become_user: root
       tags: security
 
+    - role: oefenweb.swapfile
+      become: yes
+      when: swapfile_size != false
+      tags: swapfile
+
     - role: unicorn_user # Create unprivileged user to run unicorn
       tags: unicorn_user
 
