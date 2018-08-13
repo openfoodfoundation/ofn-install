@@ -54,7 +54,7 @@
     - role: coopdevs.certbot_nginx
       become: yes
       vars:
-        domain_name: "{{ domain }}"
+        domain_name: "{{ certbot_domains | default([domain]) | join(',') }}"
         letsencrypt_email: "{{ developer_email }}"
       when: inventory_hostname != "local_vagrant"
 

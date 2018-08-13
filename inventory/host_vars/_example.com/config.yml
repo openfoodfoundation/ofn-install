@@ -6,3 +6,11 @@ rails_env: production
 admin_email: admin@example.com
 
 mail_domain: example.com
+
+# Optional list of subdomains to register in letsencrypt certificate
+# Defaults to {{ domain }} if list is undefined
+#
+#certbot_domains:
+#  - example.com
+#  - www.example.com
+#  - info.example.com
