@@ -16,7 +16,9 @@ developer_email: ofn-usa@openfoodnetwork.net
 
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
+  - brandy
   - enricostn
   - dani
+  - maikel
   - tim
   - ravi
