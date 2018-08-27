@@ -7,6 +7,9 @@ RAILS_ENV={{ rails_env }}
 MAIL_DOMAIN={{ mail_domain }}
 MAIL_HOST={{ mail_host }}
 MAIL_PORT={{ mail_port }}
+{% if mail_secure_connection is defined %}
+  MAIL_SECURE_CONNECTION={{ mail_secure_connection  }}
+{% endif %}
 SMTP_USERNAME={{ smtp_username }}
 SMTP_PASSWORD={{ smtp_password }}
 {% if mails_from is defined %}
