@@ -1,4 +1,20 @@
 ---
+
 domain: openfoodnetwork.net
 rails_env: production
+
 admin_email: ofn-usa@openfoodnetwork.net
+
+mail_domain: openfoodnetwork.net
+
+# Optional list of subdomains to register in letsencrypt certificate
+# Defaults to {{ domain }} if list is undefined
+#
+#certbot_domains:
+#  - example.com
+#  - www.example.com
+#  - info.example.com
+
+# Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
+# The default is `false`, not installing a swapfile.
+#swapfile_size: 1G
