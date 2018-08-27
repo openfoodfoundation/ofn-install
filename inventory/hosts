@@ -93,7 +93,7 @@ es-staging
 www.openfoodfrance.org ansible_host=51.68.226.206
 
 [fr-staging]
-staging.openfoodfrance.fr ansible_host=149.202.55.45
+staging.openfoodfrance.org ansible_host=149.202.55.45
 
 [fr:children]
 fr-prod
