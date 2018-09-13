@@ -20,7 +20,7 @@ prod2.openfoodnetwork.org.au
 
 [au-staging]
 staging1.openfoodnetwork.com.au
-staging2.openfoodnetwork.com.au
+staging.openfoodnetwork.org.au
 
 [au:children]
 au-prod
