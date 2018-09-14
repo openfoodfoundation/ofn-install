@@ -7,6 +7,9 @@ admin_email: maikel@openfoodnetwork.org.au
 
 mail_domain: "smtp.gmail.com"
 
+# activate the language switcher
+available_locales: en,fr,es
+
 # Depending on the resources of your server, you may want to adjust these.
 unicorn_workers: 1
 unicorn_timeout: 120
