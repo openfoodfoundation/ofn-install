@@ -6,7 +6,7 @@ python: "2.7"
 install:
   # - pip install dopy
   # - pip install httplib2
-  - pip install ansible
+  - pip install 'ansible<2.7.0'
   - pip install ansible-lint
 
 script:
