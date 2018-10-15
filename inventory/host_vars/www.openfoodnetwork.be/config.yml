@@ -1,0 +1,8 @@
+---
+
+domain: www.openfoodnetwork.be
+rails_env: production
+
+admin_email: admin@openfoodnetwork.be
+
+mail_domain: openfoodnetwork.be
