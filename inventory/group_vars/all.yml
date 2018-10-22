@@ -122,7 +122,6 @@ nginx_sites:
 
       add_header X-Content-Type-Options nosniff always;
       add_header X-Xss-Protection "1; mode=block" always;
-      #add_header Content-Security-Policy "default-src self" always;
 
       location '/.well-known/acme-challenge' {
         default_type "text/plain";
@@ -162,8 +161,6 @@ nginx_sites:
         gzip_static on;
         expires max;
         add_header Cache-Control public;
-        #add_header Last-Modified "";
-        #add_header ETag "";
       }
 
       error_page 500 502 503 504 /500.html;
