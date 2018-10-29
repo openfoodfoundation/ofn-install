@@ -112,7 +112,7 @@ de-prod
 # Belgium
 
 [be-prod]
-openfoodnetwork.be ansible_host=XXX.XXX.XXX.XXX
+openfoodnetwork.be ansible_host=51.75.124.147
 
 [be:children]
 be-prod
