@@ -109,6 +109,15 @@ openfoodnetwork.de ansible_host=195.201.96.103
 de-prod
 
 #------------------------------------------------------------------------------
+# Belgium
+
+[be-prod]
+www.openfoodnetwork.be ansible_host=51.75.124.147
+
+[be:children]
+be-prod
+
+#------------------------------------------------------------------------------
 # All
 
 [ofn_servers:children]
@@ -121,3 +130,4 @@ us
 es
 fr
 de
+be
