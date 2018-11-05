@@ -10,7 +10,7 @@ language: en_US.UTF-8
 language_packages:
   - language-pack-en-base
   - language-pack-fr-base
-l10n_repo: https://github.com/openfoodfoundation/l10n_fr.git
+l10n_repo: https://github.com/openfoodfoundation/l10n_be.git
 timezone: Brussels
 
 # Used for the LetsEncrypt email setting
