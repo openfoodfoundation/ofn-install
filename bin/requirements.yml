@@ -6,7 +6,7 @@
   version: 3.0.0
 
 - src: jdauphant.nginx
-  version: v2.7.4
+  version: v2.8.1
 
 - src: coopdevs.certbot_nginx
   version: 0.0.1
