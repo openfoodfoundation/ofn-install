@@ -139,8 +139,8 @@ nginx_sites:
       server_name {{ server_name | default(domain) }};
       root {{ app_root }}/public;
 
-      ssl_certificate      /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
-      ssl_certificate_key  /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+      ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
+      ssl_certificate_key  /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem;
 
       add_header X-Content-Type-Options nosniff always;
       add_header X-Xss-Protection "1; mode=block" always;
