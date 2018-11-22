@@ -5,3 +5,11 @@ rails_env: production
 admin_email: info@coopdevs.org
 
 mail_domain: katuma.org
+
+certbot_domains:
+  - app.katuma.org
+  - alpha.katuma.org
+
+certbot_cert_name: app.katuma.org
+
+server_name: "alpha.katuma.org app.katuma.org"
