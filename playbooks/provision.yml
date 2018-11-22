@@ -69,3 +69,10 @@
 
     - role: webserver # Build the unicorn webserver.
       tags: webserver
+
+    - role: Datadog.datadog
+      become: yes
+      vars:
+        datadog_api_key: "{{ datadog_key }}"
+      when: datadog_key is defined
+      tags: datadog
