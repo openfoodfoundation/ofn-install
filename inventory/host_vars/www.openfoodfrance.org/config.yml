@@ -6,3 +6,5 @@ rails_env: production
 admin_email: admin@openfoodfrance.org
 
 mail_domain: openfoodfrance.org
+
+unicorn_timeout: 120
