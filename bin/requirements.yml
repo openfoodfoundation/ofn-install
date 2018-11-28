@@ -13,3 +13,6 @@
 
 - src: oefenweb.swapfile
   version: v2.0.7
+
+- src: Datadog.datadog
+  version: 2.4.0
