@@ -77,7 +77,7 @@ us-staging
 # Spain
 
 [es-prod]
-alpha.katuma.org ansible_host=51.15.136.157
+app.katuma.org ansible_host=51.15.136.157
 
 [es-staging]
 staging.katuma.org ansible_host=51.15.216.10
