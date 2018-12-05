@@ -13,3 +13,5 @@ certbot_domains:
 certbot_cert_name: app.katuma.org
 
 server_name: "alpha.katuma.org app.katuma.org"
+
+swapfile_size: 1G
