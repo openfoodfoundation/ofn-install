@@ -1,0 +1,39 @@
+--- # Set up Ansible on the remote machine for deployment via Semaphore
+
+- name: install ansible on the remote
+  apt:
+    name: ansible
+  become: yes
+
+- name: create deployment user
+  user:
+    name: "{{ deployment_user }}"
+    state: present
+    append: yes
+    shell: /bin/bash
+  become: yes
+
+- name: add ssh keys to new user
+  authorized_key:
+    user: "{{ deployment_user }}"
+    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state: "present"
+  with_flattened: "{{ users_sysadmin }}"
+
+- name: add sudoers file
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ deployment_user }}"
+    mode: 0440
+
+- name: fetch ofn-install repo
+  git:
+    repo: https://github.com/openfoodfoundation/ofn-install.git
+    dest: "/home/{{ deployment_user }}/ofn-install"
+    version: master
+    force: yes
+  tags: fetch_ofn_install
+
+- name: install community modules
+  shell: "/home/{{ deployment_user }}/ofn-install/bin/setup"
+  tags: update_community_modules
