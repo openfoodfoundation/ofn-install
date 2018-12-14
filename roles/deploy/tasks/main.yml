@@ -22,12 +22,13 @@
     state=absent
   tags: clone
 
-- name: build codebase from git repo
+- name: build codebase from git branch
   git:
-    repo={{ git_repo }}
-    dest={{ build_path }}
-    version="{{ git_version }}"
-    force=yes
+    repo: "{{ git_repo }}"
+    dest: "{{ build_path }}"
+    version: "{{ git_version }}"
+    refspec: "+refs/pull/*/head:refs/remotes/origin/pull-request-*"
+    force: yes
   tags: clone
 
 - name: detach head for git push deployment
