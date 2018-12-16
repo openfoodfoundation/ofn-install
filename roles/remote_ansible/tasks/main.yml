@@ -13,13 +13,6 @@
     shell: /bin/bash
   become: yes
 
-- name: add ssh keys to new user
-  authorized_key:
-    user: "{{ deployment_user }}"
-    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
-    state: "present"
-  with_flattened: "{{ users_sysadmin }}"
-
 - name: add sudoers file
   template:
     src: sudoers.j2
