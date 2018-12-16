@@ -1,0 +1,12 @@
+[{{ deployment_user }}]
+
+allowed: ['cd', 'ansible-playbook', 'exit']
+overssh: ['cd', 'sudo', 'ansible-playbook', 'exit']
+forbidden: [';', '|', '`', '>', '<', '$(', '${']
+sudo_commands: ['ansible-playbook']
+path: ['/home/{{ deployment_user }}/', '/home/{{ deployment_user }}/ofn-install/']
+
+scp: 0
+scp_upload: 0
+scp_download: 0
+sftp: 0

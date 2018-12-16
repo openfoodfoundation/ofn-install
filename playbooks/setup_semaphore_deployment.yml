@@ -5,25 +5,4 @@
   become: yes
 
   roles:
-    - role: remote_ansible
-
-  tasks:
-    - name: create secure directory for keys
-      file:
-        path: "/home/{{ user }}/keys"
-        state: directory
-        owner: "{{ user }}"
-        mode: 0700
-
-    - name: generate semaphore key pair
-      command: "ssh-keygen -f /home/{{ user }}/keys/semaphore -t rsa -b 4096 -C semaphore -N '' "
-
-    - name: copy public key
-      shell: "cat /home/{{ user }}/keys/semaphore.pub"
-      register: semaphore_public_key
-
-    - name: add semaphore public key to deployment user's authorized_keys
-      authorized_key:
-        user: "{{ deployment_user }}"
-        key: "{{ semaphore_public_key.stdout }}"
-        state: present
+    - role: semaphore_deployment

@@ -1,0 +1,11 @@
+[global]
+logpath         : /var/log/lshell/
+loglevel        : 2
+include_dir     : /etc/lshell.d/*.conf
+
+[default]
+allowed         : ['ls','echo','cd','ll']
+forbidden       : [';', '&', '|','`','>','<', '$(', '${']
+warning_counter : 2
+aliases         : {'ll':'ls -l', 'vim':'rvim'}
+strict          : 0
