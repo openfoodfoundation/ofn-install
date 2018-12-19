@@ -1,42 +1,29 @@
 --- # Set up Ansible and restricted deployment user for deployment via Semaphore
 
-- name: install ansible and lshell
+- name: install ansible
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - ansible
-      - lshell
+    name: ansible
   become: yes
-
-- name: create lshell directory
-  file:
-    path: "/etc/lshell.d"
-    state: directory
-
-- name: include lshell config
-  template:
-    src: lshell_config.j2
-    dest: "/etc/lshell.conf"
 
 - name: create deployment user
   user:
     name: "{{ deployment_user }}"
     state: present
     append: yes
-    shell: /usr/bin/lshell
+    shell: /bin/bash
   become: yes
 
-- name: add lshell settings for deployment user
+- name: add deploy script
   template:
-    src: lshell_deploy_user.j2
-    dest: "/etc/lshell.d/{{ deployment_user }}.conf"
+    src: deploy.j2
+    dest: "/home/{{ deployment_user }}/deploy"
+    owner: root
+    mode: 0700
 
 - name: add sudoers file
   template:
     src: sudoers.j2
     dest: "/etc/sudoers.d/{{ deployment_user }}"
-    mode: 0440
 
 - name: fetch ofn-install repo
   git:
@@ -75,3 +62,4 @@
     user: "{{ deployment_user }}"
     key: "{{ semaphore_public_key.stdout }}"
     state: present
+    key_options: 'restrict,command="sudo /home/{{ deployment_user }}/deploy \"$SSH_ORIGINAL_COMMAND\""'
