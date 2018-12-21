@@ -27,7 +27,7 @@
     repo: "{{ git_repo }}"
     dest: "{{ build_path }}"
     version: "{{ git_version }}"
-    refspec: "+refs/pull/*/head:refs/remotes/origin/pull-request-*"
+    refspec: "+refs/pull/*/merge:refs/remotes/origin/pull-request-*"
     force: yes
   tags: clone
 
