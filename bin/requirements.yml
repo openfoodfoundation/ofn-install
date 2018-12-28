@@ -12,7 +12,7 @@
   version: 0.0.1
 
 - src: oefenweb.swapfile
-  version: v2.0.7
+  version: v2.0.14
 
 - src: Datadog.datadog
   version: 2.4.0
