@@ -84,4 +84,4 @@
         token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
         msg: '{{ inventory_hostname }} provisioned'
         channel: "#devops-notifications"
-        username: ansible
+        username: "ansible executed by {{ lookup('env','USER') }}"
