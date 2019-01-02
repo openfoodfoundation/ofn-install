@@ -18,7 +18,6 @@
 
     - role: oefenweb.swapfile
       become: yes
-      when: swapfile_size != false
       tags: swapfile
 
     - role: unicorn_user # Create unprivileged user to run unicorn
