@@ -8,8 +8,8 @@ allowed=^[a-zA-Z0-9._/\-]+$
 
 if [[ ! $branch =~ $allowed ]]
 then
-  echo "Invalid branch name given."
-  exit;
+  echo "Invalid branch name given." >&2
+  exit 1
 fi
 
 cd /home/{{ deployment_user }}/ofn-install
