@@ -77,3 +77,11 @@
         datadog_api_key: "{{ datadog_key }}"
       when: datadog_key is defined
       tags: datadog
+
+  tasks:
+    - name: notify slack
+      slack:
+        token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
+        msg: '{{ inventory_hostname }} provisioned'
+        channel: "#devops-notifications"
+        username: "ansible executed by {{ lookup('env','USER') }}"
