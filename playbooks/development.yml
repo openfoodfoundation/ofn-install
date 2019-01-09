@@ -24,11 +24,6 @@
         - "{{ unicorn_user }}"
       tags: ruby
 
-    - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
-      become: yes
-      become_user: "{{ unicorn_user }}"
-      tags: bundler
-
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
       db_user_roles: SUPERUSER,CREATEDB

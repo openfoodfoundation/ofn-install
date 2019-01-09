@@ -1,8 +1,0 @@
---- # Bundler - here separately as it needs to load after the rbenv role.
-
-- name: install bundler
-  # This needs to be run inside a bash shell to initialise rbenv
-  # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
-  command: bash -lc "RBENV_VERSION='{{ ruby_version }}' gem install bundler --no-ri --no-rdoc"
-  args:
-    creates: "~/.rbenv/shims/bundler"

@@ -78,6 +78,15 @@
   when: s3_backups_bucket != ""
   tags: symlink
 
+- name: install bundler
+  # This needs to be run inside a bash shell to initialise rbenv
+  # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
+  command: bash -lc "./script/install-bundler --no-ri --no-rdoc"
+  args:
+    chdir: "{{ build_path }}"
+  register: bundler
+  changed_when: "bundler.stdout != ''"
+
 - name: bundle install app dependencies
   #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
