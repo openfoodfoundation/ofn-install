@@ -3,6 +3,9 @@
 # User name and password for running ansible on host
 user: ofn-admin
 
+# User name for deployment
+deployment_user: ofn-deploy
+
 # Connecting to the server
 #   ssh_pubkey - Location of the SSH public key file for the user created by
 #   running "ansible user.yml -f 10"  The location given is the path on your

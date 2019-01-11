@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+branch="$1"
+allowed=^[a-zA-Z0-9._/\-]+$
+
+# Given branch name must be a single string with no spaces,
+# containing only: ".", "-", "/", "_", or alphanumeric characters.
+
+if [[ ! $branch =~ $allowed ]]
+then
+  echo "Invalid branch name given." >&2
+  exit 1
+fi
+
+cd "/home/{{ deployment_user }}/ofn-install"
+
+ansible-playbook playbooks/deploy.yml --limit {{ ansible_limit }} --connection local -e "git_repo=https://github.com/openfoodfoundation/openfoodnetwork.git git_version=$branch @/home/ofn-admin/secrets.yml"

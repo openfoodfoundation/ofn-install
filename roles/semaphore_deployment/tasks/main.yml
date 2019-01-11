@@ -1,0 +1,61 @@
+--- # Set up Ansible and restricted deployment user for deployment via Semaphore
+
+- name: install ansible
+  apt:
+    name: ansible
+  become: yes
+
+- name: create deployment user
+  user:
+    name: "{{ deployment_user }}"
+    state: present
+    append: yes
+    shell: /bin/bash
+  become: yes
+
+- name: add deploy script
+  template:
+    src: deploy.j2
+    dest: "/home/{{ deployment_user }}/deploy"
+    owner: root
+    mode: 0700
+
+- name: add sudoers file
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ deployment_user }}"
+
+- name: fetch ofn-install repo
+  git:
+    repo: https://github.com/openfoodfoundation/ofn-install.git
+    dest: "/home/{{ deployment_user }}/ofn-install"
+    version: master
+    force: yes
+  tags: fetch_ofn_install
+
+- name: install community modules
+  shell: "/home/{{ deployment_user }}/ofn-install/bin/setup"
+  tags: update_community_modules
+
+- name: create secure directory for keys
+  file:
+    path: "/home/{{ user }}/keys"
+    state: directory
+    owner: "{{ user }}"
+    mode: 0700
+
+- name: generate semaphore key pair
+  command: "ssh-keygen -f /home/{{ user }}/keys/semaphore -t rsa -b 4096 -C semaphore -N '' "
+  args:
+    creates: "/home/{{ user }}/keys/semaphore.pub"
+
+- name: copy public key
+  shell: "cat /home/{{ user }}/keys/semaphore.pub"
+  register: semaphore_public_key
+
+- name: add semaphore public key to deployment user's authorized_keys
+  authorized_key:
+    user: "{{ deployment_user }}"
+    key: "{{ semaphore_public_key.stdout }}"
+    state: present
+    key_options: 'restrict,command="sudo /home/{{ deployment_user }}/deploy \"$SSH_ORIGINAL_COMMAND\""'
