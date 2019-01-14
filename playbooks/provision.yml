@@ -41,11 +41,6 @@
         - "{{ unicorn_user }}"
       tags: ruby
 
-    - role: bundler # Install bundler on its own here as it has to be installed after zzet.rbenv
-      become: yes
-      become_user: "{{ unicorn_user }}"
-      tags: bundler
-
     - role: app # Build the app directory structure and support files.
       become: yes
       become_user: "{{ unicorn_user }}"
