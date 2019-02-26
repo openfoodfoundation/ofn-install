@@ -64,3 +64,4 @@
     msg: '`{{ git_version }}` deployed to {{ inventory_hostname }}'
     channel: "#devops-notifications"
     username: "ansible executed by {{ lookup('env','USER') }}"
+  when: inventory_hostname != "local_vagrant"
