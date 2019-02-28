@@ -35,18 +35,10 @@
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
 
-# Note this requires the `bugsnag_key` var to be specified otherwise no
-# template will be copied
-- name: copy the bugsnag's initializer file into the shared folder
-  template:
-    src: "bugsnag.rb.j2"
-    dest: "{{ config_path }}/bugsnag.rb"
-    owner: "{{ unicorn_user }}"
-    mode: 0775
-  tags:
-    - app_templates
-    - bugsnag
-  when: bugsnag_key is defined
+- name: remove bugsnag's initializer from the shared folder
+  file:
+    path: "{{ config_path }}/bugsnag.rb"
+    state: absent
 
 - name: copy the db2fog file into the shared folder
   template:

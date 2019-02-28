@@ -57,17 +57,6 @@
     - { src: "{{ config_path }}/post-receive", dest: "{{ build_path }}/.git/hooks/post-receive" }
   tags: symlink
 
-- name: symlink the bugsnag file into the config folder
-  file:
-    src="{{ config_path }}/bugsnag.rb"
-    dest={{ build_path }}/config/initializers/bugsnag.rb
-    state=link
-    force=yes
-    owner={{ unicorn_user }}
-    mode=0775
-  when: bugsnag_key != "none"
-  tags: symlink
-
 - name: symlink the db2fog file into the config folder
   file:
     src="{{ config_path }}/db2fog.rb"
