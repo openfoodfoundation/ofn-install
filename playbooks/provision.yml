@@ -80,3 +80,4 @@
         msg: '{{ inventory_hostname }} provisioned'
         channel: "#devops-notifications"
         username: "ansible executed by {{ lookup('env','USER') }}"
+      when: inventory_hostname != "local_vagrant"
