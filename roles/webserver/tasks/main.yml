@@ -4,15 +4,15 @@
   template:
     src={{ item.src }}
     dest={{ item.dest }}
-    mode={{ item.mode }}
-    owner={{ item.owner }}
-    group={{ item.group }}
+    mode="0744"
+    owner={{ unicorn_user }}
+    group={{ unicorn_user }}
   become: yes
   with_items:
-    - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
+    - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}" }
+    - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb" }
+    - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
+    - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service" }
   register: init_scripts
   notify:
     - restart nginx

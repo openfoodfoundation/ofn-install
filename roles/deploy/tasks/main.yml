@@ -75,7 +75,7 @@
   args:
     chdir: "{{ build_path }}"
   register: bundler
-  changed_when: "bundler.stdout != ''"
+  changed_when: bundler.stdout | length > 0
 
 - name: bundle install app dependencies
   #TODO make the "--without development" part conditional on rails_env
@@ -104,7 +104,7 @@
 # Create a rollback release
 
 - name: create a database rollback version
-  shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ rollback_sql_path }}
+  command: bash -c "set -o pipefail && pg_dump -h '{{ db_host }}' -U '{{ db_user }}' '{{ db }}' | gzip > '{{ rollback_sql_path }}'"
   args:
     creates: "{{ rollback_sql_path }}"
 
