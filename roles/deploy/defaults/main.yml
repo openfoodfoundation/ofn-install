@@ -3,5 +3,3 @@ rollback_path: "{{ app_path }}/rollback"
 rollback_sql_path: "{{ app_path }}/rollback.sql.gz"
 
 bugsnag_key: none
-
-s3_backups_bucket:
