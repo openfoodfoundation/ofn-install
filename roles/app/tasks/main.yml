@@ -49,7 +49,7 @@
   tags:
     - app_templates
     - db2fog
-  when: s3_backups_bucket != ""
+  when: s3_backups_bucket is defined
 
 - name: get l10n repo
   git:

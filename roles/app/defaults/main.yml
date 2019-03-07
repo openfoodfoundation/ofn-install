@@ -1,8 +1,4 @@
 ---
-s3_backups_bucket:
-s3_access_key:
-s3_secret:
-
 stripe_client_id:
 stripe_instance_secret_key:
 stripe_instance_publishable_key:

@@ -65,7 +65,7 @@
     force=yes
     owner={{ unicorn_user }}
     mode=0775
-  when: s3_backups_bucket != ""
+  when: s3_backups_bucket is defined
   tags: symlink
 
 - name: install bundler
