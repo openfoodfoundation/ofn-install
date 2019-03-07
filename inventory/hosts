@@ -26,6 +26,15 @@ au-prod
 au-staging
 
 #------------------------------------------------------------------------------
+# Canada
+
+[ca-prod]
+openfoodnetwork.ca
+
+[ca:children]
+ca-prod
+
+#------------------------------------------------------------------------------
 # Ireland
 
 [ie-prod]
@@ -122,6 +131,7 @@ be-prod
 [ofn_servers:children]
 local
 au
+ca
 ie
 in
 uk
