@@ -17,7 +17,7 @@
       - python-pycurl
       - python-psycopg2
       - python3-psycopg2
-      - python-software-properties
+      - software-properties-common
 
       # unknown why or if needed
       # The playbooks run without these dependencies,
