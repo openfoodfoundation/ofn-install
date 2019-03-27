@@ -17,7 +17,6 @@
       - python-pycurl
       - python-psycopg2
       - python3-psycopg2
-      - software-properties-common
 
       # unknown why or if needed
       # The playbooks run without these dependencies,
@@ -43,12 +42,6 @@
       - libxslt1-dev
       - memcached
   tags: packages
-
-- name: define additional build dependencies for Ruby 2.1.5 on Ubuntu 18
-  set_fact:
-    rbenv_extra_depends:
-      - libssl1.0-dev
-  when: ansible_distribution_major_version == '18'
 
 # Remove monit if still installed. The notified handlers will run only once
 # (when the main task triggers a change by removing the config file)
