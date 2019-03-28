@@ -3,7 +3,7 @@
   version: 1.5.0
 
 - src: zzet.rbenv
-  version: 3.0.0
+  version: 3.4.2
 
 - src: jdauphant.nginx
   version: v2.8.1
