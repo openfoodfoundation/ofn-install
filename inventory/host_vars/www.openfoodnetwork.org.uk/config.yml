@@ -5,3 +5,5 @@ rails_env: production
 
 unicorn_workers: 3
 unicorn_timeout: 120
+
+swapfile_size: 1G
