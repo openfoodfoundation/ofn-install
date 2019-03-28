@@ -19,6 +19,7 @@
     dest: "/home/{{ deployment_user }}/deploy"
     owner: root
     mode: 0700
+  tags: provision_deploy_script
 
 - name: add sudoers file
   template:
