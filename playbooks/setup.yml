@@ -11,7 +11,7 @@
       raw: apt-get update -qq && apt-get install -qq python2.7
       tags: skip_ansible_lint
 
-# Add the default user as root. AWS ubuntu images generally have a
+# Add the default user and ssh keys as root. AWS ubuntu images generally have a
 # default user (ubuntu) and wont let this be run as root. But digital ocean images don't.
 - name: set up default_user
   hosts: ofn_servers
@@ -20,3 +20,7 @@
     - role: default_user
       become: yes
       tags: default_user
+
+    - role: ssh_keys
+      become: yes
+      tags: ssh_keys
