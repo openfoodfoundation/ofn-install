@@ -26,9 +26,6 @@
     - role: common # Install common apps and libraries, and setup shell.
       tags: common
 
-    - role: compatibility # Handle version-specific OS dependencies and configuration
-      tags: compatibility
-
     - role: language # Setup locale.
       tags: language
 
