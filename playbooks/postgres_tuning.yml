@@ -31,6 +31,7 @@
           shared_buffers = {{ ( ansible_memtotal_mb / 4 ) | int }}MB
           effective_cache_size = {{ ( ( ansible_memtotal_mb / 4 ) * 3 ) | int }}MB
           maintenance_work_mem = {{ ( ansible_memtotal_mb / 16 ) | int }}MB
+          wal_buffers = 16MB
         dest: "/etc/postgresql/{{ pg_current_version.stdout }}/main/conf.d/tuning.conf"
       become: yes
       register: tuning_configuration
