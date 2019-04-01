@@ -137,6 +137,12 @@
   command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }} removes={{ rollback_path }}
   tags: skip_ansible_lint
 
+- name: delete old release files
+  shell: ls -1tr | head -n -10 | xargs -d '\n' rm -rf --
+  args:
+    chdir: "{{ releases_path }}"
+  become: yes
+
 #-------------------------
 # Move new code into place
 
