@@ -1,0 +1,25 @@
+--- # Compatibility
+
+- name: install packages for Ubuntu 16
+  apt:
+    name: "{{ xenial_packages }}"
+  become: yes
+  vars:
+    xenial_packages:
+      - python-software-properties
+  when: ansible_distribution_major_version == '16'
+
+- name: install packages for Ubuntu 18
+  apt:
+    name: "{{ bionic_packages }}"
+  become: yes
+  vars:
+    bionic_packages:
+      - software-properties-common
+  when: ansible_distribution_major_version == '18'
+
+- name: define additional rbenv build dependencies for Ruby 2.1.5 on Ubuntu 18
+  set_fact:
+    rbenv_extra_depends:
+      - libssl1.0-dev
+  when: ansible_distribution_major_version == '18'
