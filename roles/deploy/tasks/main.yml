@@ -138,7 +138,7 @@
   tags: skip_ansible_lint
 
 - name: delete old release files
-  shell: ls -1tr | head -n -10 | xargs -d '\n' rm -rf --
+  shell: set -o pipefail && ls -1tr | head -n -10 | xargs -d '\n' rm -rf --
   args:
     chdir: "{{ releases_path }}"
   become: yes
