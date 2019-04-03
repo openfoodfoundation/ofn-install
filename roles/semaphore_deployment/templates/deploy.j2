@@ -1,7 +1,12 @@
 #!/bin/bash
 
 set -e
-branch="$1"
+
+# Parse input
+arguments=($1)
+branch="${arguments[0]}"
+secret_repo="${arguments[1]}"
+
 allowed=^[a-zA-Z0-9._/\-]+$
 
 # Given branch name must be a single string with no spaces,
@@ -27,6 +32,13 @@ if $(ansible-galaxy install -r bin/requirements.yml 2>&1 | grep -q "change versi
     ansible-galaxy install -r bin/requirements.yml --force
 else
     echo "### All community roles are up to date."
+fi
+
+# Optionally fetch latest secrets
+if [ -n "$secret_repo" ] && [ -f /home/ofn-admin/keys/vault-pass ]; then
+    echo '### Fetching secrets...'
+    curl "$secret_repo"/master/uk-staging/secrets.yml > /home/ofn-admin/secrets.yml
+    ansible-vault decrypt --vault-password-file /home/ofn-admin/keys/vault-pass /home/ofn-admin/secrets.yml
 fi
 
 # Deploy

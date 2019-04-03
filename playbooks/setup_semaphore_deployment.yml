@@ -4,5 +4,10 @@
   remote_user: "{{ user }}"
   become: yes
 
+  vars_prompt:
+    - name: ofn_vault_pass
+      prompt: "Set vault password (or enter to skip)"
+      private: yes
+
   roles:
     - role: semaphore_deployment

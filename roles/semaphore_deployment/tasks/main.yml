@@ -61,3 +61,12 @@
     key: "{{ semaphore_public_key.stdout }}"
     state: present
     key_options: 'restrict,command="sudo /home/{{ deployment_user }}/deploy \"$SSH_ORIGINAL_COMMAND\""'
+
+- name: write vault password
+  copy:
+    content: "{{ ofn_vault_pass }}"
+    dest: "/home/{{ user }}/keys/vault-pass"
+    owner: root
+    mode: 0600
+  become: yes
+  when: ofn_vault_pass is defined and ofn_vault_pass | length > 0
