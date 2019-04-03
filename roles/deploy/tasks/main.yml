@@ -142,6 +142,7 @@
   args:
     chdir: "{{ releases_path }}"
   become: yes
+  tags: skip_ansible_lint
 
 #-------------------------
 # Move new code into place
