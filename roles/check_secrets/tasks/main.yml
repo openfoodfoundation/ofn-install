@@ -1,0 +1,5 @@
+---
+- name: Check secrets
+  fail:
+    msg: "ERROR: It looks like your secrets.yml file is missing..."
+  when: db_password is undefined or secret_token is undefined
