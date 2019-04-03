@@ -16,14 +16,17 @@ fi
 cd "/home/{{ deployment_user }}/ofn-install"
 
 # Pull any recent ofn-install updates
+echo "### Updating local ofn-install files..."
 git pull
 
 # Update community roles if the requirements have changed
+echo "### Checking community roles..."
+
 if $(ansible-galaxy install -r bin/requirements.yml 2>&1 | grep -q "change version"); then
-    echo "Updating community roles..."
+    echo "### Updating community roles..."
     ansible-galaxy install -r bin/requirements.yml --force
 else
-    echo "All community roles are up to date"
+    echo "### All community roles are up to date."
 fi
 
 # Deploy
