@@ -6,6 +6,10 @@
   vars:
     nginx_daemon_mode: off
 
+  pre_tasks:
+    - include_role:
+        name: check_secrets
+
   roles:
     - role: ssh_keys # Add sysadmin ssh keys to server
       become: yes
