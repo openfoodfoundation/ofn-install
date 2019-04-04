@@ -1,0 +1,5 @@
+---
+- name: Check secrets
+  fail:
+    msg: "ERROR: It looks like your secrets.yml file is missing. You can add them by providing the argument: `-e @path/to/secrets.yml`"
+  when: db_password is undefined or secret_token is undefined
