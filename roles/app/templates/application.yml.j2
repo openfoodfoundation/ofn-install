@@ -19,7 +19,7 @@ CHECKOUT_ZONE: {{ checkout_zone }}
 GOOGLE_MAPS_API_KEY: {{ google_maps_api_key }}
 
 {% if s3_backups_bucket is defined %}
-S3_BACKUPS_BUCKET: {{ s3_backups_bucket }}
+S3_BUCKET: {{ s3_backups_bucket }}
 S3_ACCESS_KEY: {{ s3_access_key }}
 S3_SECRET: {{ s3_secret }}
 {% endif %}
