@@ -137,12 +137,21 @@
   command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }} removes={{ rollback_path }}
   tags: skip_ansible_lint
 
-- name: delete old release files
-  shell: set -o pipefail && ls -1tr | head -n -10 | xargs -d '\n' rm -rf --
+- name: check for old release files
+  shell: set -o pipefail && ls -1tr | head -n -10
   args:
     chdir: "{{ releases_path }}"
+    executable: /bin/bash
   become: yes
-  tags: skip_ansible_lint
+  changed_when: False
+  register: releases_for_deletion
+
+- name: delete old release files if present
+  file:
+    path: "{{ releases_path }}/{{ item }}"
+    state: absent
+  with_items: "{{ releases_for_deletion.stdout_lines | list }}"
+  become: yes
 
 #-------------------------
 # Move new code into place
