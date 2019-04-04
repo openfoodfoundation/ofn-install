@@ -1,8 +1,15 @@
 --- # Set up Ansible and restricted deployment user for deployment via Semaphore
 
+- name: add ansible ppa
+  apt_repository:
+    repo: ppa:ansible/ansible
+  become: yes
+
 - name: install ansible
   apt:
+    update_cache: yes
     name: ansible
+    state: latest
   become: yes
 
 - name: create deployment user
