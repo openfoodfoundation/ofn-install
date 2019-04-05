@@ -5,5 +5,16 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-  roles:
-    - role: deploy
+  tasks:
+    - block:
+      - include_role:
+          name: deploy
+
+      rescue:
+        - name: Notify slack of deployment failure
+          slack:
+            token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
+            msg: 'Deployment FAILED for {{ inventory_hostname }}'
+            channel: "#devops-notifications"
+            username: "ansible executed by {{ lookup('env','USER') }}"
+          when: inventory_hostname != "local_vagrant"
