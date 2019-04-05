@@ -1,5 +1,7 @@
 ---
 sudo: false
+dist: xenial
+cache: bundler
 language: python
 python: "2.7"
 
@@ -21,4 +23,4 @@ script:
   - ansible-playbook -i inventory/dev --syntax-check playbooks/development.yml
   - ansible-lint site.yml --exclude=community
   # Run the site.yml playbook
-  - ansible-playbook site.yml -i tests/inventory --connection=local
+  - ansible-playbook site.yml --connection=local --limit=travis --skip-tags=ssh_keys,security
