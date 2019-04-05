@@ -5,9 +5,5 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-  pre_tasks:
-    - include_role:
-        name: check_secrets
-
   roles:
     - role: deploy
