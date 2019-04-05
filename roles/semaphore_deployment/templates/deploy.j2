@@ -27,4 +27,4 @@ else
 fi
 
 # Deploy
-ansible-playbook playbooks/deploy.yml --limit {{ ansible_limit }} --connection local -e "git_repo=https://github.com/openfoodfoundation/openfoodnetwork.git git_version=$branch @/home/ofn-admin/secrets.yml"
+ansible-playbook playbooks/deploy.yml --limit {{ ansible_limit }} --connection local -e "git_repo=https://github.com/openfoodfoundation/openfoodnetwork.git git_version=$branch"
