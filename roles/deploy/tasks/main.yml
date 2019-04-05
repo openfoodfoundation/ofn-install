@@ -57,17 +57,6 @@
     - { src: "{{ config_path }}/post-receive", dest: "{{ build_path }}/.git/hooks/post-receive" }
   tags: symlink
 
-- name: symlink the db2fog file into the config folder
-  file:
-    src="{{ config_path }}/db2fog.rb"
-    dest={{ build_path }}/config/initializers/db2fog.rb
-    state=link
-    force=yes
-    owner={{ unicorn_user }}
-    mode=0775
-  when: s3_backups_bucket is defined
-  tags: symlink
-
 - name: install bundler
   # This needs to be run inside a bash shell to initialise rbenv
   # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible

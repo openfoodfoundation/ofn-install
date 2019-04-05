@@ -40,17 +40,6 @@
     path: "{{ config_path }}/bugsnag.rb"
     state: absent
 
-- name: copy the db2fog file into the shared folder
-  template:
-    src: db2fog.rb.j2
-    dest: "{{ config_path }}/db2fog.rb"
-    owner: "{{ unicorn_user }}"
-    mode: 0775
-  tags:
-    - app_templates
-    - db2fog
-  when: s3_backups_bucket is defined
-
 - name: get l10n repo
   git:
     repo={{ l10n_repo }}
