@@ -11,6 +11,7 @@ install:
 
 script:
   - bin/setup
+  # Check syntax with ansible-lint
   - ansible-playbook -i inventory/dev --syntax-check site.yml
   - ansible-playbook -i inventory/dev --syntax-check playbooks/backup.yml
   - ansible-playbook -i inventory/dev --syntax-check playbooks/deploy.yml
@@ -19,3 +20,5 @@ script:
   - ansible-playbook -i inventory/dev --syntax-check playbooks/setup.yml
   - ansible-playbook -i inventory/dev --syntax-check playbooks/development.yml
   - ansible-lint site.yml --exclude=community
+  # Run the site.yml playbook
+  - ansible-playbook site.yml -i tests/inventory --connection=local
