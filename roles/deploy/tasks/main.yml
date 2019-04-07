@@ -28,6 +28,7 @@
     dest: "{{ build_path }}"
     version: "{{ git_version }}"
     refspec: "+refs/pull/*/merge:refs/remotes/origin/pull-request-*"
+    depth: 1
     force: yes
   tags: clone
 
