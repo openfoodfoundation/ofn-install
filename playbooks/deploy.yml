@@ -5,6 +5,9 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
   tasks:
     - block:
       - include_role:

@@ -18,25 +18,6 @@
   become: yes
   become_user: root
 
-- name: restart unicorn
-  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
-  register: table_exists
-  ignore_errors: yes
-  become: yes
-  become_user: "{{ unicorn_user }}"
-  notify:
-    - restart unicorn step 2
-    - restart nginx
-
-#TODO make sure both of these things run as one handler.
-- name: restart unicorn step 2
-  service:
-    name: unicorn_{{ app }}
-    state: restarted
-  become: yes
-  become_user: root
-  when: table_exists.stderr.find('does not exist') == -1
-
 - name: restart nginx
   service:
     name: nginx
