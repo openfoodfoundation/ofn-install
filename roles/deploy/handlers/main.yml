@@ -36,15 +36,6 @@
   become: yes
   become_user: root
   when: table_exists.stderr.find('does not exist') == -1
-  # If unicorn isn't actually started yet we probably need this:
-  notify: start unicorn
-
-- name: start unicorn
-  service:
-    name: unicorn_{{ app }}
-    state: started
-  become: yes
-  become_user: root
 
 - name: restart nginx
   service:
