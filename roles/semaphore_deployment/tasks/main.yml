@@ -41,12 +41,6 @@
     force: yes
   tags: fetch_ofn_install
 
-- name: install community modules
-  shell: "bin/setup"
-  args:
-    chdir: "/home/{{ deployment_user }}/ofn-install/"
-  tags: update_community_modules
-
 - name: create secure directory for keys
   file:
     path: "/home/{{ user }}/keys"
