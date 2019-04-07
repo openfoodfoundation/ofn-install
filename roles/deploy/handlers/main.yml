@@ -11,21 +11,9 @@
 - name: precompile nondigest assets
   command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}" chdir="{{ current_path }}"
 
-- name: restart delayed job service
-  service:
-    name: delayed_job_{{ app }}
-    state: restarted
-  become: yes
-  become_user: root
-
 - name: restart nginx
   service:
     name: nginx
     state: restarted
   become: yes
   become_user: root
-
-- name: update whenever
-  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
-  args:
-    chdir: "{{ current_path }}"

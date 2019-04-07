@@ -4,3 +4,4 @@
     name: unicorn_{{ app }}
     state: restarted
   become: yes
+  become_user: root
