@@ -56,6 +56,7 @@
 - name: copy public key
   shell: "cat /home/{{ user }}/keys/semaphore.pub"
   register: semaphore_public_key
+  changed_when: False
 
 - name: add semaphore public key to deployment user's authorized_keys
   authorized_key:
