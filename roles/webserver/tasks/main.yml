@@ -1,6 +1,6 @@
 --- # webserver
 
-- name: copy init scripts files
+- name: provision init scripts
   template:
     src={{ item.src }}
     dest={{ item.dest }}
@@ -10,13 +10,22 @@
   become: yes
   with_items:
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}" }
-    - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb" }
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
     - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service" }
   register: init_scripts
   notify:
     - restart nginx
   tags: init
+
+- name: provision unicorn config
+  template:
+    src: unicorn.rb.j2
+    dest: "{{ config_path }}/unicorn.rb"
+    mode: 0744
+    owner: "{{ unicorn_user }}"
+    group: "{{ unicorn_user }}"
+  become: yes
+  notify: restart unicorn
 
 - name: Reload systemd
   systemd:

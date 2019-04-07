@@ -1,0 +1,5 @@
+- name: restart unicorn
+  service:
+    name: unicorn_{{ app }}
+    state: restarted
+  become: yes
