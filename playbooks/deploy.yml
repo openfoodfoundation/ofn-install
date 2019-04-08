@@ -10,6 +10,16 @@
       - include_role:
           name: deploy
 
+      - meta: flush_handlers # Ensure handlers run successfully before reporting success
+
+      - name: Notify Slack of successful deployment
+        slack:
+          token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
+          msg: '`{{ git_version }}` deployed to {{ inventory_hostname }}'
+          channel: "#devops-notifications"
+          username: "ansible executed by {{ lookup('env','USER') }}"
+        when: inventory_hostname != "local_vagrant"
+
       rescue:
         - name: Notify slack of deployment failure
           slack:

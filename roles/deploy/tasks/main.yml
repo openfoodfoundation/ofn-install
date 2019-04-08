@@ -207,4 +207,3 @@
     - restart unicorn
     - restart delayed job service
     - update whenever
-    - notify slack
