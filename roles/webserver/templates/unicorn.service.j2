@@ -4,7 +4,7 @@
 Description=Open Food Network unicorn server
 
 [Service]
-Type=simple
+Type=forking
 User=openfoodnetwork
 WorkingDirectory={{ current_path }}
 Environment=RAILS_ENV={{ rails_env }}
@@ -17,6 +17,8 @@ SyslogIdentifier=openfoodnetwork-unicorn
 PIDFile={{ unicorn_pid }}
 
 ExecStart={{ bundle_path }} exec unicorn -D -c {{ unicorn_config }} -E {{ rails_env }}
+ExecStop=/bin/kill -QUIT $MAINPID
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target

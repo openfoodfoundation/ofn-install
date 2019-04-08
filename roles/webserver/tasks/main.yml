@@ -25,7 +25,7 @@
     owner: "{{ unicorn_user }}"
     group: "{{ unicorn_user }}"
   become: yes
-  notify: restart unicorn
+  notify: reload unicorn
 
 - name: Reload systemd
   systemd:
