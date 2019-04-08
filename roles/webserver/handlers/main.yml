@@ -1,5 +1,10 @@
 - name: reload unicorn
+  service_facts:
+  notify: reload unicorn if running
+
+- name: reload unicorn if running
   service:
     name: unicorn_{{ app }}
     state: reloaded
   become: yes
+  when: ansible_facts.services['unicorn_openfoodnetwork.service']['state'] == 'running'
