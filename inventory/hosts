@@ -126,6 +126,16 @@ www.openfoodnetwork.be ansible_host=51.75.124.147
 be-prod
 
 #------------------------------------------------------------------------------
+# Europe
+
+[europe:children]
+be-prod
+es-prod
+fr-prod
+uk-prod
+#de-prod
+
+#------------------------------------------------------------------------------
 # All
 
 [ofn_servers:children]
