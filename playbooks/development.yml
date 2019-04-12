@@ -1,4 +1,12 @@
 ---
+# Note that by relying on this playbook you will end up with a development
+# environment that uses some of roles we use for live instances. You won't have
+# Nginx nor unicorn so will have to manually start the rails running `bundle
+# exec rails server`.
+#
+# Also, there are a number of things you will need to do manually such as
+# installing bundler and creating the development database with `bundle exec
+# rake db:create` as you would do on your host without containers.
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"
@@ -27,7 +35,6 @@
     - role: dbserver # Set up database server and user for the app.
       tags: dbserver
       db_user_roles: SUPERUSER,CREATEDB
-      db_user: ofn
 
   vars:
     ansible_python_interpreter: /usr/bin/python2.7

@@ -1,0 +1,19 @@
+---
+
+domain: localhost
+rails_env: development
+
+admin_email: admin@example.com
+mail_domain: example.com
+
+# Add missing vars to emulate secrets.yml
+db_password: 'lxc123'
+admin_password: 'spree123'
+secret_token: '511a3d0fa1551b9fa75a1aef5b47684905c64807963fa2c190272878366365'
+google_maps_api_key: 'xxx'
+
+mail_host: 'example.com'
+mail_port: 25
+smtp_username: 'admin'
+smtp_password: 'password'
+
