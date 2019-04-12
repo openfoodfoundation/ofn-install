@@ -35,11 +35,6 @@
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
 
-- name: remove bugsnag's initializer from the shared folder
-  file:
-    path: "{{ config_path }}/bugsnag.rb"
-    state: absent
-
 - name: get l10n repo
   git:
     repo={{ l10n_repo }}
