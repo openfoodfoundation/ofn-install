@@ -41,12 +41,6 @@
     force: yes
   tags: fetch_ofn_install
 
-- name: install community modules
-  shell: "bin/setup"
-  args:
-    chdir: "/home/{{ deployment_user }}/ofn-install/"
-  tags: update_community_modules
-
 - name: create secure directory for keys
   file:
     path: "/home/{{ user }}/keys"
@@ -62,6 +56,7 @@
 - name: copy public key
   shell: "cat /home/{{ user }}/keys/semaphore.pub"
   register: semaphore_public_key
+  changed_when: False
 
 - name: add semaphore public key to deployment user's authorized_keys
   authorized_key:
