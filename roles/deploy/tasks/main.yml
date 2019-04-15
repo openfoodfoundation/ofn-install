@@ -128,10 +128,9 @@
 #-------------------------
 # Move new code into place
 
-- name: move build to current
-  command: mv {{ build_path }} {{ current_path }} removes={{ build_path }}
-  become: yes
-  become_user: "{{ unicorn_user }}"
+- name: copy build to current
+  command: cp -TLr {{ build_path }} {{ current_path }}
+  changed_when: True
 
 #--------------------
 # Update the database
