@@ -89,9 +89,19 @@
 # Create a rollback release
 
 - name: create a database rollback version
-  command: bash -c "set -o pipefail && pg_dump -h '{{ db_host }}' -U '{{ db_user }}' '{{ db }}' | gzip > '{{ rollback_sql_path }}'"
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "{{ rollback_tmp_path }}"
+  become: yes
+  become_user: postgres
+
+- name: move database dump
+  command: mv {{ rollback_tmp_path }} {{ rollback_sql_path }}
+  become: yes
+  become_user: root
   args:
-    creates: "{{ rollback_sql_path }}"
+    removes: "{{ rollback_tmp_path }}"
 
 - name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz

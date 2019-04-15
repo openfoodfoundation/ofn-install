@@ -10,8 +10,14 @@
   args:
     creates: "{{ current_path }}"
 
-- name: copy rollback db to live db
-  shell: gunzip -c {{ rollback_sql_path }} | psql -h {{ db_host }} -U {{ db_user }} {{ db }}
+- name: restore database from backup
+  postgresql_db:
+    name: "{{ db }}"
+    owner: "{{ db_user }}"
+    state: restore
+    target: "{{ rollback_sql_path }}"
+  become: true
+  become_user: postgres
   notify:
     - precompile assets
     - restart unicorn
