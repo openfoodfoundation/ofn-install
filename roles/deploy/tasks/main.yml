@@ -1,16 +1,13 @@
 --- # Deploy
 
 # Remove old rollbacks so they aren't used accidentally after errors.
-- name: remove the old rollback
+- name: remove the old rollbacks
   file:
-    dest={{ rollback_path }}
-    state=absent
-  tags: clone
-
-- name: remove the old rollback database
-  file:
-    dest={{ rollback_sql_path }}
-    state=absent
+    dest: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ rollback_path }}"
+    - "{{ rollback_sql_path }}"
   tags: clone
 
 #----------------
@@ -18,8 +15,8 @@
 
 - name: remove the old build path
   file:
-    dest={{ build_path }}
-    state=absent
+    dest: "{{ build_path }}"
+    state: absent
   tags: clone
 
 - name: build codebase from git branch
@@ -101,11 +98,15 @@
   tags: skip_ansible_lint
 
 - name: create a repo rollback version
-  command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
+  command: mv {{ current_path }} {{ rollback_path }}
+  args:
+    removes: "{{ current_path }}"
   tags: skip_ansible_lint
 
 - name: create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }} removes={{ rollback_path }}
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
+  args:
+    removes: "{{ rollback_path }}"
   tags: skip_ansible_lint
 
 - name: check for old release files
