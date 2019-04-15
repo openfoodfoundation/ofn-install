@@ -57,11 +57,3 @@
   command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
   args:
     chdir: "{{ current_path }}"
-
-- name: notify slack
-  slack:
-    token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
-    msg: '`{{ git_version }}` deployed to {{ inventory_hostname }}'
-    channel: "#devops-notifications"
-    username: "ansible executed by {{ lookup('env','USER') }}"
-  when: inventory_hostname != "local_vagrant"
