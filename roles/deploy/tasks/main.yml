@@ -106,7 +106,7 @@
 - name: create a repo backup version
   command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
   args:
-    removes: "{{ rollback_path }}"
+    creates: "{{ releases_path }}/{{ timestamp }}"
   tags: skip_ansible_lint
 
 - name: check for old release files
