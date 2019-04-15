@@ -5,7 +5,7 @@
 local_vagrant ansible_host=127.0.0.1 ansible_user=vagrant ansible_port=2222 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [lxc]
-local.ofn.org
+ofn.local
 
 [local:children]
 vagrant
