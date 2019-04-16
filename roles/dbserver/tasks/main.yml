@@ -1,22 +1,6 @@
 --- # dbserver
 
-- name: install postgres via community role
-  include_role:
-    name: geerlingguy.postgresql
-  vars:
-    postgresql_user: postgres
-    postgresql_hba_entries: False # Do not overwrite existing pg_hba.conf files
-    postgresql_users:
-      - name: "{{ db_user }}"
-        password: "{{ db_password }}"
-        role_attr_flags: "{{ db_user_roles }}"
-    postgresql_databases:
-      - name: "{{ db }}"
-        owner: "{{ db_user }}"
-        login_host: "{{ db_host }}"
-        login_password: "{{ db_password }}"
-        lc_collate: en_US.utf8
-        lc_ctype: en_US.utf8
+- import_tasks: postgresql.yml
 
 - name: add .pgpass file for {{ unicorn_user }}
   template:
