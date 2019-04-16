@@ -16,3 +16,6 @@
 
 - src: Datadog.datadog
   version: 2.4.0
+
+- src: geerlingguy.postgresql
+  version: 1.4.5
