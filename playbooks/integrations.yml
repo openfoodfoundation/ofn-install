@@ -11,6 +11,10 @@
   handlers:
     - include: geerlingguy.postgresql/handlers/main.yml
 
+  pre_tasks:
+    - include_role:
+        name: check_secrets
+
   tasks:
     - name: Gather postgres info
       include_role:
