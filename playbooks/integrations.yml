@@ -1,0 +1,35 @@
+---
+# Enables integrations with 3rd party apps such as Zapier or Metabase.
+# Creates a database user with restricted access to the database and
+# configures postgres to allow limited access on external connections.
+
+- name: Integration setup
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+  become: yes
+
+  handlers:
+    - include: geerlingguy.postgresql/handlers/main.yml
+
+  tasks:
+    - name: Gather postgres info
+      include_role:
+        name: geerlingguy.postgresql
+        tasks_from: variables
+
+    - name: Apply integrations settings
+      include_role:
+        name: integrations
+      vars:
+        db_integration: "{{ integration_item }}"
+      loop: "{{ db_integrations }}"
+      loop_control:
+        loop_var: integration_item
+      when: db_integrations is defined
+
+    - name: Reconfigure postgres
+      become: yes
+      become_user: postgres
+      include_role:
+        name: geerlingguy.postgresql
+        tasks_from: configure
