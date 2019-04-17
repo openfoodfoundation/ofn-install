@@ -11,10 +11,5 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-# Rails expects unicode databases. See the script for more details.
-- name: fix postgres db encoding problem
-  script: fix_pg_encoding.sh
-  become: yes
-  become_user: postgres
-  tags:
-    - pg-en
+- import_tasks: fix_template_encoding.yml
+  tags: template_encoding

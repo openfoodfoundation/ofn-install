@@ -1,0 +1,45 @@
+---
+# Configures the default encoding on postgresqls's "template1" to ensure that these settings will be
+# inherited by any newly created databases when Rails calls `db:create` or `db:reset`.
+# See: https://stackoverflow.com/questions/16736891/pgerror-error-new-encoding-utf8-is-incompatible
+
+- name: Check template1 encoding
+  command: >
+    psql -U postgres -tc "SELECT COUNT(*) FROM pg_database WHERE datname='template1'
+    AND datcollate='{{ postgres_encoding }}' AND datctype='{{ postgres_encoding }}';"
+  become: true
+  become_user: postgres
+  changed_when: False
+  register: template_status
+
+- name: Disable template1
+  command: psql -U postgres -c "UPDATE pg_database SET datistemplate=false WHERE datname='template1';"
+  become: true
+  become_user: postgres
+  when: template_status.stdout.find('0') != -1
+
+- name: Drop template1
+  postgresql_db:
+    name: template1
+    state: absent
+  become: true
+  become_user: postgres
+  when: template_status.stdout.find('0') != -1
+
+- name: Recreate template1
+  postgresql_db:
+    name: template1
+    encoding: UTF-8
+    lc_collate: "{{ postgres_encoding }}"
+    lc_ctype: "{{ postgres_encoding }}"
+    owner: postgres
+    template: template0
+  become: true
+  become_user: postgres
+  when: template_status.stdout.find('0') != -1
+
+- name: Enable template1
+  command: psql -U postgres -c "UPDATE pg_database SET datistemplate=true WHERE datname='template1';"
+  become: true
+  become_user: postgres
+  when: template_status.stdout.find('0') != -1

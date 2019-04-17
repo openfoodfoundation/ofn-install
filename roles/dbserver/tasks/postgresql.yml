@@ -37,5 +37,5 @@
         owner: "{{ db_user }}"
         login_host: "{{ db_host }}"
         login_password: "{{ db_password }}"
-        lc_collate: en_US.utf8
-        lc_ctype: en_US.utf8
+        lc_collate: "{{ postgres_encoding }}"
+        lc_ctype: "{{ postgres_encoding }}"
