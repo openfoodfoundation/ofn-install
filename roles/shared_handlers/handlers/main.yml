@@ -20,11 +20,3 @@
     state: restarted
   become: yes
   become_user: root
-  notify: restart nginx
-
-- name: restart nginx
-  service:
-    name: nginx
-    state: restarted
-  become: yes
-  become_user: root
