@@ -2,8 +2,6 @@
 
 - import_role:
     name: geerlingguy.postgresql
-  vars:
-    postgresql_hba_entries: False  # Do not overwrite existing pg_hba.conf files
 
 - include_role:
     name: geerlingguy.postgresql
