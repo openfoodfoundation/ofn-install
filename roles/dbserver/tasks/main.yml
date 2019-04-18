@@ -1,36 +1,15 @@
 --- # dbserver
 
-- name: install postgres packages
-  apt:
-    pkg={{ item }}
-    state=present
-  become: yes
-  with_items:
-    - postgresql
-    - postgresql-client
-    - postgresql-contrib
+- import_tasks: postgresql.yml
 
-- name: create db user
-  become: yes
-  become_user: postgres
-  postgresql_user:
-    name={{ db_user }}
-    password={{ db_password }}
-    role_attr_flags={{ db_user_roles }}
-
-- name: generate the .pgpass file
+- name: add .pgpass file for {{ unicorn_user }}
   template:
-    src=pgpass.j2
-    dest={{ unicorn_home_path }}/.pgpass
-    owner={{ unicorn_user }}
-    mode=0600
+    src: pgpass.j2
+    dest: "{{ unicorn_home_path }}/.pgpass"
+    owner: "{{ unicorn_user }}"
+    mode: 0600
   become: yes
   become_user: "{{ unicorn_user }}"
 
-# Rails expects unicode databases. See the script for more details.
-- name: fix postgres db encoding problem
-  script: fix_pg_encoding.sh
-  become: yes
-  become_user: postgres
-  tags:
-    - pg-en
+- import_tasks: fix_template_encoding.yml
+  tags: template_encoding

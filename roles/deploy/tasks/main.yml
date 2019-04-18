@@ -89,34 +89,16 @@
     timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
 
 #--------------------------
-# Check the database status
-
-- name: check database status
-  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
-  register: table_exists
-  ignore_errors: yes
-  tags:
-    - rake
-    - skip_ansible_lint
-
-- debug: msg="{{ table_exists.stdout }}"
-  tags: rake
-- debug: msg="{{ table_exists.stderr }}"
-  tags: rake
-
-#--------------------------
 # Create a rollback release
 
 - name: create a database rollback version
   command: bash -c "set -o pipefail && pg_dump -h '{{ db_host }}' -U '{{ db_user }}' '{{ db }}' | gzip > '{{ rollback_sql_path }}'"
   args:
     creates: "{{ rollback_sql_path }}"
-  when: table_exists.stderr.find('does not exist') == -1
 
 - name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz
   tags: skip_ansible_lint
-  when: table_exists.stderr.find('does not exist') == -1
 
 - name: create a repo rollback version
   command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
@@ -153,11 +135,10 @@
 #--------------------
 # Update the database
 
-- name: create database if it doesn't exist
-  command: bash -lc "bundle exec rake db:create RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ current_path }}"
-  when: table_exists.stderr.find('does not exist') != -1
+- name: check database status
+  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
+  register: table_exists
+  ignore_errors: yes
   tags:
     - rake
     - skip_ansible_lint
@@ -166,7 +147,7 @@
   command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }}"
   args:
     chdir: "{{ current_path }}"
-  when: table_exists.stderr.find('does not exist') != -1 or table_exists.stdout.find('0 rows') != -1
+  when: table_exists.stdout.find('0 rows') != -1
   tags:
     - rake
     - skip_ansible_lint

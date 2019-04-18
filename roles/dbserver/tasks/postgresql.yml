@@ -1,0 +1,41 @@
+--- # Can be simplified when https://github.com/geerlingguy/ansible-role-postgresql/pull/31 is included in a release...
+
+- import_role:
+    name: geerlingguy.postgresql
+  vars:
+    postgresql_hba_entries: False  # Do not overwrite existing pg_hba.conf files
+
+- include_role:
+    name: geerlingguy.postgresql
+    tasks_from: variables
+
+- include_role:
+    name: geerlingguy.postgresql
+    tasks_from: initialize
+
+- include_role:
+    name: geerlingguy.postgresql
+    tasks_from: configure
+
+- include_role:
+    name: geerlingguy.postgresql
+    tasks_from: users
+  vars:
+    postgresql_user: postgres
+    postgresql_users:
+      - name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        role_attr_flags: "{{ db_user_roles }}"
+
+- include_role:
+    name: geerlingguy.postgresql
+    tasks_from: databases
+  vars:
+    postgresql_user: postgres
+    postgresql_databases:
+      - name: "{{ db }}"
+        owner: "{{ db_user }}"
+        login_host: "{{ db_host }}"
+        login_password: "{{ db_password }}"
+        lc_collate: "{{ postgres_encoding }}"
+        lc_ctype: "{{ postgres_encoding }}"
