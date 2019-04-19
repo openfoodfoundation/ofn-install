@@ -19,11 +19,11 @@
 
 - name: symlink into the repo
   file:
-    src={{ item.src }}
-    dest={{ item.dest }}
-    owner={{ unicorn_user }}
-    state=link
-    force=yes
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
   with_items:
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
