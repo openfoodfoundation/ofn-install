@@ -1,0 +1,69 @@
+---
+
+# Remove old rollbacks so they aren't used accidentally after errors.
+
+- name: remove the old rollbacks
+  file:
+    dest: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ rollback_path }}"
+    - "{{ rollback_sql_path }}"
+  tags: clone
+
+# Set timestamp
+
+- name: define a timestamp
+  set_fact:
+    timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
+
+# Create a rollback release
+
+- name: create a database rollback version
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "{{ rollback_tmp_path }}"
+  become: yes
+  become_user: postgres
+
+- name: move database dump
+  command: mv {{ rollback_tmp_path }} {{ rollback_sql_path }}
+  become: yes
+  become_user: root
+  args:
+    removes: "{{ rollback_tmp_path }}"
+
+- name: create a database backup version
+  command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz
+  tags: skip_ansible_lint
+
+- name: create a repo rollback version
+  command: mv {{ current_path }} {{ rollback_path }}
+  args:
+    removes: "{{ current_path }}"
+  tags: skip_ansible_lint
+
+- name: create a repo backup version
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
+  args:
+    creates: "{{ releases_path }}/{{ timestamp }}"
+  tags: skip_ansible_lint
+
+# Clean up old release files
+
+- name: check for old release files
+  shell: set -o pipefail && ls -1tr | head -n -10
+  args:
+    chdir: "{{ releases_path }}"
+    executable: /bin/bash
+  become: yes
+  changed_when: False
+  register: releases_for_deletion
+
+- name: delete old release files if present
+  file:
+    path: "{{ releases_path }}/{{ item }}"
+    state: absent
+  with_items: "{{ releases_for_deletion.stdout_lines | list }}"
+  become: yes
