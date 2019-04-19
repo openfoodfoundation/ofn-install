@@ -162,7 +162,6 @@
   notify:
     - precompile assets
     - restart unicorn
-    - restart delayed job service
 
 - name: seed database
   # We run a shell script that passes the default email and password to rake with an EOF block, so we don't hang on the prompts.
@@ -177,14 +176,15 @@
     - precompile assets
     - restart unicorn
 
-# tag to trigger a unicorn restart
-- name: reset
-  # needs to do something here
-  command: echo 1
-  tags:
-    - reset
-    - skip_ansible_lint
-  notify:
-    - restart unicorn
-    - restart delayed job service
-    - update whenever
+- name: restart delayed job service
+  service:
+    name: delayed_job_{{ app }}
+    state: restarted
+  become: yes
+  become_user: root
+
+- name: update whenever
+  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
+  changed_when: True
+  args:
+    chdir: "{{ current_path }}"
