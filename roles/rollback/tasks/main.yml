@@ -2,14 +2,45 @@
 
 - name: remove current path
   file:
-    dest={{ current_path }}
-    state=absent
+    dest: "{{ current_path }}"
+    state: absent
 
 - name: copy rollback repo to current path
-  command: cp -r {{ rollback_path }} {{ current_path }} creates={{ current_path }}
+  command: cp -r {{ rollback_path }} {{ current_path }}
+  args:
+    creates: "{{ current_path }}"
 
-- name: copy rollback db to live db
-  shell: gunzip -c {{ rollback_sql_path }} | psql -h {{ db_host }} -U {{ db_user }} {{ db }}
+- name: close active db connections
+  shell: psql -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public; SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='{{ db }}' AND pid <> pg_backend_pid();"
+  become: true
+  become_user: postgres
+
+- name: drop database
+  postgresql_db:
+    name: "{{ db }}"
+    state: absent
+  become: true
+  become_user: postgres
+
+- name: recreate database
+  postgresql_db:
+    name: "{{ db }}"
+    owner: "{{ db_user }}"
+    encoding: "UTF-8"
+    lc_ctype: "{{ postgres_encoding }}"
+    lc_collate: "{{ postgres_encoding }}"
+    state: present
+  become: true
+  become_user: postgres
+
+- name: restore database from backup
+  postgresql_db:
+    name: "{{ db }}"
+    owner: "{{ db_user }}"
+    state: restore
+    target: "{{ rollback_sql_path }}"
+  become: true
+  become_user: postgres
   notify:
     - precompile assets
     - restart unicorn

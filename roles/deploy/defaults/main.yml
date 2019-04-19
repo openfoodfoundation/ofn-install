@@ -1,5 +1,6 @@
 ---
 rollback_path: "{{ app_path }}/rollback"
 rollback_sql_path: "{{ app_path }}/rollback.sql.gz"
+rollback_tmp_path: "/var/lib/postgresql/rollback.sql.gz"
 
 bugsnag_key: none

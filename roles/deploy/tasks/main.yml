@@ -1,16 +1,13 @@
 --- # Deploy
 
 # Remove old rollbacks so they aren't used accidentally after errors.
-- name: remove the old rollback
+- name: remove the old rollbacks
   file:
-    dest={{ rollback_path }}
-    state=absent
-  tags: clone
-
-- name: remove the old rollback database
-  file:
-    dest={{ rollback_sql_path }}
-    state=absent
+    dest: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ rollback_path }}"
+    - "{{ rollback_sql_path }}"
   tags: clone
 
 #----------------
@@ -18,8 +15,8 @@
 
 - name: remove the old build path
   file:
-    dest={{ build_path }}
-    state=absent
+    dest: "{{ build_path }}"
+    state: absent
   tags: clone
 
 - name: build codebase from git branch
@@ -92,20 +89,34 @@
 # Create a rollback release
 
 - name: create a database rollback version
-  command: bash -c "set -o pipefail && pg_dump -h '{{ db_host }}' -U '{{ db_user }}' '{{ db }}' | gzip > '{{ rollback_sql_path }}'"
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "{{ rollback_tmp_path }}"
+  become: yes
+  become_user: postgres
+
+- name: move database dump
+  command: mv {{ rollback_tmp_path }} {{ rollback_sql_path }}
+  become: yes
+  become_user: root
   args:
-    creates: "{{ rollback_sql_path }}"
+    removes: "{{ rollback_tmp_path }}"
 
 - name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz
   tags: skip_ansible_lint
 
 - name: create a repo rollback version
-  command: mv {{ current_path }} {{ rollback_path }} removes={{ current_path }}
+  command: mv {{ current_path }} {{ rollback_path }}
+  args:
+    removes: "{{ current_path }}"
   tags: skip_ansible_lint
 
 - name: create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }} removes={{ rollback_path }}
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
+  args:
+    creates: "{{ releases_path }}/{{ timestamp }}"
   tags: skip_ansible_lint
 
 - name: check for old release files
@@ -127,10 +138,9 @@
 #-------------------------
 # Move new code into place
 
-- name: move build to current
-  command: mv {{ build_path }} {{ current_path }} removes={{ build_path }}
-  become: yes
-  become_user: "{{ unicorn_user }}"
+- name: copy build to current
+  command: cp -TLr {{ build_path }} {{ current_path }}
+  changed_when: True
 
 #--------------------
 # Update the database
