@@ -17,12 +17,6 @@
     force: yes
   tags: clone
 
-- name: detach head for git push deployment
-  shell: git checkout `git rev-parse HEAD`
-  args:
-    chdir: "{{ build_path }}"
-  tags: skip_ansible_lint
-
 - name: symlink into the repo
   file:
     src={{ item.src }}
