@@ -30,7 +30,6 @@
     mode=0775
   with_items:
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
-    - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
     - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
