@@ -33,6 +33,8 @@
       tags: ruby
 
     - role: dbserver # Set up database server and user for the app.
+      become: yes
+      become_user: root
       tags: dbserver
       db_user_roles: SUPERUSER,CREATEDB
 
