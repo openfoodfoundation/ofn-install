@@ -72,9 +72,8 @@
   command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
   register: table_exists
   ignore_errors: yes
-  tags:
-    - rake
-    - skip_ansible_lint
+  changed_when: False
+  tags: rake
 
 - name: load schema if it isn't loaded
   command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }}"
