@@ -14,6 +14,21 @@
 - include_role:
     name: geerlingguy.postgresql
     tasks_from: configure
+  vars:
+    postgresql_global_config_options:
+      - option: shared_preload_libraries
+        value: 'pg_stat_statements'
+      - option: pg_stat_statements.track
+        value: all
+      - option: pg_stat_statements.max
+        value: 10000
+
+- name: create extensions
+  become: yes
+  become_user: postgres
+  postgresql_ext:
+    name: pg_stat_statements
+    db: "{{ db }}"
 
 - include_role:
     name: geerlingguy.postgresql
