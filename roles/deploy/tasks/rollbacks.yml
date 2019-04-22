@@ -36,13 +36,13 @@
 
 - name: create a database backup version
   command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz
-  tags: skip_ansible_lint
+  args:
+    creates: "{{ releases_path }}/{{ timestamp }}.sql.gz"
 
 - name: create a repo rollback version
   command: mv {{ current_path }} {{ rollback_path }}
   args:
     removes: "{{ current_path }}"
-  tags: skip_ansible_lint
 
 - name: create a repo backup version
   command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
