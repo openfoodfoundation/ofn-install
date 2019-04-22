@@ -31,3 +31,7 @@
             channel: "#devops-notifications"
             username: "ansible executed by {{ lookup('env','USER') }}"
           when: inventory_hostname != "local_vagrant"
+
+        - debug:
+            msg: Deployment failed
+          failed_when: True # Ensure Ansible returns a non-zero error code after rescue
