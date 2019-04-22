@@ -4,3 +4,12 @@ rollback_sql_path: "{{ app_path }}/rollback.sql.gz"
 rollback_tmp_path: "/var/lib/postgresql/rollback.sql.gz"
 
 bugsnag_key: none
+
+initialize_rbenv:
+  RBENV_ROOT: "/home/{{ unicorn_user }}/.rbenv"
+  PATH: "/home/{{ unicorn_user }}/.rbenv/bin:/home/{{ unicorn_user }}/.rbenv/shims:{{ ansible_env.PATH }}"
+
+bundler_locale:
+  LANG: "{{ language }}"
+  LC_ALL: "{{ language }}"
+  LC_COLLATE: "{{ language }}"

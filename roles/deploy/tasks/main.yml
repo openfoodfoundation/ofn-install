@@ -53,26 +53,36 @@
     - { src: "{{ l10n_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
   tags: symlink
 
-- name: install bundler
-  # This needs to be run inside a bash shell to initialise rbenv
-  # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
-  command: bash -lc "./script/install-bundler --no-ri --no-rdoc"
+#--------------------
+# Install bundler and gems
+
+- name: find current bundler version in Gemfile.lock
+  shell: set -o pipefail && grep -m 1 -A 1 -x -F "BUNDLED WITH" Gemfile.lock | tail -n 1  | tr -d '[:space:]'
   args:
     chdir: "{{ build_path }}"
-  register: bundler
-  changed_when: bundler.stdout | length > 0
+    executable: /bin/bash
+  changed_when: False
+  register: current_bundler_version
+  tags: bundler
 
-- name: bundle install app dependencies
-  #TODO make the "--without development" part conditional on rails_env
-  # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
-  command: bash -lc "bundle install --gemfile {{ build_path }}/Gemfile --path /home/{{ unicorn_user }}/.gem --deployment" #--without development test"
+- name: install bundler {{ current_bundler_version.stdout }}
+  gem:
+    name: bundler
+    version: "{{ current_bundler_version.stdout }}"
+    include_doc: no
+    user_install: no
+  environment: "{{ initialize_rbenv }}"
+  tags: bundler
+
+- name: bundle install
+  bundler:
+    state: present
+    deployment_mode: yes
+    chdir: "{{ build_path }}"
+    gem_path: "/home/{{ unicorn_user }}/.gem"
   environment:
-    LANG: "{{ language }}"
-    LC_ALL: "{{ language }}"
-    LC_COLLATE: "{{ language }}"
-  tags:
-    - bundle_app
-    - skip_ansible_lint
+    - "{{ initialize_rbenv }}"
+    - "{{ bundler_locale }}"
   notify:
     - precompile assets
     - restart unicorn
