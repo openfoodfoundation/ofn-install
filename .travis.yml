@@ -7,21 +7,28 @@ python: "2.7"
 services:
   - postgresql
 
+env:
+  - task: LINT
+  - task: BUILD
+
 before_install:
-  # Remove extra postgres sources from travis
-  - sudo rm -f /etc/apt/sources.list.d/pgdg.list
-  # Remove RVM from travis
-  - rvm implode --force
-  - sudo rm -rf $HOME/.rvm $HOME/.rvmrc /etc/rvmrc /etc/profile.d/rvm.sh /usr/local/rvm /usr/local/bin/rvm
-  - sed '/rvm/d' /home/travis/.bashrc
-  - sed '/rvm/d' /home/travis/.bash_profile
-  - sed '/rvm/d' /home/travis/.profile
-  - gem uninstall rvm
-  - unset GEM_HOME
-  - unset GEM_PATH
-  - unset RUBY_VERSION
-  - unset MY_RUBY_HOME
-  - unset IRBRC
+  - |
+    if [ "${task}" == "BUILD" ]; then
+      # Remove extra postgres sources from travis
+      sudo rm -f /etc/apt/sources.list.d/pgdg.list
+      # Remove RVM from travis
+      rvm implode --force
+      sudo rm -rf $HOME/.rvm $HOME/.rvmrc /etc/rvmrc /etc/profile.d/rvm.sh /usr/local/rvm /usr/local/bin/rvm
+      sed '/rvm/d' /home/travis/.bashrc
+      sed '/rvm/d' /home/travis/.bash_profile
+      sed '/rvm/d' /home/travis/.profile
+      gem uninstall rvm
+      unset GEM_HOME
+      unset GEM_PATH
+      unset RUBY_VERSION
+      unset MY_RUBY_HOME
+      unset IRBRC
+    fi
 
 install:
   - pip install 'ansible<2.7.0'
@@ -29,12 +36,18 @@ install:
 
 script:
   - bin/setup
-  - ansible-playbook -i inventory/dev --syntax-check site.yml
-  - ansible-playbook -i inventory/dev --syntax-check playbooks/backup.yml
-  - ansible-playbook -i inventory/dev --syntax-check playbooks/deploy.yml
-  - ansible-playbook -i inventory/dev --syntax-check playbooks/provision.yml
-  - ansible-playbook -i inventory/dev --syntax-check playbooks/rollback.yml
-  - ansible-playbook -i inventory/dev --syntax-check playbooks/setup.yml
-  - ansible-playbook -i inventory/dev --syntax-check playbooks/development.yml
-  - ansible-lint site.yml --exclude=community
-  - ansible-playbook site.yml --limit travis --connection local
+  - |
+    if [ "${task}" == "LINT" ]; then
+      ansible-playbook -i inventory/dev --syntax-check site.yml
+      ansible-playbook -i inventory/dev --syntax-check playbooks/backup.yml
+      ansible-playbook -i inventory/dev --syntax-check playbooks/deploy.yml
+      ansible-playbook -i inventory/dev --syntax-check playbooks/provision.yml
+      ansible-playbook -i inventory/dev --syntax-check playbooks/rollback.yml
+      ansible-playbook -i inventory/dev --syntax-check playbooks/setup.yml
+      ansible-playbook -i inventory/dev --syntax-check playbooks/development.yml
+      ansible-lint site.yml --exclude=community
+    fi
+  - |
+    if [ "${task}" == "BUILD" ]; then
+      ansible-playbook site.yml --limit travis --connection local
+    fi
