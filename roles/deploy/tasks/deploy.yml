@@ -1,0 +1,124 @@
+---
+
+# Build codebase
+
+- name: remove the old build path
+  file:
+    dest: "{{ build_path }}"
+    state: absent
+  tags: clone
+
+- name: build codebase from git branch
+  git:
+    repo: "{{ git_repo }}"
+    dest: "{{ build_path }}"
+    version: "{{ git_version }}"
+    refspec: "+refs/pull/*/merge:refs/remotes/origin/pull-request-*"
+    force: yes
+  tags: clone
+
+- name: symlink into the repo
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
+  with_items:
+    - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
+    - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
+    - { src: "{{ images_path }}", dest: "{{ build_path }}/public/images" }
+    - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
+    - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
+    - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
+    - { src: "{{ l10n_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
+  tags: symlink
+
+# Install bundler and gems
+
+- name: install bundler
+  # This needs to be run inside a bash shell to initialise rbenv
+  # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
+  command: bash -lc "./script/install-bundler --no-ri --no-rdoc"
+  args:
+    chdir: "{{ build_path }}"
+  register: bundler
+  changed_when: bundler.stdout | length > 0
+
+- name: bundle install app dependencies
+  #TODO make the "--without development" part conditional on rails_env
+  # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
+  command: bash -lc "bundle install --gemfile {{ build_path }}/Gemfile --path /home/{{ unicorn_user }}/.gem --deployment" #--without development test"
+  environment:
+    LANG: "{{ language }}"
+    LC_ALL: "{{ language }}"
+    LC_COLLATE: "{{ language }}"
+  tags:
+    - bundle_app
+    - skip_ansible_lint
+  notify:
+    - precompile assets
+    - restart unicorn
+
+# Move new build into place
+
+- name: copy build to current
+  command: cp -TLr {{ build_path }} {{ current_path }}
+  changed_when: True
+
+# Update the database
+
+- name: check database status
+  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
+  register: table_exists
+  ignore_errors: yes
+  changed_when: False
+  tags: rake
+
+- name: load schema if it isn't loaded
+  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ current_path }}"
+  when: table_exists.stdout.find('0 rows') != -1
+  tags:
+    - rake
+    - skip_ansible_lint
+
+- name: migrate database
+  command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ current_path }}"
+  tags:
+    - rake
+    - skip_ansible_lint
+  notify:
+    - precompile assets
+    - restart unicorn
+
+- name: seed database
+  # We run a shell script that passes the default email and password to rake with an EOF block, so we don't hang on the prompts.
+  command: bash -lc "{{ config_path }}/seed.sh RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ current_path }}"
+  # when: table_exists.stderr.find('does not exist') != -1
+  tags:
+    - seed
+    - skip_ansible_lint
+  notify:
+    - precompile assets
+    - restart unicorn
+
+# Restart and update
+
+- name: restart delayed job service
+  service:
+    name: delayed_job_{{ app }}
+    state: restarted
+  become: yes
+  become_user: root
+
+- name: update whenever
+  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
+  changed_when: True
+  args:
+    chdir: "{{ current_path }}"
