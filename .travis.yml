@@ -38,14 +38,7 @@ script:
   - bin/setup
   - |
     if [ "${task}" == "LINT" ]; then
-      ansible-playbook -i inventory/dev --syntax-check site.yml
-      ansible-playbook -i inventory/dev --syntax-check playbooks/backup.yml
-      ansible-playbook -i inventory/dev --syntax-check playbooks/deploy.yml
-      ansible-playbook -i inventory/dev --syntax-check playbooks/provision.yml
-      ansible-playbook -i inventory/dev --syntax-check playbooks/rollback.yml
-      ansible-playbook -i inventory/dev --syntax-check playbooks/setup.yml
-      ansible-playbook -i inventory/dev --syntax-check playbooks/development.yml
-      ansible-lint site.yml --exclude=community
+      ansible-lint playbooks/*.yml --exclude community
     fi
   - |
     if [ "${task}" == "BUILD" ]; then
