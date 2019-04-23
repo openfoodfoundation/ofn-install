@@ -60,7 +60,7 @@ postgres_encoding: en_US.utf8
 # Postgresql variables
 
 # These include the default values for postgres, and some empty (extendable) values.
-# Entries marked custom_* can be defined in secrets.yml files, and will be appended
+# Entries marked custom_* can be defined in /host_vars files, and will be appended
 # to the defaults if present. Make sure you use the "list" notation with the dashes!
 
 default_hba_entries:
