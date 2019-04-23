@@ -21,7 +21,7 @@
           msg: '`{{ git_version }}` deployed to {{ inventory_hostname }}'
           channel: "#devops-notifications"
           username: "ansible executed by {{ lookup('env','USER') }}"
-        when: inventory_hostname != "local_vagrant"
+        when: inventory_hostname not in groups['local']
 
       rescue:
         - name: Notify slack of deployment failure
@@ -30,7 +30,7 @@
             msg: 'Deployment FAILED for {{ inventory_hostname }}'
             channel: "#devops-notifications"
             username: "ansible executed by {{ lookup('env','USER') }}"
-          when: inventory_hostname != "local_vagrant"
+          when: inventory_hostname not in groups['local']
 
         - debug:
             msg: Deployment failed
