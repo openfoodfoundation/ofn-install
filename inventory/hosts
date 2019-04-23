@@ -7,9 +7,13 @@ local_vagrant ansible_host=127.0.0.1 ansible_user=vagrant ansible_port=2222 ansi
 [lxc]
 ofn.local
 
+[travis]
+local_travis
+
 [local:children]
 vagrant
 lxc
+travis
 
 #------------------------------------------------------------------------------
 # Australia

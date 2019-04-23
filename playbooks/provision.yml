@@ -65,7 +65,7 @@
         domain_name: "{{ certbot_domains | default([domain]) | join(',') }}"
         letsencrypt_email: "{{ developer_email }}"
         certbot_nginx_cert_name: "{{ certbot_cert_name | default(None) }}"
-      when: inventory_hostname != "local_vagrant"
+      when: inventory_hostname not in groups['local']
       tags: certbot
 
     - role: jdauphant.nginx
@@ -89,4 +89,4 @@
         msg: '{{ inventory_hostname }} provisioned'
         channel: "#devops-notifications"
         username: "ansible executed by {{ lookup('env','USER') }}"
-      when: inventory_hostname != "local_vagrant"
+      when: inventory_hostname not in groups['local']
