@@ -31,7 +31,6 @@
   with_items:
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
-    - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
 
 - name: get l10n repo
