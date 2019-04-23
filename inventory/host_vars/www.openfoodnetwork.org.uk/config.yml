@@ -7,3 +7,9 @@ unicorn_workers: 4
 unicorn_timeout: 120
 
 swapfile_size: 1G
+
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }

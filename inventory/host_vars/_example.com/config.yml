@@ -18,3 +18,10 @@ mail_domain: example.com
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
 #swapfile_size: 1G
+
+# Enable external database access for third party integrations
+#postgres_listen_addresses:
+#  - '*'
+#
+#custom_hba_entries:
+#  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
