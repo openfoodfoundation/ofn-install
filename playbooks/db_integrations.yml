@@ -23,7 +23,7 @@
 
     - name: Apply integrations settings
       include_role:
-        name: integrations
+        name: db_integrations
       vars:
         db_integration: "{{ integration_item }}"
       loop: "{{ db_integrations }}"
