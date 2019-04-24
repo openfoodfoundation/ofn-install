@@ -1,0 +1,22 @@
+---
+- name: setup
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: setup | rollback | add testable entry to database
+      become: yes
+      become_user: postgres
+      command: |
+        psql {{ db }} -c "
+        UPDATE spree_preferences
+        SET value='rollback_test'
+        WHERE key='spree/app_configuration/privacy_policy_url';"
+      changed_when: False
+
+    - name: setup | rollback | set a file in app folder
+      copy:
+        dest: "{{ current_path }}/.rollback_test"
+        content: "."
+      become: yes
+      become_user: "{{ unicorn_user }}"
