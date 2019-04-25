@@ -43,14 +43,3 @@
       - memcached
   tags: packages
 
-# Remove monit if still installed. The notified handlers will run only once
-# (when the main task triggers a change by removing the config file)
-- name: clean up monit
-  file:
-    state: absent
-    path: /etc/monit/conf.d/{{ app }}
-  become: yes
-  become_user: root
-  notify:
-    - stop monit service
-    - remove monit package
