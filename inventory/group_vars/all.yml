@@ -90,11 +90,11 @@ postgresql_global_config_options:
   - option: logging_collector
     value: on
   - option: log_directory
-    value: 'pg_log'
+    value: '/var/log/pg_log'
   - option: log_filename
     value: 'postgresql-%Y-%m-%d_%H%M%S.log'
   - option: log_file_mode
-    value: 0600
+    value: 0640
   - option: log_truncate_on_rotation
     value: on
   - option: log_rotation_age

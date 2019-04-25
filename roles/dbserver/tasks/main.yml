@@ -1,4 +1,12 @@
 --- # dbserver
+- name: create custom log directory
+  file:
+    state: directory
+    dest: /var/log/pg_log
+    mode: 0750
+    owner: postgres
+    group: postgres
+  become: yes
 
 - import_tasks: postgresql.yml # Install postgresql with geerlingguy.postgresql role
 
