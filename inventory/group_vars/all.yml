@@ -85,6 +85,22 @@ postgresql_global_config_options:
     value: all
   - option: pg_stat_statements.max
     value: 10000
+  - option: log_destination
+    value: 'stderr'
+  - option: logging_collector
+    value: on
+  - option: log_directory
+    value: 'pg_log'
+  - option: log_filename
+    value: 'postgresql-%Y-%m-%d_%H%M%S.log'
+  - option: log_file_mode
+    value: 0600
+  - option: log_truncate_on_rotation
+    value: on
+  - option: log_rotation_age
+    value: 131490 # 3 months
+  - option: log_statement
+    value: 'all'
 
 
 #----------------------------------------------------------------------
