@@ -33,3 +33,9 @@
         - "host-id:{{ ansible_limit }}"
       logs_enabled: true
   when: datadog_key is defined
+
+- name: disable datadog agent
+  service:
+    name: datadog-agent
+    state: stopped
+  when: disable_datadog is defined
