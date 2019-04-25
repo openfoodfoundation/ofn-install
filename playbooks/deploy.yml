@@ -23,6 +23,22 @@
           username: "ansible executed by {{ lookup('env','USER') }}"
         when: inventory_hostname not in groups['local']
 
+      - name: Notify datadog
+        uri:
+          url: "https://api.datadoghq.com/api/v1/events?api_key={{ datadog_key }}"
+          method: POST
+          body:
+            title: "Deployed"
+            text: "Successful deployment on host: {{ inventory_hostname }} ({{ ansible_limit }})"
+            host: "{{ inventory_hostname }}"
+            tags:
+              - "deployed"
+          body_format: json
+          status_code: 202
+          headers:
+            Content-Type: "application/json"
+        when: datadog_key is defined and inventory_hostname not in groups['local']
+
       rescue:
         - name: Notify slack of deployment failure
           slack:
