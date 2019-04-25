@@ -96,11 +96,9 @@
     - restart unicorn
 
 - name: seed database
-  # We run a shell script that passes the default email and password to rake with an EOF block, so we don't hang on the prompts.
-  command: bash -lc "{{ config_path }}/seed.sh RAILS_ENV={{ rails_env }}"
+  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }} ADMIN_EMAIL={{ admin_email }} ADMIN_PASSWORD={{ admin_password }}"
   args:
     chdir: "{{ current_path }}"
-  # when: table_exists.stderr.find('does not exist') != -1
   tags:
     - seed
     - skip_ansible_lint

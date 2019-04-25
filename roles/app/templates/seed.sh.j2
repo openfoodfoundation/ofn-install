@@ -1,7 +1,0 @@
-#!/bin/bash
-# This script automates the otherwise interactive db:seed rake task
-
-bundle exec rake db:seed <<EOF
-{{ admin_email }}
-{{ admin_password }}
-EOF
