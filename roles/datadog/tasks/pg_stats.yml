@@ -29,7 +29,8 @@
   register: integration_exists
   changed_when: False
 
-- fail:
+- name: report db_integration status
+  fail:
     msg: "The database role `datadog` has not been created. Add it via the `db_integrations` playbook."
   when: integration_exists.stdout != '1'
 
