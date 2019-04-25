@@ -75,15 +75,8 @@
     - role: webserver # Build the unicorn webserver.
       tags: webserver
 
-    - role: Datadog.datadog
+    - role: datadog
       become: yes
-      vars:
-        datadog_api_key: "{{ datadog_key }}"
-        datadog_config:
-          hostname: "{{ inventory_hostname }}"
-          tags:
-            - "env:{{ rails_env }}"
-            - "host-id:{{ ansible_limit }}"
       when: datadog_key is defined
       tags: datadog
 

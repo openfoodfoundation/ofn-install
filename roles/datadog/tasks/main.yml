@@ -1,0 +1,35 @@
+---
+- name: enable postgres logging
+  set_fact:
+    datadog_checks:
+      postgres:
+        init_config:
+        instances:
+          - host: localhost
+            port: 5432
+            username: datadog
+            password: "{{ datadog_db_password }}"
+            dbname: "{{ db }}"
+            tags:
+              - "host:{{ inventory_hostname }}"
+            collect_activity_metrics: true
+        logs:
+          - type: file
+            path: /var/log/pg_log/postgresql-*.log
+            source: postgresql
+            sourcecategory: database
+            service: postgres
+  when: datadog_db_password is defined
+
+- name: configure datadog agent
+  include_role:
+    name: Datadog.datadog
+  vars:
+    datadog_api_key: "{{ datadog_key }}"
+    datadog_config:
+      hostname: "{{ inventory_hostname }}"
+      tags:
+        - "env:{{ rails_env }}"
+        - "host-id:{{ ansible_limit }}"
+      logs_enabled: true
+  when: datadog_key is defined
