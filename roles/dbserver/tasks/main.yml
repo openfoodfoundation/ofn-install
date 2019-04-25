@@ -1,6 +1,6 @@
 --- # dbserver
 
-- import_tasks: postgresql.yml
+- import_tasks: postgresql.yml # Install postgresql with geerlingguy.postgresql role
 
 - name: add .pgpass file for {{ unicorn_user }}
   template:
@@ -13,3 +13,10 @@
 
 - import_tasks: fix_template_encoding.yml
   tags: template_encoding
+
+- name: create extensions
+  become: yes
+  become_user: postgres
+  postgresql_ext:
+    name: pg_stat_statements
+    db: "{{ db }}"

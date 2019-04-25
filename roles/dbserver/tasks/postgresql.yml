@@ -15,13 +15,6 @@
     name: geerlingguy.postgresql
     tasks_from: configure
 
-- name: create extensions
-  become: yes
-  become_user: postgres
-  postgresql_ext:
-    name: pg_stat_statements
-    db: "{{ db }}"
-
 - include_role:
     name: geerlingguy.postgresql
     tasks_from: users
