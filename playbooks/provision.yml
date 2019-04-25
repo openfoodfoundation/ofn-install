@@ -77,7 +77,6 @@
 
     - role: datadog
       become: yes
-      when: datadog_key is defined
       tags: datadog
 
   tasks:
