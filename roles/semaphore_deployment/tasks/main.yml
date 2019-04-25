@@ -5,7 +5,7 @@
     repo: ppa:ansible/ansible
   become: yes
 
-- name: install ansible
+- name: install ansible # noqa 403
   apt:
     update_cache: yes
     name: ansible
@@ -54,13 +54,14 @@
     creates: "/home/{{ user }}/keys/semaphore.pub"
 
 - name: copy public key
-  shell: "cat /home/{{ user }}/keys/semaphore.pub"
+  slurp:
+    src: "/home/{{ user }}/keys/semaphore.pub"
   register: semaphore_public_key
   changed_when: False
 
 - name: add semaphore public key to deployment user's authorized_keys
   authorized_key:
     user: "{{ deployment_user }}"
-    key: "{{ semaphore_public_key.stdout }}"
+    key: "{{ semaphore_public_key.content | b64decode }}"
     state: present
     key_options: 'restrict,command="sudo /home/{{ deployment_user }}/deploy \"$SSH_ORIGINAL_COMMAND\""'

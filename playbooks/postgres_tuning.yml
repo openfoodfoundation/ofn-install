@@ -31,7 +31,7 @@
           work_mem = 6MB
         dest: "{{ postgresql_config_path }}/conf.d/tuning.conf"
       become: yes
-      register: tuning_configuration
+      notify: reload postgres
       when: remove_postgres_tuning is undefined
 
     - name: Optionally remove tuning configuration
@@ -40,9 +40,9 @@
         state: absent
       when: remove_postgres_tuning is defined
 
-    - name: Reload postgres
+  handlers:
+    - name: reload postgres
       service:
         name: postgresql
         state: reloaded
       become: yes
-      when: tuning_configuration.changed

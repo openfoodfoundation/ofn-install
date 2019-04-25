@@ -14,7 +14,7 @@
   when: db_integration.state == 'present'
   register: integration_config
 
-- name: Grant permissions
+- name: Grant permissions # noqa 503
   become: yes
   become_user: postgres
   command: "psql {{ db }} -c '{{ permission_query }}'"

@@ -6,7 +6,9 @@
 - name: get current date for timestamp
   shell: date +"%Y-%m-%d-%I%M%S"
   register: current_date
-  tags: backup
+  tags:
+    - backup
+    - skip_ansible_lint
 
 #-----------------
 # Backup and fetch
@@ -17,6 +19,7 @@
   shell: pg_dump -h {{ db_host }} -U {{ db_user }} {{ db }} | gzip > {{ backup_path }}/{{ backup_filename }}
   become: yes
   become_user: "{{ unicorn_user }}"
+  tags: skip_ansible_lint
 
 - name: fetch database to local
   fetch:

@@ -7,9 +7,11 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
   become: yes
+  vars:
+    postgresql_restarted_state: "restarted"
 
   handlers:
-    - include: geerlingguy.postgresql/handlers/main.yml
+    - include: ../community/geerlingguy.postgresql/handlers/main.yml
 
   pre_tasks:
     - include_role:
