@@ -79,6 +79,12 @@ postgres_listen_addresses:
 postgresql_global_config_options:
   - option: listen_addresses
     value: "{{ postgres_listen_addresses | join(',') }}"
+  - option: shared_preload_libraries
+    value: 'pg_stat_statements'
+  - option: pg_stat_statements.track
+    value: all
+  - option: pg_stat_statements.max
+    value: 10000
 
 
 #----------------------------------------------------------------------
