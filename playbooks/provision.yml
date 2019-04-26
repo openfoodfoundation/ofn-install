@@ -10,6 +10,9 @@
     - include_role:
         name: check_secrets
 
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
   roles:
     - role: ssh_keys # Add sysadmin ssh keys to server
       become: yes

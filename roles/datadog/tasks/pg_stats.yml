@@ -1,4 +1,36 @@
 ---
+- name: create extensions
+  become: yes
+  become_user: postgres
+  postgresql_ext:
+    name: pg_stat_statements
+    db: "{{ db }}"
+
+- name: gather postgres installation info
+  include_role:
+    name: geerlingguy.postgresql
+    tasks_from: variables
+  when: postgresql_config_path is undefined
+
+- name: add logging configuration
+  copy:
+    content: |
+      shared_preload_libraries = 'pg_stat_statements'
+      pg_stat_statements.track = 'all'
+      pg_stat_statements.max = '1000'
+      log_destination = 'stderr'
+      logging_collector = on
+      log_directory = '/var/log/pg_log'
+      log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+      log_file_mode = 0640
+      log_truncate_on_rotation = on
+      log_rotation_age = 131490 # 3 months
+      log_statement = 'all'
+    dest: "{{ postgresql_config_path }}/conf.d/logging.conf"
+  become: yes
+  become_user: postgres
+  notify: restart postgres
+
 - name: enable postgres logging
   set_fact:
     datadog_checks:

@@ -9,18 +9,6 @@
         name: geerlingguy.postgresql
         tasks_from: variables
 
-    - name: Create postgres conf.d directory
-      file:
-        dest: "{{ postgresql_config_path }}/conf.d"
-        state: directory
-      become: yes
-
-    - name: Enable conf.d directory
-      lineinfile:
-        path: "{{ postgresql_config_path }}/postgresql.conf"
-        line: "include_dir 'conf.d'"
-      become: yes
-
     - name: Add tuning configuration
       copy:
         content: |
@@ -31,6 +19,7 @@
           work_mem = 6MB
         dest: "{{ postgresql_config_path }}/conf.d/tuning.conf"
       become: yes
+      become_user: postgres
       notify: reload postgres
       when: remove_postgres_tuning is undefined
 

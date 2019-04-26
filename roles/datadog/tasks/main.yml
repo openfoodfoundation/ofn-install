@@ -16,6 +16,9 @@
         - "env:{{ rails_env }}"
         - "host-id:{{ ansible_limit }}"
       logs_enabled: true
+  tags:
+    - pg_stats
+    - configure_datadog
   when: datadog_key is defined
 
 - name: disable datadog agent

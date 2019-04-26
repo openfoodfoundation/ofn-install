@@ -79,28 +79,8 @@ postgres_listen_addresses:
 postgresql_global_config_options:
   - option: listen_addresses
     value: "{{ postgres_listen_addresses | join(',') }}"
-  - option: shared_preload_libraries
-    value: 'pg_stat_statements'
-  - option: pg_stat_statements.track
-    value: all
-  - option: pg_stat_statements.max
-    value: 10000
-  - option: log_destination
-    value: 'stderr'
-  - option: logging_collector
-    value: on
-  - option: log_directory
-    value: '/var/log/pg_log'
-  - option: log_filename
-    value: 'postgresql-%Y-%m-%d_%H%M%S.log'
-  - option: log_file_mode
-    value: 0640
-  - option: log_truncate_on_rotation
-    value: on
-  - option: log_rotation_age
-    value: 131490 # 3 months
-  - option: log_statement
-    value: 'all'
+  - option: include_dir
+    value: "conf.d"
 
 
 #----------------------------------------------------------------------
