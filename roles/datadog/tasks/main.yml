@@ -1,10 +1,4 @@
 ---
-
-- name: set up postgres stats collection
-  import_tasks: pg_stats.yml
-  when: datadog_db_password is defined
-  tags: pg_stats
-
 - name: configure datadog agent
   include_role:
     name: Datadog.datadog
@@ -16,9 +10,14 @@
         - "env:{{ rails_env }}"
         - "host-id:{{ ansible_limit }}"
       logs_enabled: true
-  tags:
-    - pg_stats
-    - configure_datadog
+  when: datadog_key is defined
+
+- name: set up postgres stats collection
+  import_tasks: pg_stats.yml
+  when: datadog_key is defined and datadog_db_password is defined
+
+- name: set up nginx stats collection
+  import_tasks: nginx_stats.yml
   when: datadog_key is defined
 
 - name: disable datadog agent

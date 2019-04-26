@@ -12,53 +12,26 @@
     tasks_from: variables
   when: postgresql_config_path is undefined
 
-- name: add logging configuration
-  copy:
-    content: |
-      shared_preload_libraries = 'pg_stat_statements'
-      pg_stat_statements.track = 'all'
-      pg_stat_statements.max = '1000'
-      log_destination = 'stderr'
-      logging_collector = on
-      log_directory = '/var/log/pg_log'
-      log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
-      log_file_mode = 0640
-      log_truncate_on_rotation = on
-      log_rotation_age = 2880 # 2 days
-      log_statement = 'all'
+- name: add postgres logging configuration
+  template:
+    src: logging.conf.j2
     dest: "{{ postgresql_config_path }}/conf.d/logging.conf"
+    owner: postgres
+    group: postgres
+    mode: 0640
   become: yes
-  become_user: postgres
   notify: restart postgres
 
-- name: enable postgres logging
-  set_fact:
-    datadog_checks:
-      postgres:
-        init_config:
-        instances:
-          - host: localhost
-            port: 5432
-            username: datadog
-            password: "{{ datadog_db_password }}"
-            dbname: "{{ db }}"
-            tags:
-              - "host:{{ inventory_hostname }}"
-            collect_activity_metrics: true
-        logs:
-          - type: file
-            path: /var/log/pg_log/postgresql-*.log
-            source: postgresql
-            sourcecategory: database
-            service: postgres
-            log_processing_rules:
-              - type: multi_line
-                pattern: \d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])
-                name: new_log_start_with_date
-              - type: exclude_at_match
-                name: exclude_datadog_stat_collection
-                pattern: datadog@openfoodnetwork\ LOG
+- name: enable datadog postgres integration
+  template:
+    src: dd-postgres.j2
+    dest: /etc/datadog-agent/conf.d/postgres.d/conf.yaml
+    owner: 'dd-agent'
+    group: 'dd-agent'
+    mode: 0644
+  become: true
   when: datadog_db_password is defined
+  notify: restart datadog-agent
 
 - name: add datadog agent to postgres group
   user:
@@ -97,3 +70,4 @@
   become: yes
   become_user: postgres
   when: stat_views_exist.stdout.find('0 rows') != -1
+  notify: restart postgres
