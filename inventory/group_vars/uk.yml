@@ -15,10 +15,5 @@ timezone: London
 developer_email: dev.ofnuk@gmail.com
 
 users_sysadmin:
+  - "{{ core_devs }}"
   - lindhop
-  - enricostn
-  - matt
-  - pau
-  - maikel
-  - kristina
-  - luis

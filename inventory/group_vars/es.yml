@@ -16,10 +16,5 @@ developer_email: info@coopdevs.org
 
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
-  - enricostn
+  - "{{ core_devs }}"
   - dani
-  - pau
-  - matt
-  - maikel
-  - kristina
-  - luis
