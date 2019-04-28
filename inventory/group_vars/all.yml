@@ -128,6 +128,17 @@ unicorn_timeout: 30
 
 nginx_official_repo: True
 
+nginx_http_params:
+  - sendfile "on"
+  - tcp_nopush "on"
+  - tcp_nodelay "on"
+  - keepalive_timeout "65"
+  - log_format nginx '$remote_addr - $remote_user [$time_local] ' '"$request" $status $body_bytes_sent $request_time ' '"$http_referer" "$http_user_agent"'
+  - access_log "{{nginx_log_dir}}/access.log" nginx
+  - "error_log {{nginx_log_dir}}/error.log error"
+  - server_tokens off
+  - types_hash_max_size 2048
+
 nginx_sites:
   default:
     - |
