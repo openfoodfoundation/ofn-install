@@ -3,9 +3,6 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
 
-  vars:
-    nginx_daemon_mode: off
-
   pre_tasks:
     - include_role:
         name: check_secrets
