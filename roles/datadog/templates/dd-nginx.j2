@@ -7,6 +7,7 @@ instances:
     tags:
       - "host:{{ inventory_hostname }}"
 
+{% if enable_datadog_logging is defined %}
 logs:
   - type: file
     path: /var/log/nginx/access.log
@@ -19,3 +20,4 @@ logs:
     service: nginx
     source: nginx
     sourcecategory: http_web_access
+{% endif %}

@@ -10,7 +10,7 @@
   include_role:
     name: geerlingguy.postgresql
     tasks_from: variables
-  when: postgresql_config_path is undefined
+  when: enable_datadog_logging is defined and postgresql_config_path is undefined
 
 - name: add postgres logging configuration
   template:
@@ -21,6 +21,7 @@
     mode: 0640
   become: yes
   notify: restart postgres
+  when: enable_datadog_logging is defined
 
 - name: enable datadog postgres integration
   template:
@@ -38,7 +39,7 @@
     name: 'dd-agent'
     groups: postgres
     append: yes
-  when: datadog_db_password is defined
+  when: datadog_db_password is defined and enable_datadog_logging is defined
 
 - name: check datadog db_integration exists
   command: psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='datadog'"

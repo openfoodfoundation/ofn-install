@@ -11,6 +11,8 @@ instances:
     tags:
       - "host:{{ inventory_hostname }}"
     collect_activity_metrics: true
+
+{% if enable_datadog_logging is defined %}
 logs:
   - type: file
     path: /var/log/pg_log/postgresql-*.log
@@ -24,3 +26,4 @@ logs:
       - type: exclude_at_match
         name: exclude_datadog_stat_collection
         pattern: datadog@openfoodnetwork\ LOG
+{% endif %}
