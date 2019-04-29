@@ -16,9 +16,4 @@ developer_email: admin@openfoodfoundation.org
 
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
-  - enricostn
-  - maikel
-  - pau
-  - luis
-  - matt
-  - kristina
+  - "{{ core_devs }}"

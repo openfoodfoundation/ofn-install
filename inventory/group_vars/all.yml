@@ -142,6 +142,16 @@ unicorn_workers: 2
 unicorn_timeout: 30
 
 
+#----------------------------------------------------------------------
+# Core devs: users named here will have SSH access on all instances
+
+core_devs:
+  - maikel
+  - pau
+  - enricostn
+  - luis
+  - matt
+  - kristina
 
 #----------------------------------------------------------------------
 # nginx config
