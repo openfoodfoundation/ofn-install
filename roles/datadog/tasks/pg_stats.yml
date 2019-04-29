@@ -12,6 +12,16 @@
     tasks_from: variables
   when: enable_datadog_logging is defined and postgresql_config_path is undefined
 
+- name: add postgres stats configuration
+  template:
+    src: stats.conf.j2
+    dest: "{{ postgresql_config_path }}/conf.d/stats.conf"
+    owner: postgres
+    group: postgres
+    mode: 0640
+  become: yes
+  notify: restart postgres
+
 - name: add postgres logging configuration
   template:
     src: logging.conf.j2
