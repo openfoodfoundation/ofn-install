@@ -20,3 +20,10 @@
     state: restarted
   become: yes
   become_user: root
+
+- name: restart postgres
+  service:
+    name: postgresql
+    state: restarted
+  become: yes
+  become_user: root

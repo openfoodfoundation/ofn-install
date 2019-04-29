@@ -3,12 +3,12 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
 
-  vars:
-    nginx_daemon_mode: off
-
   pre_tasks:
     - include_role:
         name: check_secrets
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
 
   roles:
     - role: ssh_keys # Add sysadmin ssh keys to server
@@ -75,14 +75,13 @@
     - role: webserver # Build the unicorn webserver.
       tags: webserver
 
-    - role: Datadog.datadog
+    - role: datadog
       become: yes
-      vars:
-        datadog_api_key: "{{ datadog_key }}"
-      when: datadog_key is defined
       tags: datadog
 
   tasks:
+    - meta: flush_handlers # Ensure handlers run successfully before reporting success
+
     - name: notify slack
       slack:
         token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
@@ -90,3 +89,19 @@
         channel: "#devops-notifications"
         username: "ansible executed by {{ lookup('env','USER') }}"
       when: inventory_hostname not in groups['local']
+
+    - name: notify datadog
+      uri:
+        url: "https://api.datadoghq.com/api/v1/events?api_key={{ datadog_key }}"
+        method: POST
+        body:
+          title: "Provisioned"
+          text: "Provisioned host: {{ inventory_hostname }} ({{ ansible_limit }})"
+          host: "{{ inventory_hostname }}"
+          tags:
+            - "provisioned"
+        body_format: json
+        status_code: 202
+        headers:
+          Content-Type: "application/json"
+      when: datadog_key is defined and inventory_hostname not in groups['local']

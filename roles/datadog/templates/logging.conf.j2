@@ -1,0 +1,8 @@
+log_destination = 'stderr'
+logging_collector = on
+log_directory = '/var/log/pg_log'
+log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+log_file_mode = 0640
+log_truncate_on_rotation = on
+log_rotation_age = 2880 # 2 days
+log_statement = 'all'

@@ -1,0 +1,27 @@
+---
+- name: configure datadog agent
+  include_role:
+    name: Datadog.datadog
+  vars:
+    datadog_api_key: "{{ datadog_key }}"
+    datadog_config:
+      hostname: "{{ inventory_hostname }}"
+      tags:
+        - "env:{{ rails_env }}"
+        - "host-id:{{ ansible_limit }}"
+      logs_enabled: true
+  when: datadog_key is defined
+
+- name: set up postgres stats collection
+  import_tasks: pg_stats.yml
+  when: datadog_key is defined and datadog_db_password is defined
+
+- name: set up nginx stats collection
+  import_tasks: nginx_stats.yml
+  when: datadog_key is defined
+
+- name: disable datadog agent
+  service:
+    name: datadog-agent
+    state: stopped
+  when: disable_datadog is defined
