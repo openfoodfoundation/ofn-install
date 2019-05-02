@@ -96,7 +96,7 @@
     - restart unicorn
 
 - name: seed database
-  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }} ADMIN_EMAIL={{ admin_email }} ADMIN_PASSWORD={{ admin_password }}"
+  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
   args:
     chdir: "{{ current_path }}"
   tags:
