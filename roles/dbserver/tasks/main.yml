@@ -1,5 +1,7 @@
 --- # dbserver
 
+- import_tasks: postgresql.yml # Install postgresql with geerlingguy.postgresql role
+
 - name: add custom log directory
   file:
     state: directory
@@ -8,8 +10,6 @@
     owner: postgres
     group: postgres
   become: yes
-
-- import_tasks: postgresql.yml # Install postgresql with geerlingguy.postgresql role
 
 - name: add postgres conf.d directory
   file:
