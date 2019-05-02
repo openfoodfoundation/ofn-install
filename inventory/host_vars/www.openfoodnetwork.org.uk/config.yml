@@ -8,6 +8,10 @@ unicorn_timeout: 120
 
 swapfile_size: 1G
 
+certbot_domains:
+  - www.openfoodnetwork.org.uk
+  - openfoodnetwork.org.uk
+
 postgres_listen_addresses:
   - '*'
 
