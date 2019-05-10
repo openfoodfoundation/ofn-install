@@ -19,7 +19,6 @@ travis
 # Australia
 
 [au-prod]
-www.openfoodnetwork.org.au
 prod2.openfoodnetwork.org.au
 
 [au-staging]
