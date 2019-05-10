@@ -20,6 +20,9 @@
     mode: 0740
   become: yes
 
+# The .pgpass file enables us to access the database with psql or
+# pgdump without entering a password. It is not required but makes
+# sysadmin and dev tasks more convenient.
 - name: add .pgpass file for {{ unicorn_user }}
   template:
     src: pgpass.j2
