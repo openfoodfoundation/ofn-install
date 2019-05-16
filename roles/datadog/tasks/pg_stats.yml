@@ -10,7 +10,7 @@
   include_role:
     name: geerlingguy.postgresql
     tasks_from: variables
-  when: enable_datadog_logging is defined and postgresql_config_path is undefined
+  when: postgresql_config_path is undefined
 
 - name: add postgres stats configuration
   template:
@@ -76,9 +76,16 @@
     RETURNS SETOF pg_catalog.pg_stat_activity AS
     $$ SELECT * from pg_catalog.pg_stat_activity; $$
     LANGUAGE sql VOLATILE SECURITY DEFINER;
-    CREATE VIEW pg_stat_activity_dd AS SELECT * FROM pg_stat_activity();
-    grant SELECT ON pg_stat_activity_dd to datadog;"
+    CREATE VIEW pg_stat_activity_dd AS SELECT * FROM pg_stat_activity();"
   become: yes
   become_user: postgres
   when: stat_views_exist.stdout.find('0 rows') != -1
+  notify: restart postgres
+
+- name: grant select to datadog
+  command: |
+    psql -c "grant SELECT ON pg_stat_activity_dd to datadog;
+    grant SELECT ON pg_stat_database to datadog;"
+  become: yes
+  become_user: postgres
   notify: restart postgres
