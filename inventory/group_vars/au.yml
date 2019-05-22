@@ -4,7 +4,7 @@
 checkout_zone: Australia
 country_code: AU
 currency: AUD
-locale: en
+locale: en_AU
 language: en_AU.UTF-8
 language_packages:
   - language-pack-en-base
