@@ -21,3 +21,10 @@ swapfile_size: 1G
 
 unicorn_timeout: 120
 unicorn_workers: 6
+
+# Enable external database access for third party integrations
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
