@@ -23,3 +23,10 @@ swapfile_size: 2G
 #
 #custom_hba_entries:
 #  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
+
+# The server currently has 8 CPUs and 32 GB of memory.
+# Since they are experimenting with thousands of products and have to
+# report to the government next week (May 2019) we better keep as
+# many resources as possible.
+unicorn_workers: 6
+unicorn_timeout: 360
