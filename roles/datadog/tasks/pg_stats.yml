@@ -33,6 +33,19 @@
   notify: restart postgres
   when: enable_datadog_logging is defined
 
+- name: get relations in openfoodnetwork's database
+  command: "psql {{ db }} -tAc \"SELECT c.relname AS table_name
+    FROM pg_catalog.pg_class c
+    LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
+    WHERE c.relkind IN ('r','v','m','p')
+      AND c.relpersistence <> 't'
+      AND c.relname NOT IN ('pg_stat_statements')
+      AND n.nspname NOT IN ('pg_catalog','pg_toast','information_schema');\""
+  become: yes
+  become_user: postgres
+  register: openfoodnetwork_relations
+  changed_when: False
+
 - name: enable datadog postgres integration
   template:
     src: dd-postgres.j2
