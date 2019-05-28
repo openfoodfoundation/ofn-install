@@ -1,0 +1,14 @@
+---
+- name: setup
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: setup | db_integrations | add configs for zapier integration
+      set_fact:
+        db_integrations:
+          - { user: travis, state: present, password: 1234567 }
+        postgres_listen_addresses:
+          - '*'
+        custom_hba_entries:
+          - { type: hostssl, database: "{{ db }}", user: travis, address: '12.34.56.78/32', auth_method: md5 }

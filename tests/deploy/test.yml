@@ -1,0 +1,11 @@
+---
+- name: test
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: test | deploy | expect rollback to exist
+      stat:
+        path: "{{ rollback_path }}/app/"
+      register: deploy_test
+      failed_when: not deploy_test.stat.exists

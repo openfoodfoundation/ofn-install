@@ -1,0 +1,22 @@
+---
+- name: test
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: test | rollback | expect data to be reverted
+      become: yes
+      become_user: postgres
+      command: |
+        psql {{ db }} -tAc "
+        SELECT 1 FROM spree_preferences
+        WHERE value='rollback_test' AND key='ofn/rollback_test_key';"
+      changed_when: False
+      register: rollback_test
+      failed_when: rollback_test.stdout == '1'
+
+    - name: test | rollback | expect files in app folder to be reverted
+      stat:
+        path: "{{ current_path }}/.rollback_test"
+      register: rollback_file_test
+      failed_when: rollback_file_test.stat.exists

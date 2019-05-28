@@ -1,0 +1,15 @@
+---
+- name: site
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: test | site | expect homepage to contain 'Open Food Network'
+      uri:
+        url: http://localhost
+        method: GET
+        status_code: 200
+        return_content: yes
+        validate_certs: False
+      register: homepage_test
+      failed_when: homepage_test.content.find('Open Food Network') == -1
