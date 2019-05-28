@@ -9,9 +9,8 @@
       become_user: postgres
       command: |
         psql {{ db }} -c "
-        UPDATE spree_preferences
-        SET value='rollback_test'
-        WHERE key='spree/app_configuration/privacy_policy_url';"
+        INSERT INTO spree_preferences (value, key, created_at, updated_at)
+        VALUES ('rollback_test', 'ofn/rollback_test_key', '2019-05-25 09:28:15.70238', '2019-05-25 09:28:15.70238');"
       changed_when: False
 
     - name: setup | rollback | set a file in app folder
