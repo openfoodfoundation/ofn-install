@@ -38,6 +38,10 @@
       tags: dbserver
       db_user_roles: SUPERUSER,CREATEDB
 
+    - role: datadog
+      become: yes
+      tags: datadog
+
   vars:
     ansible_python_interpreter: /usr/bin/python2.7
     language_packages:

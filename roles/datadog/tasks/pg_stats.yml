@@ -10,7 +10,7 @@
   include_role:
     name: geerlingguy.postgresql
     tasks_from: variables
-  when: enable_datadog_logging is defined and postgresql_config_path is undefined
+  when: postgresql_config_path is undefined
 
 - name: add postgres stats configuration
   template:
@@ -32,6 +32,19 @@
   become: yes
   notify: restart postgres
   when: enable_datadog_logging is defined
+
+- name: get relations in openfoodnetwork's database
+  command: "psql {{ db }} -tAc \"SELECT c.relname AS table_name
+    FROM pg_catalog.pg_class c
+    LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
+    WHERE c.relkind IN ('r','v','m','p')
+      AND c.relpersistence <> 't'
+      AND c.relname NOT IN ('pg_stat_statements')
+      AND n.nspname NOT IN ('pg_catalog','pg_toast','information_schema');\""
+  become: yes
+  become_user: postgres
+  register: openfoodnetwork_relations
+  changed_when: False
 
 - name: enable datadog postgres integration
   template:
@@ -63,22 +76,46 @@
     msg: "The database role `datadog` has not been created. Add it via the `db_integrations` playbook."
   when: integration_exists.stdout != '1'
 
-- name: check datadog views
-  command: psql -c "SELECT * FROM pg_catalog.pg_views WHERE viewname = 'pg_stat_activity_dd';"
+- name: check pg_stat_activity function
+  command: "psql {{ db }} -c \"SELECT * FROM pg_catalog.pg_proc WHERE proname = 'pg_stat_activity';\""
   become: yes
   become_user: postgres
-  register: stat_views_exist
+  register: pg_stat_activity_exist
   changed_when: False
 
-- name: add pg_stat function and view
-  command: |
-    psql -c "CREATE FUNCTION pg_stat_activity()
-    RETURNS SETOF pg_catalog.pg_stat_activity AS
-    $$ SELECT * from pg_catalog.pg_stat_activity; $$
-    LANGUAGE sql VOLATILE SECURITY DEFINER;
-    CREATE VIEW pg_stat_activity_dd AS SELECT * FROM pg_stat_activity();
-    grant SELECT ON pg_stat_activity_dd to datadog;"
+- name: add pg_stat_activity function
+  command: "psql {{ db }} -c \
+            'CREATE FUNCTION pg_stat_activity() RETURNS SETOF pg_catalog.pg_stat_activity AS $$
+              SELECT * from pg_catalog.pg_stat_activity;
+            $$ LANGUAGE sql VOLATILE SECURITY DEFINER;'"
   become: yes
   become_user: postgres
-  when: stat_views_exist.stdout.find('0 rows') != -1
+  when: pg_stat_activity_exist.stdout.find('0 rows') != -1
+  notify: restart postgres
+
+- name: check pg_stat_activity_dd view
+  command: "psql {{ db }} -c \"SELECT * FROM pg_catalog.pg_views WHERE viewname = 'pg_stat_activity_dd';\""
+  become: yes
+  become_user: postgres
+  register: pg_stat_activity_dd_exist
+  changed_when: False
+
+- name: add pg_stat_activity_dd view
+  command: "psql {{ db }} -c 'CREATE VIEW pg_stat_activity_dd AS SELECT * FROM pg_stat_activity();'"
+  become: yes
+  become_user: postgres
+  when: pg_stat_activity_dd_exist.stdout.find('0 rows') != -1
+  notify: restart postgres
+
+- name: grant SELECT on pg_stat_activity_dd to Datadog
+  postgresql_privs:
+    database: "{{ db }}"
+    state: present
+    privs: SELECT
+    type: table
+    objs: pg_stat_activity_dd
+    roles: datadog
+    grant_option: no
+  become: yes
+  become_user: postgres
   notify: restart postgres

@@ -11,6 +11,10 @@ instances:
     tags:
       - "host:{{ inventory_hostname }}"
     collect_activity_metrics: true
+    relations:
+    {% for relation in openfoodnetwork_relations.stdout_lines %}
+      - "{{ relation }}"
+    {% endfor %}
 
 {% if enable_datadog_logging is defined %}
 logs:
