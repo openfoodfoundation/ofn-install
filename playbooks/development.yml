@@ -5,8 +5,9 @@
 # exec rails server`.
 #
 # Also, there are a number of things you will need to do manually such as
-# installing bundler and creating the development database with `bundle exec
-# rake db:create` as you would do on your host without containers.
+# creating the development database with `bundle exec rake db:create` as you
+# would do on your host without containers.
+
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"
@@ -41,6 +42,19 @@
     - role: datadog
       become: yes
       tags: datadog
+
+  tasks:
+    - name: install bundler
+      # This needs to be run inside a bash shell to initialise rbenv
+      # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
+      command: bash -lc "./script/install-bundler --no-ri --no-rdoc"
+      args:
+        chdir: /opt/openfoodnetwork
+      register: bundler
+      changed_when: bundler.stdout | length > 0
+      become: yes
+      become_user: "{{ unicorn_user }}"
+      tags: bundler
 
   vars:
     ansible_python_interpreter: /usr/bin/python2.7
