@@ -64,7 +64,7 @@
       vars:
         domain_name: "{{ certbot_domains | default([domain]) | join(',') }}"
         letsencrypt_email: "{{ developer_email }}"
-        certbot_nginx_cert_name: "{{ certbot_cert_name | default(None) }}"
+        certbot_nginx_cert_name: "{{ certbot_cert_name | default(domain) }}"
       when: inventory_hostname not in groups['local']
       tags: certbot
 

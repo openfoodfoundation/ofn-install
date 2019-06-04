@@ -168,7 +168,7 @@ nginx_sites:
     - |
       listen 80;
       listen [::]:80;
-      server_name {{ domain }};
+      server_name {{ certbot_domains | default([domain]) | join(' ') }};
 
       add_header X-Content-Type-Options nosniff always;
       add_header X-Xss-Protection "1; mode=block" always;
@@ -186,7 +186,7 @@ nginx_sites:
     - |
       listen 443 ssl http2;
       listen [::]:443 ssl http2;
-      server_name {{ domain }};
+      server_name {{ certbot_domains | default([domain]) | join(' ') }};
       root {{ app_root }}/public;
 
       ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
