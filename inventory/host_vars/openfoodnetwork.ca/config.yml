@@ -3,4 +3,40 @@
 domain: openfoodnetwork.ca
 rails_env: production
 
-admin_email:
+admin_email: admin@openfoodnetwork.ca
+mail_domain: openfoodnetwork.ca
+
+swapfile_size: 2G
+
+certbot_domains:
+  - openfoodnetwork.ca
+  - www.openfoodnetwork.ca
+  - upgrade.openfoodnetwork.ca
+
+
+# Letsencrpyt validation proxy-hack so we can register certificates on the new server
+# Works like a charm! :D
+# Delete and provision again when finished...
+ofn_80:
+  - |
+    listen 80;
+    listen [::]:80;
+    server_name {{ certbot_domains | default([domain]) | join(' ') }};
+
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Xss-Protection "1; mode=block" always;
+
+    location '/.well-known/acme-challenge' {
+      # Now we can validate a multi-domain certificate for openfoodnetwork.ca from the *other* server
+      # without affecting anything on the current server.
+      proxy_pass http://upgrade.openfoodnetwork.ca/.well-known/acme-challenge;
+      proxy_set_header    Host            $host;
+      proxy_set_header    X-Real-IP       $remote_addr;
+      proxy_set_header    X-Forwarded-for $remote_addr;
+      port_in_redirect off;
+      proxy_connect_timeout 300;
+    }
+
+    location / {
+      return 301 https://$host$request_uri;
+    }

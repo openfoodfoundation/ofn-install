@@ -1,0 +1,16 @@
+---
+
+domain: upgrade.openfoodnetwork.ca
+rails_env: production
+
+admin_email: admin@openfoodnetwork.ca
+mail_domain: openfoodnetwork.ca
+
+swapfile_size: 2G
+
+certbot_domains:                        # The order here is important
+  - openfoodnetwork.ca
+  - www.openfoodnetwork.ca
+  - upgrade.openfoodnetwork.ca
+
+certbot_cert_name: openfoodnetwork.ca   # This bit is very important
