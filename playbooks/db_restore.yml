@@ -1,0 +1,11 @@
+---
+
+- name: Restore database from local machine
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  roles:
+    - role: db_restore
