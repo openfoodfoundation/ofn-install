@@ -34,5 +34,4 @@
   become: true
   become_user: postgres
   notify:
-    - precompile assets
     - restart unicorn
