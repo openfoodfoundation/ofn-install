@@ -13,4 +13,5 @@ timezone: Melbourne
 
 developer_email: admin@example.com
 
-users_sysadmin: []
+users_sysadmin:
+  - "{{ core_devs }}"
