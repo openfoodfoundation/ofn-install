@@ -1,0 +1,9 @@
+---
+
+- name: download assets
+  synchronize:
+    src: "{{ dest_path }}/{{ migrate_dir }}"
+    dest: "{{ local_asset_path }}/"
+    mode: pull
+  become: yes
+  become_user: "{{ unicorn_user }}"

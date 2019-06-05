@@ -1,0 +1,10 @@
+---
+
+source_path: "{{ shared_path }}"
+dest_path: "{{ shared_path }}"
+local_asset_path: "../backups"
+
+migrate_dirs:
+  - assets
+  - spree
+  - system
