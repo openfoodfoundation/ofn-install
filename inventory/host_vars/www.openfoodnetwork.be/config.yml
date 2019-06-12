@@ -6,3 +6,7 @@ rails_env: production
 admin_email: admin@openfoodnetwork.be
 
 mail_domain: openfoodnetwork.be
+
+certbot_domains:
+  - www.openfoodnetwork.be
+  - openfoodnetwork.be
