@@ -1,0 +1,11 @@
+---
+
+- name: Push assets
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - include_role:
+        name: migrate_assets
+      vars:
+        sync_mode: push
