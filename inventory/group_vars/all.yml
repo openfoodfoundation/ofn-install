@@ -215,7 +215,9 @@ nginx_sites:
 
       error_page 500 502 503 504 /500.html;
       client_max_body_size 4G;
-      keepalive_timeout 60;
+      keepalive_timeout {{ unicorn_timeout }};
+      proxy_read_timeout {{ unicorn_timeout }};
+      proxy_send_timeout {{ unicorn_timeout }};
 
       include /etc/nginx/sites-available/ofn/*;
 
