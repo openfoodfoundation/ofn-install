@@ -5,13 +5,9 @@ admin_email: admin@openfoodfoundation.org
 
 mail_domain: openfoodnetwork.de
 
-# Optional list of subdomains to register in letsencrypt certificate
-# Defaults to {{ domain }} if list is undefined
-#
-#certbot_domains:
-#  - example.com
-#  - www.example.com
-#  - info.example.com
+certbot_domains:
+  - openfoodnetwork.de
+  - www.openfoodnetwork.de
 
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
