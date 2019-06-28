@@ -1,0 +1,12 @@
+---
+
+- name: add brotli ppa
+  apt_repository:
+    repo: ppa:hda-me/nginx-stable
+  become: yes
+
+- name: install brotli
+  apt:
+    name: [brotli, nginx-module-brotli]
+    state: present
+  become: yes

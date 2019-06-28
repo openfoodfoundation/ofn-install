@@ -68,6 +68,9 @@
       when: inventory_hostname not in groups['local']
       tags: certbot
 
+    - role: brotli_nginx
+      tags: brotli
+
     - role: jdauphant.nginx
       become: yes
       tags: nginx
