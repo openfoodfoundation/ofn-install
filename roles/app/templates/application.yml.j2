@@ -46,4 +46,4 @@ STRIPE_ENDPOINT_SECRET: {{ stripe_endpoint_secret }}
 BUGSNAG_API_KEY: {{ bugsnag_key }}
 {% endif %}
 
-OFN_FEATURE_CONNECT_AND_LEARN: "{{ feature_connect_and_learn | default('false') }}"
+{{ custom_application_env_vars | default('') }}
