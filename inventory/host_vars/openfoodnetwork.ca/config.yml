@@ -3,6 +3,12 @@
 domain: openfoodnetwork.ca
 rails_env: production
 
-admin_email:
+admin_email: admin@openfoodnetwork.ca
+mail_domain: openfoodnetwork.ca
 
+swapfile_size: 2G
 unicorn_timeout: 120
+
+certbot_domains:
+  - openfoodnetwork.ca
+  - www.openfoodnetwork.ca

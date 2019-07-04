@@ -32,7 +32,7 @@ au-staging
 # Canada
 
 [ca-prod]
-openfoodnetwork.ca
+openfoodnetwork.ca ansible_host=68.183.204.127
 
 [ca:children]
 ca-prod
