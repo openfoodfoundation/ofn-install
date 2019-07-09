@@ -207,6 +207,10 @@ nginx_sites:
 
       try_files $uri/index.html $uri @unicorn;
       location @unicorn {
+        gzip_proxied no-cache no-store private expired auth;
+        gzip_types text/html text/css text/javascript text/plain application/javascript application/x-javascript application/json;
+
+        proxy_http_version 1.1
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto $scheme;
