@@ -57,7 +57,7 @@
       become: yes
       become_user: root
       tags: dbserver
-      db_user_roles: CREATEDB
+      db_user_roles: CREATEDB,REPLICATION
 
     - role: coopdevs.certbot_nginx
       become: yes
