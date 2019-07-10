@@ -78,9 +78,14 @@ postgresql_hba_entries: "{{ default_hba_entries + custom_hba_entries }}"
 postgres_listen_addresses:
   - localhost
 
+postgres_shared_preload_libraries:
+  - pg_stat_statements
+
 postgresql_global_config_options:
   - option: listen_addresses
     value: "{{ postgres_listen_addresses | join(',') }}"
+  - option: shared_preload_libraries
+    value: "{{ postgres_shared_preload_libraries | join(',') }}"
   - option: include_dir
     value: "conf.d"
 
