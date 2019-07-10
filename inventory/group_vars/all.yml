@@ -80,6 +80,7 @@ postgres_listen_addresses:
 
 postgres_shared_preload_libraries:
   - pg_stat_statements
+  - wal2json
 
 postgresql_global_config_options:
   - option: listen_addresses
