@@ -1,0 +1,17 @@
+---
+
+- name: enable maintenance mode
+  template:
+    src: maintenance.html.j2
+    dest: "/etc/nginx/maintenance.html"
+    owner: www-data
+    group: www-data
+  become: yes
+  when: disable_maintenance is undefined
+
+- name: disable maintenance mode
+  file:
+    dest: "/etc/nginx/maintenance.html"
+    state: absent
+  become: yes
+  when: disable_maintenance is defined
