@@ -10,39 +10,9 @@
   args:
     creates: "{{ current_path }}"
 
-- name: close active db connections # noqa 301
-  shell: |
-    psql -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
-    SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='{{ db }}' AND pid <> pg_backend_pid();"
-  become: true
-  become_user: postgres
-
-- name: drop database
-  postgresql_db:
-    name: "{{ db }}"
-    state: absent
-  become: true
-  become_user: postgres
-
-- name: recreate database
-  postgresql_db:
-    name: "{{ db }}"
-    owner: "{{ db_user }}"
-    encoding: "UTF-8"
-    lc_ctype: "{{ postgres_encoding }}"
-    lc_collate: "{{ postgres_encoding }}"
-    state: present
-  become: true
-  become_user: postgres
-
-- name: restore database from backup
-  postgresql_db:
-    name: "{{ db }}"
-    owner: "{{ db_user }}"
-    state: restore
-    target: "{{ rollback_sql_path }}"
-  become: true
-  become_user: postgres
-  notify:
-    - precompile assets
-    - restart unicorn
+- name: restore database
+  include_role:
+    name: db_restore
+    tasks_from: restore_database
+  vars:
+    database_dump_path: "{{ rollback_sql_path }}"

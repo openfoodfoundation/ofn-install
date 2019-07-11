@@ -34,6 +34,12 @@ admin_email: "admin@{{ domain }}"
 # security role variables
 security_autoupdate_mail_to: "{{ developer_email }}"
 
+#----------------------------------------------------------------------
+# Database backup variables
+default_backup_filename: backup
+local_backup_path: "../backups/{{ default_backup_filename }}.sql.gz"
+remote_backup_dir: "/var/lib/postgresql"
+remote_backup_path: "{{ remote_backup_dir }}/{{ default_backup_filename }}.sql.gz"
 
 #----------------------------------------------------------------------
 # swapfile variables

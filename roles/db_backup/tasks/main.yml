@@ -1,0 +1,22 @@
+---
+
+- name: dump the database
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "{{ remote_backup_path }}"
+  become: yes
+  become_user: postgres
+
+- name: fetch database dump
+  fetch:
+    src: "{{ remote_backup_path }}"
+    dest: "{{ local_backup_path }}"
+    fail_on_missing: yes
+    flat: yes
+
+- name: delete the db dump on the server
+  file:
+    dest: "{{ remote_backup_path }}"
+    state: absent
+  become: yes

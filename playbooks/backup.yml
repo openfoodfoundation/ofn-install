@@ -1,7 +1,0 @@
----
-- name: backup
-  hosts: ofn_servers
-  remote_user: "{{ user }}"
-
-  roles:
-    - backup
