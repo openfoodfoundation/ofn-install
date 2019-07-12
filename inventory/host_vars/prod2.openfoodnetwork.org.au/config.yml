@@ -28,3 +28,6 @@ postgres_listen_addresses:
 
 custom_hba_entries:
   - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
+
+custom_application_env_vars: |
+  OFN_FEATURE_CONNECT_AND_LEARN: "true"
