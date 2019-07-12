@@ -76,7 +76,7 @@
   tags: rake
 
 - name: load schema if it isn't loaded
-  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }}"
+  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }} I_AM_SURE=1"
   args:
     chdir: "{{ current_path }}"
   when: table_exists.stdout.find('0 rows') != -1
