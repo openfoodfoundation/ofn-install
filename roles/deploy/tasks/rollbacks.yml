@@ -39,10 +39,8 @@
   args:
     creates: "{{ releases_path }}/{{ timestamp }}.sql.gz"
 
-- name: create a repo rollback version
-  command: mv {{ current_path }} {{ rollback_path }}
-  args:
-    removes: "{{ current_path }}"
+- name: create a repo rollback version # noqa 301
+  command: cp -TLr {{ current_path }} {{ rollback_path }}
   register: new_rollback
 
 - name: create a repo backup version

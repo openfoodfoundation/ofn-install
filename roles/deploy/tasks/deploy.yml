@@ -2,10 +2,13 @@
 
 # Build codebase
 
-- name: remove the old build path
+- name: remove the old build paths
   file:
-    dest: "{{ build_path }}"
+    dest: "{{ item }}"
     state: absent
+  with_items:
+    - "{{ build_path }}"
+    - "{{ current_path }}"
   tags: clone
 
 - name: build codebase from git branch
@@ -62,8 +65,10 @@
 
 # Move new build into place
 
-- name: copy build to current
-  command: cp -TLr {{ build_path }} {{ current_path }}
+- name: move build to current
+  command: mv {{ build_path }} {{ current_path }}
+  args:
+    removes: "{{ build_path }}"
   changed_when: True
 
 # Update the database

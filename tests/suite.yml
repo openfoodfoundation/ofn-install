@@ -8,6 +8,7 @@
 - import_playbook: ../tests/site/test.yml
 
 # Deploying to a live instance
+- import_playbook: ../tests/deploy/setup.yml
 - import_playbook: ../playbooks/deploy.yml
 - import_playbook: ../tests/deploy/test.yml
 
