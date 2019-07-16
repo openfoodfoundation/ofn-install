@@ -1,4 +1,0 @@
----
-domain: local.ofn.org
-rails_env: development
-# admin_email is not used in development environment
