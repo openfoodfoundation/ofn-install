@@ -1,7 +1,13 @@
 --- # Deploy
 
+- name: Check if app is deployed
+  stat:
+    path: "{{ current_path }}/"
+  register: current_path_check
+
 - name: Handle rollbacks
   import_tasks: rollbacks.yml
+  when: current_path_check.stat.exists
   tags: rollbacks
 
 - name: Deploy
