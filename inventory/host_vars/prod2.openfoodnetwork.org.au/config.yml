@@ -9,11 +9,10 @@ mail_domain: openfoodnetwork.org
 
 # Optional list of subdomains to register in letsencrypt certificate
 # Defaults to {{ domain }} if list is undefined
-#
-#certbot_domains:
-#  - openfoodnetwork.org.au
-#  - www.openfoodnetwork.org.au
-#  - prod2.openfoodnetwork.org.au
+certbot_domains:
+  - openfoodnetwork.org.au
+  - www.openfoodnetwork.org.au
+  - prod2.openfoodnetwork.org.au
 
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
