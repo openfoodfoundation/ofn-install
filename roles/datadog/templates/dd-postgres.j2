@@ -16,7 +16,7 @@ instances:
       - "{{ relation }}"
     {% endfor %}
 
-{% if enable_datadog_logging is defined %}
+{% if enable_postgres_logging is defined %}
 logs:
   - type: file
     path: /var/log/pg_log/postgresql-*.log
