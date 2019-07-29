@@ -1,3 +1,12 @@
+# Playbook meant to automate the steps previously documented in
+# https://github.com/openfoodfoundation/ofn-install/wiki/Deployment-of-v2.
+#
+# Do not forget to pass in the github_key to specify the version to deploy via
+# the -e flag. `github_key=openfoodfoundation:v2.2.1` at the time of writing.
+#
+# Optionally, you might also want to provide a specific message for the
+# maintenance page, which should be through the maintenance_mode_message var
+# using the -e flag.
 ---
 
 - name: v2 deploy
