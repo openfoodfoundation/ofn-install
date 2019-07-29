@@ -6,17 +6,16 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
-  roles:
-    # Include and enable only
-    - role: maintenance_mode
-      become: yes
-      become_user: root
-
   handlers:
     - include: ../roles/shared_handlers/handlers/main.yml
 
   tasks:
     - block:
+      - name: enable maintenance mode
+        import_role:
+          name: maintenance_mode
+          tasks_from: enable
+
       - name: stop unicorn
         service:
           name: unicorn_{{ app }}
@@ -41,13 +40,10 @@
         args:
           chdir: "{{ current_path }}"
 
-      # Include and disable only
       - name: disable maintenance mode
-        file:
-          dest: "/etc/nginx/maintenance.html"
-          state: absent
-        become: yes
-        become_user: root
+        import_role:
+          name: maintenance_mode
+          tasks_from: disable
 
       - name: Notify Slack of successful deployment
         slack:

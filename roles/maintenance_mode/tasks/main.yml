@@ -1,17 +1,9 @@
 ---
 
 - name: enable maintenance mode
-  template:
-    src: maintenance.html.j2
-    dest: "/etc/nginx/maintenance.html"
-    owner: www-data
-    group: www-data
-  become: yes
+  import_tasks: enable.yml
   when: disable_maintenance is undefined
 
 - name: disable maintenance mode
-  file:
-    dest: "/etc/nginx/maintenance.html"
-    state: absent
-  become: yes
+  import_tasks: disable.yml
   when: disable_maintenance is defined
