@@ -1,5 +1,9 @@
-# Playbook meant to automate the steps previously documented in
-# https://github.com/openfoodfoundation/ofn-install/wiki/Deployment-of-v2.
+# This playbook is meant for deployments that introduce big changes and thus
+# require enabling maintenance mode and refreshing the cache.
+#
+# It automates the steps previously documented in
+# https://github.com/openfoodfoundation/ofn-install/wiki/Deployment-of-v2 but
+# it can be used any other similar situations too.
 #
 # Do not forget to pass in the github_key to specify the version to deploy via
 # the -e flag. `github_key=openfoodfoundation:v2.2.1` at the time of writing.
