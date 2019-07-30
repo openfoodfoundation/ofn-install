@@ -1,0 +1,97 @@
+# This playbook is meant for deployments that introduce big changes and thus
+# require enabling maintenance mode and refreshing the cache.
+#
+# It automates the steps previously documented in
+# https://github.com/openfoodfoundation/ofn-install/wiki/Deployment-of-v2 but
+# it can be used any other similar situations too.
+#
+# Do not forget to pass in the github_key to specify the version to deploy via
+# the -e flag. `github_key=openfoodfoundation:v2.2.1` at the time of writing.
+#
+# Optionally, you might also want to provide a specific message for the
+# maintenance page, which should be through the maintenance_mode_message var
+# using the -e flag.
+---
+
+- name: v2 deploy
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  tasks:
+    - block:
+      - name: enable maintenance mode
+        import_role:
+          name: maintenance_mode
+          tasks_from: enable
+
+      - name: stop unicorn
+        service:
+          name: unicorn_{{ app }}
+          state: stopped
+        become: yes
+        become_user: root
+
+      - name: stop delayed job
+        service:
+          name: delayed_job_{{ app }}
+          state: stopped
+        become: yes
+        become_user: root
+
+      - include_role:
+          name: deploy
+
+      - meta: flush_handlers # Ensure handlers run successfully before reporting success
+
+      - name: refresh products cache
+        command: "{{ bundle_path }} exec rake ofn:cache:warm_products"
+        args:
+          chdir: "{{ current_path }}"
+
+      - name: disable maintenance mode
+        import_role:
+          name: maintenance_mode
+          tasks_from: disable
+
+      - name: Notify Slack of successful deployment
+        slack:
+          token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
+          msg: '`{{ git_version }}` deployed to {{ inventory_hostname }}'
+          channel: "#devops-notifications"
+          username: "ansible executed by {{ lookup('env','USER') }}"
+        when: inventory_hostname not in groups['local']
+
+      - name: Notify datadog
+        uri:
+          url: "https://api.datadoghq.com/api/v1/events?api_key={{ datadog_key }}"
+          method: POST
+          body:
+            title: "Deployed"
+            text: "Successful deployment on host: {{ inventory_hostname }} ({{ ansible_limit }})"
+            host: "{{ inventory_hostname }}"
+            tags:
+              - "deployed"
+          body_format: json
+          status_code: 202
+          headers:
+            Content-Type: "application/json"
+        when: datadog_key is defined and inventory_hostname not in groups['local']
+
+      rescue:
+        - name: Notify slack of deployment failure
+          slack:
+            token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
+            msg: 'Deployment FAILED for {{ inventory_hostname }}'
+            channel: "#devops-notifications"
+            username: "ansible executed by {{ lookup('env','USER') }}"
+          when: inventory_hostname not in groups['local']
+
+        - debug:
+            msg: Deployment failed
+          failed_when: True # Ensure Ansible returns a non-zero error code after rescue
+
