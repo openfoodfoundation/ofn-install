@@ -31,7 +31,15 @@
     mode: 0640
   become: yes
   notify: restart postgres
-  when: enable_datadog_logging is defined
+  when: enable_postgres_logging is defined
+
+- name: remove postgres logging configuration
+  file:
+    dest: "{{ postgresql_config_path }}/conf.d/logging.conf"
+    state: absent
+  become: yes
+  notify: restart postgres
+  when: enable_postgres_logging is undefined
 
 - name: get relations in openfoodnetwork's database
   command: "psql {{ db }} -tAc \"SELECT c.relname AS table_name

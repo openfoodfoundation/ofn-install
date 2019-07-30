@@ -16,7 +16,6 @@
     name: 'dd-agent'
     groups: adm
     append: yes
-  when: enable_datadog_logging is defined
 
 - name: enable datadog nginx integration
   template:
