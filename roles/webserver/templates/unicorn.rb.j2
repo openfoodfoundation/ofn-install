@@ -6,3 +6,20 @@ stdout_path "{{ unicorn_log }}"
 listen "{{ unicorn_sock }}"
 worker_processes {{ unicorn_workers }}
 timeout {{ unicorn_timeout }}
+
+# The following enables use of the Ruby 2.0+ Copy-On-Write feature
+# for more efficient memory usage in Unicorn workers.
+
+if ['production', 'staging'].include? ENV["RAILS_ENV"]
+  preload_app true
+
+  before_fork do |server, worker|
+    defined?(ActiveRecord::Base) and
+        ActiveRecord::Base.connection.disconnect!
+  end
+
+  after_fork do |server, worker|
+    defined?(ActiveRecord::Base) and
+        ActiveRecord::Base.establish_connection
+  end
+end
