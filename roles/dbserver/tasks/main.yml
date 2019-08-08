@@ -39,4 +39,4 @@
   include_role:
     name: libre_ops.wal2json
   vars:
-    wal2json_set_preload_libararies: false
+    wal2json_set_preload_libraries: false
