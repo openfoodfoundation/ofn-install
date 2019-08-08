@@ -2,13 +2,10 @@
 
 # Build codebase
 
-- name: remove the old build paths
+- name: remove the old build path
   file:
-    dest: "{{ item }}"
+    dest: "{{ build_path }}"
     state: absent
-  with_items:
-    - "{{ build_path }}"
-    - "{{ current_path }}"
   tags: clone
 
 - name: build codebase from git branch
@@ -64,6 +61,12 @@
     - restart unicorn
 
 # Move new build into place
+
+- name: remove the current build
+  file:
+    dest: "{{ current_path }}"
+    state: absent
+  tags: clone
 
 - name: move build to current
   command: mv {{ build_path }} {{ current_path }}
