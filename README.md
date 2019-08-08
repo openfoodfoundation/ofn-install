@@ -10,8 +10,9 @@ Start with our [deployment tutorial](https://github.com/openfoodfoundation/ofn-i
 
 ## Playbooks
 
-The playbooks take information from the `vars.yml` file. You *must* create your own copy of the file and edit it to put in information that is specific to your OFN installation.
-Afterwards, you can use the following playbooks:
+The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook. Make also sure to include your host's secrets file.
+
+These are the main playbooks:
 
 * `setup.yml` - Use a root login to ensure python is installed and create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
 * `provision.yml` - Install and configure all required software on the server.
