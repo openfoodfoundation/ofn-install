@@ -1,4 +1,5 @@
 ---
 
 domain: www.openfoodnetwork.org.au
+host_id: au-prod
 rails_env: production

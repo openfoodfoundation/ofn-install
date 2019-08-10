@@ -1,6 +1,7 @@
 ---
 
 domain: localhost
+host_id: vagrant-dev
 rails_env: development
 
 admin_email: admin@example.com

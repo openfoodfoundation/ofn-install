@@ -1,6 +1,7 @@
 ---
 
 domain: openfoodnetwork.ca
+host_id: ca-prod
 rails_env: production
 
 admin_email: admin@openfoodnetwork.ca

@@ -27,6 +27,7 @@ l10n_git_version: HEAD
 #----------------------------------------------------------------------
 # Default values (should be overridden in each server config)
 rails_env: staging
+host_id: ofn-staging
 admin_email: "admin@{{ domain }}"
 
 

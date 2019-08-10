@@ -1,5 +1,6 @@
 ---
 domain: app.katuma.org
+host_id: es-prod
 rails_env: production
 
 admin_email: info@coopdevs.org

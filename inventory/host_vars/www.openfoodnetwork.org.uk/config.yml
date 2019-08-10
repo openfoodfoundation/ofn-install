@@ -1,6 +1,7 @@
 ---
 
 domain: www.openfoodnetwork.org.uk
+host_id: uk-prod
 rails_env: production
 
 unicorn_workers: 4

@@ -1,6 +1,7 @@
 ---
 
 domain: example.com
+host_id: es-prod # country initials (eg uk, es, de) and environment (default is prod)
 rails_env: production
 
 admin_email: admin@example.com

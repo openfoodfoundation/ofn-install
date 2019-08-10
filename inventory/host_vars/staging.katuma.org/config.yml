@@ -1,5 +1,6 @@
 ---
 domain: staging.katuma.org
+host_id: es-staging
 rails_env: staging
 admin_email: info@coopdevs.org
 

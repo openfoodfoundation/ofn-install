@@ -1,6 +1,7 @@
 ---
 
 domain: openfoodnetwork.net
+host_id: us-prod
 rails_env: production
 
 admin_email: ofn-usa@openfoodnetwork.net
