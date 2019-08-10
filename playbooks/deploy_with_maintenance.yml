@@ -72,7 +72,7 @@
           method: POST
           body:
             title: "Deployed"
-            text: "Successful deployment on host: {{ inventory_hostname }} ({{ ansible_limit }})"
+            text: "Successful deployment on host: {{ inventory_hostname }} ({{ host_id | default(ansible_limit) }})"
             host: "{{ inventory_hostname }}"
             tags:
               - "deployed"
