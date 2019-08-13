@@ -19,3 +19,4 @@ custom_hba_entries:
   - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
 
 enable_nginx_logging: true
+enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
