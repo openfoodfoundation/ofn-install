@@ -22,3 +22,6 @@
 
 - src: libre_ops.wal2json
   version: 1.0.2
+
+- src: arillso.logrotate
+  version: 1.4.5

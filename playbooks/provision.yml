@@ -82,6 +82,10 @@
       become: yes
       tags: datadog
 
+    - role: arillso.logrotate
+      become: yes
+      tags: logrotate
+
   tasks:
     - meta: flush_handlers # Ensure handlers run successfully before reporting success
 
