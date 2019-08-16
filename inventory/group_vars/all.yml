@@ -33,6 +33,9 @@ admin_email: "admin@{{ domain }}"
 #----------------------------------------------------------------------
 # security role variables
 security_autoupdate_mail_to: "{{ developer_email }}"
+security_autoupdate_blacklist:
+  - nginx
+  - nginx-common
 
 #----------------------------------------------------------------------
 # Database backup variables
