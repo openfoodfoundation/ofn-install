@@ -1,12 +1,10 @@
 ---
 
-- name: add brotli ppa
+- name: remove previously added brotli ppa (if present)
   apt_repository:
     repo: ppa:hda-me/nginx-stable
+    state: absent
   become: yes
 
-- name: install brotli
-  apt:
-    name: [brotli, nginx-module-brotli]
-    state: present
-  become: yes
+- name: build brotli nginx module from source
+  include_tasks: build.yml
