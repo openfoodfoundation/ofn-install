@@ -53,7 +53,7 @@
     nginx_build_args: "{{ nginx_config_args.stderr.split('configure arguments: ')[1] }}"
   changed_when: False
 
-- name: configure build
+- name: configure build # noqa 305
   shell: "./configure {{ nginx_build_args }} --with-compat --add-dynamic-module={{ nginx_brotli_src_path }}"
   args:
     chdir: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}"
@@ -67,7 +67,7 @@
   register: nginx_modules_built
   become: yes
 
-- name: add brotli modules to nginx
+- name: add brotli modules to nginx # noqa 503
   copy:
     src: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}/objs/{{ item }}"
     dest: "{{ nginx_modules_path }}/{{ item }}"

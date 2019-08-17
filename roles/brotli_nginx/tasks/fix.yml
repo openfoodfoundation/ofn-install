@@ -8,7 +8,7 @@
   register: brotli_remove_ppa
   become: yes
 
-- name: ensure official nginx version
+- name: ensure official nginx version # noqa 503
   apt:
     name: nginx=1.16.1-1*
     force: yes
