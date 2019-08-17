@@ -31,7 +31,7 @@ before_install:
     fi
 
 install:
-  - pip install 'ansible<2.7.0'
+  - pip install 'ansible==2.7.10'
   - pip install 'ansible-lint==4.1.0'
 
 script:
