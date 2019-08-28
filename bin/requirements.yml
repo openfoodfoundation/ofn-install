@@ -19,3 +19,6 @@
 
 - src: geerlingguy.postgresql
   version: 1.4.5
+
+- src: libre_ops.wal2json
+  version: 1.0.2

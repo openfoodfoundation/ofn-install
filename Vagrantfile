@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "ubuntu/bionic64"
 
     # Set box memory.
-    vbox.customize ["modifyvm", :id, "--memory", "1792"]
+    vbox.customize ["modifyvm", :id, "--memory", "2500"]
 
     # Optimise virtualbox.
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]

@@ -72,6 +72,8 @@ postgres_encoding: en_US.utf8
 # to the defaults if present. Make sure you use the "list" notation with the dashes!
 
 default_hba_entries:
+  - {type: local, database: replication, user: "{{ db_user }}", auth_method: trust}
+  - {type: host, database: replication, user: "{{ db_user }}", address: '127.0.0.1/32', auth_method: trust}
   - {type: local, database: all, user: postgres, auth_method: peer}
   - {type: local, database: all, user: all, auth_method: peer}
   - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
@@ -84,9 +86,15 @@ postgresql_hba_entries: "{{ default_hba_entries + custom_hba_entries }}"
 postgres_listen_addresses:
   - localhost
 
+postgres_shared_preload_libraries:
+  - pg_stat_statements
+  - wal2json
+
 postgresql_global_config_options:
   - option: listen_addresses
     value: "{{ postgres_listen_addresses | join(',') }}"
+  - option: shared_preload_libraries
+    value: "{{ postgres_shared_preload_libraries | join(',') }}"
   - option: include_dir
     value: "conf.d"
 

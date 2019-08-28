@@ -35,3 +35,8 @@
 - import_tasks: fix_template_encoding.yml
   tags: template_encoding
 
+- name: install wal2json module
+  include_role:
+    name: libre_ops.wal2json
+  vars:
+    wal2json_set_preload_libraries: false

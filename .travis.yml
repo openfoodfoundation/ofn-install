@@ -6,6 +6,8 @@ language: python
 python: "2.7"
 services:
   - postgresql
+addons:
+  postgresql: "9.5"
 
 env:
   - task: LINT
@@ -14,7 +16,9 @@ env:
 before_install:
   - |
     if [ "${task}" == "BUILD" ]; then
-      # Remove extra postgres sources from travis
+      # Remove extra postgres versions from travis
+      sudo systemctl postgresql stop
+      sudo apt remove --purge postgresql-9.4* postgresql-9.6* postgresql-10*
       sudo rm -f /etc/apt/sources.list.d/pgdg.list
       # Remove RVM from travis
       rvm implode --force
