@@ -1,6 +1,7 @@
 ---
 
 domain: staging2.openfoodnetwork.com.au
+host_id: au-staging
 rails_env: staging
 
 admin_email:

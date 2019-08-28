@@ -1,5 +1,6 @@
 ---
 domain: www.openfoodnetwork.org.za
+host_id: za-prod
 rails_env: production
 
 mail_domain: openfoodnetwork.org.za

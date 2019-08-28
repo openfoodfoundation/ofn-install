@@ -1,6 +1,7 @@
 ---
 
 domain: staging.openfoodfrance.org
+host_id: fr-staging
 rails_env: staging
 
 admin_email: admin@openfoodfrance.org

@@ -1,6 +1,7 @@
 ---
 
 domain: staging.openfoodnetwork.org.au
+host_id: au-staging
 rails_env: staging
 
 admin_email: maikel@openfoodnetwork.org.au

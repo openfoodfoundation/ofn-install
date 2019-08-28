@@ -8,7 +8,7 @@
       hostname: "{{ inventory_hostname }}"
       tags:
         - "env:{{ rails_env }}"
-        - "host-id:{{ ansible_limit }}"
+        - "host-id:{{ host_id | default(ansible_limit) }}"
       logs_enabled: true
       apm_enabled: "{{ enable_rails_apm | default('false') }}"
     datadog_config_ex:

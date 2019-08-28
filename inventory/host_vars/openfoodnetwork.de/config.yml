@@ -1,5 +1,6 @@
 ---
 domain: openfoodnetwork.de
+host_id: de-prod
 rails_env: production
 admin_email: admin@openfoodfoundation.org
 
