@@ -1,0 +1,33 @@
+---
+- name: get agent PID
+  shell: "set -o pipefail && ps -ef | grep -v grep | grep -w skylightd | awk '{print $2}'"
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: skylight_agent_pid
+  changed_when: false
+  become: yes
+
+- name: kill agent
+  command: "kill {{ skylight_agent_pid.stdout }}"
+  when: skylight_agent_pid.stdout | length > 0
+  become: yes
+
+- name: wait for process to die
+  wait_for:
+    path: "/proc/{{ skylight_agent_pid.stdout }}/status"
+    state: absent
+  with_items: "{{ skylight_agent_pid.stdout }}"
+  become: yes
+  ignore_errors: yes
+  register: result
+
+- name: force kill stuck process
+  command: "kill -9 {{ skylight_agent_pid.stdout }}"
+  when: result is failed
+  become: yes
+
+- name: remove log file
+  file:
+    state: absent
+    path: "{{ app_path }}/current/log/skylight.log"

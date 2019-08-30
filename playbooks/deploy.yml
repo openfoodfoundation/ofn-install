@@ -15,6 +15,9 @@
 
       - meta: flush_handlers # Ensure handlers run successfully before reporting success
 
+      - include_role:
+          name: skylight_uninstaller
+
       - name: Notify Slack of successful deployment
         slack:
           token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
