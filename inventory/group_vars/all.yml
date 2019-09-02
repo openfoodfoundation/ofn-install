@@ -135,10 +135,9 @@ logrotate_applications:
       - logs:
           - "{{ current_path }}/log/*.log"
         options:
-          - daily         # rotate daily
-          - rotate 14     # delete logs older than 14 rotations
+          - weekly        # rotate weekly
+          - rotate 4     # delete logs older than 4 rotations
           - compress      # compress rotated logs
-          - delaycompress # wait a day before compressing last rotated log
           - missingok     # ignore missing logs
           - notifempty    # don't rotate if empty
           - copytruncate  # copy the log, then empty the active logfile
