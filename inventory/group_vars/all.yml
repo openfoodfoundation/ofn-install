@@ -127,6 +127,33 @@ l10n_path: "{{ shared_path }}/l10n"
 
 
 #----------------------------------------------------------------------
+# Logrotate options
+
+logrotate_applications:
+  - name: rails
+    definitions:
+      - logs:
+          - "{{ current_path }}/log/*.log"
+        options:
+          - weekly        # rotate weekly
+          - rotate 4     # delete logs older than 4 rotations
+          - compress      # compress rotated logs
+          - missingok     # ignore missing logs
+          - notifempty    # don't rotate if empty
+          - copytruncate  # copy the log, then empty the active logfile
+
+  - name: postgres_queries
+    definitions:
+      - logs:
+          - "/var/log/pg_log/*.log"
+        options:
+          - daily         # run daily
+          - rotate 0      # don't rotate files
+          - nocreate      # don't replace log files
+        lastaction:       # delete log files older than 1 day
+          - "find /var/log/pg_log/ -name '*.log' -mtime +1 -exec rm {};"
+
+#----------------------------------------------------------------------
 # Unicorn variables
 # User name for the unprivileged user which runs unicorn
 unicorn_user: openfoodnetwork
