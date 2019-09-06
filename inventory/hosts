@@ -155,6 +155,15 @@ ca-prod
 us-prod
 
 #------------------------------------------------------------------------------
+# Production Servers
+
+[all-prod:children]
+europe
+america
+au-prod
+za-prod
+
+#------------------------------------------------------------------------------
 # All
 
 [ofn_servers:children]
