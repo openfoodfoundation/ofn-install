@@ -30,7 +30,7 @@
 
 - name: download and extract nginx source
   unarchive:
-    src: "http://nginx.org/download/nginx-{{ installed_nginx_version }}.tar.gz"
+    src: "https://nginx.org/download/nginx-{{ installed_nginx_version }}.tar.gz"
     dest: "{{ nginx_src_path }}"
     remote_src: yes
   become: yes
