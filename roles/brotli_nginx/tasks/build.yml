@@ -14,13 +14,13 @@
   become: yes
 
 - name: register nginx version
-  command: nginx -v
-  register: nginx_version_raw
+  command: bash -c "nginx -v 2>&1 | grep -o '[0-9.]*'"
+  register: nginx_version_register
   changed_when: False
 
-- name: parse nginx version
+- name: set installed nginx version
   set_fact:
-    installed_nginx_version: "{{ nginx_version_raw.stderr.split('nginx/')[1] }}"
+    installed_nginx_version: "{{ nginx_version_register.stdout }}"
 
 - name: create nginx source directory
   file:
@@ -30,7 +30,7 @@
 
 - name: download and extract nginx source
   unarchive:
-    src: "http://nginx.org/download/nginx-{{ installed_nginx_version }}.tar.gz"
+    src: "https://nginx.org/download/nginx-{{ installed_nginx_version }}.tar.gz"
     dest: "{{ nginx_src_path }}"
     remote_src: yes
   become: yes
