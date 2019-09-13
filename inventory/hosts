@@ -164,6 +164,14 @@ au-prod
 za-prod
 
 #------------------------------------------------------------------------------
+# Staging Servers
+
+[active-staging:children]
+uk-staging
+es-staging
+fr-staging
+
+#------------------------------------------------------------------------------
 # All
 
 [ofn_servers:children]
