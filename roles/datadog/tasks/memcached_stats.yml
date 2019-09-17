@@ -1,0 +1,11 @@
+---
+
+- name: enable datadog memcached integration
+  template:
+    src: dd-memcached.j2
+    dest: /etc/datadog-agent/conf.d/mcache.d/conf.yaml
+    owner: 'dd-agent'
+    group: 'dd-agent'
+    mode: 0644
+  become: true
+  notify: restart datadog-agent
