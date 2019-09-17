@@ -1,0 +1,22 @@
+---
+
+- name: prompt for username
+  pause:
+    prompt: "Username for 'https://github.com'"
+  register: prompt
+  no_log: yes
+
+- name: store username
+  set_fact:
+    secrets_user: "{{ prompt.user_input }}"
+
+- name: prompt for password
+  pause:
+    prompt: "Password for 'https://github.com'"
+    echo: no
+  register: prompt
+  no_log: yes
+
+- name: store password
+  set_fact:
+    secrets_password: "{{ prompt.user_input }}"
