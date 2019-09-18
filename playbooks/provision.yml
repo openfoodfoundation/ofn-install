@@ -1,4 +1,18 @@
 ---
+
+- name: fetch secrets
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: update local secrets files
+      include_role:
+        name: fetch_secrets
+        apply:
+          delegate_to: 127.0.0.1
+      when: ( fetch_ofn_secrets is defined or lookup('env','FETCH_OFN_SECRETS') == 'TRUE' ) and inventory_hostname not in groups['local']
+      run_once: true
+
 - name: provision
   hosts: ofn_servers
   remote_user: "{{ user }}"

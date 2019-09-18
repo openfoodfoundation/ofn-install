@@ -1,0 +1,25 @@
+---
+
+- name: fetch ofn-secrets
+  git:
+    repo: "git@github.com:openfoodfoundation/ofn-secrets"
+    dest: "/tmp/ofn-secrets"
+    version: master
+    depth: 1
+
+- name: register list of secrets files
+  find:
+    paths: "/tmp/ofn-secrets"
+    file_type: directory
+  register: fetched_secrets
+
+- name: add secrets to host_vars
+  include_tasks: update_secrets.yml
+  loop: "{{ fetched_secrets.files }}"
+  loop_control:
+    loop_var: secrets_host_path
+
+- name: remove temporary files
+  file:
+    dest: "/tmp/ofn-secrets"
+    state: absent
