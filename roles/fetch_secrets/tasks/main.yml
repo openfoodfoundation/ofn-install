@@ -1,11 +1,8 @@
 ---
 
-- name: prompt for github credentials
-  include_tasks: login_prompt.yml
-
 - name: fetch ofn-secrets
   git:
-    repo: "https://{{ secrets_user | urlencode }}:{{ secrets_password | urlencode }}@github.com/openfoodfoundation/ofn-secrets.git"
+    repo: "git@github.com:openfoodfoundation/ofn-secrets"
     dest: "/tmp/ofn-secrets"
     version: master
     depth: 1
