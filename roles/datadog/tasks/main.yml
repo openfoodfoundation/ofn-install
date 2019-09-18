@@ -24,6 +24,10 @@
   import_tasks: nginx_stats.yml
   when: datadog_key is defined
 
+- name: set up memcached stats collection
+  import_tasks: memcached_stats.yml
+  when: datadog_key is defined
+
 - name: disable datadog agent
   service:
     name: datadog-agent

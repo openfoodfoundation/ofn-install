@@ -1,0 +1,12 @@
+---
+
+init_config:
+
+instances:
+  - url: localhost
+    tags:
+      - "host:{{ inventory_hostname }}"
+
+    options:
+      items: true
+      slabs: true
