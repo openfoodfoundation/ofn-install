@@ -42,7 +42,7 @@
   register: deploy_ruby_version
   become: yes
 
-- name: use ruby {{ deploy_ruby_version['content'] | b64decode | trim }}
+- name: use ruby {{ deploy_ruby_version['content'] | b64decode | trim }} # noqa 301
   shell: bash -lc "{{ unicorn_home_path }}/.rbenv/bin/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
   become: yes
   become_user: "{{ unicorn_user }}"
