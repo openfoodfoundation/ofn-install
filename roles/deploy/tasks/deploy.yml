@@ -34,6 +34,19 @@
     - { src: "{{ l10n_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
   tags: symlink
 
+# Ensure the correct Ruby version is activated for this build
+
+- name: register ruby version in new build
+  slurp:
+    src: "{{ build_path }}/.ruby-version"
+  register: deploy_ruby_version
+  become: yes
+
+- name: use ruby {{ deploy_ruby_version['content'] | b64decode | trim }}
+  shell: bash -lc "{{ unicorn_home_path }}/.rbenv/bin/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+
 # Install bundler and gems
 
 - name: install bundler

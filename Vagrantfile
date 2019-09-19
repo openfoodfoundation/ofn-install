@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   config.vm.provider :virtualbox do |vbox|
-    config.vm.box = "ubuntu/bionic64"
+    config.vm.box = "ubuntu/xenial64"
 
     # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "2500"]
@@ -32,5 +32,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.ssh.insert_key = false
   end
-
 end
