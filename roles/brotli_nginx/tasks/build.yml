@@ -1,12 +1,5 @@
 ---
 
-- name: ensure official nginx repo
-  include_role:
-    name: jdauphant.nginx
-    tasks_from: nginx-official-repo.yml
-    apply:
-      become: yes
-
 - name: install build dependencies
   apt:
     name: "{{ nginx_brotli_build_deps }}"
