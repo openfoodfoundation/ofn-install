@@ -53,7 +53,6 @@ https://github.com/openfoodfoundation/openfoodnetwork/wiki/Bug-severity
 * Version used:
 * Browser name and version:
 * Operating System and version (desktop or mobile):
-* OFN Platform instance where you discovered the bug, and which version of the software they are using. 
 
 ## Possible Fix
 <!-- Not obligatory, but suggest a fix or reason for the bug -->
