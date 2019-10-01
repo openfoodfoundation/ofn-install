@@ -10,7 +10,8 @@
         - "env:{{ rails_env }}"
         - "host-id:{{ host_id | default(ansible_limit) }}"
       logs_enabled: true
-      apm_enabled: "{{ enable_rails_apm | default('false') }}"
+      apm_config:
+        enabled: "{{ enable_rails_apm | default('false') }}"
     datadog_config_ex:
       trace.config:
         env: "{{ rails_env }}"
