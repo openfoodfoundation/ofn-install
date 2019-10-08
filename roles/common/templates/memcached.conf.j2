@@ -47,4 +47,4 @@ logfile /var/log/memcached.log
 -t 6
 
 # Increase max of size of cache entries # 10M will contain around 2k products
--I 4M
+-I {{ memcached_value_max_megabytes }}M
