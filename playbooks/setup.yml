@@ -1,4 +1,9 @@
---- # Playbook for the initial setup of a new server before installing main packages
+---
+# Playbook for the initial setup of a new server before installing main packages.
+
+# AWS ubuntu images generally have a default user (ubuntu) and wont let this be run as root.
+# Use: `ansible-playbook playbooks/setup.yml -e "ansible_user=ubuntu" --limit <server_tag>` if
+# provisioning an EC2 instance for the first time (this only needs to be run once).
 
 # Ensure python is set up and accessible on the server before starting (ansible requires python2.7)
 - name: python check
@@ -11,8 +16,7 @@
       raw: apt-get update -qq && apt-get install -qq python2.7
       tags: skip_ansible_lint
 
-# Add the default user and ssh keys as root. AWS ubuntu images generally have a
-# default user (ubuntu) and wont let this be run as root. But digital ocean images don't.
+# Add the default user and ssh keys as root
 - name: set up default_user
   hosts: ofn_servers
   remote_user: root
