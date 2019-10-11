@@ -56,6 +56,15 @@ www.openfoodnetwork.in
 in-prod
 
 #------------------------------------------------------------------------------
+# Italy
+
+[it-staging]
+staging.pixelwise.it
+
+[it:children]
+it-staging
+
+#------------------------------------------------------------------------------
 # UK
 
 [uk-prod]
@@ -180,6 +189,7 @@ au
 ca
 ie
 in
+it
 uk
 us
 es
