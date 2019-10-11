@@ -38,15 +38,6 @@ openfoodnetwork.ca ansible_host=68.183.204.127
 ca-prod
 
 #------------------------------------------------------------------------------
-# Ireland
-
-[ie-prod]
-openfoodireland.eu
-
-[ie:children]
-ie-prod
-
-#------------------------------------------------------------------------------
 # India
 
 [in-prod]
@@ -178,7 +169,6 @@ es-staging
 local
 au
 ca
-ie
 in
 uk
 us
