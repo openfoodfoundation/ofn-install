@@ -164,6 +164,9 @@ unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
 unicorn_workers: 2
 unicorn_timeout: 30
 
+#----------------------------------------------------------------------
+# Memcached variables
+memcached_value_max_megabytes: 4
 
 #----------------------------------------------------------------------
 # Core devs: users named here will have SSH access on all instances
