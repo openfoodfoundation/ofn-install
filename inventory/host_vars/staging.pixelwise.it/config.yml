@@ -1,0 +1,8 @@
+---
+
+domain: staging.pixelwise.it
+rails_env: staging
+
+admin_email: admin@staging.pixelwise.it
+
+mail_domain: pixelwise.it

@@ -1,0 +1,20 @@
+---
+
+checkout_zone: Europe
+country_code: IT
+currency: EUR
+locale: it                  # Default locale for OFN instance
+available_locales: it,en    # Available locales for OFN instance
+language: it_IT.UTF-8       # Default language for the server
+language_packages:          # Language packages for the server
+  - language-pack-it-base
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_it
+timezone: Rome
+
+developer_email: admin@openfoodnetwork.org.it
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - giova
+  - dina
