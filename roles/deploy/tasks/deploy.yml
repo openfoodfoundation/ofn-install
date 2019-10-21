@@ -59,9 +59,11 @@
   changed_when: bundler.stdout | length > 0
 
 - name: bundle install app dependencies
-  #TODO make the "--without development" part conditional on rails_env
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
-  command: bash -lc "bundle install --gemfile {{ build_path }}/Gemfile --path /home/{{ unicorn_user }}/.gem --deployment" #--without development test"
+  command: >
+    bash -lc "bundle install
+    --gemfile {{ build_path }}/Gemfile --path /home/{{ unicorn_user }}/.gem
+    --deployment {{ '--without development test' if rails_env == 'production' else '' }}"
   environment:
     LANG: "{{ language }}"
     LC_ALL: "{{ language }}"
