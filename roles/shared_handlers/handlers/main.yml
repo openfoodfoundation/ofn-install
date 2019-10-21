@@ -1,6 +1,6 @@
 # This role holds reusable handlers that can be included in multiple playbooks to keep things DRY
 - name: precompile assets
-  command: bash -lc "bundle exec rake assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  command: bash -lc "bundle exec rake assets:clean assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
   args:
     chdir: "{{ current_path }}"
   become: yes
