@@ -72,8 +72,8 @@ postgres_encoding: en_US.utf8
 # to the defaults if present. Make sure you use the "list" notation with the dashes!
 
 default_hba_entries:
-  - {type: local, database: replication, user: "{{ db_user }}", auth_method: trust}
-  - {type: host, database: replication, user: "{{ db_user }}", address: '127.0.0.1/32', auth_method: trust}
+  - {type: local, database: replication, user: ofn_data, auth_method: md5}
+  - {type: host, database: replication, user: ofn_data, address: '127.0.0.1/32', auth_method: md5}
   - {type: local, database: all, user: postgres, auth_method: peer}
   - {type: local, database: all, user: all, auth_method: peer}
   - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
@@ -98,6 +98,7 @@ postgresql_global_config_options:
   - option: include_dir
     value: "conf.d"
 
+debezium_version: "0.10.0.Final"
 
 #----------------------------------------------------------------------
 # App variables
