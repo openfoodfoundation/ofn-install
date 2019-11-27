@@ -52,6 +52,11 @@ swapfile_size: false
 #----------------------------------------------------------------------
 # Rails variables
 ruby_version: 2.3.7
+
+ruby_versions:
+  - version: 2.2.10
+  - version: 2.3.7
+
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
