@@ -5,3 +5,5 @@ rails_env: staging
 admin_email: info@coopdevs.org
 
 mail_domain: katuma.org
+
+disable_datadog: true
