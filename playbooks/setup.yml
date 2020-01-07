@@ -9,7 +9,8 @@
 - name: python check
   hosts: ofn_servers
   gather_facts: no
-  remote_user: root
+  # Changed while using AWS services
+  remote_user: ubuntu
   tasks:
     - name: Install python 2.7
       become: yes
@@ -19,7 +20,8 @@
 # Add the default user and ssh keys as root
 - name: set up default_user
   hosts: ofn_servers
-  remote_user: root
+  # Changed while using AWS services
+  remote_user: ubuntu
   roles:
     - role: default_user
       become: yes

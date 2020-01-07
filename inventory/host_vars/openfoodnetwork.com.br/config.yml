@@ -1,0 +1,15 @@
+---
+
+domain: openfoodnetwork.com.br
+rails_env: production
+
+admin_email: frattezi@tremtec.com
+
+mail_domain: openfoodnetwork.com.br
+
+swapfile_size: 2G
+unicorn_timeout: 120
+
+certbot_domains:
+  - openfoodnetwork.com.br
+  - www.openfoodnetwork.com.br
