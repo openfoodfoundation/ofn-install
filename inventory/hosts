@@ -141,7 +141,7 @@ za-prod
 # Brazil
 
 [br-prod]
-openfoodnetwork.com.br ansible_host=52.203.235.131
+openfoodbrasil.com.br ansible_host=52.20.5.42
 
 [br:children]
 br-prod

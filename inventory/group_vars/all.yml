@@ -16,7 +16,7 @@ deployment_user: ofn-deploy
 ssh_pubkey: "{{ lookup('file', '~/.ssh/{{ ssh_pubkey_name }}') }}"
 
 # You can paste the repo/branch straight from a github PR here, like: "Contributor22:new_feature"
-github_key: openfoodfoundation:master
+github_key: openfoodbrazil:master
 
 git_repo: "https://github.com/{{ github_key.split(':')[0] }}/openfoodnetwork.git"
 git_version: "{{ github_key.split(':')[1] }}"
