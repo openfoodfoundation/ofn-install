@@ -33,6 +33,9 @@ S3_SECRET: {{ s3_secret }}
 {% if s3_region is defined %}
 S3_REGION: {{ s3_region }}
 {% endif %}
+{% if s3_backups_region is defined %}
+S3_BACKUPS_REGION: {{ s3_backups_region }}
+{% endif %}
 {% if s3_backups_bucket is defined %}
 S3_BACKUPS_BUCKET: {{ s3_backups_bucket }}
 {% endif %}
