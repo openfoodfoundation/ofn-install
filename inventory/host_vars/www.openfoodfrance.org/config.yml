@@ -11,6 +11,10 @@ mail_domain: openfoodfrance.org
 unicorn_timeout: 240
 unicorn_workers: 4
 
+certbot_domains:
+  - www.openfoodfrance.org
+  - openfoodfrance.org
+
 postgres_listen_addresses:
   - '*'
 
