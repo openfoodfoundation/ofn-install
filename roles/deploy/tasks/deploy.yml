@@ -87,7 +87,7 @@
 - name: load schema if it isn't loaded
   command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }} I_AM_SURE=1"
   args:
-    chdir: "{{ current_path }}"
+    chdir: "{{ build_path }}"
   when: table_exists.stdout.find('0 rows') != -1
   tags:
     - rake
@@ -96,7 +96,7 @@
 - name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
   args:
-    chdir: "{{ current_path }}"
+    chdir: "{{ build_path }}"
   tags:
     - rake
     - skip_ansible_lint
@@ -107,7 +107,7 @@
 - name: seed database
   command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
   args:
-    chdir: "{{ current_path }}"
+    chdir: "{{ build_path }}"
   tags:
     - seed
     - skip_ansible_lint
@@ -128,7 +128,7 @@
   command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
   changed_when: True
   args:
-    chdir: "{{ current_path }}"
+    chdir: "{{ build_path }}"
 
 # Move new build into place
 
