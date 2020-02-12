@@ -109,21 +109,6 @@
     - skip_ansible_lint
   notify: restart unicorn
 
-# Restart and update
-
-- name: restart delayed job service
-  service:
-    name: delayed_job_{{ app }}
-    state: restarted
-  become: yes
-  become_user: root
-
-- name: update whenever
-  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
-  changed_when: True
-  args:
-    chdir: "{{ build_path }}"
-
 # Precompile assets
 
 - name: precompile assets
@@ -153,3 +138,18 @@
   args:
     removes: "{{ build_path }}"
   changed_when: True
+
+# Restart and update
+
+- name: restart delayed job service
+  service:
+    name: delayed_job_{{ app }}
+    state: restarted
+  become: yes
+  become_user: root
+
+- name: update whenever
+  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
+  changed_when: True
+  args:
+    chdir: "{{ current_path }}"
