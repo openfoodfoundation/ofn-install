@@ -1,18 +1,4 @@
 # This role holds reusable handlers that can be included in multiple playbooks to keep things DRY
-- name: precompile assets
-  command: bash -lc "bundle exec rake assets:clean assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ current_path }}"
-  become: yes
-  become_user: "{{ unicorn_user }}"
-  notify: precompile nondigest assets
-
-- name: precompile nondigest assets
-  command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ current_path }}"
-  become: yes
-  become_user: "{{ unicorn_user }}"
 
 - name: restart unicorn
   service:
