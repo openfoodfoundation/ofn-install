@@ -8,4 +8,4 @@ admin_email: dev.ofnuk@gmail.com
 
 unicorn_timeout: 120
 
-enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
+disable_datadog: true
