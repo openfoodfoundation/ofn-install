@@ -135,7 +135,7 @@
 - name: precompile assets
   command: bash -lc "bundle exec rake assets:clean assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
   args:
-    chdir: "{{ current_path }}"
+    chdir: "{{ build_path }}"
   become: yes
   become_user: "{{ unicorn_user }}"
   notify: precompile nondigest assets
@@ -143,7 +143,7 @@
 - name: precompile nondigest assets
   command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
   args:
-    chdir: "{{ current_path }}"
+    chdir: "{{ build_path }}"
   become: yes
   become_user: "{{ unicorn_user }}"
 
