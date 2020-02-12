@@ -75,20 +75,6 @@
     - precompile assets
     - restart unicorn
 
-# Move new build into place
-
-- name: remove the current build
-  file:
-    dest: "{{ current_path }}"
-    state: absent
-  tags: clone
-
-- name: move build to current
-  command: mv {{ build_path }} {{ current_path }}
-  args:
-    removes: "{{ build_path }}"
-  changed_when: True
-
 # Update the database
 
 - name: check database status
@@ -143,3 +129,17 @@
   changed_when: True
   args:
     chdir: "{{ current_path }}"
+
+# Move new build into place
+
+- name: remove the current build
+  file:
+    dest: "{{ current_path }}"
+    state: absent
+  tags: clone
+
+- name: move build to current
+  command: mv {{ build_path }} {{ current_path }}
+  args:
+    removes: "{{ build_path }}"
+  changed_when: True
