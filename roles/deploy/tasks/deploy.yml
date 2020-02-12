@@ -71,9 +71,7 @@
   tags:
     - bundle_app
     - skip_ansible_lint
-  notify:
-    - precompile assets
-    - restart unicorn
+  notify: restart unicorn
 
 # Update the database
 
@@ -100,9 +98,7 @@
   tags:
     - rake
     - skip_ansible_lint
-  notify:
-    - precompile assets
-    - restart unicorn
+  notify: restart unicorn
 
 - name: seed database
   command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
@@ -111,9 +107,7 @@
   tags:
     - seed
     - skip_ansible_lint
-  notify:
-    - precompile assets
-    - restart unicorn
+  notify: restart unicorn
 
 # Restart and update
 
@@ -138,7 +132,6 @@
     chdir: "{{ build_path }}"
   become: yes
   become_user: "{{ unicorn_user }}"
-  notify: precompile nondigest assets
 
 - name: precompile nondigest assets
   command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
