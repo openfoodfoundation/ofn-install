@@ -71,9 +71,59 @@
   tags:
     - bundle_app
     - skip_ansible_lint
-  notify:
-    - precompile assets
-    - restart unicorn
+  notify: restart unicorn
+
+# Update the database
+
+- name: check database status
+  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
+  register: table_exists
+  ignore_errors: yes
+  changed_when: False
+  tags: rake
+
+- name: load schema if it isn't loaded
+  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }} I_AM_SURE=1"
+  args:
+    chdir: "{{ build_path }}"
+  when: table_exists.stdout.find('0 rows') != -1
+  tags:
+    - rake
+    - skip_ansible_lint
+
+- name: migrate database
+  command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  tags:
+    - rake
+    - skip_ansible_lint
+  notify: restart unicorn
+
+- name: seed database
+  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  tags:
+    - seed
+    - skip_ansible_lint
+  notify: restart unicorn
+
+# Precompile assets
+
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:clean assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+
+- name: precompile nondigest assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
 
 # Move new build into place
 
@@ -88,46 +138,6 @@
   args:
     removes: "{{ build_path }}"
   changed_when: True
-
-# Update the database
-
-- name: check database status
-  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
-  register: table_exists
-  ignore_errors: yes
-  changed_when: False
-  tags: rake
-
-- name: load schema if it isn't loaded
-  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }} I_AM_SURE=1"
-  args:
-    chdir: "{{ current_path }}"
-  when: table_exists.stdout.find('0 rows') != -1
-  tags:
-    - rake
-    - skip_ansible_lint
-
-- name: migrate database
-  command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ current_path }}"
-  tags:
-    - rake
-    - skip_ansible_lint
-  notify:
-    - precompile assets
-    - restart unicorn
-
-- name: seed database
-  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ current_path }}"
-  tags:
-    - seed
-    - skip_ansible_lint
-  notify:
-    - precompile assets
-    - restart unicorn
 
 # Restart and update
 
