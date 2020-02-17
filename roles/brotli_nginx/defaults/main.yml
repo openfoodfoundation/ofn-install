@@ -10,6 +10,8 @@ nginx_brotli_build_deps:
   - dpkg-dev
   - build-essential
   - git
+  - libgd-dev
+  - libgeoip-dev
   - libpcre3
   - libpcre3-dev
   - zlib1g
