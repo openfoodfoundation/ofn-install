@@ -1,0 +1,15 @@
+---
+
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:clean assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+
+- name: precompile nondigest assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
