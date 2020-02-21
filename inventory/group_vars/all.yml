@@ -54,7 +54,6 @@ swapfile_size: false
 ruby_version: 2.3.7
 
 ruby_versions:
-  - version: 2.2.10
   - version: 2.3.7
 
 env:
