@@ -251,11 +251,11 @@ nginx_sites:
       add_header X-Xss-Protection "1; mode=block" always;
 
       gzip on;
-      gzip_types text/html text/css text/javascript text/plain application/javascript application/x-javascript application/json;
+      gzip_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
       gzip_disable "msie6";
 
       brotli on;
-      brotli_types text/html text/css text/javascript text/plain application/javascript application/x-javascript application/json;
+      brotli_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
 
       try_files $uri/index.html $uri @unicorn;
       location @unicorn {
