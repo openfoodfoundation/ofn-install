@@ -13,7 +13,7 @@ mail_domain: openfoodnetwork.org
 certbot_domains:
   - openfoodnetwork.org.au
   - www.openfoodnetwork.org.au
-  - prod2.openfoodnetwork.org.au
+  - prod3.openfoodnetwork.org.au
 
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
