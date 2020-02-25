@@ -9,7 +9,7 @@
   version: v2.8.1
 
 - src: coopdevs.certbot_nginx
-  version: 0.0.4
+  version: v0.1.0
 
 - src: oefenweb.swapfile
   version: v2.0.14
