@@ -19,5 +19,3 @@ mail_host: 'example.com'
 mail_port: 25
 smtp_username: 'admin'
 smtp_password: 'password'
-
-git_version: pull-request-4869 # Rails 4 deployment testing

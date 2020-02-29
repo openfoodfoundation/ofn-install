@@ -17,3 +17,7 @@
       file:
         path: "{{ shared_path }}/spree/products/123/test.png"
         state: touch
+
+    - name: Deploy Rails 4 on top of Rails 3...
+      set_fact:
+        git_version: pull-request-4869 # Rails 4 deployment testing
