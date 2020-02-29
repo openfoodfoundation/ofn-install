@@ -46,5 +46,5 @@ script:
     fi
   - |
     if [ "${task}" == "BUILD" ]; then
-      ansible-playbook tests/suite.yml --limit travis --connection local
+      ansible-playbook tests/suite.yml --limit travis -vv --connection local
     fi
