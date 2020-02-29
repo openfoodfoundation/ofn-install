@@ -4,6 +4,16 @@
   remote_user: "{{ user }}"
 
   tasks:
+    - name: test | deploy | expect homepage to contain 'Open Food Network'
+      uri:
+        url: http://localhost
+        method: GET
+        status_code: 200
+        return_content: yes
+        validate_certs: False
+      register: homepage_test_rails4
+      failed_when: homepage_test_rails4.content.find('Open Food Network') == -1
+
     - name: test | deploy | expect rollback to exist, and contain app files
       stat:
         path: "{{ rollback_path }}/app/"
