@@ -160,6 +160,7 @@ us-prod
 [all-prod:children]
 europe
 america
+au-prod
 
 #------------------------------------------------------------------------------
 # Staging Servers
