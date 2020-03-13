@@ -1,0 +1,39 @@
+---
+
+- name: check rails version in Gemfile
+  shell: |
+    grep -x -m 1 -F "gem 'rails', '~> 3.2.22'" Gemfile
+  args:
+    chdir: "{{ build_path }}"
+    executable: /bin/bash
+  changed_when: False
+  ignore_errors: yes
+  register: check_rails_3
+
+# Precompile assets in Rails 3
+
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:clean assets:precompile:primary RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+  when: check_rails_3 is success
+
+- name: precompile nondigest assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile:nondigest RAILS_GROUPS=assets RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+  when: check_rails_3 is success
+
+# Precompile assets in Rails 4
+
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+  when: check_rails_3 is failure
