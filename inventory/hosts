@@ -7,12 +7,16 @@ local_vagrant ansible_host=127.0.0.1 ansible_user=vagrant ansible_port=2222 ansi
 [lxc]
 ofn.local
 
+[lexi]
+local_lexi ansible_host=10.10.100.10 ansible_ssh_common_args='-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR'
+
 [travis]
 local_travis
 
 [local:children]
 vagrant
 lxc
+lexi
 travis
 
 #------------------------------------------------------------------------------
