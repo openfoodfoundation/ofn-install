@@ -1,0 +1,5 @@
+# Lexi container config
+container: ofn-install
+image: ubuntu:16.04
+default_user: ofn-admin
+container_ip: 10.10.100.10

@@ -1,0 +1,17 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Australia
+country_code: AU
+currency: AUD
+locale: en
+language: en_AU.UTF-8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_au.git
+timezone: Melbourne
+
+developer_email: admin@example.com
+
+users_sysadmin:
+  - "{{ core_devs }}"
