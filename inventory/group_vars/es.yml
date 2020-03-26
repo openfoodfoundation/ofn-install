@@ -4,7 +4,7 @@ checkout_zone: Europe
 country_code: ES
 currency: EUR
 locale: es
-available_locales: es,ca,pt,it
+available_locales: es,ca,pt,it,fr,en
 language: es_ES.UTF-8
 language_packages:
   - language-pack-es-base
