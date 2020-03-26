@@ -5,5 +5,7 @@
     src: "{{ local_asset_path }}/{{ migrate_dir }}"
     dest: "{{ dest_path }}/"
     mode: push
+    rsync_opts:
+      - "--chown={{ unicorn_user }}:{{ unicorn_user }}"
   become: yes
   become_user: "{{ unicorn_user }}"
