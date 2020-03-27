@@ -7,5 +7,3 @@ rails_env: staging
 admin_email: dev.ofnuk@gmail.com
 
 unicorn_timeout: 120
-
-disable_datadog: true
