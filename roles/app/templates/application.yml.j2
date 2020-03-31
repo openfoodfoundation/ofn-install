@@ -51,5 +51,8 @@ STRIPE_ENDPOINT_SECRET: {{ stripe_endpoint_secret }}
 {% if bugsnag_key is defined %}
 BUGSNAG_API_KEY: {{ bugsnag_key }}
 {% endif %}
+{% if bugsnag_js_key is defined %}
+BUGSNAG_JS_KEY: {{ bugsnag_js_key }}
+{% endif %}
 
 {{ custom_application_env_vars | default('') }}
