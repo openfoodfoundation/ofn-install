@@ -35,8 +35,7 @@ before_install:
     fi
 
 install:
-  - pip install 'ansible==2.9.6'
-  - pip install 'ansible-lint==4.1.0'
+  - pip install -r requirements.txt
 
 script:
   - bin/setup

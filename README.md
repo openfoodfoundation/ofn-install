@@ -10,6 +10,8 @@ Start with our [deployment tutorial](https://github.com/openfoodfoundation/ofn-i
 
 ## Playbooks
 
+These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 (64 bit) LTS** on AWS, DigitalOcean and Scaleway cloud servers.
+
 The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook. Make also sure to include your host's secrets file.
 
 These are the main playbooks:
@@ -25,18 +27,33 @@ You may want to use the [anisble option "checkrun"](http://docs.ansible.com/play
 
 ## Requirements
 
-You will need Ansible on your machine to run the playbooks.
-These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 (64 bit) LTS** on AWS, DigitalOcean and Scaleway cloud servers.
+You will need to install Ansible, alongside other dependencies, on your machine to run the playbooks. You can do so with:
 
+```
+pip install -r requirements.txt
+```
+
+Before that, it's recommended you set up your Python environment using [Pyenv](https://github.com/pyenv/pyenv).
+
+In that case, you need to:
+
+* Install and configure [pyenv](https://github.com/pyenv/pyenv)
+* Install and configure [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+* Install the required Python version:
+
+```
+$ pyenv install 3.8.2
+```
+
+* Create the virtualenv:
+
+```
+$ pyenv virtualenv 3.8.2 ofn-install
+```
 
 ## Code quality
 
-Install [ansible-lint](https://github.com/willthames/ansible-lint) by running:
-```
-pip install ansible-lint
-```
-
-Run the checks using:
+Run the [ansible-lint](https://github.com/willthames/ansible-lint) checks using:
 ```
 ansible-lint site.yml --exclude=community
 ```
