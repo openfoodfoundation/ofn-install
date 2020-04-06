@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: {{ db }}
-  pool: 5
+  pool: {{ db_pool_max_size }}
   username: {{ db_user }}
   password: {{ db_password }}
   host: {{ db_host }}
@@ -11,7 +11,7 @@ staging:
   adapter: postgresql
   encoding: unicode
   database: {{ db }}
-  pool: 5
+  pool: {{ db_pool_max_size }}
   username: {{ db_user }}
   password: {{ db_password }}
   host: {{ db_host }}
@@ -20,7 +20,7 @@ test:
   adapter: postgresql
   encoding: unicode
   database: {{ db }}
-  pool: 5
+  pool: {{ db_pool_max_size }}
   username: {{ db_user }}
   password: {{ db_password }}
   host: {{ db_host }}
@@ -29,7 +29,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: {{ db }}
-  pool: 5
+  pool: {{ db_pool_max_size }}
   username: {{ db_user }}
   password: {{ db_password }}
   host: {{ db_host }}
