@@ -7,7 +7,7 @@ Description=Open Food Network unicorn server
 Type=forking
 User=openfoodnetwork
 WorkingDirectory={{ current_path }}
-Environment=RAILS_ENV={{ rails_env }}
+EnvironmentFile={{ shared_path }}/unicorn_environment
 
 {% if skylight_authentication is defined %}
   Environment=SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}

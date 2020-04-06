@@ -11,6 +11,7 @@
   with_items:
     - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}" }
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
+    - { src: "unicorn_environment.j2", dest: "{{ shared_path }}/unicorn_environment" }
     - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service" }
   register: init_scripts
   notify:
