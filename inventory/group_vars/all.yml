@@ -141,7 +141,19 @@ logrotate_applications:
           - "{{ current_path }}/log/*.log"
         options:
           - weekly        # rotate weekly
-          - rotate 4     # delete logs older than 4 rotations
+          - rotate 4      # delete logs older than 4 rotations
+          - compress      # compress rotated logs
+          - missingok     # ignore missing logs
+          - notifempty    # don't rotate if empty
+          - copytruncate  # copy the log, then empty the active logfile
+
+  - name: unicorn
+    definitions:
+      - logs:
+          - "{{ shared_path }}/log/unicorn.log"
+        options:
+          - weekly        # rotate weekly
+          - rotate 4      # delete logs older than 4 rotations
           - compress      # compress rotated logs
           - missingok     # ignore missing logs
           - notifempty    # don't rotate if empty
