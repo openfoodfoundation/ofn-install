@@ -180,6 +180,8 @@ unicorn_pid: "{{ pid_path }}/unicorn.pid"
 unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
 unicorn_workers: 2
 unicorn_timeout: 30
+unicorn_env_vars: |
+  KILL_UNICORNS=true
 
 #----------------------------------------------------------------------
 # Memcached variables

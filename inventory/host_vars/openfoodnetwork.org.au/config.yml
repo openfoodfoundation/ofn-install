@@ -33,3 +33,8 @@ custom_application_env_vars: |
   OFN_FEATURE_CONNECT_AND_LEARN: "true"
 
 enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
+
+unicorn_env_vars: |
+  KILL_UNICORNS=true
+  UWK_MEM_MIN=1900
+  UWK_MEM_MAX=2100
