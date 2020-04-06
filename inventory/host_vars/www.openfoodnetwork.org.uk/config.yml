@@ -7,8 +7,6 @@ rails_env: production
 unicorn_workers: 4
 unicorn_timeout: 720
 
-swapfile_size: 1G
-
 certbot_domains:
   - www.openfoodnetwork.org.uk
   - openfoodnetwork.org.uk
