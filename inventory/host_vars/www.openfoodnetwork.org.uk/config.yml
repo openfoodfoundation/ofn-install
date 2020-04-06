@@ -7,6 +7,8 @@ rails_env: production
 unicorn_workers: 4
 unicorn_timeout: 720
 
+db_pool_max_size: 10
+
 swapfile_size: 1G
 
 certbot_domains:
