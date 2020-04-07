@@ -5,3 +5,8 @@ rails_env: staging
 admin_email: info@coopdevs.org
 
 mail_domain: katuma.org
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - dani
+  - filipe
