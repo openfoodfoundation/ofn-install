@@ -71,7 +71,7 @@
   tags:
     - bundle_app
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: reload unicorn
 
 # Update the database
 
@@ -98,7 +98,7 @@
   tags:
     - rake
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: reload unicorn
 
 - name: seed database
   command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
@@ -107,7 +107,7 @@
   tags:
     - seed
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: reload unicorn
 
 # Precompile assets
 
