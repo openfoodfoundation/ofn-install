@@ -15,6 +15,7 @@
 
 - name: provision
   hosts: ofn_servers
+  strategy: free
   remote_user: "{{ user }}"
 
   pre_tasks:

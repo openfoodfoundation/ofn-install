@@ -1,6 +1,7 @@
 ---
 - name: deploy
   hosts: ofn_servers
+  strategy: free
   remote_user: "{{ user }}"
   become: yes
   become_user: "{{ unicorn_user }}"
