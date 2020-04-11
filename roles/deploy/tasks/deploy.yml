@@ -11,7 +11,7 @@
     force: yes
   tags: clone
 
-- name: symlink into the repo
+- name: symlink custom assets into the build
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
