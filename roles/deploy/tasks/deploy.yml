@@ -2,12 +2,6 @@
 
 # Build codebase
 
-- name: remove the old build path
-  file:
-    dest: "{{ build_path }}"
-    state: absent
-  tags: clone
-
 - name: build codebase from git branch
   git:
     repo: "{{ git_repo }}"
@@ -116,17 +110,14 @@
 
 # Move new build into place
 
-- name: remove the current build
+- name: symlink build to current
   file:
+    src: "{{ build_path }}"
     dest: "{{ current_path }}"
-    state: absent
-  tags: clone
-
-- name: move build to current
-  command: mv {{ build_path }} {{ current_path }}
-  args:
-    removes: "{{ build_path }}"
-  changed_when: True
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
+  become: yes
   notify:
     - reload unicorn
     - restart delayed_job

@@ -37,13 +37,6 @@
   command: cp -TLr {{ current_path }} {{ rollback_path }}
   register: new_rollback
 
-- name: create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
-  args:
-    creates: "{{ releases_path }}/{{ timestamp }}"
-  tags: skip_ansible_lint
-  when: new_rollback.changed
-
 # Clean up old release files
 
 - name: check for old release files
