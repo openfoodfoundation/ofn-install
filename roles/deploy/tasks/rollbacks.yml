@@ -11,12 +11,6 @@
     - "{{ rollback_sql_path }}"
   tags: clone
 
-# Set timestamp
-
-- name: define a timestamp
-  set_fact:
-    timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
-
 # Create a rollback release
 
 - name: create a database rollback version
