@@ -108,19 +108,12 @@
 - name: precompile assets
   import_tasks: precompile.yml
 
-# Ensure we can symlink to current_path
-# Note: these 2 tasks below can be removed after all servers have been deployed
-
-- name: check if current_path is a symlink
-  stat:
-    path: "{{ current_path }}"
-  register: current_path_check
-
+# Note: this task can be removed after all servers have been provisioned and deployed
 - name: delete current path unless it's a symlink
   file:
     dest: "{{ current_path }}"
     state: absent
-  when: current_path_check.stat.islnk is defined and not current_path_check.stat.islnk
+  when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
 
 # Move new build into place
 
