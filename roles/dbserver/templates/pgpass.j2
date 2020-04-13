@@ -1,1 +1,4 @@
 localhost:*:*:{{ db_user }}:{{ db_password }}
+{% if db_host != 'localhost' %}
+{{ db_host }}:*:*:{{ db_user }}:{{ db_password }}
+{% endif %}
