@@ -3,6 +3,7 @@
 - name: dump the database
   postgresql_db:
     name: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     state: dump
     target: "{{ remote_backup_path }}"
   become: yes

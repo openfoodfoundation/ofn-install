@@ -21,6 +21,7 @@
 - name: Drop template1
   postgresql_db:
     name: template1
+    login_host: "{{ postgres_module_login_host }}"
     state: absent
   become: true
   become_user: postgres
@@ -29,6 +30,7 @@
 - name: Recreate template1
   postgresql_db:
     name: template1
+    login_host: "{{ postgres_module_login_host }}"
     encoding: UTF-8
     lc_collate: "{{ postgres_encoding }}"
     lc_ctype: "{{ postgres_encoding }}"

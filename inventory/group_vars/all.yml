@@ -103,6 +103,7 @@ postgresql_global_config_options:
     value: "conf.d"
 
 postgres_psql_host: "{{ '-h {{ db_host }}' if db_host != 'localhost' else '' }}"
+postgres_module_login_host: "{{ db_host if db_host != 'localhost' else omit }}"
 
 debezium_version: "0.10.0.Final"
 

@@ -10,6 +10,7 @@
 - name: drop database
   postgresql_db:
     name: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     state: absent
   become: true
   become_user: postgres
@@ -17,6 +18,7 @@
 - name: recreate database
   postgresql_db:
     name: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     owner: "{{ db_user }}"
     encoding: "UTF-8"
     lc_ctype: "{{ postgres_encoding }}"
@@ -28,6 +30,7 @@
 - name: restore database from backup
   postgresql_db:
     name: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     owner: "{{ db_user }}"
     state: restore
     target: "{{ database_dump_path }}"

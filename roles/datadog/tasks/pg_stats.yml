@@ -5,6 +5,7 @@
   postgresql_ext:
     name: pg_stat_statements
     db: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
 
 - name: gather postgres installation info
   include_role:
@@ -118,6 +119,7 @@
 - name: grant SELECT on pg_stat_activity_dd to Datadog
   postgresql_privs:
     database: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     state: present
     privs: SELECT
     type: table

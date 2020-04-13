@@ -9,6 +9,7 @@
     encrypted: yes
     expires: infinity
     db: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     role_attr_flags: LOGIN,INHERIT,NOSUPERUSER,NOCREATEDB,NOCREATEROLE,NOREPLICATION
     state: present
   when: db_integration.state == 'present'
@@ -58,6 +59,7 @@
   become_user: postgres
   postgresql_user:
     name: "{{ db_integration.user }}"
+    login_host: "{{ postgres_module_login_host }}"
     state: absent
   when: db_integration.state == 'absent' and db_user_exists.stdout == '1'
   register: integration_config

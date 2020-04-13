@@ -22,6 +22,7 @@
 - name: create a database rollback version
   postgresql_db:
     name: "{{ db }}"
+    login_host: "{{ postgres_module_login_host }}"
     state: dump
     target: "{{ rollback_tmp_path }}"
   become: yes

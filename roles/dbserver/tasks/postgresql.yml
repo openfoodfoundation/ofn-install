@@ -22,6 +22,7 @@
     postgresql_user: postgres
     postgresql_users:
       - name: "{{ db_user }}"
+        login_host: "{{ postgres_module_login_host }}"
         password: "{{ db_password }}"
         role_attr_flags: "{{ db_user_roles }}"
 
