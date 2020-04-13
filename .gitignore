@@ -7,3 +7,4 @@ inventory/host_vars/*/secrets.yml
 *.log
 **/*.retry
 .idea/
+files/dbserver_keys/*

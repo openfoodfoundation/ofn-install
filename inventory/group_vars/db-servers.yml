@@ -4,4 +4,12 @@ postgres_listen_addresses:
   - '*'
 
 custom_hba_entries:
-  - { type: hostssl, database: "{{ db }}", user: 'all', address: 'all', auth_method: cert }
+  - { type: hostssl, database: "{{ db }}", user: 'all', address: 'all', auth_method: cert, auth_options: 'client_cert=1' }
+
+postgresql_global_config_custom:
+  - option: ssl_cert_file
+    value: "~/.postgresql/postgresql.crt"
+  - option: ssl_key_file
+    value: "~/.postgresql/postgresql.key"
+  - option: ssl_ca_file
+    value: "~/.postgresql/root.crt"

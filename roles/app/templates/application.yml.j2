@@ -55,4 +55,6 @@ BUGSNAG_API_KEY: {{ bugsnag_key }}
 BUGSNAG_JS_KEY: {{ bugsnag_js_key }}
 {% endif %}
 
+PGSSLMODE: {{ 'verify-ca' if db_host != 'localhost' else 'prefer' }}
+
 {{ custom_application_env_vars | default('') }}

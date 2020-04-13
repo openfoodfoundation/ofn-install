@@ -20,6 +20,15 @@
     mode: 0740
   become: yes
 
+- name: provision dbserver keys
+  include_tasks: dbserver_keys.yml
+  loop:
+    - postgres
+    - "{{ unicorn_user }}"
+  loop_control:
+    loop_var: dbserver_user
+  when: db_host != "localhost"
+
 # The .pgpass file enables us to access the database with psql or
 # pgdump without entering a password. It is not required but makes
 # sysadmin and dev tasks more convenient.

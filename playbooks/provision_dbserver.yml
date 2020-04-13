@@ -1,5 +1,18 @@
 ---
 
+- name: fetch secrets
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: update local secrets files
+      include_role:
+        name: fetch_secrets
+        apply:
+          delegate_to: 127.0.0.1
+      when: ( fetch_ofn_secrets is defined or lookup('env','FETCH_OFN_SECRETS') == 'TRUE' ) and inventory_hostname not in groups['local']
+      run_once: true
+
 - name: provision dbserver
   hosts: db-servers
   remote_user: "{{ user }}"
@@ -25,6 +38,13 @@
       include_role:
         name: dbserver
         tasks_from: postgresql.yml
+
+    - name: provision dbserver keys
+      include_role:
+        name: dbserver
+        tasks_from: dbserver_keys.yml
+      vars:
+        dbserver_user: postgres
 
     - name: ensure postgres conf.d directory exists
       file:
