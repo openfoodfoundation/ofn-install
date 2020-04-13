@@ -8,10 +8,21 @@
     login_host: "{{ postgres_module_login_host }}"
 
 - name: gather postgres installation info
-  include_role:
+  import_role:
     name: geerlingguy.postgresql
     tasks_from: variables
   when: postgresql_config_path is undefined
+  delegate_to: "{{ postgres_delegate_host }}"
+
+- name: ensure postgres conf.d directory exists
+  file:
+    dest: "{{ postgresql_config_path }}/conf.d"
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: 0740
+  become: yes
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: add postgres stats configuration
   template:
@@ -22,6 +33,7 @@
     mode: 0640
   become: yes
   notify: restart postgres
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: add postgres logging configuration
   template:
@@ -33,6 +45,7 @@
   become: yes
   notify: restart postgres
   when: enable_postgres_logging is defined
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: remove postgres logging configuration
   file:
@@ -41,6 +54,7 @@
   become: yes
   notify: restart postgres
   when: enable_postgres_logging is undefined
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: get relations in openfoodnetwork's database
   command: "psql {{ postgres_psql_host }} -d {{ db }} -tAc \"SELECT c.relname AS table_name

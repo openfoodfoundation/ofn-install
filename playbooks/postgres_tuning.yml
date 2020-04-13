@@ -1,13 +1,26 @@
 ---
 - name: PostgreSQL production tuning
-  hosts: ofn_servers
+  hosts:
+    - ofn_servers
+    - db-servers
   remote_user: "{{ user }}"
 
   tasks:
     - name: Gather postgres installation details
-      include_role:
+      import_role:
         name: geerlingguy.postgresql
         tasks_from: variables
+      delegate_to: "{{ postgres_delegate_host }}"
+
+    - name: Ensure postgres conf.d directory exists
+      file:
+        dest: "{{ postgresql_config_path }}/conf.d"
+        state: directory
+        owner: postgres
+        group: postgres
+        mode: 0740
+      become: yes
+      delegate_to: "{{ postgres_delegate_host }}"
 
     - name: Add tuning configuration
       copy:
@@ -22,6 +35,7 @@
       become_user: postgres
       notify: reload postgres
       when: remove_postgres_tuning is undefined
+      delegate_to: "{{ postgres_delegate_host }}"
 
     - name: Optionally remove tuning configuration
       file:

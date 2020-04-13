@@ -104,6 +104,7 @@ postgresql_global_config_options:
 
 postgres_psql_host: "{{ '-h {{ db_host }}' if db_host != 'localhost' else '' }}"
 postgres_module_login_host: "{{ db_host if db_host != 'localhost' else omit }}"
+postgres_delegate_host: "{{ db_host if db_host != 'localhost' else inventory_hostname }}"
 
 debezium_version: "0.10.0.Final"
 

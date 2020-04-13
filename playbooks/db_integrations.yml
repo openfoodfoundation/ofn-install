@@ -4,7 +4,9 @@
 # configures postgres to allow limited access on external connections.
 
 - name: Integration setup
-  hosts: ofn_servers
+  hosts:
+  - ofn_servers
+  - db-servers
   remote_user: "{{ user }}"
   become: yes
   vars:
@@ -19,9 +21,10 @@
 
   tasks:
     - name: Gather postgres info
-      include_role:
+      import_role:
         name: geerlingguy.postgresql
         tasks_from: variables
+      delegate_to: "{{ postgres_delegate_host }}"
 
     - name: Apply integrations settings
       include_role:
@@ -34,6 +37,7 @@
       when: db_integrations is defined
 
     - name: Reconfigure postgres
-      include_role:
+      import_role:
         name: geerlingguy.postgresql
         tasks_from: configure
+      delegate_to: "{{ postgres_delegate_host }}"

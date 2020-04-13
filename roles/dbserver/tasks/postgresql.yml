@@ -6,14 +6,22 @@
 - include_role:
     name: geerlingguy.postgresql
     tasks_from: variables
+    apply:
+      delegate_to: "{{ postgres_delegate_host }}"
 
 - include_role:
     name: geerlingguy.postgresql
     tasks_from: initialize
+    apply:
+      delegate_to: "{{ postgres_delegate_host }}"
+      become: yes
+      become_user: root
 
 - include_role:
     name: geerlingguy.postgresql
     tasks_from: configure
+    apply:
+      delegate_to: "{{ postgres_delegate_host }}"
 
 - include_role:
     name: geerlingguy.postgresql
