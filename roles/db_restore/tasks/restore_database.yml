@@ -2,7 +2,7 @@
 
 - name: close active db connections # noqa 301
   shell: |
-    psql -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
+    psql {{ postgres_psql_host }} -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
     SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='{{ db }}' AND pid <> pg_backend_pid();"
   become: true
   become_user: postgres

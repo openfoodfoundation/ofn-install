@@ -102,6 +102,8 @@ postgresql_global_config_options:
   - option: include_dir
     value: "conf.d"
 
+postgres_psql_host: "{{ '-h {{ db_host }}' if db_host != 'localhost' else '' }}"
+
 debezium_version: "0.10.0.Final"
 
 #----------------------------------------------------------------------
