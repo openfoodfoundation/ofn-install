@@ -94,13 +94,17 @@ postgres_shared_preload_libraries:
   - pg_stat_statements
   - wal2json
 
-postgresql_global_config_options:
+postgresql_global_config_defaults:
   - option: listen_addresses
     value: "{{ postgres_listen_addresses | join(',') }}"
   - option: shared_preload_libraries
     value: "{{ postgres_shared_preload_libraries | join(',') }}"
   - option: include_dir
     value: "conf.d"
+
+postgresql_global_config_custom: []
+
+postgresql_global_config_options: "{{ postgresql_global_config_defaults + postgresql_global_config_custom }}"
 
 postgres_psql_host: "{{ '-h {{ db_host }}' if db_host != 'localhost' else '' }}"
 postgres_module_login_host: "{{ db_host if db_host != 'localhost' else omit }}"
