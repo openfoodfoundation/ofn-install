@@ -3,7 +3,7 @@
 init_config:
 
 instances:
-  - host: localhost
+  - host: "{{ db_host }}"
     port: 5432
     username: datadog
     password: "{{ datadog_db_password }}"
