@@ -66,6 +66,7 @@ db: openfoodnetwork
 test_db: ofn_test
 db_user: ofn_user
 db_host: localhost
+db_user_roles: CREATEDB,REPLICATION
 postgres_encoding: en_US.utf8
 
 #----------------------------------------------------------------------
