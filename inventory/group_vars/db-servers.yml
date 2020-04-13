@@ -1,0 +1,7 @@
+---
+
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - { type: hostssl, database: "{{ db }}", user: 'all', address: 'all', auth_method: cert }
