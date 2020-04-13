@@ -71,10 +71,14 @@ staging.openfoodnetwork.org.uk
 [uk-staging2]
 staging2.openfoodnetwork.org.uk
 
+[uk-db]
+db.openfoodnetwork.org.uk
+
 [uk:children]
 uk-prod
 uk-staging
 uk-staging2
+uk-db
 
 #------------------------------------------------------------------------------
 # USA
@@ -174,6 +178,12 @@ au-staging
 uk-staging
 fr-staging
 es-staging
+
+#------------------------------------------------------------------------------
+# Database Servers
+
+[db-servers:children]
+uk-db
 
 #------------------------------------------------------------------------------
 # All
