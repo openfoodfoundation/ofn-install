@@ -1,7 +1,5 @@
 --- # dbserver
 
-- import_tasks: postgresql.yml # Install postgresql with geerlingguy.postgresql role
-
 - name: add custom log directory
   file:
     state: directory
@@ -47,5 +45,7 @@
 - name: install wal2json module
   include_role:
     name: libre_ops.wal2json
+    apply:
+      delegate_to: "{{ postgres_delegate_host }}"
   vars:
     wal2json_set_preload_libraries: false

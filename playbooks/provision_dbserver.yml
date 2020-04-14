@@ -33,12 +33,10 @@
     - role: language
       tags: language
 
-  tasks:
-    - name: install postgres
-      include_role:
-        name: dbserver
-        tasks_from: postgresql.yml
+    - role: geerlingguy.postgresql
+      tags: postgres
 
+  tasks:
     - name: provision dbserver keys
       include_role:
         name: dbserver
