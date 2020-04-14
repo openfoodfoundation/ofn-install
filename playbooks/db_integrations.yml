@@ -34,8 +34,6 @@
       when: db_integrations is defined
 
     - name: Reconfigure postgres
-      become: yes
-      become_user: postgres
       include_role:
         name: geerlingguy.postgresql
         tasks_from: configure
