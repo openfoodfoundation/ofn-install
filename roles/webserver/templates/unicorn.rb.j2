@@ -7,6 +7,12 @@ listen "{{ unicorn_sock }}"
 worker_processes {{ unicorn_workers }}
 timeout {{ unicorn_timeout }}
 
+# Enable this flag to have unicorn test client connections by writing the
+# beginning of the HTTP headers before calling the application. This
+# prevents calling the application for connections that have disconnected
+# while queued.
+check_client_connection true
+
 # The following enables use of the Ruby 2.0+ Copy-On-Write feature
 # for more efficient memory usage in Unicorn workers.
 
