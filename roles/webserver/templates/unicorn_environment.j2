@@ -1,5 +1,2 @@
 RAILS_ENV={{ rails_env }}
-{% if skylight_authentication is defined %}
-SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
-{% endif %}
 {{ unicorn_env_vars | default('') }}
