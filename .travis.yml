@@ -1,9 +1,9 @@
 ---
 sudo: required
-dist: bionic
+dist: xenial
 cache: bundler
 language: python
-python: 3.8
+python: 3.7.1
 services:
   - postgresql
 addons:
