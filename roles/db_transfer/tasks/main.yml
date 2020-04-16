@@ -1,0 +1,99 @@
+---
+
+- name: dump the database
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "{{ postgres_dump_path }}"
+  become: yes
+  become_user: postgres
+
+- name: move to admin-owned path # noqa 301
+  command: mv {{ postgres_dump_path }} {{ admin_dump_path }}
+  become: yes
+  become_user: root
+
+- name: switch file ownership to admin
+  file:
+    path: "{{ admin_dump_path }}"
+    state: touch
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  become: yes
+  become_user: root
+
+- name: rsync file with ssh forwarding
+  synchronize:
+    mode: pull
+    src: "{{ admin_dump_path }}"  # Source on target host specified in --limit
+    dest: "{{ admin_dump_path }}" # Dest on host specified in {{ rsync_to }}
+  vars:
+    ansible_ssh_extra_args: '-o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout 600'
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: move to postgres-owned path # noqa 301
+  command: mv {{ admin_dump_path }} {{ postgres_dump_path }}
+  become: yes
+  become_user: root
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: switch file ownership to postgres
+  file:
+    path: "{{ postgres_dump_path }}"
+    state: touch
+    owner: postgres
+    group: postgres
+  become: yes
+  become_user: root
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: close active db connections # noqa 301
+  shell: |
+    psql -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
+    SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='{{ db }}' AND pid <> pg_backend_pid();"
+  become: true
+  become_user: postgres
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: drop database
+  postgresql_db:
+    name: "{{ db }}"
+    state: absent
+  become: true
+  become_user: postgres
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: recreate database
+  postgresql_db:
+    name: "{{ db }}"
+    owner: "{{ db_user }}"
+    encoding: "UTF-8"
+    lc_ctype: "{{ postgres_encoding }}"
+    lc_collate: "{{ postgres_encoding }}"
+    state: present
+  become: true
+  become_user: postgres
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: restore database from backup
+  postgresql_db:
+    name: "{{ db }}"
+    owner: "{{ db_user }}"
+    state: restore
+    target: "{{ postgres_dump_path }}"
+  become: true
+  become_user: postgres
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: delete the db dump on the target server
+  file:
+    dest: "{{ postgres_dump_path }}"
+    state: absent
+  become: yes
+  delegate_to: "{{ groups[rsync_to][0] }}"
+
+- name: delete the db dump on the source server
+  file:
+    dest: "{{ admin_dump_path }}"
+    state: absent
+  become: yes
