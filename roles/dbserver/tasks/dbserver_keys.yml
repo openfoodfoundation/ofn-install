@@ -1,18 +1,33 @@
 ---
 
-- name: ensure keys path exists
-  file:
-    path: "/home/{{ dbserver_user }}/.postgresql"
-    state: directory
-    owner: postgres
-    mode: 0600
-
-- name: provision dbserver keys
+- name: provision postgres client keys
   copy:
-    src: "{{ lookup('file', inventory_dir + '/../files/dbserver_keys/' + dbserver_key ) }}"
-    dest: "/home/{{ dbserver_user }}/.postgresql/{{ dbserver_key }}"
+    src: "{{ inventory_dir + '/../files/dbserver_keys/' + dbserver_key.src }}"
+    dest: "{{ postgresql_home_dir }}/{{ dbserver_key.dest }}"
     owner: postgres
     mode: 0600
-  loop: "{{ dbserver_certs }}"
+  become: yes
+  become_user: root
+  loop:
+    - { src: "root.crt", dest: "root.crt" }
+    - { src: "postgres.crt", dest: "client.crt" }
+    - { src: "postgres.key", dest: "client.key" }
   loop_control:
     loop_var: dbserver_key
+  notify: restart local postgres
+
+- name: provision {{ unicorn_user }} client keys
+  copy:
+    src: "{{ inventory_dir + '/../files/dbserver_keys/' + dbserver_key.src }}"
+    dest: "/home/{{ unicorn_user }}/{{ dbserver_key.dest }}"
+    owner: "{{ unicorn_user }}"
+    mode: 0600
+  become: yes
+  become_user: root
+  loop:
+    - { src: "root.crt", dest: "root.crt" }
+    - { src: "{{ unicorn_user }}.crt", dest: "client.crt" }
+    - { src: "{{ unicorn_user }}.key", dest: "client.key" }
+  loop_control:
+    loop_var: dbserver_key
+  notify: restart local postgres

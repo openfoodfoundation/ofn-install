@@ -65,9 +65,6 @@
       become_user: "{{ unicorn_user }}"
       tags: app
 
-    - role: geerlingguy.postgresql
-      tags: postgres
-
     - role: dbserver # Set up database server and user for the app.
       become: yes
       become_user: root

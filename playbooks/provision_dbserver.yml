@@ -33,16 +33,45 @@
     - role: language
       tags: language
 
-    - role: geerlingguy.postgresql
-      tags: postgres
-
   tasks:
-    - name: provision dbserver keys
+    - name: provision server keys
+      copy:
+        src: "{{ inventory_dir + '/../files/dbserver_keys/' + dbserver_key }}"
+        dest: "{{ postgresql_data_dir }}/{{ dbserver_key }}"
+        owner: postgres
+        group: postgres
+        mode: 0600
+      become: yes
+      become_user: root
+      loop:
+        - root.crt
+        - server.crt
+        - server.key
+      loop_control:
+        loop_var: dbserver_key
+      notify: restart local postgres
+
+    - name: configure wal2json
       include_role:
         name: dbserver
-        tasks_from: dbserver_keys.yml
+        tasks_from: wal2json.yml
+
+    - name: configure postgres
+      import_role:
+        name: geerlingguy.postgresql
+      become: yes
       vars:
-        dbserver_user: postgres
+        postgresql_databases:
+          - name: "{{ db }}"
+            owner: "{{ db_user }}"
+            login_password: "{{ db_password }}"
+            lc_collate: "{{ postgres_encoding }}"
+            lc_ctype: "{{ postgres_encoding }}"
+        postgresql_users:
+          - name: "{{ db_user }}"
+            password: "{{ db_password }}"
+            role_attr_flags: "{{ db_user_roles }}"
+      tags: postgres
 
     - name: ensure postgres conf.d directory exists
       file:

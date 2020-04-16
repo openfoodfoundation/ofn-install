@@ -13,3 +13,11 @@
     state: restarted
   become: yes
   become_user: root
+  delegate_to: "{{ postgres_delegate_host }}"
+
+- name: restart local postgres
+  service:
+    name: postgresql
+    state: restarted
+  become: yes
+  become_user: root

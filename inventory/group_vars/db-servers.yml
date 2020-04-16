@@ -1,15 +1,26 @@
 ---
 
+locale: en_US
+language: en_US.UTF-8
+language_packages:
+  - language-pack-en-base
+
+developer_email: "{{ admin_email | default('admin@example.com') }}"
+
+db_host: localhost
+host_id: db-server
+
 postgres_listen_addresses:
   - '*'
 
 custom_hba_entries:
-  - { type: hostssl, database: "{{ db }}", user: 'all', address: 'all', auth_method: cert, auth_options: 'client_cert=1' }
+  - { type: hostssl, database: postgres, user: postgres, address: 'all', auth_method: cert, auth_options: 'clientcert=1' }
+  - { type: hostssl, database: "{{ db }}", user: 'all', address: 'all', auth_method: cert, auth_options: 'clientcert=1' }
 
 postgresql_global_config_custom:
   - option: ssl_cert_file
-    value: "~/.postgresql/postgresql.crt"
+    value: "{{ postgresql_data_dir }}/server.crt"
   - option: ssl_key_file
-    value: "~/.postgresql/postgresql.key"
+    value: "{{ postgresql_data_dir }}/server.key"
   - option: ssl_ca_file
-    value: "~/.postgresql/root.crt"
+    value: "{{ postgresql_data_dir }}/root.crt"

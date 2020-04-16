@@ -29,7 +29,7 @@ l10n_git_version: HEAD
 rails_env: staging
 host_id: ofn-staging
 admin_email: "admin@{{ domain }}"
-
+user_sysadmin: "{{ core_devs }}"
 
 #----------------------------------------------------------------------
 # security role variables
@@ -76,22 +76,6 @@ postgres_encoding: en_US.utf8
 # Entries marked custom_* can be defined in /host_vars files, and will be appended
 # to the defaults if present. Make sure you use the "list" notation with the dashes!
 
-postgresql_user: postgres
-
-postgresql_databases:
-  - name: "{{ db }}"
-    owner: "{{ db_user }}"
-    login_host: "{{ db_host }}"
-    login_password: "{{ db_password }}"
-    lc_collate: "{{ postgres_encoding }}"
-    lc_ctype: "{{ postgres_encoding }}"
-
-postgresql_users:
-  - name: "{{ db_user }}"
-    login_host: "{{ postgres_module_login_host }}"
-    password: "{{ db_password }}"
-    role_attr_flags: "{{ db_user_roles }}"
-
 default_hba_entries:
   - {type: local, database: replication, user: ofn_data, auth_method: md5}
   - {type: host, database: replication, user: ofn_data, address: '127.0.0.1/32', auth_method: md5}
@@ -123,14 +107,21 @@ postgresql_global_config_custom: []
 
 postgresql_global_config_options: "{{ postgresql_global_config_defaults + postgresql_global_config_custom }}"
 
-postgres_psql_host: "{{ '-h {{ db_host }}' if db_host != 'localhost' else '' }}"
+postgresql_version: "{{ '9.5' if ansible_distribution_major_version == '16' else '10' }}"
+dbserver_postgres_version: "{{ '9.5' if ansible_distribution_major_version == '16' else '10' }}"
+postgresql_home_dir: "/var/lib/postgresql"
+postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
+
+postgres_psql_host: "{{ '-h ' + db_host if db_host != 'localhost' else '' }}"
+
+postgres_ssl_env:
+  PGSSLMODE: "verify-ca"
+  PGSSLKEY: "/home/{{ unicorn_user }}/client.key"
+  PGSSLCERT: "/home/{{ unicorn_user }}/client.crt"
+  PGSSLROOTCERT: "/home/{{ unicorn_user }}/root.crt"
+
 postgres_module_login_host: "{{ db_host if db_host != 'localhost' else omit }}"
 postgres_delegate_host: "{{ db_host if db_host != 'localhost' else inventory_hostname }}"
-
-dbserver_certs:
-  - postgresql.crt
-  - postgresql.key
-  - root.crt
 
 debezium_version: "0.10.0.Final"
 

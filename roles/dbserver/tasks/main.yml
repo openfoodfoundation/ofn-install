@@ -1,5 +1,17 @@
 --- # dbserver
 
+- name: provision dbserver keys
+  include_tasks: dbserver_keys.yml
+  vars:
+    postgresql_version: "{{ dbserver_postgres_version }}"
+  when: db_host != "localhost"
+
+- import_tasks: local_postgres.yml
+  when: db_host == 'localhost'
+
+- import_tasks: remote_postgres.yml
+  when: db_host != 'localhost'
+
 - name: add custom log directory
   file:
     state: directory
@@ -18,15 +30,6 @@
     mode: 0740
   become: yes
 
-- name: provision dbserver keys
-  include_tasks: dbserver_keys.yml
-  loop:
-    - postgres
-    - "{{ unicorn_user }}"
-  loop_control:
-    loop_var: dbserver_user
-  when: db_host != "localhost"
-
 # The .pgpass file enables us to access the database with psql or
 # pgdump without entering a password. It is not required but makes
 # sysadmin and dev tasks more convenient.
@@ -39,13 +42,13 @@
   become: yes
   become_user: "{{ unicorn_user }}"
 
+- import_tasks: wal2json.yml
+  tags: wal2json
+
+- name: flush handlers before proceeding
+  meta: flush_handlers
+
 - import_tasks: fix_template_encoding.yml
+  delegate_to: "{{ postgres_delegate_host }}"
   tags: template_encoding
 
-- name: install wal2json module
-  include_role:
-    name: libre_ops.wal2json
-    apply:
-      delegate_to: "{{ postgres_delegate_host }}"
-  vars:
-    wal2json_set_preload_libraries: false

@@ -1,0 +1,46 @@
+---
+
+- name: configure local postgres
+  import_role:
+    name: geerlingguy.postgresql
+  become: yes
+  become_user: root
+  vars:
+    postgresql_global_config_custom:
+      - option: ssl_cert_file
+        value: "{{ postgresql_home_dir }}/client.crt"
+      - option: ssl_key_file
+        value: "{{ postgresql_home_dir }}/client.key"
+      - option: ssl_ca_file
+        value: "{{ postgresql_home_dir }}/root.crt"
+
+- name: configure remote postgres
+  import_role:
+    name: geerlingguy.postgresql
+  become: yes
+  become_user: root
+  vars:
+    postgresql_version: "{{ dbserver_postgres_version }}"
+    postgres_listen_addresses:
+      - '*'
+    custom_hba_entries:
+      - { type: hostssl, database: 'postgres', user: 'postgres', address: 'all', auth_method: cert, auth_options: 'clientcert=1' }
+      - { type: hostssl, database: "{{ db }}", user: 'all', address: 'all', auth_method: cert, auth_options: 'clientcert=1' }
+    postgresql_global_config_custom:
+      - option: ssl_cert_file
+        value: "{{ postgresql_data_dir }}/server.crt"
+      - option: ssl_key_file
+        value: "{{ postgresql_data_dir }}/server.key"
+      - option: ssl_ca_file
+        value: "{{ postgresql_data_dir }}/root.crt"
+    postgresql_databases:
+      - name: "{{ db }}"
+        owner: "{{ db_user }}"
+        login_password: "{{ db_password }}"
+        lc_collate: "{{ postgres_encoding }}"
+        lc_ctype: "{{ postgres_encoding }}"
+    postgresql_users:
+      - name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        role_attr_flags: "{{ db_user_roles }}"
+  delegate_to: "{{ db_host }}"
