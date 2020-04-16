@@ -17,6 +17,15 @@
   args:
     creates: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
 
+- name: update file ownership
+  file:
+    path: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    state: touch
+    owner: "{{ unicorn_user }}"
+    group: "{{ unicorn_user }}"
+  become: yes
+  become_user: root
+
 # Symlink database dump and current app to /rollback
 
 - name: symlink to database rollback
