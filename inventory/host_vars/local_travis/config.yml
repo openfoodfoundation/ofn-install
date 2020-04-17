@@ -19,3 +19,5 @@ mail_host: 'example.com'
 mail_port: 25
 smtp_username: 'admin'
 smtp_password: 'password'
+
+postgres_delegate_host: 127.0.0.1
