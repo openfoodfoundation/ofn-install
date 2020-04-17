@@ -20,4 +20,5 @@ mail_port: 25
 smtp_username: 'admin'
 smtp_password: 'password'
 
-postgres_delegate_host: 127.0.0.1
+postgres_delegate_host: localhost
+ansible_python_interpreter: "{{ ansible_playbook_python }}"
