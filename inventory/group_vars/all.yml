@@ -112,13 +112,17 @@ dbserver_postgres_version: "{{ '9.5' if ansible_distribution_major_version == '1
 postgresql_home_dir: "/var/lib/postgresql"
 postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 
-postgres_psql_host: "{{ '-h ' + db_host if db_host != 'localhost' else '' }}"
-
-postgres_ssl_env:
+postgres_app_ssl_env: |
   PGSSLMODE: "verify-ca"
   PGSSLKEY: "/home/{{ unicorn_user }}/client.key"
   PGSSLCERT: "/home/{{ unicorn_user }}/client.crt"
   PGSSLROOTCERT: "/home/{{ unicorn_user }}/root.crt"
+
+postgres_module_ssl_env:
+  PGSSLMODE: "verify-ca"
+  PGSSLKEY: "{{ postgresql_home_dir }}/client.key"
+  PGSSLCERT: "{{ postgresql_home_dir }}/client.crt"
+  PGSSLROOTCERT: "{{ postgresql_home_dir }}/root.crt"
 
 postgres_module_login_host: "{{ db_host if db_host != 'localhost' else omit }}"
 postgres_delegate_host: "{{ db_host if db_host != 'localhost' else inventory_hostname }}"

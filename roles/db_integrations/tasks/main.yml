@@ -9,16 +9,16 @@
     encrypted: yes
     expires: infinity
     db: "{{ db }}"
-    login_host: "{{ postgres_module_login_host }}"
     role_attr_flags: LOGIN,INHERIT,NOSUPERUSER,NOCREATEDB,NOCREATEROLE,NOREPLICATION
     state: present
   when: db_integration.state == 'present'
   register: integration_config
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: Grant permissions # noqa 503
   become: yes
   become_user: postgres
-  command: "psql {{ postgres_psql_host }} -d {{ db }} -c '{{ permission_query }}'"
+  command: "psql -d {{ db }} -c '{{ permission_query }}'"
   loop:
     - "GRANT USAGE ON SCHEMA public TO {{ db_integration.user }};"
     - "GRANT CONNECT ON DATABASE {{ db }} TO {{ db_integration.user }};"
@@ -28,20 +28,22 @@
     - "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON SEQUENCES TO {{ db_integration.user }};"
   loop_control:
     loop_var: permission_query
+  delegate_to: "{{ postgres_delegate_host }}"
   when: db_integration.state == 'present' and integration_config.changed
 
 - name: Check user presence
   become: yes
   become_user: postgres
-  command: psql {{ postgres_psql_host }} -tAc "SELECT 1 FROM pg_roles WHERE rolname='{{ db_integration.user }}'"
+  command: psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='{{ db_integration.user }}'"
   changed_when: False
   register: db_user_exists
+  delegate_to: "{{ postgres_delegate_host }}"
   when: db_integration.state == 'absent'
 
 - name: Revoke permissions
   become: yes
   become_user: postgres
-  command: "psql {{ postgres_psql_host }} -d {{ db }} -c '{{ permission_query }}'"
+  command: "psql -d {{ db }} -c '{{ permission_query }}'"
   loop:
     - "REVOKE USAGE ON SCHEMA public FROM {{ db_integration.user }};"
     - "REVOKE CONNECT ON DATABASE {{ db }} FROM {{ db_integration.user }};"
@@ -53,13 +55,14 @@
     loop_var: permission_query
   when: db_integration.state == 'absent' and db_user_exists.stdout == '1'
   register: integration_config
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: Remove database user
   become: yes
   become_user: postgres
   postgresql_user:
     name: "{{ db_integration.user }}"
-    login_host: "{{ postgres_module_login_host }}"
     state: absent
   when: db_integration.state == 'absent' and db_user_exists.stdout == '1'
   register: integration_config
+  delegate_to: "{{ postgres_delegate_host }}"

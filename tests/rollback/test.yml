@@ -8,7 +8,7 @@
       become: yes
       become_user: postgres
       command: |
-        psql {{ postgres_psql_host }} -d {{ db }} -tAc "
+        psql -d {{ db }} -tAc "
         SELECT 1 FROM spree_preferences
         WHERE value='rollback_test' AND key='ofn/rollback_test_key';"
       changed_when: False

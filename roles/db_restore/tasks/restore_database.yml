@@ -2,23 +2,23 @@
 
 - name: close active db connections # noqa 301
   shell: |
-    psql {{ postgres_psql_host }} -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
+    psql -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
     SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='{{ db }}' AND pid <> pg_backend_pid();"
   become: true
   become_user: postgres
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: drop database
   postgresql_db:
     name: "{{ db }}"
-    login_host: "{{ postgres_module_login_host }}"
     state: absent
   become: true
   become_user: postgres
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: recreate database
   postgresql_db:
     name: "{{ db }}"
-    login_host: "{{ postgres_module_login_host }}"
     owner: "{{ db_user }}"
     encoding: "UTF-8"
     lc_ctype: "{{ postgres_encoding }}"
@@ -26,6 +26,7 @@
     state: present
   become: true
   become_user: postgres
+  delegate_to: "{{ postgres_delegate_host }}"
 
 - name: restore database from backup
   postgresql_db:
@@ -36,5 +37,6 @@
     target: "{{ database_dump_path }}"
   become: true
   become_user: postgres
+  environment: "{{ postgres_module_ssl_env }}"
   notify:
     - restart unicorn
