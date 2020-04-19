@@ -16,7 +16,7 @@
           effective_cache_size = {{ ( ( ansible_memtotal_mb / 4 ) * 3 ) | int }}MB
           maintenance_work_mem = {{ ( ansible_memtotal_mb / 16 ) | int }}MB
           wal_buffers = 16MB
-          work_mem = 6MB
+          work_mem = 64MB
         dest: "{{ postgresql_config_path }}/conf.d/tuning.conf"
       become: yes
       become_user: postgres

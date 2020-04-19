@@ -4,12 +4,10 @@ domain: www.openfoodnetwork.org.uk
 host_id: uk-prod
 rails_env: production
 
-unicorn_workers: 4
+unicorn_workers: 5
 unicorn_timeout: 720
 
 db_pool_max_size: 10
-
-swapfile_size: 1G
 
 certbot_domains:
   - www.openfoodnetwork.org.uk
