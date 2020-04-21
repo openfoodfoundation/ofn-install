@@ -1,0 +1,5 @@
+---
+
+db_transfer_filename: "migration-dump"
+admin_dump_path: "/home/{{ user }}/{{ db_transfer_filename }}.sql.gz"
+postgres_dump_path: "/var/lib/postgresql/{{ db_transfer_filename }}.sql.qz"
