@@ -3,7 +3,7 @@ sudo: required
 dist: xenial
 cache: bundler
 language: python
-python: "2.7"
+python: 3.7.1
 services:
   - postgresql
 addons:
