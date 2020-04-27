@@ -1,6 +1,7 @@
 ---
 - name: deploy
   hosts: ofn_servers
+  strategy: free
   remote_user: "{{ user }}"
   become: yes
   become_user: "{{ unicorn_user }}"
@@ -10,13 +11,11 @@
 
   tasks:
     - name: Check we're not deploying master to production
-      pause:
-        prompt: |
-          WARNING: The current settings will deploy `master` branch to a production server!
-          Check for typos in the command if deploying a release, otherwise type YES to proceed
+      fail:
+        msg: |
+          WARNING: The current settings would deploy `master` branch to a production server!
+          Check for typos in the command if deploying a release.
       when: inventory_hostname in groups['all-prod'] and git_version == "master"
-      register: deployment_check
-      failed_when: deployment_check.user_input != "YES"
 
     - block:
       - include_role:
