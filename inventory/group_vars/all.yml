@@ -201,6 +201,8 @@ core_devs:
 #----------------------------------------------------------------------
 # nginx config
 
+app_root: "{{ current_path }}"
+
 nginx_official_repo: True
 
 nginx_extra_root_params:

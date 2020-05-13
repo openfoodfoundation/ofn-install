@@ -1,12 +1,6 @@
 ---
 
 #----------------------------------------------------------------------
-# Nginx variables
-app_root: "{{ current_path }}"
-port: 3000
-# domain: is set above
-
-#----------------------------------------------------------------------
 # Unicorn variables
 unicorn_config: "{{ config_path }}/unicorn.rb"
 unicorn_log: "{{ log_path }}/unicorn.log"
