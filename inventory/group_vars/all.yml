@@ -218,6 +218,12 @@ nginx_http_params:
   - server_tokens off
   - types_hash_max_size 2048
 
+nginx_acme_challenge_config: |+
+  location '/.well-known/acme-challenge' {
+    default_type "text/plain";
+    root /etc/letsencrypt/webrootauth;
+  }
+
 nginx_sites:
   default:
     - |
@@ -242,10 +248,7 @@ nginx_sites:
       add_header X-Content-Type-Options nosniff always;
       add_header X-Xss-Protection "1; mode=block" always;
 
-      location '/.well-known/acme-challenge' {
-        default_type "text/plain";
-        root /etc/letsencrypt/webrootauth;
-      }
+      {{ nginx_acme_challenge_config }}
 
       location / {
         return 301 https://$host$request_uri;
