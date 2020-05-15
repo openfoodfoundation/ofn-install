@@ -1,5 +1,8 @@
 ---
 
+# Transfers all custom assets directly from one server to another using Rsync and SSH forwarding.
+# Requires "rsync_to" variable as remote server for rsync e.g: `-e "rsync_to=uk-staging"`.
+
 - name: Transfer assets
   hosts: ofn_servers
   remote_user: "{{ user }}"
