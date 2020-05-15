@@ -6,3 +6,5 @@ timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_
 build_path: "{{ releases_path }}/{{ timestamp }}"
 
 bugsnag_key: none
+
+transitional_rollback_timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ (ansible_date_time.second | int) -1  }}"

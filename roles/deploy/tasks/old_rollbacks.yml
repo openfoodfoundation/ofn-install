@@ -29,18 +29,18 @@
     removes: "{{ rollback_tmp_path }}"
 
 - name: create a database backup version
-  command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz
+  command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz
   args:
-    creates: "{{ releases_path }}/{{ timestamp }}.sql.gz"
+    creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
 
 - name: create a repo rollback version # noqa 301
   command: cp -TLr {{ current_path }} {{ rollback_path }}
   register: new_rollback
 
 - name: create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}
   args:
-    creates: "{{ releases_path }}/{{ timestamp }}"
+    creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}"
   tags: skip_ansible_lint
   when: new_rollback.changed
 
