@@ -1,0 +1,21 @@
+---
+domain: app.katuma.org
+host_id: es-prod
+rails_env: production
+
+admin_email: info@coopdevs.org
+
+mail_domain: katuma.org
+
+certbot_domains:
+  - app.katuma.org
+  - alpha.katuma.org
+  - migration.katuma.org
+
+certbot_cert_name: app.katuma.org
+
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - { type: hostssl, database: "{{ db }}", user: metabase, address: '167.99.89.242/32', auth_method: md5 }
