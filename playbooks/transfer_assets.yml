@@ -1,0 +1,10 @@
+---
+
+- name: Transfer assets
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - include_role:
+        name: migrate_assets
+        tasks_from: rsync_assets.yml
