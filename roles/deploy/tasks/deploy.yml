@@ -73,6 +73,16 @@
     - skip_ansible_lint
   notify: restart unicorn
 
+# Install JS dependencies with yarn
+
+- name: run yarn install
+  yarn:
+    path: "{{ current_path }}"
+    executable: "/usr/local/lib/npm/bin/yarn"
+    production: yes
+  become: true
+  become_user: "{{ unicorn_user }}"
+
 # Update the database
 
 - name: check database status
