@@ -1,0 +1,14 @@
+---
+domain: staging.openfoodbrasil.com.br
+rails_env: staging
+
+admin_email: administrativo@openfoodbrasil.com.br
+
+mail_domain: openfoodbrasil.com.br
+
+swapfile_size: 2G
+unicorn_timeout: 360
+
+certbot_domains:
+  - staging.openfoodbrasil.com.br
+  - www.staging.openfoodbrasil.com.br
