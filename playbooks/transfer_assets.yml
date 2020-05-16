@@ -7,6 +7,12 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
 
+  pre_tasks:
+    - name: ensure rsync target is valid and singular
+      fail:
+        msg: "Rsync target must be a single valid host, e.g. `-e 'rsync_to=uk-staging'`"
+      when: (groups[rsync_to] | length) != 1
+
   tasks:
     - include_role:
         name: migrate_assets
