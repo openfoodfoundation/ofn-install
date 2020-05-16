@@ -12,6 +12,7 @@
     ansible_ssh_extra_args: "-l {{ unicorn_user }} -o ControlMaster=auto -o ControlPersist=60s -o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=600"
   loop:
     - assets
+    - images
     - spree
     - system
   loop_control:
