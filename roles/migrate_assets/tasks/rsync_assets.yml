@@ -3,12 +3,13 @@
 - name: rsync asset files with ssh forwarding
   synchronize:
     src: "{{ shared_path }}/{{ migrate_dir }}"  # Source on target host specified in --limit
-    dest: "{{ shared_path }}/{{ migrate_dir }}" # Dest on host specified in {{ rsync_to }}
+    dest: "{{ shared_path }}/"                  # Dest on host specified in {{ rsync_to }}
     mode: pull
+    set_remote_user: false
     rsync_opts:
       - "--chown={{ unicorn_user }}:{{ unicorn_user }}"
   vars:
-    ansible_ssh_extra_args: '-o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout 600'
+    ansible_ssh_extra_args: "-l {{ unicorn_user }} -o ControlMaster=auto -o ControlPersist=60s -o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=600"
   loop:
     - assets
     - spree
