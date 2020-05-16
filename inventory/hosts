@@ -33,6 +33,19 @@ au-prod
 au-staging
 
 #------------------------------------------------------------------------------
+# Brazil
+
+[br-prod]
+openfoodbrasil.com.br ansible_host=52.20.5.42
+
+[br-staging]
+staging.openfoodbrasil.com.br ansible_host=54.242.172.26
+
+[br:children]
+br-prod
+br-staging
+
+#------------------------------------------------------------------------------
 # Canada
 
 [ca-prod]
