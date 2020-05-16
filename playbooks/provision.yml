@@ -67,6 +67,10 @@
       become_user: "{{ unicorn_user }}"
       tags: app
 
+    - role: yarn
+      become: yes
+      tags: yarn
+
     - role: dbserver # Set up database server and user for the app.
       become: yes
       become_user: root

@@ -1,0 +1,4 @@
+npm_prefix: "/usr/local/lib/npm"
+
+node_version: 14.x
+yarn_version: 1.22.4
