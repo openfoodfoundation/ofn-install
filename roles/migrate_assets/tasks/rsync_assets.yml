@@ -10,11 +10,7 @@
       - "--chown={{ unicorn_user }}:{{ unicorn_user }}"
   vars:
     ansible_ssh_extra_args: "-l {{ unicorn_user }} -o ControlMaster=auto -o ControlPersist=60s -o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=600"
-  loop:
-    - assets
-    - images
-    - spree
-    - system
+  loop: "{{ migrate_dirs }}"
   loop_control:
     loop_var: migrate_dir
   delegate_to: "{{ groups[rsync_to][0] }}"
