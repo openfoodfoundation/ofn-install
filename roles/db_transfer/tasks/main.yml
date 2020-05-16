@@ -28,7 +28,7 @@
     src: "{{ admin_dump_path }}"  # Source on target host specified in --limit
     dest: "{{ admin_dump_path }}" # Dest on host specified in {{ rsync_to }}
   vars:
-    ansible_ssh_extra_args: '-o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout 600'
+    ansible_ssh_extra_args: '-o ForwardAgent=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=600'
   delegate_to: "{{ groups[rsync_to][0] }}"
 
 - name: move to postgres-owned path # noqa 301

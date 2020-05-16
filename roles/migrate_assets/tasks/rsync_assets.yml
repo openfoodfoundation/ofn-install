@@ -1,0 +1,18 @@
+---
+
+- name: rsync asset files with ssh forwarding
+  synchronize:
+    src: "{{ shared_path }}/{{ migrate_dir }}"  # Source on target host specified in --limit
+    dest: "{{ shared_path }}/"                  # Dest on host specified in {{ rsync_to }}
+    mode: pull
+    set_remote_user: false
+    rsync_opts:
+      - "--chown={{ unicorn_user }}:{{ unicorn_user }}"
+  vars:
+    ansible_ssh_extra_args: >
+      -l {{ unicorn_user }} -o ForwardAgent=yes -o UserKnownHostsFile=/dev/null
+      -o StrictHostKeyChecking=no -o ConnectTimeout=600
+  loop: "{{ migrate_dirs }}"
+  loop_control:
+    loop_var: migrate_dir
+  delegate_to: "{{ groups[rsync_to][0] }}"

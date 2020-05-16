@@ -6,5 +6,6 @@ local_asset_path: "../backups"
 
 migrate_dirs:
   - assets
+  - images
   - spree
   - system
