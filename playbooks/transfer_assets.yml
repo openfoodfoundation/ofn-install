@@ -5,7 +5,7 @@
 
 - name: Transfer assets
   hosts: ofn_servers
-  remote_user: "{{ user }}"
+  remote_user: "{{ unicorn_user }}"
 
   pre_tasks:
     - name: ensure rsync target is valid and singular
