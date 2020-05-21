@@ -21,28 +21,44 @@
   become: yes
   become_user: postgres
 
-- name: move database dump
-  command: mv {{ rollback_tmp_path }} {{ rollback_sql_path }}
+- name: move to releases folder
+  command: mv {{ rollback_tmp_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz
   become: yes
   become_user: root
   args:
-    removes: "{{ rollback_tmp_path }}"
-
-- name: create a database backup version
-  command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz
-  args:
     creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
 
-- name: create a repo rollback version # noqa 301
-  command: cp -TLr {{ current_path }} {{ rollback_path }}
-  register: new_rollback
+- name: update file ownership
+  file:
+    path: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
+    state: touch
+    owner: "{{ unicorn_user }}"
+    group: "{{ unicorn_user }}"
+  become: yes
+  become_user: root
 
-- name: create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}
-  args:
-    creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}"
-  tags: skip_ansible_lint
-  when: new_rollback.changed
+- name: copy repo to archived releases path # noqa 301
+  command: cp -TLr {{ current_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}
+
+# Symlink database dump and current app to /rollback
+
+- name: symlink to database rollback
+  file:
+    src: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
+    dest: "{{ rollback_sql_path }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
+  become: yes
+
+- name: symlink release to rollback path
+  file:
+    src: "{{ releases_path }}/{{ transitional_rollback_timestamp }}"
+    dest: "{{ rollback_path }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
+  become: yes
 
 # Clean up old release files
 
