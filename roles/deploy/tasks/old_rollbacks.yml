@@ -33,16 +33,18 @@
   args:
     creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
 
-- name: create a repo rollback version # noqa 301
-  command: cp -TLr {{ current_path }} {{ rollback_path }}
+- name: copy repo to archived releases path # noqa 301
+  command: cp -TLr {{ current_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}
   register: new_rollback
 
-- name: create a repo backup version
-  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}
-  args:
-    creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}"
-  tags: skip_ansible_lint
-  when: new_rollback.changed
+- name: symlink release to rollback path
+  file:
+    src: "{{ releases_path }}/{{ transitional_rollback_timestamp }}"
+    dest: "{{ rollback_path }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
+  become: yes
 
 # Clean up old release files
 
