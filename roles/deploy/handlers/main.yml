@@ -1,0 +1,14 @@
+---
+
+- name: restart delayed_job
+  service:
+    name: delayed_job_{{ app }}
+    state: restarted
+  become: yes
+  become_user: root
+
+- name: update whenever
+  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
+  changed_when: True
+  args:
+    chdir: "{{ current_path }}"

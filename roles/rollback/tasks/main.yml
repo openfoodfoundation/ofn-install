@@ -1,14 +1,19 @@
 --- # Rollback
 
-- name: remove current path
-  file:
-    dest: "{{ current_path }}"
-    state: absent
+- name: fetch stats of rollback symlink
+  stat:
+    path: "{{ rollback_path }}"
+  register: rollback_symlink
 
-- name: copy rollback repo to current path
-  command: cp -r {{ rollback_path }} {{ current_path }}
-  args:
-    creates: "{{ current_path }}"
+- name: symlink rollback source to current path
+  file:
+    src: "{{ rollback_symlink.stat.lnk_source }}"
+    dest: "{{ current_path }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
+  become: yes
+  notify: reload unicorn
 
 - name: restore database
   include_role:
