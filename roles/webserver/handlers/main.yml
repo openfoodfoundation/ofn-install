@@ -1,8 +1,8 @@
 - name: check service status
   service_facts:
-  listen: reload unicorn configs
+  listen: reload unicorn
 
-- name: reload unicorn configs
+- name: reload unicorn
   service:
     name: unicorn_{{ app }}
     state: reloaded
