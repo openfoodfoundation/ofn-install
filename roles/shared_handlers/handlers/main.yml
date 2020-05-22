@@ -1,5 +1,22 @@
 # This role holds reusable handlers that can be included in multiple playbooks to keep things DRY
 
+- name: ensure unicorn is started
+  service:
+    name: unicorn_{{ app }}
+    state: started
+  become: yes
+  become_user: root
+  listen: reload unicorn
+  register: unicorn_started
+
+- name: reload unicorn
+  service:
+    name: unicorn_{{ app }}
+    state: reloaded
+  become: yes
+  become_user: root
+  when: not unicorn_started.changed
+
 - name: restart unicorn
   service:
     name: unicorn_{{ app }}

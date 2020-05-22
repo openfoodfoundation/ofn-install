@@ -2,5 +2,9 @@
 rollback_path: "{{ app_path }}/rollback"
 rollback_sql_path: "{{ app_path }}/rollback.sql.gz"
 rollback_tmp_path: "/var/lib/postgresql/rollback.sql.gz"
+timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
+build_path: "{{ releases_path }}/{{ timestamp }}"
 
 bugsnag_key: none
+
+transitional_rollback_timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ (ansible_date_time.second | int) -1  }}"

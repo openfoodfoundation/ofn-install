@@ -17,11 +17,25 @@ check_client_connection true
 # for more efficient memory usage in Unicorn workers.
 
 if ['production', 'staging'].include? ENV["RAILS_ENV"]
+  # Enable Copy-On-Write
   preload_app true
+
+  GC.respond_to?(:copy_on_write_friendly=) and
+    GC.copy_on_write_friendly = true
 
   before_fork do |server, worker|
     defined?(ActiveRecord::Base) and
-        ActiveRecord::Base.connection.disconnect!
+      ActiveRecord::Base.connection.disconnect!
+
+    # Before forking, kill the master process that belongs to the .oldbin PID
+    # Note: this is taken from Capistrano's zero-downtime deployment strategy
+    old_pid = "#{server.config[:pid]}.oldbin"
+    if File.exists?(old_pid) && server.pid != old_pid
+      begin
+        Process.kill("QUIT", File.read(old_pid).to_i)
+      rescue Errno::ENOENT, Errno::ESRCH
+      end
+    end
   end
 
   after_fork do |server, worker|

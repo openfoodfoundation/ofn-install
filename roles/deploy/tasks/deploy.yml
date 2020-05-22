@@ -2,12 +2,6 @@
 
 # Build codebase
 
-- name: remove the old build path
-  file:
-    dest: "{{ build_path }}"
-    state: absent
-  tags: clone
-
 - name: build codebase from git branch
   git:
     repo: "{{ git_repo }}"
@@ -17,7 +11,7 @@
     force: yes
   tags: clone
 
-- name: symlink into the repo
+- name: symlink custom assets into the build
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -71,7 +65,7 @@
   tags:
     - bundle_app
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: reload unicorn
 
 # Update the database
 
@@ -98,7 +92,7 @@
   tags:
     - rake
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: reload unicorn
 
 - name: seed database
   command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
@@ -107,38 +101,31 @@
   tags:
     - seed
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: reload unicorn
 
 # Precompile assets
 
 - name: precompile assets
   import_tasks: precompile.yml
 
-# Move new build into place
-
-- name: remove the current build
+# Note: this task can be removed after all servers have been provisioned and deployed
+- name: delete current path unless it's a symlink
   file:
     dest: "{{ current_path }}"
     state: absent
-  tags: clone
+  when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
 
-- name: move build to current
-  command: mv {{ build_path }} {{ current_path }}
-  args:
-    removes: "{{ build_path }}"
-  changed_when: True
+# Move new build into place
 
-# Restart and update
-
-- name: restart delayed job service
-  service:
-    name: delayed_job_{{ app }}
-    state: restarted
+- name: symlink build to current
+  file:
+    src: "{{ build_path }}"
+    dest: "{{ current_path }}"
+    owner: "{{ unicorn_user }}"
+    state: link
+    force: yes
   become: yes
-  become_user: root
-
-- name: update whenever
-  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
-  changed_when: True
-  args:
-    chdir: "{{ current_path }}"
+  notify:
+    - reload unicorn
+    - restart delayed_job
+    - update whenever

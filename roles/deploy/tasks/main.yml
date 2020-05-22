@@ -1,13 +1,19 @@
 --- # Deploy
 
-- name: Check if app is deployed
+- name: Fetch stats on current deployment
   stat:
-    path: "{{ current_path }}/"
-  register: current_path_check
+    path: "{{ current_path }}"
+  register: current_path_stats
 
-- name: Handle rollbacks
+# Note: this can be tidied up after all servers have been provisioned and deployed
+- name: Handle rollbacks the old way
+  import_tasks: old_rollbacks.yml
+  when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
+  tags: rollbacks
+
+- name: Handle rollbacks the new way
   import_tasks: rollbacks.yml
-  when: current_path_check.stat.exists
+  when: current_path_stats.stat.islnk is defined and current_path_stats.stat.islnk
   tags: rollbacks
 
 - name: Deploy
