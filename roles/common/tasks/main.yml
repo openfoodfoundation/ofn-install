@@ -41,6 +41,7 @@
       - libxml2-dev
       - libxslt1-dev
       - memcached
+      - libxrender1
   tags: packages
 
 - name: add memcached configuration
