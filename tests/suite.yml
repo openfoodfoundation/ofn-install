@@ -17,6 +17,21 @@
 - import_playbook: ../playbooks/rollback.yml
 - import_playbook: ../tests/rollback/test.yml
 
+# Simulate transitional deployment to instance with old deployment method
+- import_playbook: ../tests/transitional_deploy/setup.yml
+- import_playbook: ../playbooks/deploy.yml
+- import_playbook: ../tests/transitional_deploy/test.yml
+
+# Perform another rollback after transition
+- import_playbook: ../tests/rollback/setup.yml
+- import_playbook: ../playbooks/rollback.yml
+- import_playbook: ../tests/rollback/test.yml
+
+# Deploy a second time after transition
+- import_playbook: ../tests/deploy/setup.yml
+- import_playbook: ../playbooks/deploy.yml
+- import_playbook: ../tests/deploy/test.yml
+
 # Add a database integration
 - import_playbook: ../tests/db_integrations/setup.yml
 - import_playbook: ../playbooks/db_integrations.yml
