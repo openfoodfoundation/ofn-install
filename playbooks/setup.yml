@@ -28,3 +28,11 @@
     - role: ssh_keys
       become: yes
       tags: ssh_keys
+
+  tasks:
+    - name: purge outdated nginx packages
+      apt:
+        name: nginx
+        state: absent
+        purge: yes
+      become: yes
