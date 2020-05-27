@@ -1,8 +1,19 @@
 ---
 
-# Create a database rollback
+# Remove old rollbacks so they aren't used accidentally after errors.
 
-- name: create a database dump
+- name: remove the old rollbacks
+  file:
+    dest: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ rollback_path }}"
+    - "{{ rollback_sql_path }}"
+  tags: clone
+
+# Create a rollback release
+
+- name: create a database rollback version
   postgresql_db:
     name: "{{ db }}"
     state: dump
@@ -11,35 +22,38 @@
   become_user: postgres
 
 - name: move to releases folder
-  command: mv {{ rollback_tmp_path }} {{ current_path_stats.stat.lnk_source }}.sql.gz
+  command: mv {{ rollback_tmp_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz
   become: yes
   become_user: root
   args:
-    creates: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    creates: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
 
 - name: update file ownership
   file:
-    path: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    path: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
     state: touch
     owner: "{{ unicorn_user }}"
     group: "{{ unicorn_user }}"
   become: yes
   become_user: root
 
+- name: copy repo to archived releases path # noqa 301
+  command: cp -TLr {{ current_path }} {{ releases_path }}/{{ transitional_rollback_timestamp }}
+
 # Symlink database dump and current app to /rollback
 
 - name: symlink to database rollback
   file:
-    src: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    src: "{{ releases_path }}/{{ transitional_rollback_timestamp }}.sql.gz"
     dest: "{{ rollback_sql_path }}"
     owner: "{{ unicorn_user }}"
     state: link
     force: yes
   become: yes
 
-- name: symlink to app rollback
+- name: symlink release to rollback path
   file:
-    src: "{{ current_path_stats.stat.lnk_source }}"
+    src: "{{ releases_path }}/{{ transitional_rollback_timestamp }}"
     dest: "{{ rollback_path }}"
     owner: "{{ unicorn_user }}"
     state: link

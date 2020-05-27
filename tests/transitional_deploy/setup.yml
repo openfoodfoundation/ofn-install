@@ -1,0 +1,52 @@
+---
+- name: setup
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: setup | transition | make current_path a non-symlink, non-empty directory
+      shell: rm -rf {{ current_path }} && cp -TLr {{ rollback_path }} {{ current_path }}
+      become: yes
+      become_user: "{{ unicorn_user }}"
+
+    - name: setup | transition | expect current path to not be a symlink
+      stat:
+        path: "{{ current_path }}"
+      register: current_path_setup_test
+      failed_when: current_path_setup_test.stat.islnk
+
+    - name: setup | transition | make rollback_path a non-symlink, non-empty directory
+      shell: rm -rf {{ rollback_path }} && cp -TLr {{ current_path }} {{ rollback_path }}
+      become: yes
+      become_user: "{{ unicorn_user }}"
+
+    - name: setup | transition | expect rollback path to not be a symlink
+      stat:
+        path: "{{ rollback_path }}"
+      register: rollback_path_setup_test
+      failed_when: rollback_path_setup_test.stat.islnk
+
+    - name: setup | transition | make rollback sql dump a non-symlinked file
+      raw: "mv $(readlink {{ rollback_sql_path }}) {{ rollback_sql_path }}"
+      become: yes
+      become_user: "{{ unicorn_user }}"
+
+    - name: setup | transition | expect rollback dump to not be a symlink
+      stat:
+        path: "{{ rollback_sql_path }}"
+      register: rollback_sql_setup_test
+      failed_when: rollback_sql_setup_test.stat.islnk
+
+    - name: setup | transition | add dummy product image directory
+      become: yes
+      become_user: "{{ unicorn_user }}"
+      file:
+        path: "{{ shared_path }}/spree/products/123/"
+        state: directory
+
+    - name: setup | transition | add dummy product image
+      become: yes
+      become_user: "{{ unicorn_user }}"
+      file:
+        path: "{{ shared_path }}/spree/products/123/test.png"
+        state: touch

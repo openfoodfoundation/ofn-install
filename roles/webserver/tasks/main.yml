@@ -27,7 +27,7 @@
     group: "{{ unicorn_user }}"
   become: yes
   tags: unicorn_config
-  notify: reload unicorn
+  notify: reload unicorn configs
 
 - name: Reload systemd
   systemd:

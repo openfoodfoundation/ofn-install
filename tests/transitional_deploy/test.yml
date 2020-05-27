@@ -1,0 +1,42 @@
+---
+- name: test
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: test | transition | expect current path to be a symlink
+      stat:
+        path: "{{ current_path }}"
+      register: current_sym_test
+      failed_when: not current_sym_test.stat.islnk
+
+    - name: test | transition | expect rollback path to be a symlink
+      stat:
+        path: "{{ rollback_path }}"
+      register: rollback_sym_test
+      failed_when: not rollback_sym_test.stat.islnk
+
+    - name: test | transition | expect rollback dump to be a symlink
+      stat:
+        path: "{{ rollback_sql_path }}"
+      register: rollback_sql_sym_test
+      failed_when: not rollback_sql_sym_test.stat.islnk
+
+    - name: test | transition | expect rollback to exist, and contain app files
+      stat:
+        path: "{{ rollback_path }}/app/"
+      register: deploy_test
+      failed_when: not deploy_test.stat.exists
+
+    - name: test | transition | expect symlinked directories in /current to be intact
+      stat:
+        path: "{{ current_path }}/public/spree"
+      register: symlink_test
+      failed_when: not symlink_test.stat.exists or not symlink_test.stat.islnk
+
+    - name: test | transition | expect images symlinked from /shared to be available in /current
+      stat:
+        path: "{{ current_path }}/public/spree/products/123/test.png"
+      register: image_test
+      failed_when: not image_test.stat.exists
+

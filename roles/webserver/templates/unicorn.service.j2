@@ -9,16 +9,12 @@ User=openfoodnetwork
 WorkingDirectory={{ current_path }}
 EnvironmentFile={{ shared_path }}/unicorn_environment
 
-{% if skylight_authentication is defined %}
-  Environment=SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
-{% endif %}
-
 SyslogIdentifier=openfoodnetwork-unicorn
 PIDFile={{ unicorn_pid }}
 
 ExecStart={{ bundle_path }} exec unicorn -D -c {{ unicorn_config }} -E {{ rails_env }}
 ExecStop=/bin/kill -QUIT $MAINPID
-ExecReload=/bin/kill -HUP $MAINPID
+ExecReload=/bin/kill -USR2 $MAINPID
 
 [Install]
 WantedBy=multi-user.target
