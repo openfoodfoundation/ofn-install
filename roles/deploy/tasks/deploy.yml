@@ -114,6 +114,7 @@
     dest: "{{ current_path }}"
     state: absent
   when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
+  notify: restart unicorn
 
 # Move new build into place
 
