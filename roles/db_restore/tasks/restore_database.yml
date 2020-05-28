@@ -10,6 +10,7 @@
   loop_control:
     loop_var: service_name
   become: yes
+  become_user: root
 
 - name: close active db connections # noqa 301
   shell: |
@@ -55,3 +56,4 @@
   loop_control:
     loop_var: service_name
   become: yes
+  become_user: root
