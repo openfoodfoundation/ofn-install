@@ -11,6 +11,7 @@
     db: "{{ db }}"
     role_attr_flags: LOGIN,INHERIT,NOSUPERUSER,NOCREATEDB,NOCREATEROLE,NOREPLICATION
     state: present
+  notify: restart postgresql
   when: db_integration.state == 'present'
   register: integration_config
 
