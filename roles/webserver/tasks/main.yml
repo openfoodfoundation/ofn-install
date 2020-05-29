@@ -15,6 +15,7 @@
   register: unicorn_service_files
   notify:
     - restart nginx
+    - restart unicorn if running
   tags: init
 
 - name: provision unicorn config
