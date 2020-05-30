@@ -1,6 +1,6 @@
 --- # webserver
 
-- name: provision init scripts
+- name: provision service files
   template:
     src={{ item.src }}
     dest={{ item.dest }}
@@ -9,13 +9,13 @@
     group={{ unicorn_user }}
   become: yes
   with_items:
-    - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}" }
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
     - { src: "unicorn_environment.j2", dest: "{{ shared_path }}/unicorn_environment" }
     - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service" }
-  register: init_scripts
+  register: unicorn_service_files
   notify:
     - restart nginx
+    - restart unicorn if running
   tags: init
 
 - name: provision unicorn config
@@ -34,7 +34,7 @@
     daemon_reload: yes
   become: yes
   become_user: root
-  when: init_scripts.changed
+  when: unicorn_service_files.changed
   tags:
     - init
     - skip_ansible_lint # The alternative involves flushing all handlers at this point, and we don't want to
