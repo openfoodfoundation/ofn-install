@@ -8,7 +8,7 @@
   become_user: root
 
 - name: update whenever
-  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
+  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}&path={{ current_path }}' --update-crontab"
   changed_when: True
   args:
     chdir: "{{ current_path }}"
