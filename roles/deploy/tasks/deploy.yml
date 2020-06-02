@@ -77,7 +77,7 @@
 
 - name: run yarn install
   yarn:
-    path: "{{ current_path }}"
+    path: "{{ build_path }}"
     executable: "{{ npm_prefix }}/bin/yarn"
     production: yes
   become: true
