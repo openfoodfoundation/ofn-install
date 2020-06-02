@@ -7,8 +7,24 @@
   become: yes
   become_user: root
 
+- name: get crontab entries for unicorn user # noqa 305
+  shell: crontab -l
+  register: crontab_entries
+  become: yes
+  become_user: "{{ unicorn_user }}"
+  changed_when: false
+  failed_when: crontab_entries.rc > 1
+  listen: update whenever
+
+- name: clean out old whenever entries # noqa 305
+  shell: "echo '{{ crontab_entries.stdout | regex_replace('# Begin Whenever[\\s\\S.]*# End Whenever.*') }}' | crontab -"
+  become: yes
+  become_user: "{{ unicorn_user }}"
+  when: crontab_entries.stdout | regex_search(releases_path)
+  listen: update whenever
+
 - name: update whenever
-  command: bash -lc "bundle exec whenever --set 'environment={{ rails_env }}' --update-crontab"
+  command: bash -lc "bundle exec whenever -i ofn --set 'environment={{ rails_env }}&path={{ current_path }}' --update-crontab"
   changed_when: True
   args:
     chdir: "{{ current_path }}"
