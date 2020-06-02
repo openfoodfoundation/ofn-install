@@ -20,7 +20,7 @@
   shell: "echo '{{ crontab_entries.stdout | regex_replace('# Begin Whenever[\\s\\S.]*# End Whenever.*') }}' | crontab -"
   become: yes
   become_user: "{{ unicorn_user }}"
-  when: crontab_entries.stdout | regex_search(releases_path)
+  when: ( crontab_entries.stdout | regex_search(releases_path) ) or ( crontab_entries.stdout | regex_search('config/schedule.rb') )
   listen: update whenever
 
 - name: update whenever
