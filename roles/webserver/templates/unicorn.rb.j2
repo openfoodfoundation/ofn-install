@@ -23,6 +23,12 @@ if ['production', 'staging'].include? ENV["RAILS_ENV"]
   GC.respond_to?(:copy_on_write_friendly=) and
     GC.copy_on_write_friendly = true
 
+  before_exec do |server|
+    # Ensure new Unicorn master process fetches the new Gemfile
+    # when switching between builds during deployment.
+    ENV["BUNDLE_GEMFILE"] = "{{ current_path }}/Gemfile"
+  end
+
   before_fork do |server, worker|
     defined?(ActiveRecord::Base) and
       ActiveRecord::Base.connection.disconnect!
