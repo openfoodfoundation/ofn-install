@@ -1,8 +1,25 @@
 ---
 
-# Create a database rollback
+# Remove old rollbacks so they aren't used accidentally after errors.
 
-- name: create a database dump
+- name: remove the old rollbacks
+  file:
+    dest: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ rollback_path }}"
+    - "{{ rollback_sql_path }}"
+  tags: clone
+
+# Set timestamp
+
+- name: define a timestamp
+  set_fact:
+    timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
+
+# Create a rollback release
+
+- name: create a database rollback version
   postgresql_db:
     name: "{{ db }}"
     state: dump
@@ -10,41 +27,28 @@
   become: yes
   become_user: postgres
 
-- name: move to releases folder
-  command: mv {{ rollback_tmp_path }} {{ current_path_stats.stat.lnk_source }}.sql.gz
+- name: move database dump
+  command: mv {{ rollback_tmp_path }} {{ rollback_sql_path }}
   become: yes
   become_user: root
   args:
-    creates: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    removes: "{{ rollback_tmp_path }}"
 
-- name: update file ownership
-  file:
-    path: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
-    state: touch
-    owner: "{{ unicorn_user }}"
-    group: "{{ unicorn_user }}"
-  become: yes
-  become_user: root
+- name: create a database backup version
+  command: cp {{ rollback_sql_path }} {{ releases_path }}/{{ timestamp }}.sql.gz
+  args:
+    creates: "{{ releases_path }}/{{ timestamp }}.sql.gz"
 
-# Symlink database dump and current app to /rollback
+- name: create a repo rollback version # noqa 301
+  command: cp -TLr {{ current_path }} {{ rollback_path }}
+  register: new_rollback
 
-- name: symlink to database rollback
-  file:
-    src: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
-    dest: "{{ rollback_sql_path }}"
-    owner: "{{ unicorn_user }}"
-    state: link
-    force: yes
-  become: yes
-
-- name: symlink to app rollback
-  file:
-    src: "{{ current_path_stats.stat.lnk_source }}"
-    dest: "{{ rollback_path }}"
-    owner: "{{ unicorn_user }}"
-    state: link
-    force: yes
-  become: yes
+- name: create a repo backup version
+  command: cp -r {{ rollback_path }} {{ releases_path }}/{{ timestamp }}
+  args:
+    creates: "{{ releases_path }}/{{ timestamp }}"
+  tags: skip_ansible_lint
+  when: new_rollback.changed
 
 # Clean up old release files
 
