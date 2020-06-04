@@ -37,3 +37,10 @@
   become: yes
   become_user: "{{ unicorn_user }}"
   when: check_rails_3 is failure
+
+- name: clear tmp files after asset compilation
+  command: bash -lc "bundle exec rake tmp:cache:clear"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
