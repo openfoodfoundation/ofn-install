@@ -17,6 +17,11 @@ check_client_connection true
 # for more efficient memory usage in Unicorn workers.
 
 if ['production', 'staging'].include? ENV["RAILS_ENV"]
+  # Ensure newly created master process is using `bundle exec` when switching via reload
+  start_ctx = Unicorn::HttpServer::START_CTX
+  start_ctx[0] = "{{ bundle_path }}" # Full path to bundle executable (via rbenv shims)
+  start_ctx[:argv] = ["exec", ""--keep-file-descriptors", "unicorn").concat(start_ctx[:argv])
+
   # Enable Copy-On-Write
   preload_app true
 
