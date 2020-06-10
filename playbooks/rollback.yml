@@ -2,8 +2,6 @@
 
 - hosts: ofn_servers
   remote_user: "{{ user }}"
-  become: yes
-  become_user: "{{ unicorn_user }}"
 
   handlers:
     - include: ../roles/shared_handlers/handlers/main.yml

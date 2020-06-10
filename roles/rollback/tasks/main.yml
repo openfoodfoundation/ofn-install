@@ -13,6 +13,7 @@
     state: link
     force: yes
   become: yes
+  become_user: "{{ unicorn_user }}"
   notify: reload unicorn
 
 - name: restore database

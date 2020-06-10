@@ -1,5 +1,17 @@
 ---
 
+- name: stop unicorn and delayed_job
+  service:
+    name: "{{ service_name }}"
+    state: stopped
+  loop:
+    - "unicorn_{{ app }}"
+    - "delayed_job_{{ app }}"
+  loop_control:
+    loop_var: service_name
+  become: yes
+  become_user: root
+
 - name: close active db connections # noqa 301
   shell: |
     psql -c "REVOKE CONNECT ON DATABASE {{ db }} FROM public;
@@ -33,5 +45,15 @@
     target: "{{ database_dump_path }}"
   become: true
   become_user: postgres
-  notify:
-    - restart unicorn
+
+- name: restart unicorn and delayed_job
+  service:
+    name: "{{ service_name }}"
+    state: started
+  loop:
+    - "unicorn_{{ app }}"
+    - "delayed_job_{{ app }}"
+  loop_control:
+    loop_var: service_name
+  become: yes
+  become_user: root
