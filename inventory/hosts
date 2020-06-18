@@ -170,7 +170,6 @@ de-prod
 [america:children]
 ca-prod
 us-prod
-br-prod
 
 #------------------------------------------------------------------------------
 # Production Servers
@@ -179,7 +178,6 @@ br-prod
 europe
 america
 au-prod
-br-prod
 
 #------------------------------------------------------------------------------
 # Staging Servers
@@ -189,7 +187,6 @@ au-staging
 uk-staging
 fr-staging
 es-staging
-br-staging
 
 #------------------------------------------------------------------------------
 # All
