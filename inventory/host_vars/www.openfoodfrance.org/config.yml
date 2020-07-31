@@ -23,3 +23,6 @@ custom_hba_entries:
 
 enable_nginx_logging: true
 enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
+
+# Images settings
+attachment_path: "home/openfoodnetwork/apps/openfoodnetwork/current/public/spree/products/:id/:style/:basename.:extension"

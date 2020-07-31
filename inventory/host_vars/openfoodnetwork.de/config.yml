@@ -23,3 +23,6 @@ swapfile_size: 2G
 
 unicorn_workers: 2
 unicorn_timeout: 360
+
+# Images settings
+attachment_styles: "{\"mini\":[\"48x48#\",\"jpg\"],\"small\":[\"112x112#\",\"jpg\"],\"product\":[\"240x240>\",\"\"],\"large\":[\"600x600>\",\"jpg\"]}"

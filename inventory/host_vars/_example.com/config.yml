@@ -29,3 +29,10 @@ mail_domain: example.com
 #
 #custom_application_env_vars: |
 #  OFN_FEATURE_CONNECT_AND_LEARN: "true"
+
+# Overridable Image Settings
+# attachment_url:
+# attachment_styles:
+# attachment_path:
+# attachment_default_style:
+# attachment_default_url:
