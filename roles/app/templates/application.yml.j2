@@ -44,10 +44,10 @@ S3_BACKUPS_BUCKET: {{ s3_backups_bucket }}
 S3_BUCKET: {{ s3_images_bucket }}
 {% endif %}
 {% if s3_headers is defined %}
-S3_HEADERS: {{ s3_headers }}
+S3_HEADERS: {{ s3_headers | "{\"Cache-Control\":\"max-age=31557600\"}" }}
 {% endif %}
 {% if s3_protocol is defined %}
-S3_PROTOCOL: {{ s3_protocol }}
+S3_PROTOCOL: {{ s3_protocol | "https" }}
 {% endif %}
 
 ATTACHMENT_URL: {{ attachment_url | "/spree/products/:id/:style/:basename.:extension" }}
