@@ -22,5 +22,3 @@ postgres_listen_addresses:
 
 custom_hba_entries:
   - { type: hostssl, database: "{{ db }}", user: metabase, address: '167.99.89.242/32', auth_method: md5 }
-
-disable_datadog: true
