@@ -5,13 +5,7 @@
     path: "{{ current_path }}"
   register: current_path_stats
 
-# Note: this can be tidied up after all servers have been provisioned and deployed
-- name: Handle rollbacks the old way
-  import_tasks: old_rollbacks.yml
-  when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
-  tags: rollbacks
-
-- name: Handle rollbacks the new way
+- name: Handle rollbacks
   import_tasks: rollbacks.yml
   when: current_path_stats.stat.islnk is defined and current_path_stats.stat.islnk
   tags: rollbacks
