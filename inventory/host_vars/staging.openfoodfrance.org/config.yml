@@ -15,3 +15,6 @@ users_sysadmin:
   - paco
   - hugo
   - filipe
+
+# Images settings
+attachment_path: "home/openfoodnetwork/apps/openfoodnetwork/current/public/spree/products/:id/:style/:basename.:extension"

@@ -38,3 +38,7 @@ unicorn_env_vars: |
   KILL_UNICORNS=true
   UWK_MEM_MIN=1900
   UWK_MEM_MAX=2100
+
+# Images settings
+attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
+attachment_styles: "{\"mini\":[\"48x48#\",\"jpg\"],\"small\":[\"112x112#\",\"jpg\"],\"product\":[\"240x240>\",\"\"],\"large\":[\"600x600>\",\"jpg\"]}"

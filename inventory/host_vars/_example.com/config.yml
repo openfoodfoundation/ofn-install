@@ -29,3 +29,11 @@ mail_domain: example.com
 #
 #custom_application_env_vars: |
 #  OFN_FEATURE_CONNECT_AND_LEARN: "true"
+
+# Overridable Image Settings
+# If you update attachment_styles, you will need to regenerate thumbnails. Use rake paperclip:refresh:thumbnails CLASS=Spree::Image
+# attachment_styles:
+# attachment_url:
+# attachment_path:
+# attachment_default_style:
+# attachment_default_url:

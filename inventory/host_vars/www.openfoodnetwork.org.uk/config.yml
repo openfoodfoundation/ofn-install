@@ -19,3 +19,6 @@ custom_hba_entries:
 
 enable_nginx_logging: true
 enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
+
+# Images settings
+attachment_styles: "{\"mini\":[\"48x48#\",\"\"],\"small\":[\"100x100#\",\"\"],\"product\":[\"240x240>\",\"\"],\"large\":[\"600x600>\",\"\"]}"
