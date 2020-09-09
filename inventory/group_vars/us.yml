@@ -3,7 +3,7 @@
 checkout_zone: USA
 country_code: US
 currency: USD
-locale: en
+locale: en_US
 language: en_US.UTF8
 language_packages:
   - language-pack-en-base
