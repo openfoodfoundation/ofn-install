@@ -5,6 +5,9 @@
 - src: zzet.rbenv
   version: 3.4.2
 
+- src: geerlingguy.nodejs
+  version: 5.1.1
+
 - src: jdauphant.nginx
   version: v2.8.1
 

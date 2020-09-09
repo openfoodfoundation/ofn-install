@@ -23,7 +23,6 @@ git_version: "{{ github_key.split(':')[1] }}"
 
 l10n_git_version: HEAD
 
-
 #----------------------------------------------------------------------
 # Default values (should be overridden in each server config)
 rails_env: staging
@@ -103,6 +102,13 @@ postgresql_global_config_options:
     value: "conf.d"
 
 debezium_version: "0.10.0.Final"
+
+#----------------------------------------------------------------------
+# Yarn/node variables
+npm_prefix: "/usr/local/lib/npm"
+
+node_version: 14.x
+yarn_version: 1.22.4
 
 #----------------------------------------------------------------------
 # App variables
