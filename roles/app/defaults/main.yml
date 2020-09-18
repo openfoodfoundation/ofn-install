@@ -4,14 +4,6 @@ s3_protocol: "https"
 
 attachment_url: "/spree/products/:id/:style/:basename.:extension"
 attachment_path: "public/spree/products/:id/:style/:basename.:extension"
-attachment_default_style: "product"
-attachment_default_url: "/spree/products/:id/:style/:basename.:extension"
-# This is where these styles are used in the app:
-# - mini: used in the BackOffice: Bulk Product edit page and Order Cycle edit page
-# - small: used in the FrontOffice: product list page
-# - product: used in the BackOffice: Product Image upload modal in the Bulk Product edit page and Product image edit page
-# - large: used in the FrontOffice: product modal
-attachment_styles: "{\"mini\":[\"48x48#\",\"jpg\"],\"small\":[\"227x227#\",\"jpg\"],\"product\":[\"240x240>\",\"jpg\"],\"large\":[\"600x600>\",\"jpg\"]}"
 
 stripe_client_id:
 stripe_instance_secret_key:
