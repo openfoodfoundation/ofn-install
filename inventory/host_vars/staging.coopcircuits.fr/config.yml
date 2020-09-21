@@ -13,5 +13,4 @@ unicorn_timeout: 120
 users_sysadmin:
   - "{{ core_devs }}"
   - paco
-  - hugo
   - filipe
