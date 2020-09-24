@@ -18,3 +18,6 @@ unicorn_timeout: 120
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
 swapfile_size: 1G
+
+# Images settings
+attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
