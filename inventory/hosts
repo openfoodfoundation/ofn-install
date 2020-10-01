@@ -118,7 +118,7 @@ es-staging
 # France
 
 [fr-prod]
-www.openfoodfrance.org ansible_host=51.68.226.206
+www.coopcircuits.fr ansible_host=51.68.226.206
 
 [fr-staging]
 staging.coopcircuits.fr ansible_host=149.202.55.45

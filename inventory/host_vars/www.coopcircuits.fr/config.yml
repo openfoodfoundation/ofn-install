@@ -1,0 +1,25 @@
+---
+
+domain: www.coopcircuits.fr
+host_id: fr-prod
+rails_env: production
+
+admin_email: admin@coopcircuits.fr
+
+mail_domain: coopcircuits.fr
+
+unicorn_timeout: 240
+unicorn_workers: 4
+
+certbot_domains:
+  - www.coopcircuits.fr
+  - coopcircuits.fr
+
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
+
+enable_nginx_logging: true
+enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
