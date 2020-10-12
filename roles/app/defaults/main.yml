@@ -3,10 +3,7 @@ s3_headers: "{\"Cache-Control\":\"max-age=31557600\"}"
 s3_protocol: "https"
 
 attachment_url: "/spree/products/:id/:style/:basename.:extension"
-attachment_styles: "{\"mini\":[\"48x48>\",\"\"],\"small\":[\"100x100>\",\"\"],\"product\":[\"240x240>\",\"\"],\"large\":[\"600x600>\",\"\"]}"
 attachment_path: "public/spree/products/:id/:style/:basename.:extension"
-attachment_default_style: "product"
-attachment_default_url: "/spree/products/:id/:style/:basename.:extension"
 
 stripe_client_id:
 stripe_instance_secret_key:
