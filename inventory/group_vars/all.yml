@@ -231,6 +231,11 @@ nginx_acme_challenge_config: |+
     root /etc/letsencrypt/webrootauth;
   }
 
+nginx_valid_methods: |+
+  limit_except GET POST PUT DELETE OPTIONS {
+    deny all;
+  }
+
 nginx_sites:
   default:
     - |
@@ -248,6 +253,7 @@ nginx_sites:
 
   ofn_80:
     - |
+      {{ nginx_valid_methods }}
       listen 80;
       listen [::]:80;
       server_name {{ certbot_domains | default([domain]) | join(' ') }};
@@ -263,6 +269,7 @@ nginx_sites:
 
   ofn_443:
     - |
+      {{ nginx_valid_methods }}
       listen 443 ssl http2;
       listen [::]:443 ssl http2;
       server_name {{ certbot_domains | default([domain]) | join(' ') }};
