@@ -1,0 +1,8 @@
+---
+
+domain: stg.openfoodnetwork.it
+rails_env: staging
+
+admin_email: admin@openfoodnetwork.it
+
+mail_domain: openfoodnetwork.it
