@@ -66,10 +66,14 @@ in-prod
 #------------------------------------------------------------------------------
 # Italy
 
+[it-prod]
+app.openfoodnetwork.it
+
 [it-staging]
-staging.pixelwise.it
+stg.openfoodnetwork.it
 
 [it:children]
+it-prod
 it-staging
 
 #------------------------------------------------------------------------------
@@ -163,6 +167,7 @@ es-prod
 fr-prod
 uk-prod
 de-prod
+it-prod
 
 #------------------------------------------------------------------------------
 # America
