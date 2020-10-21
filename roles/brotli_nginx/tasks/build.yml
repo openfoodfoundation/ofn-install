@@ -47,7 +47,7 @@
   changed_when: False
 
 - name: configure build # noqa 305
-  shell: "./configure {{ nginx_build_args }} --with-compat --add-dynamic-module={{ nginx_brotli_src_path }}"
+  shell: "./configure {{ nginx_build_args }} --add-dynamic-module={{ nginx_brotli_src_path }}"
   args:
     chdir: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}"
     creates: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}/Makefile"
