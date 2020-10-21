@@ -16,3 +16,5 @@ nginx_brotli_build_deps:
   - zlib1g-dev
   - openssl
   - libssl-dev
+  - libgd-dev
+  - libgeoip-dev
