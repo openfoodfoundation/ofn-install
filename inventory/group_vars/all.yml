@@ -232,7 +232,7 @@ nginx_acme_challenge_config: |+
   }
 
 nginx_valid_methods: |+
-  limit_except GET POST PUT DELETE OPTIONS {
+  limit_except GET POST PUT PATCH DELETE OPTIONS {
     deny all;
   }
 
