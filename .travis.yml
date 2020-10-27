@@ -1,6 +1,6 @@
 ---
 sudo: required
-dist: xenial
+dist: focal
 cache: bundler
 language: python
 python: 3.7.1
