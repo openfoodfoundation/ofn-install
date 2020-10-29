@@ -11,3 +11,5 @@ mail_domain: openfoodnetwork.be
 certbot_domains:
   - www.openfoodnetwork.be
   - openfoodnetwork.be
+
+attachment_url: ofn-belgium.s3.us-east-1.amazonaws.com
