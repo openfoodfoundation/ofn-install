@@ -171,6 +171,7 @@ logrotate_applications:
         options:
           - daily         # run daily
           - rotate 0      # don't rotate files
+          - missingok     # ignore missing logs
           - nocreate      # don't replace log files
         lastaction:       # delete log files older than 1 day
           - "find /var/log/pg_log/ -name '*.log' -mtime +1 -exec rm {};"
