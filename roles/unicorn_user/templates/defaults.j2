@@ -6,6 +6,9 @@ MAIL_PORT={{ mail_port }}
 {% if mail_secure_connection is defined %}
   MAIL_SECURE_CONNECTION={{ mail_secure_connection  }}
 {% endif %}
+{% if mail_auth_type is defined %}
+  MAIL_AUTH_TYPE={{ mail_auth_type }}
+{% endif %}
 SMTP_USERNAME={{ smtp_username }}
 SMTP_PASSWORD={{ smtp_password }}
 {% if mails_from is defined %}
