@@ -14,8 +14,9 @@
       fail:
         msg: |
           WARNING: The current settings would deploy `master` branch to a production server!
-          Check for typos in the command if deploying a release.
-      when: inventory_hostname in groups['all-prod'] and git_version == "master"
+          Specify a release when deploying by adding (for example) ` -e "git_version=v3.3.1"`
+          to the comand. If you still see this message, check for typos :)
+      when: rails_env == "production" and git_version == "master"
 
     - block:
       - include_role:
