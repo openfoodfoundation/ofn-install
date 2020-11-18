@@ -1,0 +1,22 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Colombia
+country_code: CO
+currency: COP
+locale: es_CO               # Default locale for OFN instance
+available_locales: es_CO    # Available locales for OFN instance
+language: es_MX.UTF-8       # Default language for the server
+language_packages:          # Language packages for the server
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodcolombia/l10n_co.git
+timezone: Bogota
+
+
+# Used for the LetsEncrypt email setting
+developer_email: administracion@openfoodcolombia.org
+
+# Users listed here will have their key from /files/keys added to the unicorn_user
+users_sysadmin:
+  - adminofcolombia
+  - "{{ core_devs }}"
