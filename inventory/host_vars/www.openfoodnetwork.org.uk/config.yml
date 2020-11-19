@@ -19,3 +19,5 @@ custom_hba_entries:
 
 enable_nginx_logging: true
 enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
+
+attachment_url: ofn-uk-production.s3.us-east-1.amazonaws.com

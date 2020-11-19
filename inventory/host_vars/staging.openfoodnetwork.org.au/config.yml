@@ -21,3 +21,4 @@ swapfile_size: 1G
 
 # Images settings
 attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
+attachment_url: ofn-staging.s3.us-east-1.amazonaws.com
