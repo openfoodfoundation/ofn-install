@@ -12,3 +12,6 @@ unicorn_timeout: 120
 certbot_domains:
   - openfoodbrasil.com.br
   - www.openfoodbrasil.com.br
+
+# S3 attachment URL
+attachment_url: ofn-br-prod.s3.us-east-1.amazonaws
