@@ -113,10 +113,12 @@
     - skip_ansible_lint
   notify: restart unicorn
 
-# Precompile assets
-
-- name: precompile assets
-  import_tasks: precompile.yml
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ unicorn_user }}"
 
 # Note: this task can be removed after all servers have been provisioned and deployed
 - name: delete current path unless it's a symlink
