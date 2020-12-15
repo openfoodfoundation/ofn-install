@@ -17,5 +17,7 @@ ExecStart={{ bundle_path }} exec --keep-file-descriptors unicorn -D -c {{ unicor
 ExecStop=/bin/kill -QUIT $MAINPID
 ExecReload=/bin/kill -USR2 $MAINPID
 
+TimeoutStartSec=300
+
 [Install]
 WantedBy=multi-user.target
