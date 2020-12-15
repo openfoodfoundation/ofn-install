@@ -5,8 +5,6 @@
     src={{ item.src }}
     dest={{ item.dest }}
     mode="0644"
-    owner={{ unicorn_user }}
-    group={{ unicorn_user }}
   become: yes
   with_items:
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
