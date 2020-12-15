@@ -4,7 +4,7 @@
   template:
     src={{ item.src }}
     dest={{ item.dest }}
-    mode="0744"
+    mode="0644"
     owner={{ unicorn_user }}
     group={{ unicorn_user }}
   become: yes
@@ -22,7 +22,7 @@
   template:
     src: unicorn.rb.j2
     dest: "{{ config_path }}/unicorn.rb"
-    mode: 0744
+    mode: 0644
     owner: "{{ unicorn_user }}"
     group: "{{ unicorn_user }}"
   become: yes
