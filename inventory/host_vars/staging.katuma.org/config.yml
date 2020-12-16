@@ -11,3 +11,6 @@ users_sysadmin:
   - dani
   - filipe
   - andy
+
+beta_testers:
+  - filipefurtado+espargo@gmail.com
