@@ -1,0 +1,32 @@
+---
+
+- name: Migrate PDFs
+  hosts: ofn_servers
+  strategy: free
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: find PDF file paths
+      shell: "ls {{ releases_path }}/*/public/files/enterprises/terms_and_conditions/*/*.pdf"
+      become: yes
+      register: pdf_paths
+
+    - name: create required subdirectories recursively
+      file:
+        path: "{{ files_path }}/enterprises/terms_and_conditions/{{ item.split('terms_and_conditions')[1] | dirname }}"
+        state: directory
+        owner: "{{ unicorn_user }}"
+        group: "{{ unicorn_user }}"
+        recurse: yes
+      with_items: "{{ pdf_paths.stdout_lines }}"
+      become: yes
+
+    - name: copy PDFs to their new paths
+      copy:
+        src: "{{ item }}"
+        dest: "{{ files_path }}/enterprises/terms_and_conditions{{ item.split('terms_and_conditions')[1] }}"
+        remote_src: yes
+        owner: "{{ unicorn_user }}"
+        group: "{{ unicorn_user }}"
+      with_items: "{{ pdf_paths.stdout_lines }}"
+      become: yes
