@@ -22,6 +22,7 @@
     - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
     - { src: "{{ images_path }}", dest: "{{ build_path }}/public/images" }
+    - { src: "{{ files_path }}", dest: "{{ build_path }}/public/files" }
     - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
