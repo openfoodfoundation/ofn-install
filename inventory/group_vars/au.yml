@@ -18,5 +18,3 @@ developer_email: maikel@openfoodnetwork.org.au
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
   - "{{ core_devs }}"
-  - rob
-  - rohan
