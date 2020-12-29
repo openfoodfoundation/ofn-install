@@ -50,10 +50,11 @@ swapfile_size: false
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby_version: 2.3.7
+ruby_version: 2.4.4
 
 ruby_versions:
   - version: 2.3.7
+  - version: 2.4.4
 
 env:
   RAILS_ENV: "{{ rails_env }}"
