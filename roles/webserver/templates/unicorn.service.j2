@@ -2,6 +2,7 @@
 
 [Unit]
 Description=Open Food Network unicorn server
+After=memcached.service postgresql.service
 
 [Service]
 Type=forking
@@ -15,6 +16,8 @@ PIDFile={{ unicorn_pid }}
 ExecStart={{ bundle_path }} exec --keep-file-descriptors unicorn -D -c {{ unicorn_config }} -E {{ rails_env }}
 ExecStop=/bin/kill -QUIT $MAINPID
 ExecReload=/bin/kill -USR2 $MAINPID
+
+TimeoutStartSec=300
 
 [Install]
 WantedBy=multi-user.target

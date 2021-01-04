@@ -2,6 +2,7 @@
 
 [Unit]
 Description=Open Food Network delayed_job
+After=memcached.service postgresql.service
 
 [Service]
 Type=forking
