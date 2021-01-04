@@ -18,3 +18,4 @@ developer_email: info@coopdevs.org
 users_sysadmin:
   - "{{ core_devs }}"
   - dani
+  - enricostn

@@ -20,4 +20,3 @@ developer_email: admin@coopcircuits.fr
 users_sysadmin:
   - "{{ core_devs }}"
   - paco
-  - hugo

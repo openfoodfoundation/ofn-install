@@ -201,10 +201,7 @@ memcached_value_max_megabytes: 4
 core_devs:
   - maikel
   - pau
-  - enricostn
-  - luis
   - matt
-  - kristina
   - andy
 
 #----------------------------------------------------------------------
