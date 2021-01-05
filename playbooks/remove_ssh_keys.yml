@@ -1,0 +1,32 @@
+---
+
+# Removes SSH keys for given users. Usage: you can either define a list object for the
+# `remove_users_sysadmin` variable in a given server's inventory/host_vars file, eg:
+#
+# remove_users_sysadmin:
+# - alice
+# - bob
+#
+# and then run the playbook, or pass an array via extra_vars using JSON notation, eg:
+#
+# ansible-playbook playbooks/remove_ssh_keys --limit fr-prod -e "{'remove_users_sysadmin':[alice,bob]}"
+
+- name: remove ssh keys
+  hosts: ofn_servers
+  user: "{{ user }}"
+  become: yes
+
+  tasks:
+    - name: remove keys for admin user
+      authorized_key:
+        user: "{{ user }}"
+        key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+        state: absent
+      with_flattened: "{{ remove_users_sysadmin }}"
+
+    - name: remove keys for unicorn user
+      authorized_key:
+        user: "{{ unicorn_user }}"
+        key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+        state: absent
+      with_flattened: "{{ remove_users_sysadmin }}"
