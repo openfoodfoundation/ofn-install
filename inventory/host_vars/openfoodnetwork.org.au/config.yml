@@ -42,3 +42,6 @@ unicorn_env_vars: |
 # Images settings
 attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn_production.s3.us-east-1.amazonaws.com
+
+beta_testers:
+  - chez@openfoodnetwork.org.au

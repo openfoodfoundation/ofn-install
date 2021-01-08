@@ -21,3 +21,11 @@ enable_nginx_logging: true
 enable_rails_apm: "true" # has to be explicitly defined as a string due to some datadog bug
 
 attachment_url: ofn-uk-production.s3.us-east-1.amazonaws.com
+
+beta_testers:
+  - lynne@openfoodnetwork.org.uk
+  - noreply@openfoodnetwork.org.uk
+  - nick@openfoodnetwork.org.uk
+  - louise@openfoodnetwork.org.uk
+  - support@openfoodnetwork.org.uk
+  - spree@example.com
