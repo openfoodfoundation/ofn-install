@@ -3,7 +3,7 @@ domain: app.katuma.org
 host_id: es-prod
 rails_env: production
 
-admin_email: info@coopdevs.org
+admin_email: info@katuma.org
 
 mail_domain: katuma.org
 
