@@ -19,7 +19,6 @@
     state: link
     force: yes
   with_items:
-    - { src: "{{ assets_path }}", dest: "{{ build_path }}/public/assets" }
     - { src: "{{ system_path }}", dest: "{{ build_path }}/public/system" }
     - { src: "{{ images_path }}", dest: "{{ build_path }}/public/images" }
     - { src: "{{ files_path }}", dest: "{{ build_path }}/public/files" }
