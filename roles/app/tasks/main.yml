@@ -12,7 +12,6 @@
     - "{{ shared_path }}"
     - "{{ backup_path }}"
     - "{{ releases_path }}"
-    - "{{ assets_path }}"
     - "{{ system_path }}"
     - "{{ images_path }}"
     - "{{ files_path }}"
