@@ -12,7 +12,7 @@ language_packages:          # Language packages for the server
 l10n_repo: https://github.com/openfoodfoundation/l10n_it
 timezone: Rome
 
-developer_email: admin@openfoodnetwork.org.it
+developer_email: admin@openfoodnetwork.it
 
 users_sysadmin:
   - "{{ core_devs }}"
