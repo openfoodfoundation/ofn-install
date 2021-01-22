@@ -329,8 +329,8 @@ nginx_sites:
       brotli on;
       brotli_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
 
-      try_files $uri/index.html $uri @unicorn;
-      location @unicorn {
+      try_files $uri/index.html $uri @rails;
+      location @rails {
         {{ nginx_valid_methods }}
 
         if (-f /etc/nginx/maintenance.html) {
@@ -345,7 +345,7 @@ nginx_sites:
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Request-Start "t=${msec}";
         proxy_redirect off;
-        proxy_pass http://unicorn;
+        proxy_pass http://rails;
       }
 
       location ~ ^/(assets)/ {
@@ -366,9 +366,9 @@ nginx_sites:
       }
 
       client_max_body_size 4G;
-      keepalive_timeout {{ unicorn_timeout }};
-      proxy_read_timeout {{ unicorn_timeout }};
-      proxy_send_timeout {{ unicorn_timeout }};
+      keepalive_timeout {{ puma_timeout }};
+      proxy_read_timeout {{ puma_timeout }};
+      proxy_send_timeout {{ puma_timeout }};
 
       include /etc/nginx/sites-available/ofn/*;
 
@@ -377,7 +377,7 @@ nginx_events_params:
 
 nginx_configs:
   upstream:
-    - upstream unicorn { server unix:{{ unicorn_sock }} fail_timeout=0; }
+    - upstream rails { server unix:{{ puma_sock }} fail_timeout=0; }
 
 # Use python2.7 interpeter
 ansible_python_interpreter: '/usr/bin/python2.7'
