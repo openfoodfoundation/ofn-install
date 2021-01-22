@@ -41,7 +41,7 @@
   become: yes
 
 - name: use ruby {{ deploy_ruby_version['content'] | b64decode | trim }} # noqa 301
-  shell: bash -lc "{{ unicorn_home_path }}/.rbenv/bin/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
+  shell: bash -lc "{{ rbenv_bin_path }}/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
   become: yes
   become_user: "{{ app_user }}"
 
@@ -69,7 +69,7 @@
   tags:
     - bundle_app
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: restart puma
 
 # Install JS dependencies with yarn
 
@@ -113,7 +113,7 @@
   tags:
     - rake
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: restart puma
 
 - name: seed database
   command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
@@ -122,7 +122,7 @@
   tags:
     - seed
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: restart puma
 
 - name: precompile assets # noqa 301
   command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
@@ -137,7 +137,7 @@
     dest: "{{ current_path }}"
     state: absent
   when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
-  notify: restart unicorn
+  notify: restart puma
 
 # Move new build into place
 
@@ -150,6 +150,7 @@
     force: yes
   become: yes
   notify:
-    - restart unicorn
+    - stop unicorn
+    - restart puma
     - update jobs queue
     - update whenever
