@@ -6,6 +6,6 @@
     dest: "{{ dest_path }}/"
     mode: push
     rsync_opts:
-      - "--chown={{ unicorn_user }}:{{ unicorn_user }}"
+      - "--chown={{ app_user }}:{{ app_user }}"
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: "{{ app_user }}"

@@ -1,7 +1,7 @@
 ---
 - name: setup
   hosts: ofn_servers
-  remote_user: "{{ unicorn_user }}"
+  remote_user: "{{ app_user }}"
 
   tasks:
     - name: restore backup # noqa 301

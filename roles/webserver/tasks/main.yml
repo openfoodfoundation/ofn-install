@@ -19,8 +19,8 @@
     src: unicorn.rb.j2
     dest: "{{ config_path }}/unicorn.rb"
     mode: 0644
-    owner: "{{ unicorn_user }}"
-    group: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
   become: yes
   tags: unicorn_config
   notify: reload unicorn configs

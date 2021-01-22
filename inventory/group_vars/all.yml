@@ -149,7 +149,7 @@ yarn_version: 1.22.4
 # App variables
 app: openfoodnetwork
 # Paths
-unicorn_home_path: "/home/{{ unicorn_user }}"
+unicorn_home_path: "/home/{{ app_user }}"
 gem_path: "{{ unicorn_home_path }}/.gem"
 bundle_path: "{{ unicorn_home_path }}/.rbenv/shims/bundle"
 app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
@@ -214,7 +214,7 @@ logrotate_applications:
 #----------------------------------------------------------------------
 # Unicorn variables
 # User name for the unprivileged user which runs unicorn
-unicorn_user: openfoodnetwork
+app_user: openfoodnetwork
 unicorn_config: "{{ config_path }}/unicorn.rb"
 unicorn_log: "{{ log_path }}/unicorn.log"
 unicorn_pid: "{{ pid_path }}/unicorn.pid"
