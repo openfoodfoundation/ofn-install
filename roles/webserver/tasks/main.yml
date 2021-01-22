@@ -2,42 +2,39 @@
 
 - name: provision service files
   template:
-    src={{ item.src }}
-    dest={{ item.dest }}
-    mode="0644"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
   become: yes
   with_items:
-    - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
-    - { src: "unicorn_environment.j2", dest: "{{ shared_path }}/unicorn_environment" }
-  register: unicorn_service_files
+    - { src: "puma.service.j2", dest: "/etc/systemd/system/puma.service" }
+  register: app_service_files
   notify:
-    - restart unicorn if running
+    - restart puma if running
   tags: init
 
-- name: provision unicorn config
+- name: provision puma config
   template:
-    src: unicorn.rb.j2
-    dest: "{{ config_path }}/unicorn.rb"
+    src: "puma.rb.j2"
+    dest: "{{ config_path }}/puma.rb"
     mode: 0644
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
   become: yes
-  tags: unicorn_config
-  notify: reload unicorn configs
 
 - name: Reload systemd
   systemd:
     daemon_reload: yes
   become: yes
   become_user: root
-  when: unicorn_service_files.changed
+  when: app_service_files.changed
   tags:
     - init
     - skip_ansible_lint # The alternative involves flushing all handlers at this point, and we don't want to
 
-- name: Enable unicorn unit
+- name: Enable puma unit
   service:
-    name: "unicorn_{{ app }}"
+    name: puma
     enabled: yes
   become: yes
   tags: init

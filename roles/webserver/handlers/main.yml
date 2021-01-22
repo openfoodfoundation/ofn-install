@@ -1,19 +1,19 @@
 - name: check service status
   service_facts:
   listen:
-    - reload unicorn configs
-    - restart unicorn if running
+    - reload puma configs
+    - restart puma if running
 
-- name: reload unicorn configs
+- name: reload puma configs
   service:
-    name: unicorn_{{ app }}
+    name: puma
     state: reloaded
   become: yes
-  when: ansible_facts.services['unicorn_openfoodnetwork.service']['state'] == 'running'
+  when: ansible_facts.services['puma.service']['state'] == 'running'
 
-- name: restart unicorn if running
+- name: restart puma if running
   service:
-    name: unicorn_{{ app }}
+    name: puma
     state: restarted
   become: yes
-  when: ansible_facts.services['unicorn_openfoodnetwork.service']['state'] == 'running'
+  when: ansible_facts.services['puma.service']['state'] == 'running'
