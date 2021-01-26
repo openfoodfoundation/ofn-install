@@ -7,7 +7,6 @@ admin_email: administrativo@openfoodbrasil.com.br
 mail_domain: openfoodbrasil.com.br
 
 swapfile_size: 2G
-unicorn_timeout: 120
 
 certbot_domains:
   - openfoodbrasil.com.br

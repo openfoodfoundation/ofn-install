@@ -5,7 +5,6 @@ host_id: uk-prod
 rails_env: production
 
 unicorn_workers: 5
-unicorn_timeout: 720
 
 certbot_domains:
   - www.openfoodnetwork.org.uk

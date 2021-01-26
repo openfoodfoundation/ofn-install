@@ -8,7 +8,6 @@ admin_email: admin@openfoodnetwork.ca
 mail_domain: openfoodnetwork.ca
 
 swapfile_size: 2G
-unicorn_timeout: 360
 
 certbot_domains:
   - openfoodnetwork.ca
