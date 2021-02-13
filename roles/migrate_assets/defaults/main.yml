@@ -5,7 +5,7 @@ dest_path: "{{ shared_path }}"
 local_asset_path: "../backups"
 
 migrate_dirs:
-  - assets
   - images
+  - files
   - spree
   - system
