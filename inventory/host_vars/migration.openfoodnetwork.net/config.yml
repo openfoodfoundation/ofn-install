@@ -1,6 +1,6 @@
 ---
 
-domain: migrate.openfoodnetwork.net
+domain: migration.openfoodnetwork.net
 host_id: us-prod
 rails_env: production
 

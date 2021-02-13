@@ -109,7 +109,7 @@ uk-staging2
 openfoodnetwork.net ansible_host=52.3.171.208
 
 [us-migrate]
-migrate.openfoodnetwork.net ansible_host=161.35.232.244
+migration.openfoodnetwork.net ansible_host=161.35.232.244
 
 [us:children]
 us-prod
