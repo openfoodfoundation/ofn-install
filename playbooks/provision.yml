@@ -83,6 +83,7 @@
         domain_name: "{{ certbot_domains | default([domain]) | join(',') }}"
         letsencrypt_email: "{{ developer_email }}"
         certbot_nginx_cert_name: "{{ certbot_cert_name | default(domain) }}"
+        certbot_version: "0.31.0-2~deb10u1+ubuntu{{ ansible_distribution_version }}.1+certbot+3"
       when: inventory_hostname not in groups['local']
       tags: certbot
 
