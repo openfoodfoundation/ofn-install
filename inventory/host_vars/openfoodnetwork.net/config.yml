@@ -8,6 +8,8 @@ admin_email: ofn-usa@openfoodnetwork.net
 
 mail_domain: openfoodnetwork.net
 
+unicorn_workers: 3
+
 # Optional list of subdomains to register in letsencrypt certificate
 # Defaults to {{ domain }} if list is undefined
 #
