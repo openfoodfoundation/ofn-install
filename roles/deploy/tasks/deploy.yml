@@ -95,6 +95,14 @@
     - rake
     - skip_ansible_lint
 
+- name: clear transient data
+  command: bash -lc "bundle exec rake ofn:data:remove_transient_data RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  tags:
+    - rake
+    - skip_ansible_lint
+
 - name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
   args:
