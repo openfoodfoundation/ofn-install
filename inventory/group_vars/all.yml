@@ -99,6 +99,8 @@ postgresql_global_config_options:
     value: "{{ postgres_listen_addresses | join(',') }}"
   - option: shared_preload_libraries
     value: "{{ postgres_shared_preload_libraries | join(',') }}"
+  - option: wal_sender_timeout
+    value: "300000"
   - option: include_dir
     value: "conf.d"
 
