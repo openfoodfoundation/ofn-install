@@ -165,6 +165,16 @@ www.openfoodnetwork.org.za
 za-prod
 
 #------------------------------------------------------------------------------
+# Jordan
+
+[jo-prod]
+www.flaha.org
+
+[jo:children]
+jo-prod
+
+
+#------------------------------------------------------------------------------
 # Europe
 
 [europe:children]
@@ -216,3 +226,4 @@ be
 za
 br
 co
+jo
