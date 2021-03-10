@@ -22,4 +22,5 @@ enable_rails_apm: "true" # has to be explicitly defined as a string due to some 
 
 attachment_url: ofn-uk-production.s3.us-east-1.amazonaws.com
 
-beta_testers: all
+beta_testers:
+  - all
