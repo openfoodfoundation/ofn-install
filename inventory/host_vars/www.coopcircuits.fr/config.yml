@@ -27,4 +27,5 @@ enable_rails_apm: "true" # has to be explicitly defined as a string due to some 
 attachment_path: "home/openfoodnetwork/apps/openfoodnetwork/current/public/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn-prod.s3.us-east-1.amazonaws.com
 
-beta_testers: all
+beta_testers:
+  - all
