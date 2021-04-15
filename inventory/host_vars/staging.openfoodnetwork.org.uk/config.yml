@@ -12,3 +12,15 @@ users_sysadmin:
   - "{{ core_devs }}"
   - lindhop
   - filipe
+
+# UK Staging is currently on holiday in Canada...
+checkout_zone: Canada
+country_code: CA
+currency: CAD
+locale: en_CA
+available_locales: en_CA,fr_CA
+language: en.UTF-8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_ca.git
+timezone: "Eastern Time (US & Canada)"
