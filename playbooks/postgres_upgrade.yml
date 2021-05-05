@@ -1,0 +1,46 @@
+---
+
+- name: PostgreSQL cluster upgrade
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  vars:
+    pg_old: 9.5
+    pg_new: 10
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  pre_tasks:
+    - name: enable maintenance mode
+      import_role:
+        name: maintenance_mode
+        tasks_from: enable
+      become: yes
+
+  roles:
+    - role: postgres_upgrade
+      become: yes
+
+    - role: dbserver
+      become: yes
+      become_user: root
+      vars:
+        postgresql_version: "{{ pg_new }}"
+
+  post_tasks:
+    - name: re-apply integrations
+      include_role:
+        name: db_integrations
+      vars:
+        db_integration: "{{ integration_item }}"
+      loop: "{{ db_integrations }}"
+      loop_control:
+        loop_var: integration_item
+      when: db_integrations is defined
+
+    - name: disable maintenance mode
+      import_role:
+        name: maintenance_mode
+        tasks_from: disable
+      become: yes
