@@ -49,9 +49,6 @@
   when: compatibility_check is succeeded
   register: upgrade_result
 
-- debug:
-    var: upgrade_result.stdout_lines
-
 - name: post-upgrade config
   include_tasks: configure.yml
   when: upgrade_result is succeeded
