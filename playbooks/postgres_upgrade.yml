@@ -1,5 +1,9 @@
 ---
 
+# Performs an in-place Postgres upgrade. Use with caution!
+# Example usage:
+# ansible-playbook playbooks/postgres_upgrade.yml --limit uk-staging -vv
+
 - name: PostgreSQL cluster upgrade
   hosts: ofn_servers
   remote_user: "{{ user }}"
