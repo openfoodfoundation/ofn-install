@@ -30,3 +30,4 @@
     state: restarted
   become: yes
   become_user: root
+  when: db_host == 'localhost'

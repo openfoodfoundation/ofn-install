@@ -83,7 +83,7 @@
 # Update the database
 
 - name: check database status
-  command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
+  command: psql -h {{ db_host }} -p {{ db_port }} -U {{ db_user }} -d {{ db }} -c "SELECT true FROM pg_tables WHERE tablename = 'order_cycles';"
   register: table_exists
   ignore_errors: yes
   changed_when: False

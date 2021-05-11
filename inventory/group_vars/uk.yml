@@ -11,9 +11,12 @@ language_packages:
 l10n_repo: https://github.com/openfoodfoundation/l10n_gb.git
 timezone: London
 
+db_host: private-ofn-db-do-user-686993-0-8a4d.b.db.ondigitalocean.com
+db_port: 25060
 
 developer_email: dev.ofnuk@gmail.com
 
 users_sysadmin:
   - "{{ core_devs }}"
   - lindhop
+  - magec

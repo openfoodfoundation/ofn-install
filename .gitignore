@@ -7,3 +7,8 @@ inventory/host_vars/*/secrets.yml
 *.log
 **/*.retry
 .idea/
+
+secrets/*
+!secrets/terraform-bootstrap.pub
+
+.terraform

@@ -1,6 +1,5 @@
 #------------------------------------------------------------------------------
 # Local containers for testing
-
 [vagrant]
 local_vagrant ansible_host=127.0.0.1 ansible_user=vagrant ansible_port=2222 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
@@ -97,8 +96,8 @@ it-staging
 #------------------------------------------------------------------------------
 # UK
 
-[uk-prod]
-www.openfoodnetwork.org.uk
+[uk-prod-webservers]
+app01.openfoodnetwork.org.uk ansible_host=159.65.25.250
 
 [uk-staging]
 staging.openfoodnetwork.org.uk
@@ -107,10 +106,17 @@ staging.openfoodnetwork.org.uk
 staging2.openfoodnetwork.org.uk
 
 [uk:children]
-uk-prod
+uk-prod-webservers
 uk-staging
 uk-staging2
 
+[uk-webservers:children]
+uk-prod-webservers
+uk-staging
+uk-staging2
+
+[uk-prod:children]
+uk-prod-webservers
 
 #------------------------------------------------------------------------------
 # USA
@@ -220,6 +226,38 @@ ie
 in
 it
 uk
+us
+es
+fr
+de
+be
+za
+br
+co
+
+[ofn_dbservers:children]
+local
+au
+ca
+in
+it
+us
+es
+fr
+de
+be
+za
+br
+co
+
+
+[ofn_webservers:children]
+local
+au
+ca
+in
+it
+uk-webservers
 us
 es
 fr
