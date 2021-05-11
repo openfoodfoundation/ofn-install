@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# This is so we run the CLI as the same user:group
+# of the host, this way we ensure the ownership of files
+# from inside the container in the mounted volume.
+# First we create the user ubuntu inside with the same ids
+# as the host user
+usermod -u "$HOST_USER" ubuntu > /dev/null 2>&1
+groupmod -g "$HOST_GROUP" ubuntu > /dev/null 2>&1
+
+# And then we start again the entry_point with the user changed
+sudo -E -u "#$HOST_USER" -g "#$HOST_GROUP" HOME=/home/ubuntu $DIR/cli_safe $@

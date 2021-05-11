@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# At this stage we set up an ssh-agent that will be available for cli operation
+eval "$(ssh-agent)" > /dev/null 2>&1
+ssh-add /host_home/.ssh/id_rsa
+export TERM=xterm-256color
+
+cd /opt/ofn-install
+exec bash

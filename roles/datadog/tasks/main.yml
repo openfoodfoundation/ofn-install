@@ -19,6 +19,7 @@
 
 - name: set up postgres stats collection
   import_tasks: pg_stats.yml
+  tags: dd-postgres
   when: datadog_key is defined and datadog_db_password is defined
 
 - name: set up nginx stats collection

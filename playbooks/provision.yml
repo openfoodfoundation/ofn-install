@@ -15,16 +15,7 @@
 
 - name: provision
   hosts: ofn_servers
-  strategy: free
   remote_user: "{{ user }}"
-
-  pre_tasks:
-    - include_role:
-        name: check_secrets
-
-  handlers:
-    - include: ../roles/shared_handlers/handlers/main.yml
-
   roles:
     - role: ssh_keys # Add sysadmin ssh keys to server
       become: yes
@@ -39,17 +30,30 @@
       become: yes
       tags: swapfile
 
-    - role: unicorn_user # Create unprivileged user to run unicorn
-      tags: unicorn_user
-
-    - role: common # Install common apps and libraries, and setup shell.
-      tags: common
-
     - role: compatibility # Handle version-specific OS dependencies and configuration
       tags: compatibility
 
     - role: language # Setup locale.
       tags: language
+
+- name: webservers
+  hosts: ofn_webservers
+  strategy: free
+  remote_user: "{{ user }}"
+
+  pre_tasks:
+    - include_role:
+        name: check_secrets
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  roles:
+    - role: unicorn_user # Create unprivileged user to run unicorn
+      tags: unicorn_user
+
+    - role: common # Install common apps and libraries, and setup shell.
+      tags: common
 
     - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
       rbenv:
@@ -71,12 +75,6 @@
       become: yes
       tags: yarn
 
-    - role: dbserver # Set up database server and user for the app.
-      become: yes
-      become_user: root
-      tags: dbserver
-      db_user_roles: CREATEDB,REPLICATION
-
     - role: coopdevs.certbot_nginx
       become: yes
       vars:
@@ -96,6 +94,63 @@
 
     - role: webserver # Build the unicorn webserver.
       tags: webserver
+
+    - role: datadog
+      become: yes
+      tags: datadog
+
+    - role: arillso.logrotate
+      become: yes
+      tags: logrotate
+
+    - role: arillso.logrotate
+      become: yes
+      tags: logrotate
+  tasks:
+    - meta: flush_handlers # Ensure handlers run successfully before reporting success
+
+    - name: notify slack
+      slack:
+        token: "T02G54U79/BF25P9F7A/DJdtYaLLUpRJPiu72d8NqgGg"
+        msg: '{{ inventory_hostname }} provisioned'
+        channel: "#devops-notifications"
+        username: "ansible executed by {{ lookup('env','USER') }}"
+      when: inventory_hostname not in groups['local']
+
+    - name: notify datadog
+      uri:
+        url: "https://api.datadoghq.com/api/v1/events?api_key={{ datadog_key }}"
+        method: POST
+        body:
+          title: "Provisioned"
+          text: "Provisioned host: {{ inventory_hostname }} ({{ host_id | default(ansible_limit) }})"
+          host: "{{ inventory_hostname }}"
+          tags:
+            - "provisioned"
+        body_format: json
+        status_code: 202
+        headers:
+          Content-Type: "application/json"
+      when: datadog_key is defined and inventory_hostname not in groups['local']
+
+- name: dbservers
+  hosts: ofn_dbservers
+  strategy: free
+  remote_user: "{{ user }}"
+
+  pre_tasks:
+    - include_role:
+        name: check_secrets
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  roles:
+    - role: dbserver # Set up database server and user for the app.
+      become: yes
+      become_user: root
+      tags: dbserver
+      db_user_roles: CREATEDB,REPLICATION
 
     - role: datadog
       become: yes

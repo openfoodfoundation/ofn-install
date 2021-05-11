@@ -66,6 +66,7 @@ db: openfoodnetwork
 test_db: ofn_test
 db_user: ofn_user
 db_host: localhost
+db_port: 5432
 postgres_encoding: en_US.utf8
 
 #----------------------------------------------------------------------

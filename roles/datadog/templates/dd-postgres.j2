@@ -3,11 +3,12 @@
 init_config:
 
 instances:
-  - host: localhost
-    port: 5432
+  - host: "{{ db_host }}"
+    port: "{{ db_port }}"
     username: datadog
     password: "{{ datadog_db_password }}"
     dbname: "{{ db }}"
+    ssl: true
     tags:
       - "host:{{ inventory_hostname }}"
     collect_activity_metrics: true
