@@ -1,0 +1,18 @@
+---
+
+# This check fails if Redis is present in the new build's Gemfile but Redis is not installed yet,
+# which will block the deployment from proceeding (until the server is correctly provisioned).
+
+- name: gather host services facts
+  service_facts:
+
+- name: check redis presence in gemfile
+  lineinfile:
+    dest: "{{ build_path }}/Gemfile"
+    regex: "^gem .*redis"
+    state: absent
+  check_mode: yes # Don't actually modify the file
+  become: yes
+  register: redis_requirement
+  when: "'redis-service' not in services"
+  failed_when: redis_requirement is failed

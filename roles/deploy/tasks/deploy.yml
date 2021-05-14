@@ -11,6 +11,9 @@
     force: yes
   tags: clone
 
+- name: check redis required/present
+  include_tasks: check_redis.yml
+
 - name: symlink custom assets into the build
   file:
     src: "{{ item.src }}"
