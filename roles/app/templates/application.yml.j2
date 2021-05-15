@@ -59,6 +59,16 @@ BUGSNAG_API_KEY: {{ bugsnag_key }}
 BUGSNAG_JS_KEY: {{ bugsnag_js_key }}
 {% endif %}
 
+{% if geocoder_api_key is defined %}
+GEOCODER_API_KEY: {{ geocoder_api_key }}
+{% endif %}
+{% if geocoder_service is defined %}
+GEOCODER_SERVICE: {{ geocoder_service }}
+{% endif %}
+{% if geocoder_timeout is defined %}
+GEOCODER_TIMEOUT: {{ geocoder_timeout }}
+{% endif %}
+
 {{ custom_application_env_vars | default('') }}
 
 {% if beta_testers is defined %}
