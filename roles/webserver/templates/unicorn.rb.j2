@@ -45,7 +45,9 @@ if ['production', 'staging'].include? ENV["RAILS_ENV"]
   end
 
   after_fork do |server, worker|
-    defined?(ActiveRecord::Base) and
-        ActiveRecord::Base.establish_connection
+    defined?(ActiveRecord::Base) && ActiveRecord::Base.establish_connection
+
+    # Ensure forked workers are not sharing a single Redis connection with master process
+    defined?(Redis) && Redis.current.disconnect!
   end
 end
