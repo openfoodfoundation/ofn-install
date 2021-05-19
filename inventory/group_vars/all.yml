@@ -338,3 +338,13 @@ nginx_configs:
 
 # Use python2.7 interpeter
 ansible_python_interpreter: '/usr/bin/python2.7'
+
+# Fix for renamed branch in rbenv-install repo
+rbenv_plugins:
+  - { name: "rbenv-vars",         repo: "https://github.com/rbenv/rbenv-vars.git",         version: "master" }
+  - { name: "ruby-build",         repo: "https://github.com/rbenv/ruby-build.git",         version: "master" }
+  - { name: "rbenv-default-gems", repo: "https://github.com/rbenv/rbenv-default-gems.git", version: "master" }
+  - { name: "rbenv-installer",    repo: "https://github.com/rbenv/rbenv-installer.git",    version: "main" }
+  - { name: "rbenv-update",       repo: "https://github.com/rkh/rbenv-update.git",         version: "master" }
+  - { name: "rbenv-whatis",       repo: "https://github.com/rkh/rbenv-whatis.git",         version: "master" }
+  - { name: "rbenv-use",          repo: "https://github.com/rkh/rbenv-use.git",            version: "master" }
