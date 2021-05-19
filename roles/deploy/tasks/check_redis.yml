@@ -14,5 +14,11 @@
   check_mode: yes # Don't actually modify the file
   become: yes
   register: redis_requirement
-  when: "'redis-service' not in services"
-  failed_when: redis_requirement is failed
+  ignore_errors: true
+
+- name: stop deployment if redis is both required and absent
+  fail:
+    msg: |
+      The deployed OFN version requires Redis to be installed.
+      Please provision with the latest copy of ofn-install before deploying.
+  when: "redis_requirement is changed and 'redis-server.service' not in services"
