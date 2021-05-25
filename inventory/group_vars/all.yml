@@ -56,7 +56,6 @@ rbenv_extra_depends:
   - libjemalloc-dev
 
 ruby_versions:
-  - version: 2.4.4
   - version: 2.5.8
   - version: 2.5.9
     env:
