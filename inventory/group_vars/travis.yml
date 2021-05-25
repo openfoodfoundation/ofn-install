@@ -61,3 +61,5 @@ nginx_sites:
       keepalive_timeout 60;
 
       include /etc/nginx/sites-available/ofn/*;
+
+nginx_modules_path: /etc/nginx/modules
