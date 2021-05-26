@@ -28,8 +28,14 @@ You'll need to provide the listed env vars in your shell for `bin/cli` to work:
 
 ### Bootstrap
 
-The `terraform-bootstrap` key in `terraform/uk/main.tf` is the one needed to issue commands against Digital Ocean, as we would do from its UI or logging in through SSH into the server. Note that you can generate a new key pair under `secrets/terraform-bootstrap` and provision it with Terraform. It will propagate the key in the DO's account.
+The `terraform-bootstrap` key in `terraform/uk/main.tf` is the one needed to bootstrap servers. When we create a new server using Terraform:
+1. Terraform looks for whatever is in `secrets/terraform-bootstrap.pub` and compares it to what it is in Digital Ocean `terraform-bootstrap` key. If it differs,
+it will change to the one that is set locally.
+2. After the key is 'managed', Terraform instructs Digital Ocean to create a new one, using `terraform-bootstrap` as the key for the new server.
 
+Note that, after applying terraform, you are in a state where you have a running server accessible using `secrets/terraform-bootstrap` key. You then need to add it to your `ssh-agent` and run ansible against the newly created instance. Once you run the `setup` playbook, the rest of sysadmins will have access to the newly created server, and local `secrets/terraform-bootstrap` is not needed anymore.
+
+So, if you happen to create a new server, you need to create a new key pair, use it for the bootstrap process, and commit your new pub key to the repo. This way, terraform won't complain about a 'having a different key there'
 ### Changing the infrastructure
 
 To apply any changes to the infrastructure you just need to:
