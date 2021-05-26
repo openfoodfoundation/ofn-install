@@ -17,9 +17,3 @@
     bionic_packages:
       - software-properties-common
   when: ansible_distribution_major_version == '18'
-
-- name: define additional rbenv build dependencies for Ruby 2.1.5 on Ubuntu 18
-  set_fact:
-    rbenv_extra_depends:
-      - libssl1.0-dev
-  when: ansible_distribution_major_version == '18'
