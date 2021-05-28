@@ -10,3 +10,10 @@ redis_instances:
       maxmemory 124mb
       maxmemory-policy allkeys-lru
 
+  - name: jobs
+    port: 6380
+    configs: |
+      maxmemory 50mb
+      maxmemory-policy noeviction
+      appendonly yes
+      appendfsync everysec
