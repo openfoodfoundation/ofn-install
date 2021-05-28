@@ -1,0 +1,10 @@
+---
+
+- name: install redis
+  include_tasks: install.yml
+
+- name: configure instances
+  include_tasks: configure.yml
+  loop: "{{ redis_instances }}"
+  loop_control:
+    loop_var: redis_instance

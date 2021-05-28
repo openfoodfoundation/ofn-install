@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+# Import default Redis configs. Any additional settings defined after this will be overridden.
+# Set `import_defaults: false` in redis_instances to override (on a per-instance basis).
+{% if redis_instance.import_defaults | default(true) %}
+include /etc/redis/redis.conf
+{% endif %}
+
+daemonize yes
+supervised systemd
+
+port {{ redis_instance.port }}
+dir /var/lib/redis-{{ redis_instance.name }}
+pidfile /var/run/redis/redis-{{ redis_instance.name }}.pid
+logfile /var/log/redis/redis-{{ redis_instance.name }}.log
+
+# Apply any custom configs for the defined Redis instance. These can be used to set
+# instance-specific configurations and/or to override any of the previously applied defaults.
+{{ redis_instance.configs | default('') }}

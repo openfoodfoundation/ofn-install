@@ -1,0 +1,12 @@
+---
+
+redis_use_ppa: true
+redis_package_name: redis-server
+
+redis_instances:
+  - name: cache
+    port: 6379
+    configs: |
+      maxmemory 124mb
+      maxmemory-policy allkeys-lru
+
