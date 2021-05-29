@@ -1,11 +1,26 @@
 ---
 
+- name: check services
+  service_facts:
+  listen: update jobs queue
+
+- name: restart sidekiq
+  service:
+    name: sidekiq
+    state: restarted
+  become: yes
+  become_user: root
+  when: "'sidekiq.service' in services"
+  listen: update jobs queue
+
 - name: restart delayed_job
   service:
     name: delayed_job_{{ app }}
     state: restarted
   become: yes
   become_user: root
+  when: "'delayed_job_{{ app }}.service' in services"
+  listen: update jobs queue
 
 - name: get crontab entries for unicorn user # noqa 305
   shell: crontab -l
