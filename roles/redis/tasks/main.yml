@@ -8,3 +8,11 @@
   loop: "{{ redis_instances }}"
   loop_control:
     loop_var: redis_instance
+
+- name: disable default redis instance
+  service:
+    name: redis-server
+    status: stopped
+    enabled: false
+  become: yes
+  when: redis_disable_default_instance

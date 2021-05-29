@@ -2,6 +2,7 @@
 
 redis_use_ppa: true
 redis_package_name: redis-server
+redis_disable_default_instance: false
 
 redis_instances:
   - name: cache
