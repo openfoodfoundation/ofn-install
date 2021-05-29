@@ -67,6 +67,20 @@ env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
 
+multiredis_instances:
+  - name: cache
+    port: 6380
+    configs: |
+      maxmemory 124mb
+      maxmemory-policy allkeys-lru
+  - name: jobs
+    port: 6381
+    configs: |
+      maxmemory 50mb
+      maxmemory-policy noeviction
+      appendonly yes
+      appendfsync everysec
+
 #----------------------------------------------------------------------
 # Database variables
 db: openfoodnetwork

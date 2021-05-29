@@ -77,7 +77,11 @@
       tags: dbserver
       db_user_roles: CREATEDB,REPLICATION
 
-    - role: redis
+    - role: libre_ops.multi_redis
+      vars:
+        multiredis_disable_default_instance: false
+      become: yes
+      become_user: root
       tags: redis
 
     - role: sidekiq
