@@ -1,34 +1,9 @@
 ---
 
-- name: add official redis ppa
-  apt_repository:
-    repo: ppa:redislabs/redis
-  become: yes
-
-- name: install redis-server
-  apt:
-    name: redis-server
-    update_cache: yes
-  become: yes
-
-- name: enable custom config file
+# We can remove this after all servers have been provisioned and deployed at least once
+- name: disable custom redis config file
   lineinfile:
     name: "/etc/redis/redis.conf"
     line: "include /etc/redis/local.conf"
-    state: present
-  become: yes
-
-- name: add redis configuration
-  template:
-    src: redis.conf.j2
-    dest: /etc/redis/local.conf
-    mode: 0644
-  become: yes
-  notify:
-    - restart redis
-
-- name: ensure service is enabled
-  service:
-    name: redis-server
-    enabled: yes
+    state: absent
   become: yes
