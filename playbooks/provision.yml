@@ -77,6 +77,12 @@
       tags: dbserver
       db_user_roles: CREATEDB,REPLICATION
 
+    - role: redis
+      tags: redis
+
+    - role: sidekiq
+      tags: sidekiq
+
     - role: coopdevs.certbot_nginx
       become: yes
       vars:
