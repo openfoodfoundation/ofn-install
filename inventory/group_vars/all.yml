@@ -55,11 +55,13 @@ ruby_version: 2.5.9
 rbenv_extra_depends:
   - libjemalloc-dev
 
+ruby_compile_options: "--with-jemalloc"
+
 ruby_versions:
   - version: 2.5.8
   - version: 2.5.9
     env:
-      RUBY_CONFIGURE_OPTS: "--with-jemalloc"
+      RUBY_CONFIGURE_OPTS: "{{ ruby_compile_options }}"
 
 env:
   RAILS_ENV: "{{ rails_env }}"

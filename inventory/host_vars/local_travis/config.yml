@@ -19,3 +19,6 @@ mail_host: 'example.com'
 mail_port: 25
 smtp_username: 'admin'
 smtp_password: 'password'
+
+rbenv_extra_depends: []
+ruby_compile_options: ""
