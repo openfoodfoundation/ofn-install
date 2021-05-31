@@ -1,5 +1,6 @@
 ---
 
+site_name: Open Food Network UK
 domain: www.openfoodnetwork.org.uk
 host_id: uk-prod
 rails_env: production
