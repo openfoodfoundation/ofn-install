@@ -77,6 +77,16 @@
       tags: dbserver
       db_user_roles: CREATEDB,REPLICATION
 
+    - role: libre_ops.multi_redis
+      vars:
+        multiredis_disable_default_instance: false
+      become: yes
+      become_user: root
+      tags: redis
+
+    - role: sidekiq
+      tags: sidekiq
+
     - role: coopdevs.certbot_nginx
       become: yes
       vars:

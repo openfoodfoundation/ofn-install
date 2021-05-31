@@ -26,5 +26,8 @@
 - src: libre_ops.wal2json
   version: 1.0.5
 
+- src: libre_ops.multi_redis
+  version: 1.0.1
+
 - src: arillso.logrotate
   version: 1.4.5

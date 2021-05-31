@@ -151,5 +151,5 @@
   become: yes
   notify:
     - restart unicorn
-    - restart delayed_job
+    - update jobs queue
     - update whenever
