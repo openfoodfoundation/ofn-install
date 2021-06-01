@@ -50,6 +50,7 @@
         name: db_integrations
       vars:
         db_integration: "{{ integration_item }}"
+        postgresql_version: "{{ pg_new }}"
       loop: "{{ db_integrations }}"
       loop_control:
         loop_var: integration_item
