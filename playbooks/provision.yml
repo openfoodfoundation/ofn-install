@@ -81,6 +81,7 @@
       become: yes
       become_user: root
       tags: redis
+      when: inventory_hostname != 'travis'
 
     - role: sidekiq
       tags: sidekiq
