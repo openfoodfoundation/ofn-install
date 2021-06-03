@@ -24,6 +24,7 @@
   when:
    - "'sidekiq.service' in services"
    - sidekiq_requirement.changed
+   - inventory_hostname != 'local_travis'
   listen: update jobs queue
 
 - name: restart delayed_job unless using sidekiq
