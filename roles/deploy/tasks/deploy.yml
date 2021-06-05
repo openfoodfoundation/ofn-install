@@ -28,6 +28,7 @@
     - { src: "{{ spree_path }}", dest: "{{ build_path }}/public/spree" }
     - { src: "{{ config_path }}/database.yml", dest: "{{ build_path }}/config/database.yml" }
     - { src: "{{ config_path }}/application.yml", dest: "{{ build_path }}/config/application.yml" }
+    - { src: "{{ config_path }}/.env.{{ rails_env }}", dest: "{{ build_path }}/.env.{{ rails_env }}" }
     - { src: "{{ l10n_path }}/states.yml", dest: "{{ build_path }}/db/default/spree/states.yml" }
   tags: symlink
 
