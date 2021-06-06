@@ -149,10 +149,10 @@ yarn_version: 1.22.4
 # App variables
 app: openfoodnetwork
 # Paths
-unicorn_home_path: "/home/{{ app_user }}"
-gem_path: "{{ unicorn_home_path }}/.gem"
-bundle_path: "{{ unicorn_home_path }}/.rbenv/shims/bundle"
-app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
+app_user_home_path: "/home/{{ app_user }}"
+gem_path: "{{ app_user_home_path }}/.gem"
+bundle_path: "{{ app_user_home_path }}/.rbenv/shims/bundle"
+app_path: "{{ app_user_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"
 shared_path: "{{ app_path }}/shared"

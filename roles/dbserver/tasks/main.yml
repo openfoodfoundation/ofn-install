@@ -26,7 +26,7 @@
 - name: add .pgpass file for {{ app_user }}
   template:
     src: pgpass.j2
-    dest: "{{ unicorn_home_path }}/.pgpass"
+    dest: "{{ app_user_home_path }}/.pgpass"
     owner: "{{ app_user }}"
     mode: 0600
   become: yes
