@@ -42,4 +42,8 @@
     force=yes
   tags: l10n
 
-
+- name: clear default rbenv vars
+  file:
+    dest: "{{ app_user_home_path }}/.rbenv/vars"
+    state: absent
+  become: yes

@@ -57,7 +57,7 @@
         version: v1.0.0
         default_ruby: "{{ ruby_version }}"
         rubies: "{{ ruby_versions }}"
-
+      rbenv_set_vars: false
       rbenv_users:
         - "{{ app_user }}"
       tags: ruby
