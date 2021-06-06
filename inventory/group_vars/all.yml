@@ -151,7 +151,9 @@ app: openfoodnetwork
 # Paths
 app_user_home_path: "/home/{{ app_user }}"
 gem_path: "{{ app_user_home_path }}/.gem"
-bundle_path: "{{ app_user_home_path }}/.rbenv/shims/bundle"
+rbenv_shim_path: "{{ app_user_home_path }}/.rbenv/shims"
+rbenv_bin_path: "{{ app_user_home_path }}/.rbenv/bin"
+bundle_path: "{{ rbenv_shim_path }}/bundle"
 app_path: "{{ app_user_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"
