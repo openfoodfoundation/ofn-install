@@ -46,14 +46,17 @@
   become: true
   become_user: postgres
 
-- name: restart unicorn and sidekiq
+- name: restart unicorn
   service:
-    name: "{{ service_name }}"
+    name: "unicorn_{{ app }}"
     state: started
-  loop:
-    - "unicorn_{{ app }}"
-    - "sidekiq"
-  loop_control:
-    loop_var: service_name
   become: yes
   become_user: root
+
+- name: restart sidekiq
+  service:
+    name: "sidekiq"
+    state: started
+  become: yes
+  become_user: root
+  when: inventory_hostname != 'local_travis'
