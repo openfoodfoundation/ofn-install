@@ -43,9 +43,3 @@
   become: yes
   tags: init
 
-- name: Enable delayed_job unit
-  service:
-    name: "delayed_job_{{ app }}"
-    enabled: yes
-  become: yes
-  tags: init
