@@ -1,12 +1,12 @@
 ---
 
-- name: stop unicorn and delayed_job
+- name: stop unicorn and sidekiq
   service:
     name: "{{ service_name }}"
     state: stopped
   loop:
     - "unicorn_{{ app }}"
-    - "delayed_job_{{ app }}"
+    - "sidekiq"
   loop_control:
     loop_var: service_name
   become: yes
@@ -46,14 +46,17 @@
   become: true
   become_user: postgres
 
-- name: restart unicorn and delayed_job
+- name: restart unicorn
   service:
-    name: "{{ service_name }}"
+    name: "unicorn_{{ app }}"
     state: started
-  loop:
-    - "unicorn_{{ app }}"
-    - "delayed_job_{{ app }}"
-  loop_control:
-    loop_var: service_name
   become: yes
   become_user: root
+
+- name: restart sidekiq
+  service:
+    name: "sidekiq"
+    state: started
+  become: yes
+  become_user: root
+  when: inventory_hostname != 'local_travis'

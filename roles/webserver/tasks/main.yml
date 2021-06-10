@@ -9,7 +9,6 @@
   with_items:
     - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service" }
     - { src: "unicorn_environment.j2", dest: "{{ shared_path }}/unicorn_environment" }
-    - { src: "delayed_job.service.j2", dest: "/etc/systemd/system/delayed_job_{{ app }}.service" }
   register: unicorn_service_files
   notify:
     - restart unicorn if running
@@ -43,9 +42,3 @@
   become: yes
   tags: init
 
-- name: Enable delayed_job unit
-  service:
-    name: "delayed_job_{{ app }}"
-    enabled: yes
-  become: yes
-  tags: init

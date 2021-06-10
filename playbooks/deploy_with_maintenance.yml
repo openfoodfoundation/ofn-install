@@ -36,9 +36,9 @@
         become: yes
         become_user: root
 
-      - name: stop delayed job
+      - name: stop sidekiq
         service:
-          name: delayed_job_{{ app }}
+          name: sidekiq
           state: stopped
         become: yes
         become_user: root
