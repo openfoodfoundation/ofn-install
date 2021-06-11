@@ -12,18 +12,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: ansible/ansible-lint-action@master
+      - uses: actions/setup-python@v2
         with:
-          targets: "playbooks/*.yml"
-          override-deps: |
-            ansible==2.9
-            ansible-lint==4.2.0
-          args: "--exclude community"
+          python-version: '2.7'
+
+      - name: Set up Ansible
+        run: |
+          pip install -r requirements.txt
+          bin/setup
+
+      - name: Ansible Lint
+        run: ansible-lint playbooks/*.yml --exclude community
 
   playbook-tests:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '2.7'
 
       - name: Set up Ansible
         run: |
