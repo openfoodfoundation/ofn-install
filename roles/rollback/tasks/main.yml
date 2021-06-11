@@ -14,7 +14,7 @@
     force: yes
   become: yes
   become_user: "{{ app_user }}"
-  notify: reload unicorn
+  notify: restart puma
 
 - name: restore database
   include_role:
