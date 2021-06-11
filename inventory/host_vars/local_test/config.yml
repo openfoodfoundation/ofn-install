@@ -1,7 +1,7 @@
 ---
 
 domain: localhost
-host_id: vagrant-dev
+host_id: ofn-test
 rails_env: development
 
 admin_email: admin@example.com
