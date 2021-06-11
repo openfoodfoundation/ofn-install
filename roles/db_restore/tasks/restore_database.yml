@@ -59,4 +59,3 @@
     state: started
   become: yes
   become_user: root
-  when: inventory_hostname != 'local_travis'
