@@ -1,0 +1,2 @@
+# unicorn user needs passwordless sudo for concrete commands
+{{ app_user }} ALL=(ALL) NOPASSWD: /bin/systemctl start puma.service, /bin/systemctl stop puma.service, /bin/systemctl restart puma.service,  /bin/systemctl reload puma.service, /bin/systemctl start sidekiq.service, /bin/systemctl stop sidekiq.service, /bin/systemctl restart sidekiq.service

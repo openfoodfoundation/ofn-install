@@ -1,2 +1,0 @@
-# unicorn user needs passwordless sudo for concrete commands
-{{ unicorn_user }} ALL=(ALL) NOPASSWD: /bin/systemctl status unicorn_{{ app }}.service, /bin/systemctl start unicorn_{{ app }}.service, /bin/systemctl stop unicorn_{{ app }}.service, /bin/systemctl restart unicorn_{{ app }}.service, /bin/systemctl status delayed_job_{{ app }}.service, /bin/systemctl start delayed_job_{{ app }}.service, /bin/systemctl stop delayed_job_{{ app }}.service, /bin/systemctl restart delayed_job_{{ app }}.service

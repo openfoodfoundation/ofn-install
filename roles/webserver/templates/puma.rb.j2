@@ -1,0 +1,34 @@
+# Puma server configuration; manged via ofn-install.
+
+# Note: workers are forked webserver processes. If using threads and workers together
+# the concurrency of the application would be max `threads` * `workers`.
+workers {{ puma_workers }}
+threads {{ puma_threads }}, {{ puma_threads }}
+
+app_path = "{{ app_path }}"
+
+directory "#{app_path}/current"
+pidfile "#{app_path}/shared/pids/puma.pid"
+state_path "#{app_path}/shared/pids/puma.state"
+environment "{{ rails_env }}"
+bind "unix://#{app_path}/shared/sock/puma.openfoodnetwork.sock"
+
+stdout_redirect "#{app_path}/shared/log/puma.log", "#{app_path}/shared/log/puma.log", true
+
+if ["production", "staging"].include?(ENV["RAILS_ENV"])
+  # Apply the latest performance-enhancing features
+  prune_bundler
+  wait_for_less_busy_worker
+  fork_worker
+  nakayoshi_fork
+  preload_app! false
+
+  # Ensure clean Redis connections when forking
+  before_fork do
+    Redis.current.disconnect! if defined?(Redis)
+  end
+
+  on_refork do
+    Redis.current.disconnect! if defined?(Redis)
+  end
+end

@@ -21,8 +21,8 @@
   file:
     path: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
     state: touch
-    owner: "{{ unicorn_user }}"
-    group: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
   become: yes
   become_user: root
 
@@ -32,7 +32,7 @@
   file:
     src: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
     dest: "{{ rollback_sql_path }}"
-    owner: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
     state: link
     force: yes
   become: yes
@@ -41,7 +41,7 @@
   file:
     src: "{{ current_path_stats.stat.lnk_source }}"
     dest: "{{ rollback_path }}"
-    owner: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
     state: link
     force: yes
   become: yes

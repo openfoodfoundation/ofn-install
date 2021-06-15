@@ -1,11 +1,11 @@
 ---
 
-- name: stop unicorn and sidekiq
+- name: stop puma and sidekiq
   service:
     name: "{{ service_name }}"
     state: stopped
   loop:
-    - "unicorn_{{ app }}"
+    - "puma"
     - "sidekiq"
   loop_control:
     loop_var: service_name
@@ -46,9 +46,9 @@
   become: true
   become_user: postgres
 
-- name: restart unicorn
+- name: restart puma
   service:
-    name: "unicorn_{{ app }}"
+    name: puma
     state: started
   become: yes
   become_user: root

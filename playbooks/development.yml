@@ -12,8 +12,8 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
   roles:
-    - role: unicorn_user # Create unprivileged user to run unicorn
-      tags: unicorn_user
+    - role: app_user # Create unprivileged user to run unicorn
+      tags: app_user
 
     - role: common # Install common apps and libraries, and setup shell.
       tags: common
@@ -30,7 +30,7 @@
           - version: "{{ ruby_version }}"
 
       rbenv_users:
-        - "{{ unicorn_user }}"
+        - "{{ app_user }}"
       tags: ruby
 
     - role: dbserver # Set up database server and user for the app.
@@ -53,7 +53,7 @@
       register: bundler
       changed_when: bundler.stdout | length > 0
       become: yes
-      become_user: "{{ unicorn_user }}"
+      become_user: "{{ app_user }}"
       tags: bundler
 
   vars:

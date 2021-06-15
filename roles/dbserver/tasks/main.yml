@@ -23,14 +23,14 @@
 # The .pgpass file enables us to access the database with psql or
 # pgdump without entering a password. It is not required but makes
 # sysadmin and dev tasks more convenient.
-- name: add .pgpass file for {{ unicorn_user }}
+- name: add .pgpass file for {{ app_user }}
   template:
     src: pgpass.j2
-    dest: "{{ unicorn_home_path }}/.pgpass"
-    owner: "{{ unicorn_user }}"
+    dest: "{{ app_user_home_path }}/.pgpass"
+    owner: "{{ app_user }}"
     mode: 0600
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: "{{ app_user }}"
 
 - import_tasks: fix_template_encoding.yml
   tags: template_encoding
