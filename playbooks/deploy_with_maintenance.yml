@@ -48,11 +48,6 @@
 
       - meta: flush_handlers # Ensure handlers run successfully before reporting success
 
-      - name: refresh products cache
-        command: "{{ bundle_path }} exec rake ofn:cache:warm_products"
-        args:
-          chdir: "{{ current_path }}"
-
       - name: disable maintenance mode
         import_role:
           name: maintenance_mode
