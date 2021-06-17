@@ -20,3 +20,7 @@ developer_email: admin@coopcircuits.fr
 users_sysadmin:
   - "{{ core_devs }}"
   - paco
+
+maintenance_mode_message: >
+  Une maintenance est en cours. Merci de patienter, la plateforme sera bientôt à nouveau disponible.
+  Veuillez nous excuser pour la gêne occasionnée
