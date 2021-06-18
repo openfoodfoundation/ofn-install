@@ -88,7 +88,3 @@ GEOCODER_SERVICE: {{ geocoder_service }}
 {% if geocoder_timeout is defined %}
 GEOCODER_TIMEOUT: {{ geocoder_timeout }}
 {% endif %}
-
-{% if beta_testers is defined %}
-BETA_TESTERS: {{ beta_testers | join(',') }}
-{% endif %}
