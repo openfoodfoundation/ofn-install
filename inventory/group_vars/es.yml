@@ -19,3 +19,6 @@ users_sysadmin:
   - "{{ core_devs }}"
   - dani
   - enricostn
+
+maintenance_mode_message: >
+  El lloc està en procés de manteniment temporal. Si us plau, torneu-ho a intentar més tard.
