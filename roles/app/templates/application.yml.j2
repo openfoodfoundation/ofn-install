@@ -90,7 +90,3 @@ GEOCODER_TIMEOUT: {{ geocoder_timeout }}
 {% endif %}
 
 {{ custom_application_env_vars | default('') }}
-
-{% if beta_testers is defined %}
-BETA_TESTERS: {{ beta_testers | join(',') }}
-{% endif %}
