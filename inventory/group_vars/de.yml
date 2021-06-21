@@ -18,3 +18,7 @@ developer_email: admin@openfoodfoundation.org
 users_sysadmin:
   - "{{ core_devs }}"
   - "hendirk"
+
+maintenance_mode_message: >
+  Wir führen gerade Wartungsarbeiten durch und sind gleich wieder da.
+  Bitte versuchen Sie es in einigen Minuten erneut.
