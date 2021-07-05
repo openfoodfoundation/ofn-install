@@ -1,0 +1,75 @@
+---
+
+# Performs an in-place Postgres upgrade. Use with caution!
+# Example usage:
+# ansible-playbook playbooks/postgres_upgrade.yml --limit uk-staging -vv
+
+- name: PostgreSQL cluster upgrade
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  vars:
+    pg_old: 9.5
+    pg_new: 10
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  pre_tasks:
+    - name: enable maintenance mode
+      import_role:
+        name: maintenance_mode
+        tasks_from: enable
+      become: yes
+
+    - name: stop unicorn
+      service:
+        name: unicorn_{{ app }}
+        state: stopped
+      become: yes
+
+    - name: stop sidekiq
+      service:
+        name: sidekiq
+        state: stopped
+      become: yes
+
+  roles:
+    - role: postgres_upgrade
+      become: yes
+
+    - role: dbserver
+      become: yes
+      become_user: root
+      vars:
+        postgresql_version: "{{ pg_new }}"
+
+  post_tasks:
+    - name: re-apply integrations
+      include_role:
+        name: db_integrations
+      vars:
+        db_integration: "{{ integration_item }}"
+        postgresql_version: "{{ pg_new }}"
+      loop: "{{ db_integrations }}"
+      loop_control:
+        loop_var: integration_item
+      when: db_integrations is defined
+
+    - name: restart unicorn
+      service:
+        name: unicorn_{{ app }}
+        state: started
+      become: yes
+
+    - name: restart sidekiq
+      service:
+        name: sidekiq
+        state: started
+      become: yes
+
+    - name: disable maintenance mode
+      import_role:
+        name: maintenance_mode
+        tasks_from: disable
+      become: yes

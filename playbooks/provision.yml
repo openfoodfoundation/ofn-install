@@ -75,7 +75,6 @@
       become: yes
       become_user: root
       tags: dbserver
-      db_user_roles: CREATEDB,REPLICATION
 
     - role: libre_ops.multi_redis
       vars:

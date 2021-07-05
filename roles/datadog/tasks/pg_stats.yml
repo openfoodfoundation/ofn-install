@@ -6,12 +6,6 @@
     name: pg_stat_statements
     db: "{{ db }}"
 
-- name: gather postgres installation info
-  include_role:
-    name: geerlingguy.postgresql
-    tasks_from: variables
-  when: postgresql_config_path is undefined
-
 - name: add postgres stats configuration
   template:
     src: stats.conf.j2
