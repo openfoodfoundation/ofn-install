@@ -127,12 +127,8 @@ us-prod
 [es-prod]
 app.katuma.org ansible_host=116.203.60.113
 
-[es-staging]
-staging.katuma.org ansible_host=51.15.216.10
-
 [es:children]
 es-prod
-es-staging
 
 #------------------------------------------------------------------------------
 # France
@@ -207,7 +203,6 @@ au-prod
 au-staging
 uk-staging
 fr-staging
-es-staging
 
 #------------------------------------------------------------------------------
 # All
