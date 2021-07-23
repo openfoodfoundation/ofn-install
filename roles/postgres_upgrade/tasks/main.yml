@@ -21,6 +21,13 @@
   become: yes
   become_user: postgres
 
+- name: get postgres collation
+  postgresql_query:
+    query: SELECT datctype FROM pg_database WHERE datname='postgres'
+  become: yes
+  become_user: postgres
+  register: postgres_cluster_collation
+
 - name: stop old postgres
   service:
     name: postgresql

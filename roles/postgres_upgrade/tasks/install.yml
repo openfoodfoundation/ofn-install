@@ -15,3 +15,12 @@
   apt:
     name: "postgresql-{{ pg_new }}"
   become: yes
+
+- name: drop new custer
+  command: pg_dropcluster --stop {{ pg_new }} main
+  become: yes
+
+- name: create new custer with matching locale
+  command: >
+    pg_createcluster --start --locale {{ postgres_cluster_collation.query_result[0].datctype }} {{ pg_new }} main
+  become: yes
