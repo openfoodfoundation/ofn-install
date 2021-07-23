@@ -15,6 +15,10 @@
   apt:
     name: "postgresql-{{ pg_new }}"
   become: yes
+  retries: 6
+  delay: 20
+  register: package_installation
+  until: package_installation is not failed
 
 - name: drop new custer
   command: pg_dropcluster --stop {{ pg_new }} main
@@ -23,4 +27,8 @@
 - name: create new custer with matching locale
   command: >
     pg_createcluster --start --locale {{ postgres_cluster_collation.query_result[0].datctype }} {{ pg_new }} main
+  become: yes
+
+- name: exclude postgres package from unattended updates # noqa 301
+  command: apt-mark hold postgresql postgresql-{{ pg_old }}
   become: yes
