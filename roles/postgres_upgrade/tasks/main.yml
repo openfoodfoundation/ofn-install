@@ -24,6 +24,7 @@
 - name: get postgres collation
   postgresql_query:
     query: SELECT datctype FROM pg_database WHERE datname='postgres'
+    port: 5432
   become: yes
   become_user: postgres
   register: postgres_cluster_collation
@@ -37,12 +38,8 @@
 - name: install new version
   include_tasks: install.yml
 
-- name: fix template encoding on new cluster
-  include_role:
-    name: dbserver
-    tasks_from: fix_template_encoding.yml
-  vars:
-    postgres_port: 5433
+- name: ensure correct encoding in new cluster
+  include_tasks: encoding.yml
 
 - name: stop new postgres
   service:
