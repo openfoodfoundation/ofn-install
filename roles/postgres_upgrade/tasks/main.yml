@@ -61,6 +61,9 @@
     PGDATANEW: "/var/lib/postgresql/{{ pg_new }}/main"
     PGBINOLD: "/usr/lib/postgresql/{{ pg_old }}/bin"
     PGBINNEW: "/usr/lib/postgresql/{{ pg_new }}/bin"
+  retries: 3
+  delay: 10
+  until: compatibility_check is not failed
   register: compatibility_check
 
 - name: perform upgrade
