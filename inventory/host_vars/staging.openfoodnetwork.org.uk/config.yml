@@ -24,3 +24,5 @@ language_packages:
   - language-pack-en-base
 l10n_repo: https://github.com/openfoodfoundation/l10n_ca.git
 timezone: "Eastern Time (US & Canada)"
+
+postgresql_version: 10
