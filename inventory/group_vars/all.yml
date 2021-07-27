@@ -233,10 +233,6 @@ puma_threads: 3
 puma_timeout: 30
 
 #----------------------------------------------------------------------
-# Memcached variables
-memcached_value_max_megabytes: 4
-
-#----------------------------------------------------------------------
 # Core devs: users named here will have SSH access on all instances
 
 core_devs:
