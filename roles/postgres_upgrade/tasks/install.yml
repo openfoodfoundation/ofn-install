@@ -1,0 +1,25 @@
+---
+
+- name: add postgresql signing key
+  apt_key:
+    url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+  become: yes
+
+- name: add offical postgresql repo
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    filename: pgdg
+  become: yes
+
+- name: install postgres {{ pg_new }}
+  apt:
+    name: "postgresql-{{ pg_new }}"
+  become: yes
+  retries: 6
+  delay: 20
+  register: package_installation
+  until: package_installation is not failed
+
+- name: exclude postgres package from unattended updates # noqa 301
+  command: apt-mark hold postgresql postgresql-{{ pg_old }}
+  become: yes

@@ -1,0 +1,4 @@
+---
+
+postgres_port: 5432
+db_user_roles: CREATEDB,REPLICATION

@@ -5,10 +5,6 @@
 
 - include_role:
     name: geerlingguy.postgresql
-    tasks_from: variables
-
-- include_role:
-    name: geerlingguy.postgresql
     tasks_from: initialize
 
 - include_role:

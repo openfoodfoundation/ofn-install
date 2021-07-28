@@ -4,11 +4,6 @@
   remote_user: "{{ user }}"
 
   tasks:
-    - name: Gather postgres installation details
-      include_role:
-        name: geerlingguy.postgresql
-        tasks_from: variables
-
     - name: Add tuning configuration
       copy:
         content: |

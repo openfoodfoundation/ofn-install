@@ -1,0 +1,36 @@
+---
+
+- name: disable old database auto-start
+  lineinfile:
+    dest: "/etc/postgresql/{{ pg_old }}/main/start.conf"
+    regexp: "^auto"
+    line: "manual"
+  become: yes
+
+- name: set new cluster port to 5432
+  lineinfile:
+    dest: "/etc/postgresql/{{ pg_new }}/main/postgresql.conf"
+    regexp: "^port"
+    line: "port = 5432"
+  become: yes
+
+- name: copy pg_hba.conf
+  copy:
+    src: "/etc/postgresql/{{ pg_old }}/main/pg_hba.conf"
+    dest: "/etc/postgresql/{{ pg_new }}/main/pg_hba.conf"
+    remote_src: yes
+    force: yes
+  become: yes
+
+- name: restart postgres
+  service:
+    name: postgresql
+    state: restarted
+  become: yes
+
+- name: rebuild stats and indexes # noqa 301
+  command: "/usr/lib/postgresql/{{ pg_new }}/bin/vacuumdb --all --analyze-in-stages"
+  args:
+    chdir: "/var/lib/postgresql"
+  become: yes
+  become_user: postgres
