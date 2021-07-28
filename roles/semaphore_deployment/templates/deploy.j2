@@ -1,16 +1,30 @@
 #!/bin/bash
 
 set -e
-branch="$1"
+IFS=' ' read -ra git_args <<< "$1"
+branch=${git_args[0]}
+commit=${git_args[1]}
 allowed=^[a-zA-Z0-9._/\-]+$
 
 # Given branch name must be a single string with no spaces,
 # containing only: ".", "-", "/", "_", or alphanumeric characters.
 
-if [[ ! $branch =~ $allowed ]]
+if [[ ! $branch =~ $allowed || ! $commit =~ $allowed ]]
 then
-  echo "Invalid branch name given." >&2
+  echo "Invalid branch name or commit ref given." >&2
   exit 1
+fi
+
+# If we're deploying `master` it's usually because we are checking a release or a certain version,
+# so we want the exact commit to be deployed. Otherwise, we're testing a pull request, so we
+# want to use the PR's branch (which includes a merge with master).
+if [ $branch = "master" ]
+then
+  deploy=$commit
+  echo "Deploying master, commit: $commit"
+else
+  deploy=$branch
+  echo "Deploying $branch"
 fi
 
 cd "/home/{{ deployment_user }}/ofn-install"
@@ -19,4 +33,4 @@ cd "/home/{{ deployment_user }}/ofn-install"
 git pull
 
 # Deploy
-ansible-playbook playbooks/deploy.yml --limit {{ ansible_limit }} --connection local -e "git_repo=https://github.com/openfoodfoundation/openfoodnetwork.git git_version=$branch"
+ansible-playbook playbooks/deploy.yml --limit {{ ansible_limit }} --connection local -e "git_repo=https://github.com/openfoodfoundation/openfoodnetwork.git git_version=$deploy"
