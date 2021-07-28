@@ -9,9 +9,9 @@ allowed=^[a-zA-Z0-9._/\-]+$
 # Given branch name must be a single string with no spaces,
 # containing only: ".", "-", "/", "_", or alphanumeric characters.
 
-if [[ ! $branch =~ $allowed ]]
+if [[ ! $branch =~ $allowed || ! $commit =~ $allowed ]]
 then
-  echo "Invalid branch name given: $branch" >&2
+  echo "Invalid branch name or commit ref given." >&2
   exit 1
 fi
 
