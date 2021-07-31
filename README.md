@@ -7,10 +7,11 @@ The [Open Food Network](http://openfoodnetwork.org) is an online marketplace for
 
 Start with our [deployment tutorial](https://github.com/openfoodfoundation/ofn-install/wiki) to learn how to setup your own Open Food Network server with Ansible.
 
+For deploying OFN versions below `v4.x.x`, please use the `ofn-v3` branch of this repo.
 
 ## Playbooks
 
-These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 (64 bit) LTS** on AWS, DigitalOcean and Scaleway cloud servers.
+These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 and 18.04 (64 bit)** on AWS, DigitalOcean and Scaleway cloud servers.
 
 The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook. Make also sure to include your host's secrets file.
 
@@ -58,6 +59,6 @@ Run the [ansible-lint](https://github.com/willthames/ansible-lint) checks using:
 ansible-lint site.yml --exclude=community
 ```
 
-This is also run by Travis.
+This is also run in CI.
 
 ---
