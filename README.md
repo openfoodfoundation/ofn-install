@@ -1,6 +1,9 @@
 Deploying Open Food Network
 ===========================
 
+Note: this branch (`ofn-v3`) is for deploying OFN version `v3.x.x`. For deploying versions `v4.x.x` and above please use the `master` branch.
+
+
 These are [Ansible](http://docs.ansible.com/ansible/) playbooks (scripts) for managing an Open Food Network app server. This is **not for your local development environment**. Head to the [OFN getting started guide](https://github.com/openfoodfoundation/openfoodnetwork/blob/master/GETTING_STARTED.md) to run the OFN locally.
 
 The [Open Food Network](http://openfoodnetwork.org) is an online marketplace for local food. Instructions for configuring a development environment can be found on [the project's GitHub repository](https://github.com/openfoodfoundation/openfoodnetwork).
