@@ -9,7 +9,7 @@
 - name: check redis presence in gemfile
   lineinfile:
     dest: "{{ build_path }}/Gemfile"
-    regex: "^gem .*redis"
+    regex: "gem .*redis"
     state: absent
   check_mode: yes # Don't actually modify the file
   become: yes
@@ -21,4 +21,4 @@
     msg: |
       The deployed OFN version requires Redis to be installed.
       Please provision with the latest copy of ofn-install before deploying.
-  when: "redis_requirement is changed and 'redis-server.service' not in services"
+  when: "redis_requirement.found > 0 and 'redis-server.service' not in services"
