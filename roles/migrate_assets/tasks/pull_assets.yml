@@ -6,4 +6,4 @@
     dest: "{{ local_asset_path }}/"
     mode: pull
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: "{{ app_user }}"

@@ -16,7 +16,7 @@ timezone:
 # Used for the LetsEncrypt email setting
 developer_email: <dev email>
 
-# Users listed here will have their key from /files/keys added to the unicorn_user
+# Users listed here will have their key from /files/keys added to the app_user
 users_sysadmin:
   - <username>
 

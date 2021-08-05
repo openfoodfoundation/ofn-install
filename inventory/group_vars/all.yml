@@ -58,9 +58,7 @@ rbenv_extra_depends:
 ruby_compile_options: "--with-jemalloc"
 
 ruby_versions:
-  - version: 2.5.8
-  - version: 2.5.9
-  - version: 2.7.3  
+  - version: 2.7.3
     env:
       RUBY_CONFIGURE_OPTS: "{{ ruby_compile_options }}"
 
@@ -149,10 +147,12 @@ yarn_version: 1.22.4
 # App variables
 app: openfoodnetwork
 # Paths
-unicorn_home_path: "/home/{{ unicorn_user }}"
-gem_path: "{{ unicorn_home_path }}/.gem"
-bundle_path: "{{ unicorn_home_path }}/.rbenv/shims/bundle"
-app_path: "{{ unicorn_home_path }}/apps/{{ app }}"
+app_user_home_path: "/home/{{ app_user }}"
+gem_path: "{{ app_user_home_path }}/.gem"
+rbenv_shim_path: "{{ app_user_home_path }}/.rbenv/shims"
+rbenv_bin_path: "{{ app_user_home_path }}/.rbenv/bin"
+bundle_path: "{{ rbenv_shim_path }}/bundle"
+app_path: "{{ app_user_home_path }}/apps/{{ app }}"
 current_path: "{{ app_path }}/current"
 repo_path: "{{ app_path }}/repo"
 shared_path: "{{ app_path }}/shared"
@@ -214,19 +214,21 @@ logrotate_applications:
 #----------------------------------------------------------------------
 # Unicorn variables
 # User name for the unprivileged user which runs unicorn
-unicorn_user: openfoodnetwork
+app_user: openfoodnetwork
 unicorn_config: "{{ config_path }}/unicorn.rb"
 unicorn_log: "{{ log_path }}/unicorn.log"
 unicorn_pid: "{{ pid_path }}/unicorn.pid"
 unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
 unicorn_workers: 2
 unicorn_timeout: 30
-unicorn_env_vars: |
-  KILL_UNICORNS=true
 
-#----------------------------------------------------------------------
-# Memcached variables
-memcached_value_max_megabytes: 4
+puma_config: "{{ config_path }}/puma.rb"
+puma_log: "{{ log_path }}/puma.log"
+puma_pid: "{{ pid_path }}/puma.pid"
+puma_sock: "{{ sock_path }}/puma.{{ app }}.sock"
+puma_workers: 2
+puma_threads: 3
+puma_timeout: "{{ unicorn_timeout | default('30') }}"
 
 #----------------------------------------------------------------------
 # Core devs: users named here will have SSH access on all instances
@@ -321,8 +323,8 @@ nginx_sites:
       brotli on;
       brotli_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
 
-      try_files $uri/index.html $uri @unicorn;
-      location @unicorn {
+      try_files $uri/index.html $uri @rails;
+      location @rails {
         {{ nginx_valid_methods }}
 
         if (-f /etc/nginx/maintenance.html) {
@@ -337,7 +339,7 @@ nginx_sites:
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Request-Start "t=${msec}";
         proxy_redirect off;
-        proxy_pass http://unicorn;
+        proxy_pass http://rails;
       }
 
       location ~ ^/(assets)/ {
@@ -358,9 +360,9 @@ nginx_sites:
       }
 
       client_max_body_size 4G;
-      keepalive_timeout {{ unicorn_timeout }};
-      proxy_read_timeout {{ unicorn_timeout }};
-      proxy_send_timeout {{ unicorn_timeout }};
+      keepalive_timeout {{ puma_timeout }};
+      proxy_read_timeout {{ puma_timeout }};
+      proxy_send_timeout {{ puma_timeout }};
 
       include /etc/nginx/sites-available/ofn/*;
 
@@ -369,7 +371,10 @@ nginx_events_params:
 
 nginx_configs:
   upstream:
-    - upstream unicorn { server unix:{{ unicorn_sock }} fail_timeout=0; }
+    - upstream rails {
+        server unix:{{ puma_sock }} fail_timeout=0;
+        server unix:{{ unicorn_sock }} fail_timeout=0;
+      }
 
 # Use python2.7 interpeter
 ansible_python_interpreter: '/usr/bin/python2.7'

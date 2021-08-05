@@ -3,7 +3,7 @@
 # Setup an unprivileged user - needs to be run as root.
 - name: create unprivileged user
   user:
-    name: "{{ unicorn_user }}"
+    name: "{{ app_user }}"
     state: present
     append: yes
     shell: /bin/bash
@@ -11,7 +11,7 @@
 
 - name: add ssh key
   authorized_key:
-    user: "{{ unicorn_user }}"
+    user: "{{ app_user }}"
     key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
     state: present
   with_flattened: "{{ users_sysadmin }}"
@@ -22,7 +22,7 @@
 # ex.: --extra-vars "ssh_key_path=~/.ssh/id_rsa.pub"
 - name: add ssh key alternative
   authorized_key:
-    user: "{{ unicorn_user }}"
+    user: "{{ app_user }}"
     key: "{{ lookup('file', ssh_key_path) }}"
     state: present
   become: yes
@@ -32,22 +32,22 @@
   become: true
   template:
     src: defaults.j2
-    dest: /etc/default/openfoodnetwork
-    group: "{{ unicorn_user }}"
+    dest: "/etc/default/{{ app_user }}"
+    group: "{{ app_user }}"
     mode: 0640
 
-- name: Write bash_profile for unicorn user
+- name: Write bash_profile for app user
   become: true
   template:
     src: bash_profile.j2
-    dest: "/home/{{ unicorn_user }}/.bash_profile"
-    owner: "{{ unicorn_user }}"
-    group: "{{ unicorn_user }}"
+    dest: "/home/{{ app_user }}/.bash_profile"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
     mode: 0644
 
-- name: Create sudoers configuration for unicorn user
+- name: Create sudoers configuration for app user
   become: true
   template:
     src: sudoers.j2
-    dest: "/etc/sudoers.d/{{ unicorn_user }}"
+    dest: "/etc/sudoers.d/{{ app_user }}"
     mode: 0440

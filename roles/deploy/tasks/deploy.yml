@@ -11,14 +11,14 @@
     force: yes
   tags: clone
 
-- name: check redis required/present
-  include_tasks: check_redis.yml
+- name: run preflight checks
+  include_tasks: preflight_checks.yml
 
 - name: symlink custom assets into the build
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
     state: link
     force: yes
   with_items:
@@ -41,9 +41,9 @@
   become: yes
 
 - name: use ruby {{ deploy_ruby_version['content'] | b64decode | trim }} # noqa 301
-  shell: bash -lc "{{ unicorn_home_path }}/.rbenv/bin/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
+  shell: bash -lc "{{ rbenv_bin_path }}/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: "{{ app_user }}"
 
 # Install bundler and gems
 
@@ -60,7 +60,7 @@
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: >
     bash -lc "bundle install
-    --gemfile {{ build_path }}/Gemfile --path /home/{{ unicorn_user }}/.gem
+    --gemfile {{ build_path }}/Gemfile --path {{ gem_path }}
     --deployment {{ '--without development test' if rails_env != 'development' else '' }}"
   environment:
     LANG: "{{ language }}"
@@ -69,7 +69,7 @@
   tags:
     - bundle_app
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: restart puma
 
 # Install JS dependencies with yarn
 
@@ -78,7 +78,7 @@
     path: "{{ build_path }}"
     executable: "{{ npm_prefix }}/bin/yarn"
   become: true
-  become_user: "{{ unicorn_user }}"
+  become_user: "{{ app_user }}"
 
 # Update the database
 
@@ -113,7 +113,7 @@
   tags:
     - rake
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: restart puma
 
 - name: seed database
   command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
@@ -122,14 +122,14 @@
   tags:
     - seed
     - skip_ansible_lint
-  notify: restart unicorn
+  notify: restart puma
 
 - name: precompile assets # noqa 301
   command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
   args:
     chdir: "{{ build_path }}"
   become: yes
-  become_user: "{{ unicorn_user }}"
+  become_user: "{{ app_user }}"
 
 # Note: this task can be removed after all servers have been provisioned and deployed
 - name: delete current path unless it's a symlink
@@ -137,7 +137,7 @@
     dest: "{{ current_path }}"
     state: absent
   when: current_path_stats.stat.islnk is defined and not current_path_stats.stat.islnk
-  notify: restart unicorn
+  notify: restart puma
 
 # Move new build into place
 
@@ -145,11 +145,12 @@
   file:
     src: "{{ build_path }}"
     dest: "{{ current_path }}"
-    owner: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
     state: link
     force: yes
   become: yes
   notify:
-    - restart unicorn
+    - stop unicorn
+    - restart puma
     - update jobs queue
     - update whenever

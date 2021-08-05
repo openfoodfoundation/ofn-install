@@ -9,12 +9,12 @@
   file:
     src: "{{ rollback_symlink.stat.lnk_source }}"
     dest: "{{ current_path }}"
-    owner: "{{ unicorn_user }}"
+    owner: "{{ app_user }}"
     state: link
     force: yes
   become: yes
-  become_user: "{{ unicorn_user }}"
-  notify: reload unicorn
+  become_user: "{{ app_user }}"
+  notify: restart puma
 
 - name: restore database
   include_role:

@@ -18,4 +18,4 @@
         dest: "{{ current_path }}/.rollback_test"
         content: "."
       become: yes
-      become_user: "{{ unicorn_user }}"
+      become_user: "{{ app_user }}"

@@ -26,7 +26,7 @@
 
     - name: remove keys for unicorn user
       authorized_key:
-        user: "{{ unicorn_user }}"
+        user: "{{ app_user }}"
         key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
         state: absent
       with_flattened: "{{ remove_users_sysadmin }}"

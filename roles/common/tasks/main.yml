@@ -40,18 +40,16 @@
       - libxml2
       - libxml2-dev
       - libxslt1-dev
-      - memcached
       - libxrender1
   tags: packages
 
-- name: add memcached configuration
-  template:
-    src: memcached.conf.j2
-    dest: /etc/memcached.conf
-    mode: 0644
-  become: yes
-  notify:
-    - restart memcached
-
 - name: set up redis
   include_tasks: redis.yml
+
+- name: shut down memcached if present
+  service:
+    name: memcached
+    state: stopped
+  ignore_errors: yes
+  failed_when: false
+  become: yes

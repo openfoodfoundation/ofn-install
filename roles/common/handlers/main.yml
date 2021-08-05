@@ -1,11 +1,5 @@
 ---
 
-- name: restart memcached
-  service:
-    name: memcached
-    state: restarted
-  become: yes
-
 - name: restart redis
   service:
     name: redis-server

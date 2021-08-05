@@ -7,10 +7,10 @@
     mode: pull
     set_remote_user: false
     rsync_opts:
-      - "--chown={{ unicorn_user }}:{{ unicorn_user }}"
+      - "--chown={{ app_user }}:{{ app_user }}"
   vars:
     ansible_ssh_extra_args: >
-      -l {{ unicorn_user }} -o ForwardAgent=yes -o UserKnownHostsFile=/dev/null
+      -l {{ app_user }} -o ForwardAgent=yes -o UserKnownHostsFile=/dev/null
       -o StrictHostKeyChecking=no -o ConnectTimeout=600
   loop: "{{ migrate_dirs }}"
   loop_control:
