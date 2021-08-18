@@ -371,10 +371,7 @@ nginx_events_params:
 
 nginx_configs:
   upstream:
-    - upstream rails {
-        server unix:{{ puma_sock }} fail_timeout=0;
-        server unix:{{ unicorn_sock }} fail_timeout=0;
-      }
+    - upstream rails { server unix:{{ puma_sock }} fail_timeout=0; }
 
 # Use python2.7 interpeter
 ansible_python_interpreter: '/usr/bin/python2.7'
