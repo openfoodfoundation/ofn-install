@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=notify
-WatchdogSec=10
+WatchdogSec=30
 User={{ app_user }}
 
 WorkingDirectory={{ current_path }}
@@ -18,8 +18,9 @@ ExecStart=/bin/bash -lc "bundle exec --keep-file-descriptors puma -C {{ shared_p
 ExecReload=/bin/bash -lc "bundle exec pumactl phased-restart -S {{ shared_path }}/pids/puma.state"
 
 SyslogIdentifier=puma
-Restart=always
-RestartSec=5s
+Restart=on-failure
+RestartSec=30s
+TimeoutSec=30s
 
 [Install]
 WantedBy=multi-user.target
