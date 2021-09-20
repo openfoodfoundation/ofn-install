@@ -1,6 +1,6 @@
 ---
 
-domain: www.openfoodnetwork.be
+domain: openfoodnetwork.be
 host_id: be-prod
 rails_env: production
 
@@ -9,7 +9,7 @@ admin_email: admin@openfoodnetwork.be
 mail_domain: openfoodnetwork.be
 
 certbot_domains:
-  - www.openfoodnetwork.be
   - openfoodnetwork.be
+  - www.openfoodnetwork.be
 
 attachment_url: ofn-belgium.s3.us-east-1.amazonaws.com

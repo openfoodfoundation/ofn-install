@@ -1,6 +1,6 @@
 ---
 
-domain: www.openfoodnetwork.org.uk
+domain: openfoodnetwork.org.uk
 host_id: uk-prod
 rails_env: production
 
@@ -8,8 +8,8 @@ unicorn_workers: 5
 unicorn_timeout: 720
 
 certbot_domains:
-  - www.openfoodnetwork.org.uk
   - openfoodnetwork.org.uk
+  - www.openfoodnetwork.org.uk
 
 postgres_listen_addresses:
   - '*'

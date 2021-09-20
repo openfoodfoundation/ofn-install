@@ -1,6 +1,6 @@
 ---
 
-domain: www.coopcircuits.fr
+domain: coopcircuits.fr
 host_id: fr-prod
 rails_env: production
 
@@ -12,8 +12,8 @@ unicorn_timeout: 240
 unicorn_workers: 4
 
 certbot_domains:
-  - www.coopcircuits.fr
   - coopcircuits.fr
+  - www.coopcircuits.fr
 
 postgres_listen_addresses:
   - '*'
