@@ -307,8 +307,15 @@ nginx_sites:
 
       location / {
         {{ nginx_valid_methods }}
-        return 301 https://$host$request_uri;
+        return 301 https://{{ domain }}$request_uri;
       }
+
+  ofn_www:
+    - |
+      listen 443 ssl http2;
+      listen [::]:443 ssl http2;
+      server_name www.{{ domain }};
+      return 301 https://{{ domain }}$request_uri;
 
   ofn_443:
     - |
