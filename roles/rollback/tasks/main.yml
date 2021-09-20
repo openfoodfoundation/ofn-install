@@ -1,13 +1,22 @@
 --- # Rollback
 
+# Note: this is a serious operation which resets both the code and the *database* to a previous point
+# in time. It should never be run against a production server unless it's an *extreme* emergency.
+#
+# By default this playbook will roll back to the previous deployed release. If you want to roll back
+# to a specific target in the releases path instead, set the `release_timestamp` variable, eg:
+#
+# ansible-playbook playbooks/rollback.yml --limit uk-staging -e "release_timestamp=2021-09-17-134100"
+
 - name: fetch stats of rollback symlink
   stat:
     path: "{{ rollback_path }}"
   register: rollback_symlink
+  when: release_target is not defined
 
 - name: symlink rollback source to current path
   file:
-    src: "{{ rollback_symlink.stat.lnk_source }}"
+    src: "{{ rollback_calculated_path }}"
     dest: "{{ current_path }}"
     owner: "{{ app_user }}"
     state: link
@@ -21,4 +30,4 @@
     name: db_restore
     tasks_from: restore_database
   vars:
-    database_dump_path: "{{ rollback_sql_path }}"
+    database_dump_path: "{{ rollback_calculated_sql_path }}"

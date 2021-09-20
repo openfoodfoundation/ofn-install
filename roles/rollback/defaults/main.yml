@@ -1,0 +1,9 @@
+
+rollback_default_path: "{{ rollback_symlink.stat.lnk_source }}"
+rollback_default_sql_path: "{{ rollback_sql_path }}"
+
+rollback_target_path: "{{ releases_path }}/{{ release_timestamp }}"
+rollback_target_sql_path: "{{ releases_path }}/{{ release_timestamp }}.sql.gz"
+
+rollback_calculated_path: "{{ rollback_target_path if rollback_timestamp is defined else rollback_default_path }}"
+rollback_calculated_sql_path: "{{ rollback_target_sql_path if rollback_timestamp is defined else rollback_default_sql_path }}"
