@@ -223,3 +223,13 @@ be
 za
 br
 co
+cr
+
+#------------------------------------------------------------------------------
+# Costa Rica
+
+[cr-prod]
+laferia.cr ansible_host=95.217.177.232
+
+[cr:children]
+cr-prod
