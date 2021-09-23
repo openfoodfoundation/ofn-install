@@ -1,0 +1,28 @@
+---
+- name: enable nginx stub_status
+  template:
+    src: status.conf.j2
+    dest: /etc/nginx/conf.d/status.conf
+    mode: 0644
+    owner: root
+    group: 'www-data'
+  become: yes
+  notify:
+    - reload nginx
+    - restart datadog-agent
+
+- name: add datadog agent to adm group
+  user:
+    name: 'dd-agent'
+    groups: adm
+    append: yes
+
+- name: enable datadog nginx integration
+  template:
+    src: dd-nginx.j2
+    dest: /etc/datadog-agent/conf.d/nginx.d/conf.yaml
+    owner: 'dd-agent'
+    group: 'dd-agent'
+    mode: 0644
+  become: true
+  notify: restart datadog-agent

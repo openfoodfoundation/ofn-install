@@ -1,15 +1,24 @@
 --- # Rollback
 
-- name: remove current path
+- name: fetch stats of rollback symlink
+  stat:
+    path: "{{ rollback_path }}"
+  register: rollback_symlink
+
+- name: symlink rollback source to current path
   file:
-    dest={{ current_path }}
-    state=absent
+    src: "{{ rollback_symlink.stat.lnk_source }}"
+    dest: "{{ current_path }}"
+    owner: "{{ app_user }}"
+    state: link
+    force: yes
+  become: yes
+  become_user: "{{ app_user }}"
+  notify: restart puma
 
-- name: copy rollback repo to current path
-  command: cp -r {{ rollback_path }} {{ current_path }} creates={{ current_path }}
-
-- name: copy rollback db to live db
-  shell: gunzip -c {{ rollback_sql_path }} | psql -h {{ db_host }} -U {{ db_user }} {{ db }}
-  notify:
-    - precompile assets
-    - restart unicorn
+- name: restore database
+  include_role:
+    name: db_restore
+    tasks_from: restore_database
+  vars:
+    database_dump_path: "{{ rollback_sql_path }}"

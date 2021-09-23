@@ -1,0 +1,25 @@
+---
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: USA
+country_code: US
+currency: USD
+locale: en_US
+available_locales: en_US, es_US
+language: en_US.UTF8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_us.git
+l10n_git_version: master
+timezone: Central Time (US & Canada)
+
+# Used for the LetsEncrypt email setting
+developer_email: ofn-usa@openfoodnetwork.net
+
+# Users listed here will have their key from /files/keys added to the unicorn_user
+users_sysadmin:
+  - "{{ core_devs }}"
+  - brandy
+  - dani
+  - tim
+  - ravi
+  - andy

@@ -1,0 +1,8 @@
+---
+- name: setup_semaphore_deployment
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+  become: yes
+
+  roles:
+    - role: semaphore_deployment

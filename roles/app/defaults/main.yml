@@ -1,1 +1,11 @@
 ---
+s3_headers: "{\"Cache-Control\":\"max-age=31557600\"}"
+s3_protocol: "https"
+
+attachment_url: "/spree/products/:id/:style/:basename.:extension"
+attachment_path: "public/spree/products/:id/:style/:basename.:extension"
+
+stripe_client_id:
+stripe_instance_secret_key:
+stripe_instance_publishable_key:
+stripe_endpoint_secret:

@@ -1,0 +1,9 @@
+---
+
+# We can remove this after all servers have been provisioned and deployed at least once
+- name: disable custom redis config file
+  lineinfile:
+    name: "/etc/redis/redis.conf"
+    line: "include /etc/redis/local.conf"
+    state: absent
+  become: yes

@@ -1,24 +1,41 @@
 --- # webserver
 
-- name: copy unicorn files
+- name: provision service files
   template:
-    src={{ item.src }}
-    dest={{ item.dest }}
-    mode={{ item.mode }}
-    owner={{ item.owner }}
-    group={{ item.group }}
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
   become: yes
   with_items:
-    - { src: "unicorn_init.j2", dest: "/etc/init.d/unicorn_{{ app }}", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "unicorn.rb.j2", dest: "{{ config_path }}/unicorn.rb", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
-    - { src: "unicorn.service.j2", dest: "/etc/systemd/system/unicorn_{{ app }}.service", mode: "0744", owner: "{{ unicorn_user }}", group: "{{ unicorn_user }}" }
+    - { src: "puma.service.j2", dest: "/etc/systemd/system/puma.service" }
+  register: app_service_files
   notify:
-    - restart nginx
-  tags: unicorn
+    - restart puma if running
+  tags: init
 
-- name: update unicorn
+- name: provision puma config
+  template:
+    src: "puma.rb.j2"
+    dest: "{{ config_path }}/puma.rb"
+    mode: 0644
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+  become: yes
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+  become: yes
+  become_user: root
+  when: app_service_files.changed
+  tags:
+    - init
+    - skip_ansible_lint # The alternative involves flushing all handlers at this point, and we don't want to
+
+- name: Enable puma unit
   service:
-    name: "unicorn_{{ app }}"
+    name: puma
     enabled: yes
   become: yes
-  tags: unicorn
+  tags: init
+

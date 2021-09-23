@@ -1,0 +1,22 @@
+---
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Brazil
+country_code: BR
+currency: BRL
+
+locale: pt_BR # Default locale for OFN instance
+available_locales: pt_BR # Available locales for OFN instance
+language: pt_BR.UTF-8 # Default language for the server
+language_packages: # Language packages for the server
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_br.git
+timezone: Brasilia
+
+# Used for the LetsEncrypt email setting
+developer_email: administrativo@openfoodbrasil.com.br
+
+# Users listed here will have their key from /files/keys added to the unicorn_user
+users_sysadmin:
+  - "{{ core_devs }}"
+  - frattezi
+  - rafaelbbraz

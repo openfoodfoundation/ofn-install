@@ -1,0 +1,23 @@
+# See: http://docs.datadoghq.com/integrations/nginx/
+
+init_config:
+
+instances:
+  - nginx_status_url: http://localhost:81/nginx_status/
+    tags:
+      - "host:{{ inventory_hostname }}"
+
+{% if enable_nginx_logging is defined %}
+logs:
+  - type: file
+    path: /var/log/nginx/access.log
+    service: nginx
+    source: nginx
+    sourcecategory: http_web_access
+
+  - type: file
+    path: /var/log/nginx/error.log
+    service: nginx
+    source: nginx
+    sourcecategory: http_web_access
+{% endif %}

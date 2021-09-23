@@ -1,0 +1,33 @@
+# See: https://docs.datadoghq.com/integrations/postgres/
+
+init_config:
+
+instances:
+  - host: localhost
+    port: 5432
+    username: datadog
+    password: "{{ datadog_db_password }}"
+    dbname: "{{ db }}"
+    tags:
+      - "host:{{ inventory_hostname }}"
+    collect_activity_metrics: true
+    relations:
+    {% for relation in openfoodnetwork_relations.stdout_lines %}
+      - "{{ relation }}"
+    {% endfor %}
+
+{% if enable_postgres_logging is defined %}
+logs:
+  - type: file
+    path: /var/log/pg_log/postgresql-*.log
+    source: postgresql
+    sourcecategory: database
+    service: postgres
+    log_processing_rules:
+      - type: multi_line
+        pattern: \d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])
+        name: new_log_start_with_date
+      - type: exclude_at_match
+        name: exclude_datadog_stat_collection
+        pattern: datadog@openfoodnetwork\ LOG
+{% endif %}

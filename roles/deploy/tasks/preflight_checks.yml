@@ -1,0 +1,41 @@
+---
+
+# These checks ensure we aren't trying to deploy to a server that hasn't been set up correctly.
+# We safely fail early in those cases, before running migrations or other operations.
+
+- name: gather host services facts
+  service_facts:
+
+- name: check unicorn presence in gemfile
+  lineinfile:
+    dest: "{{ build_path }}/Gemfile"
+    regex: "gem .*unicorn"
+    state: absent
+  check_mode: yes # Don't actually modify the file
+  become: yes
+  register: unicorn_requirement
+  ignore_errors: true
+
+- name: stop deployment if unicorn is required
+  fail:
+    msg: |
+      The selected OFN version cannot be deployed. Please use the `ofn-v3` branch
+      for deploying OFN versions below v4.0.0
+  when: unicorn_requirement.found > 0
+
+- name: check redis presence in gemfile
+  lineinfile:
+    dest: "{{ build_path }}/Gemfile"
+    regex: "gem .*redis"
+    state: absent
+  check_mode: yes # Don't actually modify the file
+  become: yes
+  register: redis_requirement
+  ignore_errors: true
+
+- name: stop deployment if redis is both required and absent
+  fail:
+    msg: |
+      The deployed OFN version requires Redis to be installed.
+      Please provision with the latest copy of ofn-install before deploying.
+  when: "redis_requirement.found > 0 and 'redis-server.service' not in services"

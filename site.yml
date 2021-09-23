@@ -1,4 +1,4 @@
 ---
-- include: playbooks/default_user.yml
-- include: playbooks/provision.yml
-- include: playbooks/deploy.yml
+- import_playbook: playbooks/setup.yml
+- import_playbook: playbooks/provision.yml
+- import_playbook: playbooks/deploy.yml

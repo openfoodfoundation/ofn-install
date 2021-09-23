@@ -1,10 +1,10 @@
 ---
 - name: setup
   hosts: ofn_servers
-  remote_user: "{{ unicorn_user }}"
+  remote_user: "{{ app_user }}"
 
   tasks:
-    - name: restore backup
+    - name: restore backup # noqa 301
       command: "{{ bundle_path }} exec rake db2fog:restore"
       args:
         chdir: "{{ current_path }}"

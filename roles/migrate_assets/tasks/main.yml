@@ -1,0 +1,9 @@
+---
+
+- name: migrate asset directories
+  include_tasks: "{{ sync_mode }}_assets.yml"
+  loop: "{{ migrate_dirs }}"
+  loop_control:
+    loop_var: migrate_dir
+
+

@@ -1,0 +1,17 @@
+---
+- name: install node.js
+  include_role:
+    name: geerlingguy.nodejs
+  vars:
+    nodejs_version: "{{ node_version }}"
+    npm_config_prefix: "{{ npm_prefix }}"
+
+- name: install yarn
+  npm:
+    name: yarn
+    version: "{{ yarn_version }}"
+    global: true
+    state: present
+  environment:
+    NPM_CONFIG_PREFIX: "{{ npm_prefix }}"
+    NODE_PATH: "{{ npm_prefix }}/lib/node_modules"

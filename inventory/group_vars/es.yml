@@ -4,6 +4,7 @@ checkout_zone: Europe
 country_code: ES
 currency: EUR
 locale: es
+available_locales: es,ca,pt,it,fr,en
 language: es_ES.UTF-8
 language_packages:
   - language-pack-es-base
@@ -15,13 +16,9 @@ developer_email: info@coopdevs.org
 
 # Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
-  - enricostn
+  - "{{ core_devs }}"
   - dani
-  - pau
+  - enricostn
 
-s3_backups_bucket: none
-s3_access_key: 666
-s3_secret: 666
-
-stripe_client_id: 666
-stripe_instance_secret_key: 666
+maintenance_mode_message: >
+  El lloc està en procés de manteniment temporal. Si us plau, torneu-ho a intentar més tard.

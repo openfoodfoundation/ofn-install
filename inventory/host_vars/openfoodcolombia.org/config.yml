@@ -1,0 +1,9 @@
+---
+
+domain: openfoodcolombia.org
+host_id: co-prod
+rails_env: production
+
+admin_email: administracion@openfoodcolombia.org
+
+mail_domain: openfoodcolombia.org

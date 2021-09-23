@@ -1,0 +1,19 @@
+- name: check service status
+  service_facts:
+  listen:
+    - reload puma configs
+    - restart puma if running
+
+- name: reload puma configs
+  service:
+    name: puma
+    state: reloaded
+  become: yes
+  when: ansible_facts.services['puma.service']['state'] == 'running'
+
+- name: restart puma if running
+  service:
+    name: puma
+    state: restarted
+  become: yes
+  when: ansible_facts.services['puma.service']['state'] == 'running'

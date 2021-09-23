@@ -1,0 +1,73 @@
+---
+
+- name: install build dependencies
+  apt:
+    name: "{{ nginx_brotli_build_deps }}"
+    state: present
+  become: yes
+
+- name: register nginx version
+  command: bash -c "nginx -v 2>&1 | grep -o '[0-9.]*'"
+  register: nginx_version_register
+  changed_when: False
+
+- name: set installed nginx version
+  set_fact:
+    installed_nginx_version: "{{ nginx_version_register.stdout }}"
+
+- name: create nginx source directory
+  file:
+    dest: "{{ nginx_src_path }}"
+    state: directory
+  become: yes
+
+- name: download and extract nginx source
+  unarchive:
+    src: "https://nginx.org/download/nginx-{{ installed_nginx_version }}.tar.gz"
+    dest: "{{ nginx_src_path }}"
+    remote_src: yes
+  become: yes
+
+- name: fetch brotli module source
+  git:
+    repo: https://github.com/eustas/ngx_brotli
+    dest: "{{ nginx_brotli_src_path }}"
+    version: "{{ nginx_brotli_version }}"
+    depth: 1
+  become: yes
+
+- name: get nginx config values
+  command: nginx -V
+  register: nginx_config_args
+  changed_when: False
+
+- name: extract nginx build args
+  set_fact:
+    nginx_build_args: "{{ nginx_config_args.stderr.split('configure arguments: ')[1] }}"
+  changed_when: False
+
+- name: configure build # noqa 305
+  shell: "./configure {{ nginx_build_args }} --with-compat --add-dynamic-module={{ nginx_brotli_src_path }}"
+  args:
+    chdir: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}"
+    creates: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}/Makefile"
+  become: yes
+
+- name: make brotli modules
+  make:
+    chdir: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}"
+    target: modules
+  register: nginx_modules_built
+  become: yes
+
+- name: add brotli modules to nginx # noqa 503
+  copy:
+    src: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}/objs/{{ item }}"
+    dest: "{{ nginx_modules_path }}/{{ item }}"
+    remote_src: yes
+  with_items:
+    - ngx_http_brotli_filter_module.so
+    - ngx_http_brotli_static_module.so
+  when: nginx_modules_built.changed
+  become: yes
+  notify: reload nginx

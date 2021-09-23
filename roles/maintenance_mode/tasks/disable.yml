@@ -1,0 +1,8 @@
+---
+
+- name: disable maintenance mode
+  file:
+    dest: "/etc/nginx/maintenance.html"
+    state: absent
+  become: yes
+  become_user: root

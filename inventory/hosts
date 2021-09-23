@@ -1,27 +1,76 @@
 #------------------------------------------------------------------------------
+# Local containers for testing
+
+[vagrant]
+local_vagrant ansible_host=127.0.0.1 ansible_user=vagrant ansible_port=2222 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[lxc]
+ofn.local
+
+[lexi]
+local_lexi ansible_host=10.10.100.10 ansible_ssh_common_args='-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR'
+
+[test]
+local_test
+
+[local:children]
+vagrant
+lxc
+lexi
+test
+
+#------------------------------------------------------------------------------
 # Australia
 
 [au-prod]
-www.openfoodnetwork.org.au
+openfoodnetwork.org.au ansible_host=43.239.97.238
 
 [au-staging]
-staging1.openfoodnetwork.com.au
-staging2.openfoodnetwork.com.au
+staging.openfoodnetwork.org.au
 
 [au:children]
 au-prod
 au-staging
 
+#------------------------------------------------------------------------------
+# Brazil
+
+[br-prod]
+openfoodbrasil.com.br ansible_host=52.20.5.42
+
+[br-staging]
+staging.openfoodbrasil.com.br ansible_host=54.242.172.26
+
+[br:children]
+br-prod
+br-staging
 
 #------------------------------------------------------------------------------
-# Ireland
+# Colombia
+
+[co-prod]
+openfoodcolombia.org
+
+[co:children]
+co-prod
+
+#------------------------------------------------------------------------------
+# Canada
+
+[ca-prod]
+openfoodnetwork.ca ansible_host=68.183.204.127
+
+[ca:children]
+ca-prod
+
+#------------------------------------------------------------------------------
+## Ireland
 
 [ie-prod]
-openfoodireland.eu
+openfoodnetwork.ie ansible_host=167.172.44.121
 
 [ie:children]
 ie-prod
-
 
 #------------------------------------------------------------------------------
 # India
@@ -32,7 +81,18 @@ www.openfoodnetwork.in
 [in:children]
 in-prod
 
+#------------------------------------------------------------------------------
+# Italy
 
+[it-prod]
+app.openfoodnetwork.it
+
+[it-staging]
+stg.openfoodnetwork.it
+
+[it:children]
+it-prod
+it-staging
 
 #------------------------------------------------------------------------------
 # UK
@@ -41,40 +101,108 @@ in-prod
 www.openfoodnetwork.org.uk
 
 [uk-staging]
-#staging.openfoodnetwork.org.uk ansible_host=178.62.109.202
-staging.openfoodnetwork.org.uk ansible_host=188.166.136.240
-staging2.openfoodnetwork.org.uk ansible_host=188.166.159.45
+staging.openfoodnetwork.org.uk
+
+[uk-staging2]
+staging2.openfoodnetwork.org.uk
 
 [uk:children]
 uk-prod
 uk-staging
+uk-staging2
 
 
 #------------------------------------------------------------------------------
 # USA
 
 [us-prod]
-www.usfoodcoop.org
-
-[us-staging]
-staging.usfoodcoop.org ansible_host=
+openfoodnetwork.net ansible_host=161.35.232.244
 
 [us:children]
 us-prod
-us-staging
 
 #------------------------------------------------------------------------------
 # Spain
 
 [es-prod]
-alpha.katuma.org ansible_host=51.15.136.157
-
-[es-staging]
-staging.katuma.org ansible_host=212.47.234.234
+app.katuma.org ansible_host=116.203.60.113
 
 [es:children]
 es-prod
-es-staging
+
+#------------------------------------------------------------------------------
+# France
+
+[fr-prod]
+www.coopcircuits.fr ansible_host=51.68.226.206
+
+[fr-staging]
+staging.coopcircuits.fr ansible_host=51.178.24.33
+
+[fr:children]
+fr-prod
+fr-staging
+
+#------------------------------------------------------------------------------
+# Germany
+
+[de-prod]
+openfoodnetwork.de ansible_host=195.201.96.103
+
+[de:children]
+de-prod
+
+#------------------------------------------------------------------------------
+# Belgium
+
+[be-prod]
+www.openfoodnetwork.be ansible_host=51.75.124.147
+
+[be:children]
+be-prod
+
+#------------------------------------------------------------------------------
+# South Africa
+
+[za-prod]
+www.openfoodnetwork.org.za
+
+[za:children]
+za-prod
+
+#------------------------------------------------------------------------------
+# Europe
+
+[europe:children]
+be-prod
+es-prod
+fr-prod
+uk-prod
+de-prod
+ie-prod
+
+#------------------------------------------------------------------------------
+# America
+
+[america:children]
+ca-prod
+us-prod
+
+#------------------------------------------------------------------------------
+# Production Servers
+
+[all-prod:children]
+europe
+america
+au-prod
+
+#------------------------------------------------------------------------------
+# Staging Servers
+
+[all-staging:children]
+au-staging
+uk-staging
+fr-staging
 
 #------------------------------------------------------------------------------
 # Costa Rica
@@ -85,9 +213,18 @@ laferia.cr
 # All
 
 [ofn_servers:children]
+local
 au
+ca
 ie
 in
+it
 uk
 us
 es
+fr
+de
+be
+za
+br
+co

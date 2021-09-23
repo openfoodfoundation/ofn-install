@@ -18,4 +18,4 @@ spree123
 EOF
 echo
 echo "Load default data for development environment..."
-"$bundle" exec rake openfoodnetwork:dev:load_sample_data
+"$bundle" exec rake ofn:dev:load_sample_data

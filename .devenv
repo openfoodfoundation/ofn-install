@@ -1,0 +1,26 @@
+# Installation steps:
+#
+# Clone https://github.com/coopdevs/devenv and install it. Then, from the
+# ofn-install's directory, execute devenv.
+#
+# Now, execute playbooks/setup.yml which will create ofn-admin and add your ssk
+# key to it. Note you must be in the core_devs list.
+#
+# Once done you can execute playbooks/development.yml to have a development box
+# or play with playbooks/provisioning.yml if you prefer.
+
+NAME="ofn"
+DISTRIBUTION="ubuntu"
+RELEASE="xenial"
+ARCH="amd64"
+HOST="ofn.local"
+
+DEVENV_USER="openfoodnetwork"
+DEVENV_GROUP="openfoodnetwork"
+
+PROJECT_NAME="openfoodnetwork"
+PROJECT_PATH="${PWD%/*}/$PROJECT_NAME"
+
+# Select the python interpeter python2.7 or python3
+PYTHON_INTERPRETER=python3
+

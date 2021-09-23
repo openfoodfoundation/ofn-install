@@ -1,0 +1,10 @@
+---
+
+- name: enable maintenance mode
+  template:
+    src: maintenance.html.j2
+    dest: "/etc/nginx/maintenance.html"
+    owner: www-data
+    group: www-data
+  become: yes
+  become_user: root

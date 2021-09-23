@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=sidekiq
+After=syslog.target network.target
+
+[Service]
+Type=notify
+WatchdogSec=10
+
+WorkingDirectory={{ current_path }}
+User={{ app_user }}
+
+ExecStart=/bin/bash -lc 'exec {{ app_user_home_path }}/.rbenv/shims/bundle exec sidekiq \
+  -e {{ rails_env }} \
+  &> log/sidekiq.log'
+
+RestartSec=10
+Restart=on-failure
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=multi-user.target

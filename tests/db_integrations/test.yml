@@ -1,0 +1,17 @@
+---
+- name: test
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  tasks:
+    - name: test | db_integrations | expect postgresql.conf to be updated
+      command: grep -q "listen_addresses = '*'" {{ postgresql_config_path }}/postgresql.conf
+      become: yes
+      become_user: postgres
+      changed_when: False
+
+    - name: test | db_integrations | expect pg_hba.conf to be updated
+      command: grep -q "12.34.56.78/32" {{ postgresql_config_path }}/pg_hba.conf
+      become: yes
+      become_user: postgres
+      changed_when: False

@@ -1,0 +1,8 @@
+---
+
+- name: Maintenance mode
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  roles:
+    - role: maintenance_mode

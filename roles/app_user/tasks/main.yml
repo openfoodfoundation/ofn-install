@@ -1,0 +1,53 @@
+---
+
+# Setup an unprivileged user - needs to be run as root.
+- name: create unprivileged user
+  user:
+    name: "{{ app_user }}"
+    state: present
+    append: yes
+    shell: /bin/bash
+  become: yes
+
+- name: add ssh key
+  authorized_key:
+    user: "{{ app_user }}"
+    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state: present
+  with_flattened: "{{ users_sysadmin }}"
+  become: yes
+  when: ssh_key_path is undefined
+
+# Add ssh key path to run playbook command with --extra-vars
+# ex.: --extra-vars "ssh_key_path=~/.ssh/id_rsa.pub"
+- name: add ssh key alternative
+  authorized_key:
+    user: "{{ app_user }}"
+    key: "{{ lookup('file', ssh_key_path) }}"
+    state: present
+  become: yes
+  when: ssh_key_path is defined
+
+- name: Write OFN environment variables defaults
+  become: true
+  template:
+    src: defaults.j2
+    dest: "/etc/default/{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0640
+
+- name: Write bash_profile for app user
+  become: true
+  template:
+    src: bash_profile.j2
+    dest: "/home/{{ app_user }}/.bash_profile"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0644
+
+- name: Create sudoers configuration for app user
+  become: true
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ app_user }}"
+    mode: 0440

@@ -1,0 +1,12 @@
+---
+
+- name: copy backup to remote machine
+  copy:
+    src: "{{ local_backup_path }}"
+    dest: "{{ remote_backup_path }}"
+  become: yes
+  become_user: postgres
+
+- name: restore database
+  include_tasks: restore_database.yml
+

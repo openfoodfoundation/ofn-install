@@ -1,0 +1,30 @@
+---
+
+- name: get new postgres collation
+  postgresql_query:
+    query: SELECT datctype FROM pg_database WHERE datname='postgres'
+    port: 5433
+  become: yes
+  become_user: postgres
+  retries: 3
+  delay: 10
+  until: postgres_new_cluster_collation is not failed
+  register: postgres_new_cluster_collation
+
+- name: drop new custer unless collations match
+  command: pg_dropcluster --stop {{ pg_new }} main
+  become: yes
+  when: postgres_cluster_collation != postgres_new_cluster_collation
+
+- name: create new custer with correct collation
+  command: >
+    pg_createcluster --start --locale {{ postgres_cluster_collation.query_result[0].datctype }} {{ pg_new }} main
+  become: yes
+  when: postgres_cluster_collation != postgres_new_cluster_collation
+
+- name: update template encoding on new cluster
+  include_role:
+    name: dbserver
+    tasks_from: fix_template_encoding.yml
+  vars:
+    postgres_port: 5433

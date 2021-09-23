@@ -1,0 +1,17 @@
+---
+# Dumps the database on the target server, transfers the dump to a specified remote
+# using the SSH forwarding, then (forcibly) restores the dump to the database on the remote.
+# Requires "rsync_to" variable as remote server for rsync e.g: `-e "rsync_to=uk-staging"`.
+
+- name: Transfer database with SSH forwarding
+  hosts: ofn_servers
+  remote_user: "{{ user }}"
+
+  pre_tasks:
+    - name: ensure rsync target is valid and singular
+      fail:
+        msg: "Rsync target must be a single valid host, e.g. `-e 'rsync_to=uk-staging'`"
+      when: (groups[rsync_to] | length) != 1
+
+  roles:
+    - role: db_transfer

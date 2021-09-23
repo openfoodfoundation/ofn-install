@@ -1,0 +1,18 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Africa
+country_code: ZA
+currency: ZAR
+locale: en_GB
+language: en_GB.UTF-8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_za.git
+timezone: Pretoria
+
+developer_email: bevan.thrive@gmail.com
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - bevan

@@ -1,0 +1,13 @@
+---
+domain: staging.openfoodbrasil.com.br
+host_id: br-staging
+rails_env: staging
+
+admin_email: administrativo@openfoodbrasil.com.br
+
+mail_domain: openfoodbrasil.com.br
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - frattezi
+  - rafaelbbraz

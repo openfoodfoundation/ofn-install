@@ -1,0 +1,9 @@
+---
+
+- name: enable maintenance mode
+  import_tasks: enable.yml
+  when: disable_maintenance is undefined
+
+- name: disable maintenance mode
+  import_tasks: disable.yml
+  when: disable_maintenance is defined

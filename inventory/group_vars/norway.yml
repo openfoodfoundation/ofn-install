@@ -11,3 +11,5 @@ language_packages:
 l10n_repo: https://github.com/openfoodfoundation/l10n_no.git
 timezone:
 
+users_sysadmin:
+  - "{{ core_devs }}"

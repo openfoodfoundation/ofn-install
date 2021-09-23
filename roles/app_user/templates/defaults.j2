@@ -1,0 +1,10 @@
+RAILS_ENV={{ rails_env }}
+
+{% if db_user is defined %}
+OFN_DB_USERNAME={{ db_user }}
+{% endif %}
+
+{% if db_password is defined %}
+OFN_DB_PASSWORD={{ db_password }}
+{% endif %}
+

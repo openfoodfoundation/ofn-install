@@ -1,0 +1,88 @@
+---
+
+- name: back up the database
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "/var/lib/postgresql/upgrade-backup.sql.gz"
+  become: yes
+  become_user: postgres
+
+# This view for Datadog references system tables, which blows up if we try to upgrade the cluster
+# with it included. We can safely drop it here and re-add it later via the datadog role.
+# Confusingly it's been added in two different ways in different servers and we need to drop both.
+- name: drop pg_stat_activity_dd view # noqa 301
+  command: "psql -c 'DROP VIEW IF EXISTS pg_stat_activity_dd CASCADE;'"
+  become: yes
+  become_user: postgres
+
+- name: drop pg_stat_activity_dd view # noqa 301
+  command: "psql {{ db }} -c 'DROP VIEW IF EXISTS pg_stat_activity_dd CASCADE;'"
+  become: yes
+  become_user: postgres
+
+- name: get postgres collation
+  postgresql_query:
+    query: SELECT datctype FROM pg_database WHERE datname='postgres'
+    port: 5432
+  become: yes
+  become_user: postgres
+  register: postgres_cluster_collation
+
+- name: stop old postgres
+  service:
+    name: postgresql
+    state: stopped
+  become: yes
+
+- name: install new version
+  include_tasks: install.yml
+
+- name: ensure correct encoding in new cluster
+  include_tasks: encoding.yml
+
+- name: stop new postgres
+  service:
+    name: postgresql
+    state: stopped
+  become: yes
+
+- name: check upgrade compatibility # noqa 301
+  command: >
+    /usr/lib/postgresql/{{ pg_new }}/bin/pg_upgrade --link --check
+    --old-options=-cconfig_file=/etc/postgresql/{{ pg_old }}/main/postgresql.conf
+    --new-options=-cconfig_file=/etc/postgresql/{{ pg_new }}/main/postgresql.conf
+  args:
+    chdir: "/var/lib/postgresql"
+  become: yes
+  become_user: postgres
+  environment:
+    PGDATAOLD: "/var/lib/postgresql/{{ pg_old }}/main"
+    PGDATANEW: "/var/lib/postgresql/{{ pg_new }}/main"
+    PGBINOLD: "/usr/lib/postgresql/{{ pg_old }}/bin"
+    PGBINNEW: "/usr/lib/postgresql/{{ pg_new }}/bin"
+  retries: 3
+  delay: 10
+  until: compatibility_check is not failed
+  register: compatibility_check
+
+- name: perform upgrade
+  command: >
+    /usr/lib/postgresql/{{ pg_new }}/bin/pg_upgrade --link
+    --old-options=-cconfig_file=/etc/postgresql/{{ pg_old }}/main/postgresql.conf
+    --new-options=-cconfig_file=/etc/postgresql/{{ pg_new }}/main/postgresql.conf
+  args:
+    chdir: "/var/lib/postgresql"
+  become: yes
+  become_user: postgres
+  environment:
+    PGDATAOLD: "/var/lib/postgresql/{{ pg_old }}/main"
+    PGDATANEW: "/var/lib/postgresql/{{ pg_new }}/main"
+    PGBINOLD: "/usr/lib/postgresql/{{ pg_old }}/bin"
+    PGBINNEW: "/usr/lib/postgresql/{{ pg_new }}/bin"
+  when: compatibility_check is succeeded
+  register: upgrade_result
+
+- name: post-upgrade config
+  include_tasks: configure.yml
+  when: upgrade_result is succeeded

@@ -1,0 +1,38 @@
+---
+
+# This role will direct the server to proxy all requests to the specified target. This is useful for
+# redirecting traffic during a migration. Provisioning the target again will remove the temporary
+# configuration. Use `-e "proxy_target=<ip-address>"` to specify the target.
+
+- name: check proxy target is defined
+  fail:
+    msg: "No proxy target specified. Specify with extra vars, e.g: `-e 'proxy_target=192.168.0.1'`"
+  when: proxy_target is undefined
+
+- name: add temporary proxying
+  include_role:
+    name: jdauphant.nginx
+    tasks_from: configuration
+    apply:
+      become: yes
+      become_user: root
+  vars:
+    nginx_sites:
+      ofn_443:
+        - |
+          listen 443 ssl http2;
+          listen [::]:443 ssl http2;
+          server_name {{ certbot_domains | default([domain]) | join(' ') }};
+          access_log off;
+
+          ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
+          ssl_certificate_key  /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem;
+
+          location / {
+            proxy_pass https://{{ proxy_target }};
+            proxy_set_header    Host            $host;
+            proxy_set_header    X-Real-IP       $remote_addr;
+            proxy_set_header    X-Forwarded-for $remote_addr;
+            port_in_redirect off;
+            proxy_connect_timeout 300;
+          }

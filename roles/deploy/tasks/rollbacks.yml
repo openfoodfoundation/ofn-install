@@ -1,0 +1,65 @@
+---
+
+# Create a database rollback
+
+- name: create a database dump
+  postgresql_db:
+    name: "{{ db }}"
+    state: dump
+    target: "{{ rollback_tmp_path }}"
+  become: yes
+  become_user: postgres
+
+- name: move to releases folder
+  command: mv {{ rollback_tmp_path }} {{ current_path_stats.stat.lnk_source }}.sql.gz
+  become: yes
+  become_user: root
+  args:
+    creates: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+
+- name: update file ownership
+  file:
+    path: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    state: touch
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+  become: yes
+  become_user: root
+
+# Symlink database dump and current app to /rollback
+
+- name: symlink to database rollback
+  file:
+    src: "{{ current_path_stats.stat.lnk_source }}.sql.gz"
+    dest: "{{ rollback_sql_path }}"
+    owner: "{{ app_user }}"
+    state: link
+    force: yes
+  become: yes
+
+- name: symlink to app rollback
+  file:
+    src: "{{ current_path_stats.stat.lnk_source }}"
+    dest: "{{ rollback_path }}"
+    owner: "{{ app_user }}"
+    state: link
+    force: yes
+  become: yes
+
+# Clean up old release files
+
+- name: check for old release files
+  shell: set -o pipefail && ls -1tr | head -n -10
+  args:
+    chdir: "{{ releases_path }}"
+    executable: /bin/bash
+  become: yes
+  changed_when: False
+  register: releases_for_deletion
+
+- name: delete old release files if present
+  file:
+    path: "{{ releases_path }}/{{ item }}"
+    state: absent
+  with_items: "{{ releases_for_deletion.stdout_lines | list }}"
+  become: yes

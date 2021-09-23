@@ -1,0 +1,19 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Europe
+country_code: IE
+currency: EUR
+locale: en_IE
+available_locales: en_IE
+language: en_IE.UTF-8
+language_packages:
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodfoundation/l10n_ie.git
+timezone: Dublin
+
+developer_email: admin@openfoodnetwork.ie
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - openfoodnetwork.ie

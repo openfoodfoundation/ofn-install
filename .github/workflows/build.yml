@@ -1,0 +1,52 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '2.7'
+
+      - name: Set up Ansible
+        run: |
+          pip install -r requirements.txt
+          bin/setup
+
+      - name: Ansible Lint
+        run: ansible-lint playbooks/*.yml --exclude community
+
+  playbook-tests:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '2.7'
+
+      - name: Set up Ansible
+        run: |
+          pip install -r requirements.txt
+          bin/setup
+
+      - name: Cache Ruby binary compiling
+        id: cache-ruby
+        uses: actions/cache@v2
+        with:
+          path: ~/.rbenv
+          key: ${{ runner.os }}-ruby-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-ruby-
+            ${{ runner.os }}-
+
+      - name: Test Playbooks
+        run: ansible-playbook tests/suite.yml --limit test --connection local

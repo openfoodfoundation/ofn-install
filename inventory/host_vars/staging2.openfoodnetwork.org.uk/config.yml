@@ -1,6 +1,0 @@
----
-
-domain: staging2.openfoodnetwork.org.uk
-rails_env: staging
-
-admin_email: dev.ofnuk@gmail.com

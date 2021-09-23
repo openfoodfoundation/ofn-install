@@ -1,4 +1,0 @@
----
-local_backup_path: "{{ playbook_dir }}/backups"
-local_rsync_path: "{{ playbook_dir }}/backups"
-backup_filename: "{{ ansible_hostname }}_{{ current_date.stdout }}.sql.gz"

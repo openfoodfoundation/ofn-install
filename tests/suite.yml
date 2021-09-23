@@ -1,0 +1,23 @@
+---
+# This suite runs through some key scenarios with ofn-install's core playbooks, and performs some
+# rudimentary tests to make sure the playbooks are actually working as intended. This can be run
+# from a CI build, or in a local VM/container environment.
+
+# Setup, provision, and deploy on a fresh install
+- import_playbook: ../site.yml
+- import_playbook: ../tests/site/test.yml
+
+# Deploying to a live instance
+- import_playbook: ../tests/deploy/setup.yml
+- import_playbook: ../playbooks/deploy.yml
+- import_playbook: ../tests/deploy/test.yml
+
+# Perform a rollback
+- import_playbook: ../tests/rollback/setup.yml
+- import_playbook: ../playbooks/rollback.yml
+- import_playbook: ../tests/rollback/test.yml
+
+# Add a database integration
+- import_playbook: ../tests/db_integrations/setup.yml
+- import_playbook: ../playbooks/db_integrations.yml
+- import_playbook: ../tests/db_integrations/test.yml

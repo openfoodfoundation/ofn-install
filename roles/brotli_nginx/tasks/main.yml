@@ -1,0 +1,18 @@
+---
+
+- name: use official nginx repo
+  include_role:
+    name: jdauphant.nginx
+    tasks_from: nginx-official-repo.yml
+    apply:
+      become: yes
+
+- name: ensure latest stable nginx is installed # noqa 503
+  apt:
+    name: nginx
+    force: yes
+  become: yes
+  notify: restart nginx
+
+- name: build brotli nginx module from source
+  include_tasks: build.yml

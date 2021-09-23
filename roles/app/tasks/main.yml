@@ -6,15 +6,15 @@
   file:
     path={{ item }}
     state=directory
-    owner={{ unicorn_user }}
+    owner={{ app_user }}
   with_items:
     - "{{ app_path }}"
     - "{{ shared_path }}"
     - "{{ backup_path }}"
     - "{{ releases_path }}"
-    - "{{ assets_path }}"
     - "{{ system_path }}"
     - "{{ images_path }}"
+    - "{{ files_path }}"
     - "{{ spree_path }}"
     - "{{ log_path }}"
     - "{{ pid_path }}"
@@ -22,49 +22,17 @@
     - "{{ config_path }}"
   tags: dirs
 
-- name: copy seeds.rb
-  copy:
-    src=seeds.rb
-    dest={{ config_path }}/seeds.rb
-    owner={{ unicorn_user }}
-  tags: app_templates
-
 - name: template files
   template:
     src={{ item.src }}
     dest={{ item.dest }}
-    owner={{ unicorn_user }}
+    owner={{ app_user }}
     mode=0775
   with_items:
     - { src: "application.yml.j2", dest: "{{ config_path }}/application.yml" }
-    - { src: "post-receive.j2", dest: "{{ config_path }}/post-receive" }
+    - { src: "env.j2", dest: "{{ config_path }}/.env.{{ rails_env }}" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
-    - { src: "seed.sh.j2", dest: "{{ config_path }}/seed.sh" }
   tags: app_templates
-
-# Note this requires the `bugsnag_key` var to be specified otherwise no
-# template will be copied
-- name: copy the bugsnag's initializer file into the shared folder
-  template:
-    src: "bugsnag.rb.j2"
-    dest: "{{ config_path }}/bugsnag.rb"
-    owner: "{{ unicorn_user }}"
-    mode: 0775
-  tags:
-    - app_templates
-    - bugsnag
-  when: bugsnag_key is defined
-
-- name: copy the db2fog file into the shared folder
-  template:
-    src: db2fog.rb.j2
-    dest: "{{ config_path }}/db2fog.rb"
-    owner: "{{ unicorn_user }}"
-    mode: 0775
-  tags:
-    - app_templates
-    - db2fog
-  when: s3_backups_bucket != "none"
 
 - name: get l10n repo
   git:
@@ -74,4 +42,8 @@
     force=yes
   tags: l10n
 
-
+- name: clear default rbenv vars
+  file:
+    dest: "{{ app_user_home_path }}/.rbenv/vars"
+    state: absent
+  become: yes
