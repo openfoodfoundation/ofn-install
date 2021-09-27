@@ -3,8 +3,7 @@ Description=Puma HTTP Server
 After=network.target
 
 [Service]
-Type=notify
-WatchdogSec=30
+Type=simple
 User={{ app_user }}
 
 WorkingDirectory={{ current_path }}
