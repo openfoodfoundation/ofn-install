@@ -310,7 +310,7 @@ nginx_sites:
         return 301 https://{{ domain }}$request_uri;
       }
 
-  ofn_www:
+  000_redirect_www:
     - |
       listen 443 ssl http2;
       listen [::]:443 ssl http2;
