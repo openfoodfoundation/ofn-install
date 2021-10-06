@@ -9,5 +9,5 @@ mail_domain: openfoodnetwork.ie
 enable_nginx_logging: true
 
 certbot_domains:
-  - www.openfoodnetwork.ie
   - openfoodnetwork.ie
+  - www.openfoodnetwork.ie

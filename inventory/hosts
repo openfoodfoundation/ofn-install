@@ -76,7 +76,7 @@ ie-prod
 # India
 
 [in-prod]
-www.openfoodnetwork.in
+openfoodnetwork.in
 
 [in:children]
 in-prod
@@ -98,7 +98,7 @@ it-staging
 # UK
 
 [uk-prod]
-www.openfoodnetwork.org.uk
+openfoodnetwork.org.uk
 
 [uk-staging]
 staging.openfoodnetwork.org.uk
@@ -134,7 +134,7 @@ es-prod
 # France
 
 [fr-prod]
-www.coopcircuits.fr ansible_host=51.68.226.206
+coopcircuits.fr ansible_host=51.68.226.206
 
 [fr-staging]
 staging.coopcircuits.fr ansible_host=51.178.24.33
@@ -156,7 +156,7 @@ de-prod
 # Belgium
 
 [be-prod]
-www.openfoodnetwork.be ansible_host=51.75.124.147
+openfoodnetwork.be ansible_host=51.75.124.147
 
 [be:children]
 be-prod
@@ -165,7 +165,7 @@ be-prod
 # South Africa
 
 [za-prod]
-www.openfoodnetwork.org.za
+openfoodnetwork.org.za
 
 [za:children]
 za-prod

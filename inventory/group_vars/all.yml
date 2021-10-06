@@ -307,8 +307,21 @@ nginx_sites:
 
       location / {
         {{ nginx_valid_methods }}
-        return 301 https://$host$request_uri;
+        return 301 https://{{ domain }}$request_uri;
       }
+
+  000_redirect_www:
+    - |
+      listen 443 ssl http2;
+      listen [::]:443 ssl http2;
+      server_name www.{{ domain }};
+
+      ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
+      ssl_certificate_key  /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem;
+
+      {{ nginx_tls_cipher_suites }}
+
+      return 301 https://{{ domain }}$request_uri;
 
   ofn_443:
     - |
