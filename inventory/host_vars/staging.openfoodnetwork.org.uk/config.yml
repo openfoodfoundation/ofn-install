@@ -18,7 +18,7 @@ checkout_zone: Canada
 country_code: CA
 currency: CAD
 locale: en_CA
-available_locales: en_CA,fr_CA
+available_locales: en_CA,fr_CA,cy
 language: en.UTF-8
 language_packages:
   - language-pack-en-base
