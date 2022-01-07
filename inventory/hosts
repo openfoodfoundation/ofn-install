@@ -64,6 +64,15 @@ openfoodnetwork.ca ansible_host=68.183.204.127
 ca-prod
 
 #------------------------------------------------------------------------------
+# Costa Rica
+
+[cr-prod]
+laferia.cr ansible_host=95.217.177.232
+
+[cr:children]
+cr-prod
+
+#------------------------------------------------------------------------------
 ## Ireland
 
 [ie-prod]
@@ -224,12 +233,3 @@ za
 br
 co
 cr
-
-#------------------------------------------------------------------------------
-# Costa Rica
-
-[cr-prod]
-laferia.cr ansible_host=95.217.177.232
-
-[cr:children]
-cr-prod
