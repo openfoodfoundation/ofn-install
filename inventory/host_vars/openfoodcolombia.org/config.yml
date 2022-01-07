@@ -4,6 +4,11 @@ domain: openfoodcolombia.org
 host_id: co-prod
 rails_env: production
 
+mail_domain: openfoodcolombia.org
 admin_email: administracion@openfoodcolombia.org
 
-mail_domain: openfoodcolombia.org
+# Optional list of subdomains to register in letsencrypt certificate
+# Defaults to {{ domain }} if list is undefined
+certbot_domains:
+  - openfoodcolombia.org
+  - www.openfoodcolombia.org
