@@ -55,6 +55,17 @@ openfoodcolombia.org
 co-prod
 
 #------------------------------------------------------------------------------
+# Costa Rica
+[cr-staging]
+staging.laferia.cr ansible_host=95.217.177.232
+[cr-prod]
+laferia.cr
+
+[cr:children]
+co-prod
+cr-staging
+
+#------------------------------------------------------------------------------
 # Canada
 
 [ca-prod]
@@ -223,3 +234,4 @@ be
 za
 br
 co
+cr
