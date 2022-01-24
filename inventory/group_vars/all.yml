@@ -50,7 +50,7 @@ swapfile_size: false
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby_version: 2.7.3
+ruby_version: 3.0.3
 
 rbenv_extra_depends:
   - libjemalloc-dev
@@ -59,6 +59,9 @@ ruby_compile_options: "--with-jemalloc"
 
 ruby_versions:
   - version: 2.7.3
+    env:
+      RUBY_CONFIGURE_OPTS: "{{ ruby_compile_options }}"
+  - version: 3.0.3
     env:
       RUBY_CONFIGURE_OPTS: "{{ ruby_compile_options }}"
 
