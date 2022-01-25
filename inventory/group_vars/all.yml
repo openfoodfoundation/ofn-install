@@ -190,18 +190,6 @@ logrotate_applications:
           - notifempty    # don't rotate if empty
           - copytruncate  # copy the log, then empty the active logfile
 
-  - name: unicorn
-    definitions:
-      - logs:
-          - "{{ shared_path }}/log/unicorn.log"
-        options:
-          - weekly        # rotate weekly
-          - rotate 4      # delete logs older than 4 rotations
-          - compress      # compress rotated logs
-          - missingok     # ignore missing logs
-          - notifempty    # don't rotate if empty
-          - copytruncate  # copy the log, then empty the active logfile
-
   - name: postgres_queries
     definitions:
       - logs:
@@ -215,14 +203,8 @@ logrotate_applications:
           - "find /var/log/pg_log/ -name '*.log' -mtime +1 -exec rm {};"
 
 #----------------------------------------------------------------------
-# Unicorn variables
-# User name for the unprivileged user which runs unicorn
+# User name for the unprivileged user which runs the web server
 app_user: openfoodnetwork
-unicorn_config: "{{ config_path }}/unicorn.rb"
-unicorn_log: "{{ log_path }}/unicorn.log"
-unicorn_pid: "{{ pid_path }}/unicorn.pid"
-unicorn_sock: "{{ sock_path }}/unicorn.{{ app }}.sock"
-unicorn_workers: 2
 unicorn_timeout: 30
 
 puma_config: "{{ config_path }}/puma.rb"

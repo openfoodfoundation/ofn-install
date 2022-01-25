@@ -9,5 +9,4 @@ certbot_domains:
   - openfoodnetwork.org.za
   - www.openfoodnetwork.org.za
 
-unicorn_workers: 2
 swapfile_size: 1G

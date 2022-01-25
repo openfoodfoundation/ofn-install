@@ -20,7 +20,6 @@ certbot_domains:
 swapfile_size: 4G
 
 unicorn_timeout: 360
-unicorn_workers: 3
 
 # Enable external database access for third party integrations
 postgres_listen_addresses:

@@ -9,7 +9,6 @@ admin_email: admin@coopcircuits.fr
 mail_domain: coopcircuits.fr
 
 unicorn_timeout: 240
-unicorn_workers: 4
 
 certbot_domains:
   - coopcircuits.fr
