@@ -21,5 +21,4 @@ swapfile_size: 2G
 #custom_hba_entries:
 #  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
 
-unicorn_workers: 2
 unicorn_timeout: 360

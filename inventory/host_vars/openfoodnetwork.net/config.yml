@@ -8,8 +8,6 @@ admin_email: ofn-usa@openfoodnetwork.net
 
 mail_domain: openfoodnetwork.net
 
-unicorn_workers: 3
-
 certbot_domains:
   - openfoodnetwork.net
   - www.openfoodnetwork.net
