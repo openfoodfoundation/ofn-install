@@ -181,7 +181,8 @@ logrotate_applications:
   - name: rails
     definitions:
       - logs:
-          - "{{ current_path }}/log/*.log"
+          - "{{ current_path }}/log/production.log"
+          - "{{ current_path }}/log/staging.log"
         options:
           - weekly        # rotate weekly
           - rotate 4      # delete logs older than 4 rotations
@@ -189,6 +190,19 @@ logrotate_applications:
           - missingok     # ignore missing logs
           - notifempty    # don't rotate if empty
           - copytruncate  # copy the log, then empty the active logfile
+
+  - name: sidekiq
+    definitions:
+      - logs:
+          - "{{ current_path }}/log/sidekiq.log"
+        options:
+          - daily
+          - rotate 14     # delete logs older than 14 days
+          - compress      # compress rotated logs
+          - missingok     # ignore missing logs
+          - notifempty    # don't rotate if empty
+        postrotate:
+          - "pkill -USR2 -f sidekiq"
 
   - name: postgres_queries
     definitions:
