@@ -30,3 +30,8 @@ mail_domain: mail.openfoodnetwork.hu
 # Overridable Image Settings
 # attachment_url:
 # attachment_path:
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - pragai
+
