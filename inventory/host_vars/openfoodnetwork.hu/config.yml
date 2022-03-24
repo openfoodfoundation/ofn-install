@@ -31,7 +31,3 @@ mail_domain: mail.openfoodnetwork.hu
 # attachment_url:
 # attachment_path:
 
-users_sysadmin:
-  - "{{ core_devs }}"
-  - pragai
-
