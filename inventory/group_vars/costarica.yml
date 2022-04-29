@@ -1,0 +1,12 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Central America
+country_code: CR
+currency: CRC
+locale: es
+language: es.UTF8
+language_packages:
+  - language-pack-es-base
+l10n_repo: https://github.com/JaquerEspeis/laferia-l10n_cr.git
+timezone: America/Costa_Rica
