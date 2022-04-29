@@ -1,0 +1,33 @@
+---
+
+domain: openfoodnetwork.hu
+host_id: hu-prod # country initials (eg uk, es, de) and environment (default is prod)
+rails_env: production
+
+admin_email: pragai.robert@abasys.hu
+
+mail_domain: mail.openfoodnetwork.hu
+
+# Optional list of subdomains to register in letsencrypt certificate
+# Defaults to {{ domain }} if list is undefined
+#
+#certbot_domains:
+
+# Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
+# The default is `false`, not installing a swapfile.
+#swapfile_size: 1G
+
+# Enable external database access for third party integrations
+#postgres_listen_addresses:
+#  - '*'
+#
+#custom_hba_entries:
+#  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
+#
+#custom_env_vars: |
+#  OFN_FEATURE_CONNECT_AND_LEARN="true"
+
+# Overridable Image Settings
+# attachment_url:
+# attachment_path:
+
