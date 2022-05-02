@@ -15,6 +15,7 @@
     - "{{ system_path }}"
     - "{{ images_path }}"
     - "{{ files_path }}"
+    - "{{ storage_path }}"
     - "{{ spree_path }}"
     - "{{ log_path }}"
     - "{{ pid_path }}"
