@@ -49,7 +49,7 @@ br-staging
 # Colombia
 
 [co-prod]
-openfoodcolombia.org
+openfoodcolombia.org ansible_host=5.161.72.75
 
 [co:children]
 co-prod
