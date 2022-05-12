@@ -235,12 +235,11 @@ puma_timeout: "{{ unicorn_timeout | default('30') }}"
 
 core_devs:
   - maikel
-  - pau
   - matt
-  - andy
   - filipe
   - jb
   - david
+  - george
 
 #----------------------------------------------------------------------
 # nginx config
