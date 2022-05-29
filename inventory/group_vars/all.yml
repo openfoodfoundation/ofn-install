@@ -184,6 +184,7 @@ logrotate_applications:
       - logs:
           - "{{ current_path }}/log/production.log"
           - "{{ current_path }}/log/staging.log"
+          - "{{ log_path }}/puma.log"
         options:
           - weekly        # rotate weekly
           - rotate 4      # delete logs older than 4 rotations
