@@ -12,6 +12,7 @@ users_sysadmin:
   - "{{ core_devs }}"
   - lindhop
   - filipe
+  - konrad
 
 # UK Staging is currently on holiday in Canada...
 checkout_zone: Canada
