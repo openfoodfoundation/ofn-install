@@ -198,6 +198,7 @@ uk-prod
 de-prod
 ie-prod
 hu-prod
+ch-prod
 
 #------------------------------------------------------------------------------
 # America
@@ -243,3 +244,24 @@ br
 co
 cr
 hu
+ch
+
+#------------------------------------------------------------------------------
+# Costa Rica
+
+[cr-prod]
+laferia.cr ansible_host=95.217.177.232
+
+[cr:children]
+cr-prod
+
+#------------------------------------------------------------------------------
+# Switzerland
+
+[ch-prod]
+app.openfoodswitzerland.ch ansible_host=195.15.219.220
+
+[ch:children]
+ch-prod
+
+>>>>>>> Stashed changes
