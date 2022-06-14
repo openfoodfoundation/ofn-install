@@ -15,7 +15,6 @@
     packages:
       # Ansible support
       - python-pycurl
-      - python-psycopg2
       - python3-psycopg2
 
       # unknown why or if needed
@@ -43,6 +42,17 @@
       - libxrender1
       - webp
   tags: packages
+
+- name: install base packages for old distros
+  apt:
+    name: "{{ packages }}"
+  become: yes
+  vars:
+    packages:
+      # Ansible support
+      - python-psycopg2
+  tags: packages
+  when: ansible_distribution_major_version <= '18'
 
 - name: set up redis
   include_tasks: redis.yml
