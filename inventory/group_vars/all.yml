@@ -395,8 +395,8 @@ nginx_configs:
   upstream:
     - upstream rails { server unix:{{ puma_sock }} fail_timeout=0; }
 
-# Use python2.7 interpeter
-ansible_python_interpreter: '/usr/bin/python2.7'
+# Set python interpeter to the symlink created by setup
+ansible_python_interpreter: '/usr/bin/python'
 
 # Fix for renamed branch in rbenv-install repo
 rbenv_plugins:
