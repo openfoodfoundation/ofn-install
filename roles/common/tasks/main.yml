@@ -41,6 +41,7 @@
       - libxml2-dev
       - libxslt1-dev
       - libxrender1
+      - webp
   tags: packages
 
 - name: set up redis
