@@ -243,3 +243,13 @@ br
 co
 cr
 hu
+ch
+
+#------------------------------------------------------------------------------
+# Switzerland
+
+[ch-prod]
+app.openfoodswitzerland.ch ansible_host=195.15.219.220
+
+[ch:children]
+ch-prod
