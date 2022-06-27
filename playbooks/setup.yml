@@ -11,9 +11,9 @@
   gather_facts: no
   remote_user: root
   tasks:
-    - name: Install python 2.7
+    - name: Install python
       become: yes
-      raw: apt-get update -qq && apt-get install -qq python2.7
+      raw: test $(lsb_release -sr | cut -d . -f1) -lt 20 && (apt-get update -qq && apt-get install -qq python2.7 && ln -s /usr/bin/python2.7 /usr/bin/python) || (apt-get update -qq && apt-get install -qq python3 && ln -s /usr/bin/python3 /usr/bin/python)
       tags: skip_ansible_lint
 
 # Add the default user and ssh keys as root
