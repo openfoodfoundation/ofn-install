@@ -116,7 +116,9 @@
 
   tasks:
     - name: Fix Ruby # noqa 301
-      command: bash -lc "rbenv uninstall -f {{ ruby_version }} && rbenv install {{ ruby_version }}"
+      command:
+        cmd: bash -lc "rbenv uninstall -f {{ ruby_version }} && rbenv install {{ ruby_version }} && touch ~/.rbenv/versions/{{ ruby_version }}/.reinstalled"
+        creates: "~/.rbenv/versions/{{ ruby_version }}/.reinstalled"
       become: yes
       become_user: "{{ app_user }}"
       when: ansible_distribution_major_version >= '20'
