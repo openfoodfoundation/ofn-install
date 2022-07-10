@@ -18,5 +18,4 @@ developer_email: <dev email>
 
 # Users listed here will have their key from /files/keys added to the app_user
 users_sysadmin:
-  - <username>
-
+  - "{{ core_devs }}"
