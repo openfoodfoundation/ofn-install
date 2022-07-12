@@ -115,7 +115,7 @@ it-staging
 # New Zealand
 
 [nz-prod]
-openfoodnetwork.org.nz
+openfoodnetwork.org.nz ansible_host=45.64.60.7
 
 [nz:children]
 nz-prod
