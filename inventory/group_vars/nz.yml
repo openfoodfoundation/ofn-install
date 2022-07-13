@@ -1,0 +1,21 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: New Zealand
+country_code: NZ
+currency: NZD
+locale: en_NZ               # Default locale for OFN instance
+language: en_NZ.UTF-8       # Default language for the server
+language_packages:          # Language packages for the server
+  - language-pack-en-base
+l10n_repo: https://github.com/openfoodnetworknz/l10n_nz.git
+timezone: Auckland
+
+
+# Used for the LetsEncrypt email setting
+developer_email: gary@openfoodnetwork.org.nz
+
+# Users listed here will have their key from /files/keys added to the app_user
+users_sysadmin:
+  - "{{ core_devs }}"
+  - gary
