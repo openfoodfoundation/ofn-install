@@ -15,21 +15,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.provider :virtualbox do |vbox|
-    config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "generic/ubuntu2004"
 
+  # VM network config.
+  config.vm.network "forwarded_port", guest: 22, host: 2222
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 443, host: 4433
+  config.vm.network "private_network", ip: "192.168.50.4"
+
+  config.ssh.insert_key = false
+
+  config.vm.provider :libvirt do |box|
+    box.memory = 2500
+    box.nic_model_type = "virtio"
+  end
+
+  config.vm.provider :virtualbox do |vbox|
     # Set box memory.
     vbox.customize ["modifyvm", :id, "--memory", "2500"]
 
     # Optimise virtualbox.
     vbox.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
     vbox.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
-
-    # VM network config.
-    config.vm.network "forwarded_port", guest: 80, host: 8080
-    config.vm.network "forwarded_port", guest: 443, host: 4433
-    config.vm.network "private_network", ip: "192.168.50.4"
-
-    config.ssh.insert_key = false
   end
 end

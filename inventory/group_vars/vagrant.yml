@@ -16,9 +16,7 @@ timezone: Melbourne
 developer_email: admin@example.com
 
 users_sysadmin:
-  - enricostn
-  - pau
-
+  - "{{ core_devs }}"
 
 # Override default nginx settings because we don't have TLS
 nginx_sites:

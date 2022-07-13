@@ -13,7 +13,12 @@
   tasks:
     - name: Install python
       become: yes
-      raw: test $(lsb_release -sr | cut -d . -f1) -lt 20 && (apt-get update -qq && apt-get install -qq python2.7 && ln -s /usr/bin/python2.7 /usr/bin/python) || (apt-get update -qq && apt-get install -qq python3 && ln -s /usr/bin/python3 /usr/bin/python)
+      raw: |
+        test -e /usr/bin/python || (
+          test $(lsb_release -sr | cut -d . -f1) -lt 20 &&\
+          (apt-get update -qq && apt-get install -qq python2.7 && ln -s /usr/bin/python2.7 /usr/bin/python) ||\
+          (apt-get update -qq && apt-get install -qq python3 && ln -s /usr/bin/python3 /usr/bin/python)
+        )
       tags: skip_ansible_lint
 
 # Add the default user and ssh keys as root
