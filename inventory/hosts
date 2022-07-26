@@ -216,12 +216,13 @@ ca-prod
 us-prod
 
 #------------------------------------------------------------------------------
-# Production Servers
+# Globally managed production servers
 
 [all-prod:children]
 europe
 america
 au-prod
+nz-prod
 
 #------------------------------------------------------------------------------
 # Staging Servers
