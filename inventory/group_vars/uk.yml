@@ -19,3 +19,4 @@ users_sysadmin:
   - "{{ core_devs }}"
   - lindhop
   - adam
+  - bethan

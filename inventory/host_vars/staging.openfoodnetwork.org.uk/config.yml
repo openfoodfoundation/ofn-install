@@ -13,6 +13,7 @@ users_sysadmin:
   - lindhop
   - filipe
   - konrad
+  - bethan
 
 # UK Staging is currently on holiday in Canada...
 checkout_zone: Canada
