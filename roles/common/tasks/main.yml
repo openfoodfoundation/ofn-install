@@ -31,6 +31,9 @@
       # manage code
       - git-core
 
+      # Nginx brotli
+      - libgd-dev
+
       # OFN dependencies
       - imagemagick
       - libpq-dev
