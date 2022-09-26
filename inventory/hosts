@@ -160,7 +160,7 @@ es-prod
 # France
 
 [fr-prod]
-coopcircuits.fr ansible_host=51.68.226.206
+coopcircuits.fr ansible_host=51.38.38.32
 
 [fr-staging]
 staging.coopcircuits.fr ansible_host=51.178.24.33
