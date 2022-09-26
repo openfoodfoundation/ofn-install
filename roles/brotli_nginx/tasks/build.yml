@@ -57,7 +57,6 @@
   make:
     chdir: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}"
     target: modules
-  register: nginx_modules_built
   become: yes
 
 - name: add brotli modules to nginx # noqa 503
@@ -68,6 +67,5 @@
   with_items:
     - ngx_http_brotli_filter_module.so
     - ngx_http_brotli_static_module.so
-  when: nginx_modules_built.changed
   become: yes
   notify: reload nginx
