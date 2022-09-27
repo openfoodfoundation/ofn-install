@@ -57,8 +57,12 @@
   make:
     chdir: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}"
     target: modules
-  register: nginx_modules_built
   become: yes
+
+- name: check for modules location
+  stat:
+    path: "{{ nginx_modules_path }}"
+  register: modules_path
 
 - name: add brotli modules to nginx # noqa 503
   copy:
@@ -68,6 +72,18 @@
   with_items:
     - ngx_http_brotli_filter_module.so
     - ngx_http_brotli_static_module.so
-  when: nginx_modules_built.changed
+  when: modules_path.stat.exists
+  become: yes
+  notify: reload nginx
+
+- name: add brotli modules to old nginx path # noqa 503
+  copy:
+    src: "{{ nginx_src_path }}/nginx-{{ installed_nginx_version }}/objs/{{ item }}"
+    dest: "{{ old_nginx_modules_path }}/{{ item }}"
+    remote_src: yes
+  with_items:
+    - ngx_http_brotli_filter_module.so
+    - ngx_http_brotli_static_module.so
+  when: not modules_path.stat.exists
   become: yes
   notify: reload nginx

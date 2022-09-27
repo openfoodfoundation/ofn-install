@@ -1,7 +1,8 @@
 ---
 
 nginx_brotli_version: v0.1.2
-nginx_modules_path: /etc/nginx/modules
+old_nginx_modules_path: /etc/nginx/modules
+nginx_modules_path: /usr/share/nginx/modules
 nginx_src_path: /usr/local/src/nginx
 nginx_brotli_src_path: /usr/local/src/ngx_brotli
 nginx_brotli_build_deps:
