@@ -1,4 +1,10 @@
 ---
+- name: remove old, failing config
+  lineinfile:
+    name: "/etc/apt/sources.list.d/pgdg.list"
+    line: "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main"
+    state: absent
+
 - name: configure datadog agent
   include_role:
     name: Datadog.datadog
