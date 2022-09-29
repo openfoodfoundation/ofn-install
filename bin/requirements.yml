@@ -23,9 +23,6 @@
 - src: geerlingguy.postgresql
   version: 3.3.0
 
-- src: libre_ops.wal2json
-  version: 1.0.5
-
 - src: libre_ops.multi_redis
   version: 1.0.1
 
