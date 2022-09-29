@@ -115,6 +115,10 @@
       become: yes
       tags: logrotate
 
+    - role: n8n
+      become: yes
+      tags: n8n
+
   tasks:
     - name: Fix Ruby # noqa 301
       command:

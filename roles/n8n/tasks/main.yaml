@@ -1,0 +1,22 @@
+- name: Create n8n user with
+  when: n8n_db_user is defined and n8n_db_password is defined
+  become: true
+  become_user: postgres
+  postgresql_user:
+    state: present
+    db: "{{ db }}"
+    user: "{{ n8n_db_user }}"
+    password: "{{ n8n_db_password }}"
+    role_attr_flags: NOLOGIN
+
+- name: Grant SELECT privilege on n8n user
+  when: n8n_db_user is defined and n8n_db_password is defined
+  become: true
+  become_user: postgres
+  postgresql_privs:
+    state: present
+    db: "{{ db }}"
+    privs: SELECT
+    objs: ALL_IN_SCHEMA
+    role: "{{ n8n_db_user }}"
+    grant_option: yes
