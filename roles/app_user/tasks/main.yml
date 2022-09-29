@@ -28,6 +28,13 @@
   become: yes
   when: ssh_key_path is defined
 
+- name: remove old ssh keys from app user
+  authorized_key:
+    user: "{{ app_user }}"
+    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state: absent
+  with_flattened: "{{ retired_core_devs }}"
+
 - name: Write OFN environment variables defaults
   become: true
   template:

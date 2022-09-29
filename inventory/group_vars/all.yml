@@ -240,7 +240,11 @@ core_devs:
   - filipe
   - jb
   - david
+
+retired_core_devs:
   - george
+  - pau
+  - stveep
 
 #----------------------------------------------------------------------
 # nginx config

@@ -1,9 +1,9 @@
 --- # Provision ssh keys
 - name: add ssh keys users_sysadmin
   authorized_key:
-    user={{ user }}
-    key="{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
-    state=present
+    user: "{{ user }}"
+    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state: present
   with_flattened: "{{ users_sysadmin }}"
   when: ssh_key_path is undefined
 
@@ -15,3 +15,10 @@
     key: "{{ lookup('file', ssh_key_path) }}"
     state: present
   when: ssh_key_path is defined
+
+- name: remove old ssh keys from ofn-admin
+  authorized_key:
+    user: "{{ user }}"
+    key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
+    state: absent
+  with_flattened: "{{ retired_core_devs }}"
