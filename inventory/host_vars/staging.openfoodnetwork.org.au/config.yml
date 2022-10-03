@@ -22,4 +22,4 @@ swapfile_size: 1G
 attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn-staging.s3.us-east-1.amazonaws.com
 
-postgresql_version: 10
+postgresql_version: 13
