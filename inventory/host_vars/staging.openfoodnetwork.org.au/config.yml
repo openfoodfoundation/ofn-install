@@ -25,9 +25,9 @@ attachment_url: ofn-staging.s3.us-east-1.amazonaws.com
 postgresql_version: 13
 
 # Enable external database access for third party integrations
-#postgres_listen_addresses:
-#  - '*'
-#
-#custom_hba_entries:
-#  - "{{ custom_hba_n8n }}"
-#  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - "{{ custom_hba_n8n }}"
+  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }

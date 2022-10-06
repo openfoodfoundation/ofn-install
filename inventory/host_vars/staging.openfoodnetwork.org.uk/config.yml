@@ -28,3 +28,11 @@ l10n_repo: https://github.com/openfoodfoundation/l10n_ca.git
 timezone: "Eastern Time (US & Canada)"
 
 postgresql_version: 10
+
+# Enable external database access for third party integrations
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - "{{ custom_hba_n8n }}"
+#  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
