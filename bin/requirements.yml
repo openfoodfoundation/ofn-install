@@ -21,7 +21,7 @@
   version: 4.16.0
 
 - src: geerlingguy.postgresql
-  version: 3.3.0
+  version: 3.4.0
 
 - src: libre_ops.multi_redis
   version: 1.0.1

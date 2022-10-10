@@ -10,12 +10,18 @@
   vars:
     postgresql_restarted_state: "restarted"
 
-  handlers:
-    - include: ../community/geerlingguy.postgresql/handlers/main.yml
-
   pre_tasks:
     - include_role:
         name: check_secrets
+
+  handlers:
+    - include: ../roles/shared_handlers/handlers/main.yml
+
+  roles:
+    - role: dbserver
+      become: yes
+      become_user: root
+      tags: dbserver
 
   tasks:
     - name: Apply integrations settings
@@ -27,8 +33,3 @@
       loop_control:
         loop_var: integration_item
       when: db_integrations is defined
-
-    - name: Reconfigure postgres
-      include_role:
-        name: geerlingguy.postgresql
-        tasks_from: configure
