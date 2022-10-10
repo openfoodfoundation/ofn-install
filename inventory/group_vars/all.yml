@@ -137,6 +137,8 @@ postgresql_global_config_options:
     value: "300000"
   - option: include_dir
     value: "conf.d"
+  - option: log_directory
+    value: "log"
 
 debezium_version: "0.10.0.Final"
 
