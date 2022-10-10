@@ -21,12 +21,13 @@ mail_domain: example.com
 #swapfile_size: 1G
 
 # Enable external database access for third party integrations
-#postgres_listen_addresses:
-#  - '*'
-#
-#custom_hba_entries:
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - "{{ custom_hba_n8n }}"
 #  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
-#
+
 #custom_env_vars: |
 #  OFN_FEATURE_CONNECT_AND_LEARN="true"
 

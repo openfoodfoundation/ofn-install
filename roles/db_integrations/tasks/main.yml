@@ -26,6 +26,7 @@
     - "GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO {{ db_integration.user }};"
     - "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO {{ db_integration.user }};"
     - "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON SEQUENCES TO {{ db_integration.user }};"
+    - "ALTER ROLE {{ db_integration.user }} SET statement_timeout = $$30s$$;"
   loop_control:
     loop_var: permission_query
   when: db_integration.state == 'present' and integration_config.changed
