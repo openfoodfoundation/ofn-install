@@ -5,6 +5,12 @@
     line: "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main"
     state: absent
 
+- name: remove old apt source without valid key
+  lineinfile:
+    name: "/etc/apt/sources.list.d/apt_datadoghq_com.list"
+    line: "deb https://apt.datadoghq.com/ stable 6"
+    state: absent
+
 - name: configure datadog agent
   include_role:
     name: Datadog.datadog
