@@ -1,7 +1,7 @@
 ---
 # Note that by relying on this playbook you will end up with a development
 # environment that uses some of roles we use for live instances. You won't have
-# Nginx nor unicorn so will have to manually start the rails running `bundle
+# Nginx and you will have to manually start the rails running `bundle
 # exec rails server`.
 #
 # Also, there are a number of things you will need to do manually such as
@@ -12,7 +12,7 @@
   hosts: ofn_servers
   remote_user: "{{ user }}"
   roles:
-    - role: app_user # Create unprivileged user to run unicorn
+    - role: app_user # Create unprivileged user for the app
       tags: app_user
 
     - role: common # Install common apps and libraries, and setup shell.
