@@ -151,7 +151,6 @@
     force: yes
   become: yes
   notify:
-    - stop unicorn
     - restart puma
     - update jobs queue
     - update whenever
