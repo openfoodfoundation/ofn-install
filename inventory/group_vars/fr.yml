@@ -23,3 +23,6 @@ users_sysadmin:
 maintenance_mode_message: >
   Une maintenance est en cours. Merci de patienter, la plateforme sera bientôt à nouveau disponible.
   Veuillez nous excuser pour la gêne occasionnée
+
+puma_workers: 4
+puma_threads: 4
