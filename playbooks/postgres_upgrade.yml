@@ -22,9 +22,9 @@
         tasks_from: enable
       become: yes
 
-    - name: stop unicorn
+    - name: stop app
       service:
-        name: unicorn_{{ app }}
+        name: puma
         state: stopped
       become: yes
 
@@ -56,9 +56,9 @@
         loop_var: integration_item
       when: db_integrations is defined
 
-    - name: restart unicorn
+    - name: restart app
       service:
-        name: unicorn_{{ app }}
+        name: puma
         state: started
       become: yes
 

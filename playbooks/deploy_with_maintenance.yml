@@ -29,9 +29,9 @@
           name: maintenance_mode
           tasks_from: enable
 
-      - name: stop unicorn
+      - name: stop app
         service:
-          name: unicorn_{{ app }}
+          name: puma
           state: stopped
         become: yes
         become_user: root
