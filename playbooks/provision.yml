@@ -104,7 +104,7 @@
       become: yes
       tags: nginx
 
-    - role: webserver # Build the unicorn webserver.
+    - role: webserver
       tags: webserver
 
     - role: datadog

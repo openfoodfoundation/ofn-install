@@ -15,7 +15,6 @@ timezone: Brasilia
 # Used for the LetsEncrypt email setting
 developer_email: administrativo@openfoodbrasil.com.br
 
-# Users listed here will have their key from /files/keys added to the unicorn_user
 users_sysadmin:
   - "{{ core_devs }}"
   - frattezi

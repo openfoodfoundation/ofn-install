@@ -31,11 +31,6 @@ custom_hba_entries:
 
 enable_rails_apm: "false" # has to be explicitly defined as a string due to some datadog bug
 
-unicorn_env_vars: |
-  KILL_UNICORNS=true
-  UWK_MEM_MIN=1900
-  UWK_MEM_MAX=2100
-
 # Images settings
 attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn_production.s3.us-east-1.amazonaws.com
