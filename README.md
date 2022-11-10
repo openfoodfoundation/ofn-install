@@ -26,7 +26,30 @@ These are the main playbooks:
 You may want to use the [anisble option "checkrun"](http://docs.ansible.com/playbooks_checkmode.html) to do a dry-run of the playbooks. With this option, Ansible will run the playbooks, but not actually make changes on the server.
 
 
-## Requirements
+## Setup
+
+* Fork the ofn-install repository.
+* Clone the forked copy:
+  ```
+  git clone https://github.com/<your-namespace>/ofn-install.git
+  ```
+
+### Python
+
+It's recommended you set up your Python environment using [Pyenv](https://github.com/pyenv/pyenv).
+
+* Install and configure [pyenv](https://github.com/pyenv/pyenv)
+* Install and configure [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+* Install the required Python version:
+  ```
+  $ pyenv install 3.8.2
+  ```
+* Create the virtualenv:
+  ```
+  $ pyenv virtualenv 3.8.2 ofn-install
+  ```
+
+### Dependencies
 
 You will need to install Ansible, alongside other dependencies, on your machine to run the playbooks. You can do so with:
 
@@ -34,23 +57,14 @@ You will need to install Ansible, alongside other dependencies, on your machine 
 pip install -r requirements.txt
 ```
 
-Before that, it's recommended you set up your Python environment using [Pyenv](https://github.com/pyenv/pyenv).
+### Ansible Galaxy Roles
 
-In that case, you need to:
-
-* Install and configure [pyenv](https://github.com/pyenv/pyenv)
-* Install and configure [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
-* Install the required Python version:
+Some playbooks require third-party roles, which are specified in `bin/requirements.yml`. You can install with the included script:
 
 ```
-$ pyenv install 3.8.2
+$ bin/setup
 ```
 
-* Create the virtualenv:
-
-```
-$ pyenv virtualenv 3.8.2 ofn-install
-```
 
 ## Code quality
 
