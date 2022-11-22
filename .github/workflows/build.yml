@@ -40,7 +40,7 @@ jobs:
 
       - name: Cache Ruby binary compiling
         id: cache-ruby
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.rbenv
           key: ${{ runner.os }}-ruby-${{ github.sha }}
