@@ -147,7 +147,7 @@ debezium_version: "0.10.0.Final"
 npm_prefix: "/usr/local/lib/npm"
 
 node_version: 14.x
-yarn_version: 1.22.4
+yarn_version: 1.22.19 # use the last stable version
 
 #----------------------------------------------------------------------
 # App variables

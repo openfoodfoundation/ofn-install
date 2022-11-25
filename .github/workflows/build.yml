@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: '2.7'
+          python-version: '3.8.2'
 
       - name: Set up Ansible
         run: |
@@ -27,11 +27,11 @@ jobs:
   playbook-tests:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: '2.7'
+          python-version: '3.8.2'
 
       - name: Set up Ansible
         run: |
@@ -40,7 +40,7 @@ jobs:
 
       - name: Cache Ruby binary compiling
         id: cache-ruby
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.rbenv
           key: ${{ runner.os }}-ruby-${{ github.sha }}
