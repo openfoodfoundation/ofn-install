@@ -44,6 +44,7 @@
       - libxslt1-dev
       - libxrender1
       - webp
+      - libjemalloc2
   tags: packages
 
 - name: install base packages for old distros
