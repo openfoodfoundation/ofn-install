@@ -13,7 +13,7 @@ Environment=BUNDLE_GEMFILE={{ current_path }}/Gemfile
 # Helpful for debugging socket activation, etc.
 # Environment=PUMA_DEBUG=1
 
-ExecStart=/bin/bash -lc "bundle exec --keep-file-descriptors puma -C {{ shared_path }}/config/puma.rb"
+ExecStart=/bin/bash -lc "LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2 bundle exec --keep-file-descriptors puma -C {{ shared_path }}/config/puma.rb"
 ExecReload=/bin/bash -lc "bundle exec pumactl phased-restart -S {{ shared_path }}/pids/puma.state"
 
 SyslogIdentifier=puma
