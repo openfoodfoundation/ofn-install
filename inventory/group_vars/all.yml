@@ -388,6 +388,16 @@ nginx_sites:
         try_files /maintenance.html =503;
       }
 
+      location /cable {
+        {{ nginx_valid_methods }}
+        proxy_pass http://rails;
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Ssl on;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      }
+
       client_max_body_size 4G;
       keepalive_timeout {{ puma_timeout }};
       proxy_read_timeout {{ puma_timeout }};
