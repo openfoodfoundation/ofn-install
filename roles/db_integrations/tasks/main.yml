@@ -75,16 +75,12 @@
 
 - name: "Call copy script on certificate renewal"
   become: yes
-  lineinfile:
-    dest: "/etc/letsencrypt/renewal/{{ certbot_cert_name | default(domain) }}.conf"
-    regex: "^renew_hook"
-    line: "renew_hook = /etc/letsencrypt/renewal-hooks/postgresql.sh"
-    state: present
-  # Non-idempotent alternative:
-  # command: >-
-  #   certbot renew --force-renewal --no-random-sleep-on-renew
-  #   --cert-name "{{ certbot_cert_name | default(domain) }}"
-  #   --deploy-hook "/etc/letsencrypt/renewal-hooks/postgresql.sh"
+  command: >-
+    certbot renew --force-renewal --no-random-sleep-on-renew
+    --cert-name "{{ certbot_cert_name | default(domain) }}"
+    --deploy-hook "/etc/letsencrypt/renewal-hooks/postgresql.sh"
+  args:
+    creates: "/etc/postgresql/fullchain.pem"
   when: inventory_hostname not in groups['local']
 
 - name: Use valid TLS certificate
