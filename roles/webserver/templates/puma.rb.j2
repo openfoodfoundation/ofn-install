@@ -20,7 +20,6 @@ if ["production", "staging"].include?(ENV["RAILS_ENV"])
   prune_bundler
   wait_for_less_busy_worker
   fork_worker
-  nakayoshi_fork
   preload_app! false
 
   # Ensure clean Redis connections when forking
