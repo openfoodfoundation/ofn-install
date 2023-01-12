@@ -65,6 +65,9 @@ Some playbooks require third-party roles, which are specified in `bin/requiremen
 $ bin/setup
 ```
 
+## Deployment with Ansiable
+
+See also the wiki on [deployment with Ansiable](https://github.com/openfoodfoundation/ofn-install/wiki/Deployment-with-Ansible).
 
 ## Code quality
 
@@ -74,5 +77,9 @@ ansible-lint site.yml --exclude=community
 ```
 
 This is also run in CI.
+
+## Deployment with Ansiable
+
+See also the wiki on [deployment with Ansiable](https://github.com/openfoodfoundation/ofn-install/wiki/Deployment-with-Ansible).
 
 ---
