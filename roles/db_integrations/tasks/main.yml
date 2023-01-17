@@ -63,3 +63,41 @@
     state: absent
   when: db_integration.state == 'absent' and db_user_exists.stdout == '1'
   register: integration_config
+
+- name: Install script to copy valid TLS certificates for postgresql
+  become: yes
+  template:
+    src: "cert-renewal-hook.sh.j2"
+    dest: "/etc/letsencrypt/renewal-hooks/postgresql.sh"
+    owner: "root"
+    mode: "0755"
+  when: inventory_hostname not in groups['local']
+
+- name: "Call copy script on certificate renewal"
+  become: yes
+  command: >-
+    certbot renew --force-renewal --no-random-sleep-on-renew
+    --cert-name "{{ certbot_cert_name | default(domain) }}"
+    --deploy-hook "/etc/letsencrypt/renewal-hooks/postgresql.sh"
+  args:
+    creates: "/etc/postgresql/fullchain.pem"
+  when: inventory_hostname not in groups['local']
+
+- name: Use valid TLS certificate
+  become: yes
+  lineinfile:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    regex: "^ssl_cert_file"
+    line: "ssl_cert_file = '/etc/postgresql/fullchain.pem'"
+    state: present
+  when: inventory_hostname not in groups['local']
+
+- name: Use valid TLS key
+  become: yes
+  lineinfile:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    regex: "^ssl_key_file"
+    line: "ssl_key_file = '/etc/postgresql/privkey.pem'"
+    state: present
+  notify: restart postgres
+  when: inventory_hostname not in groups['local']

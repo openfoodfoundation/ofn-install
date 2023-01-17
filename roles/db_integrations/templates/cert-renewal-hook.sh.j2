@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Postgresql doesn't have access to Certbot certificates.
+# This renewal hook copies the certificate files to make them accessible.
+
+umask 0177
+
+SRC="/etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}"
+DST="/etc/postgresql"
+
+cp "$SRC/fullchain.pem" "$DST/"
+cp "$SRC/privkey.pem" "$DST/"
+
+chown postgres:postgres "$DST/"*.pem
+
+systemctl reload postgresql
