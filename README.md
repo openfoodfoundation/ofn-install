@@ -12,12 +12,12 @@ For deploying OFN versions below `v4.x.x`, please use the `ofn-v3` branch of thi
 
 These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 and 18.04 (64 bit)** on AWS, DigitalOcean and Scaleway cloud servers.
 
-The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook. Make also sure to include your host's secrets file.
+The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook.
 
 These are the main playbooks:
 
 * `setup.yml` - Use a root login to ensure python is installed and create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
-* `provision.yml` - Install and configure all required software on the server.
+* `provision.yml` - Install and configure all required software on the server (requires secrets, see below).
 * `deploy.yml` - Deploy OFN to the server by copying a git repo to the server and using ruby/rake/rails tasks to configure and migrate.
 * `backup.yml` - Backup database and image files on the server to the local machine.
 * `rollback.yml` - Rollback the database and codebase to the previous version.
@@ -62,6 +62,20 @@ Some playbooks require third-party roles, which are specified in `bin/requiremen
 
 ```
 $ bin/setup
+```
+
+## Secrets
+
+Some tasks require host-specific secrets. These can be provided with a parameter like so:
+
+```sh
+ansible-playbook playbooks/provision.yml --limit=au-prod -e "@../path/to/au-prod/secrets.yml"
+```
+
+If you have access to the `ofn-secrets` repository, you can automatically fetch them with the `fetch_secrets` role, activated by an environment variable:
+
+```sh
+    echo "export FETCH_OFN_SECRETS=TRUE" >> ~/.bash_profile
 ```
 
 ## Code quality
