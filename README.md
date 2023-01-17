@@ -87,3 +87,6 @@ ansible-lint site.yml --exclude=community
 
 This is also run in CI.
 
+## Security
+
+This repository doesn't manage additional security configuration. The private repository `ofn-security` is used for servers managed by the OFN team.
