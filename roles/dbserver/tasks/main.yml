@@ -35,6 +35,7 @@
 - import_tasks: fix_template_encoding.yml
   tags: template_encoding
 
+# As required in db/schema.rb (for Datadog)
 - name: create pg_stat_statements extension
   become: yes
   become_user: postgres
