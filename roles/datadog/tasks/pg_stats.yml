@@ -1,11 +1,4 @@
 ---
-- name: create extensions
-  become: yes
-  become_user: postgres
-  postgresql_ext:
-    name: pg_stat_statements
-    db: "{{ db }}"
-
 - name: add postgres stats configuration
   template:
     src: stats.conf.j2
