@@ -77,6 +77,7 @@ If you have access to the `ofn-secrets` repository, you can automatically fetch 
 ```sh
     echo "export FETCH_OFN_SECRETS=TRUE" >> ~/.bash_profile
 ```
+But warning, there is an open issue with this method: https://github.com/openfoodfoundation/ofn-install/issues/861
 
 ## Code quality
 
