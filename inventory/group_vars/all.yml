@@ -116,6 +116,7 @@ default_hba_entries:
   - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
   - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}
 
+custom_hba_metabase: {type: hostssl, database: "{{ db }}", user: "metabase", address: "167.99.89.242/32", auth_method: md5}
 custom_hba_n8n: {type: hostssl, database: "{{ db }}", user: "n8n", address: "128.199.44.140/32", auth_method: md5}
 
 custom_hba_entries: []
