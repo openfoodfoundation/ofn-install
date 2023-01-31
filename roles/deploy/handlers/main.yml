@@ -6,7 +6,6 @@
     state: restarted
   become: yes
   become_user: root
-  listen: update jobs queue
 
 - name: update whenever
   command: bash -lc "bundle exec whenever -i ofn --set 'environment={{ rails_env }}&path={{ current_path }}' --update-crontab"
