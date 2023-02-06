@@ -1,65 +1,11 @@
 ---
 
-- name: check services
-  service_facts:
-  listen: update jobs queue
-
-- name: check sidekiq presence in gemfile
-  lineinfile:
-    dest: "{{ build_path }}/Gemfile"
-    regex: "^gem .*sidekiq"
-    state: absent
-  check_mode: yes # Don't actually modify the file
-  become: yes
-  register: sidekiq_requirement
-  ignore_errors: true
-  listen: update jobs queue
-
 - name: restart sidekiq
   service:
     name: sidekiq
     state: restarted
   become: yes
   become_user: root
-  when:
-   - "'sidekiq.service' in services"
-   - sidekiq_requirement.changed
-  listen: update jobs queue
-
-- name: restart delayed_job unless using sidekiq
-  service:
-    name: delayed_job_{{ app }}
-    state: restarted
-  become: yes
-  become_user: root
-  ignore_errors: yes
-  when:
-   - "'delayed_job_openfoodnetwork.service' in services and services['delayed_job_openfoodnetwork.service']['status'] == 'enabled'"
-   - not sidekiq_requirement.changed
-  listen: update jobs queue
-
-- name: pause to allow final jobs to complete
-  wait_for:
-    delay: 30
-    timeout: 0
-  when:
-    - "'delayed_job_openfoodnetwork.service' in services and services['delayed_job_openfoodnetwork.service']['state'] == 'running'"
-    - "'sidekiq.service' in services"
-    - sidekiq_requirement.changed
-  listen: update jobs queue
-
-- name: stop and disable delayed_job
-  service:
-    name: delayed_job_{{ app }}
-    state: stopped
-    enabled: no
-  become: yes
-  become_user: root
-  when:
-   - "'delayed_job_openfoodnetwork.service' in services and services['delayed_job_openfoodnetwork.service']['state'] == 'running'"
-   - "'sidekiq.service' in services"
-   - sidekiq_requirement.changed
-  listen: update jobs queue
 
 - name: update whenever
   command: bash -lc "bundle exec whenever -i ofn --set 'environment={{ rails_env }}&path={{ current_path }}' --update-crontab"

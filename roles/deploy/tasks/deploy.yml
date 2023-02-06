@@ -152,5 +152,5 @@
   become: yes
   notify:
     - restart puma
-    - update jobs queue
+    - restart sidekiq
     - update whenever
