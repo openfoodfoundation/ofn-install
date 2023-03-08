@@ -144,12 +144,6 @@ postgresql_global_config_options:
 debezium_version: "0.10.0.Final"
 
 #----------------------------------------------------------------------
-# Node variables
-
-node_version: 14.21.2
-nodenv_version: 1.4.1
-
-#----------------------------------------------------------------------
 # App variables
 app: openfoodnetwork
 # Paths
@@ -177,6 +171,12 @@ pid_path: "{{ shared_path }}/pids"
 sock_path: "{{ shared_path }}/sock"
 l10n_path: "{{ shared_path }}/l10n"
 
+#----------------------------------------------------------------------
+# Node variables
+
+node_version: 14.21.2
+nodenv_version: 1.4.1
+nodenv_root: "{{ app_user_home_path }}/.nodenv"
 
 #----------------------------------------------------------------------
 # Logrotate options

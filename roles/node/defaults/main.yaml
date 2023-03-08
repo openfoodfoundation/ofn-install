@@ -1,5 +1,4 @@
 ---
-nodenv_root: "~/.nodenv"
 nodenv_plugins:
   # Allow installation of node versions
   - name: "node-build"

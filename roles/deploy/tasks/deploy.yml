@@ -72,6 +72,20 @@
     - skip_ansible_lint
   notify: restart puma
 
+# Ensure the correct Node version is activated
+
+- name: register ruby version in new build
+  slurp:
+    src: "{{ build_path }}/.node-version"
+  register: deploy_node_version
+  become: yes
+
+- name: install node version (and yarn)
+  include_role:
+    name: nodenv_install
+  vars:
+    node_version: "{{ deploy_node_version['content'] | b64decode | trim }}"
+
 # Install JS dependencies with yarn
 
 - name: run yarn install
