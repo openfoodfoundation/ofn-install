@@ -1,4 +1,15 @@
 ---
+# Deploy a release or other branch on a server
+#
+# This playbook will create a new folder to build the app with Ruby and JS dependencies, and swap
+# over for a (relatively) seamless update.
+#
+# git_version: specify a git ref for the openfoodnetwork codebase (default is master). Eg:
+#  -e "git_version=v3.7.0"
+#
+# github_key: specify a forked branch instead. Eg:
+#  -e "github_key=jibees:upgrade-node-version"
+
 - name: deploy
   hosts: ofn_servers
   strategy: free

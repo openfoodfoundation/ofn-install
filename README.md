@@ -14,7 +14,7 @@ These playbooks will install the Open Food Network app onto a server running an 
 
 The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook.
 
-These are the main playbooks:
+These are the main playbooks. See inside each for more details.
 
 * `setup.yml` - Use a root login to ensure python is installed and create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
 * `provision.yml` - Install and configure all required software on the server (requires secrets, see below).
@@ -22,7 +22,7 @@ These are the main playbooks:
 * `backup.yml` - Backup database and image files on the server to the local machine.
 * `rollback.yml` - Rollback the database and codebase to the previous version.
 
-You may want to use the [anisble option "checkrun"](http://docs.ansible.com/playbooks_checkmode.html) to do a dry-run of the playbooks. With this option, Ansible will run the playbooks, but not actually make changes on the server.
+You may want to use the [ansible option "checkrun"](http://docs.ansible.com/playbooks_checkmode.html) to do a dry-run of the playbooks. With this option, Ansible will run the playbooks, but not actually make changes on the server.
 
 
 ## Setup
