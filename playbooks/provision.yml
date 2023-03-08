@@ -67,9 +67,10 @@
       become_user: "{{ app_user }}"
       tags: app
 
-    - role: yarn
+    - role: node # Set up node and yarn with nodenv.
       become: yes
-      tags: yarn
+      become_user: "{{ app_user }}"
+      tags: node
 
     - role: dbserver # Set up database server and user for the app.
       become: yes

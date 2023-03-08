@@ -144,11 +144,10 @@ postgresql_global_config_options:
 debezium_version: "0.10.0.Final"
 
 #----------------------------------------------------------------------
-# Yarn/node variables
-npm_prefix: "/usr/local/lib/npm"
+# Node variables
 
-node_version: 14.x
-yarn_version: 1.22.19 # use the last stable version
+node_version: 14.21.2
+nodenv_version: 1.4.1
 
 #----------------------------------------------------------------------
 # App variables

@@ -77,7 +77,7 @@
 - name: run yarn install
   yarn:
     path: "{{ build_path }}"
-    executable: "{{ npm_prefix }}/bin/yarn"
+    executable: "{{ nodenv_root }}/shims/yarn"
   become: true
   become_user: "{{ app_user }}"
 
