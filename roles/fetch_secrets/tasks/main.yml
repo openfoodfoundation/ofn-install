@@ -1,6 +1,6 @@
 ---
 
-- name: fetch ofn-secrets
+- name: fetch ofn-secrets from github
   git:
     repo: "git@github.com:openfoodfoundation/ofn-secrets"
     dest: "/tmp/ofn-secrets"
@@ -23,3 +23,9 @@
   file:
     dest: "/tmp/ofn-secrets"
     state: absent
+
+- name: refresh inventory to load updated secret files
+  meta: refresh_inventory
+
+- debug:
+    msg: refresh_inventory should have executed. But did it?

@@ -13,6 +13,9 @@
       when: ( fetch_ofn_secrets is defined or lookup('env','FETCH_OFN_SECRETS') == 'TRUE' ) and inventory_hostname not in groups['local']
       run_once: true
 
+    - name: refresh inventory to load new secrets files (doesn't work..)
+      meta: refresh_inventory
+
 - name: provision
   hosts: ofn_servers
   strategy: free
