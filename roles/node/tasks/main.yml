@@ -1,0 +1,29 @@
+---
+# Install nodenv for the user
+- name: fetch nodenv
+  git:
+    repo: "https://github.com/nodenv/nodenv.git"
+    dest: "{{ nodenv_root }}"
+    version: "v{{ nodenv_version }}"
+
+# Plugins automate some tasks
+- name: "install nodenv plugins"
+  with_items: "{{ nodenv_plugins }}"
+  when: nodenv_plugins | length > 0
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ nodenv_root }}/plugins/{{ item.name }}"
+    version: "{{ item.version }}"
+
+- name: add nodenv to user path
+  blockinfile:
+    dest: "~/.bash_profile"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: nodenv"
+    block: |
+      export PATH="$HOME/.nodenv/bin:$PATH"
+      eval "$(nodenv init -)"
+
+# Install node and yarn, ready for deploy!
+- name: install node version (and yarn)
+  include_role:
+    name: nodenv_install

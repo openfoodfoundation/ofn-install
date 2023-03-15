@@ -1,0 +1,10 @@
+---
+- name: "ensure node version {{ node_version }} is installed (with yarn)"
+  shell: "{{ nodenv_root }}/bin/nodenv install --skip-existing {{ node_version }}"
+  register: nodenv_install
+  changed_when: "'Installed node' in nodenv_install.stderr"
+
+- name: node installation messages
+  debug:
+    msg: "{{nodenv_install.stderr}}"
+  when: nodenv_install.stderr
