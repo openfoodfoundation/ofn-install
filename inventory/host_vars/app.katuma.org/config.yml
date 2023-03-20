@@ -9,7 +9,6 @@ mail_domain: katuma.org
 
 certbot_domains:
   - app.katuma.org
-  - alpha.katuma.org
 
 certbot_cert_name: app.katuma.org
 
