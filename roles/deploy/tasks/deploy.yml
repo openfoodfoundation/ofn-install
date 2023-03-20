@@ -74,7 +74,7 @@
 
 # Ensure the correct Node version is activated
 
-- name: register ruby version in new build
+- name: register node version in new build
   slurp:
     src: "{{ build_path }}/.node-version"
   register: deploy_node_version
