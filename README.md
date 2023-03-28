@@ -66,18 +66,19 @@ $ bin/setup
 
 ## Secrets
 
-Some tasks require host-specific secrets. These can be provided with a parameter like so:
+Some tasks require host-specific secrets, and will show an error if they haven't been provided. These can change from time to time, so **always ensure you have the latest before provisioning**.
+
+Secrets can be provided with a parameter like so:
 
 ```sh
-ansible-playbook playbooks/provision.yml --limit=au-prod -e "@../path/to/au-prod/secrets.yml"
+ansible-playbook playbooks/provision.yml --limit=au-staging -e "@../ofn-secrets/au-staging/secrets.yml"
 ```
 
-If you have access to the `ofn-secrets` repository, you can automatically fetch them with the `fetch_secrets` role, activated by an environment variable:
+If you have access to the `ofn-secrets` repository, you can fetch them with the `fetch_secrets.yml` playbook. The secrets for each host will be loaded into the relevant directory in `inventory/host_vars/`.
 
 ```sh
-    echo "export FETCH_OFN_SECRETS=TRUE" >> ~/.bash_profile
+ansible-playbook playbooks/fetch_secrets.yml
 ```
-But warning, there is an open issue with this method: https://github.com/openfoodfoundation/ofn-install/issues/861
 
 ## Code quality
 
