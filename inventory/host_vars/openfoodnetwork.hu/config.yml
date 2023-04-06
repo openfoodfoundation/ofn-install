@@ -1,12 +1,12 @@
 ---
 
-domain: openfoodnetwork.hu
+domain: csicsoka.org
 host_id: hu-prod # country initials (eg uk, es, de) and environment (default is prod)
 rails_env: production
 
 admin_email: pragai.robert@abasys.hu
 
-mail_domain: mail.openfoodnetwork.hu
+mail_domain: mail.csicsoka.org
 
 # Optional list of subdomains to register in letsencrypt certificate
 # Defaults to {{ domain }} if list is undefined
