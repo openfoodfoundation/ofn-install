@@ -72,3 +72,8 @@
         - debug:
             msg: Deployment failed
           failed_when: True # Ensure Ansible returns a non-zero error code after rescue
+
+  post_tasks:
+    - name: "Set feature `split_checkout` to `true` to all instances"
+      shell: "cd {{ build_path }} && rails runner 'Flipper.enable :split_checkout'
+      when: inventory_hostname not in groups['local']
