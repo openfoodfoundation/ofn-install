@@ -6,7 +6,7 @@ rails_env: production
 
 admin_email: pragai.robert@abasys.hu
 
-mail_domain: mail.csicsoka.org
+mail_domain: pecsikosar.hu
 
 # Optional list of subdomains to register in letsencrypt certificate
 # Defaults to {{ domain }} if list is undefined
