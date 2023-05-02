@@ -1,0 +1,20 @@
+---
+- name: Add postgres tuning configuration
+  copy:
+    content: |
+      shared_buffers = {{ ( ansible_memtotal_mb / 5 ) | int }}MB
+      effective_cache_size = {{ ( ansible_memtotal_mb / 2 ) | int }}MB
+      maintenance_work_mem = {{ ( ansible_memtotal_mb / 25 ) | int }}MB
+      wal_buffers = 16MB
+      work_mem = {{ ( ansible_memtotal_mb / 400 ) | int }}MB
+    dest: "{{ postgresql_config_path }}/conf.d/tuning.conf"
+  become: yes
+  become_user: postgres
+  notify: restart postgres
+  when: remove_postgres_tuning is undefined
+
+- name: Optionally remove tuning configuration
+  file:
+    path: "{{ postgresql_config_path }}/conf.d/tuning.conf"
+    state: absent
+  when: remove_postgres_tuning is defined
