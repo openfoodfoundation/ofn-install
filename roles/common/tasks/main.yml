@@ -36,6 +36,7 @@
 
       # OFN dependencies
       - imagemagick
+      - libvips42
       - libpq-dev
       - zlib1g-dev
       - libssl-dev
