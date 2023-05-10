@@ -3,6 +3,7 @@
   shell: "{{ nodenv_root }}/bin/nodenv install --skip-existing {{ node_version }}"
   register: nodenv_install
   changed_when: "'Installed node' in nodenv_install.stderr"
+  ignore_errors: true
 
 - name: node installation messages
   debug:
