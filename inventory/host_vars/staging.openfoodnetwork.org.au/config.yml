@@ -8,6 +8,10 @@ admin_email: maikel@openfoodnetwork.org.au
 
 mail_domain: "smtp.gmail.com"
 
+users_sysadmin:
+  - "{{ core_devs }}"
+  - konrad
+
 # activate the language switcher
 available_locales: en,fr,es
 
