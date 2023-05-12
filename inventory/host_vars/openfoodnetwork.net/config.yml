@@ -27,4 +27,4 @@ custom_hba_entries:
 enable_rails_apm: "false"
 
 # Allow more time to clone big order cycles.
-puma_timeout: "60"
+puma_timeout: "120"
