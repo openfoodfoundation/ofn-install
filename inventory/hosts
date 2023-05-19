@@ -75,7 +75,7 @@ cr-prod
 #------------------------------------------------------------------------------
 # Hungary
 [hu-prod]
-openfoodnetwork.hu ansible_host=157.230.107.51
+csicsoka.org ansible_host=157.230.107.51
 
 [hu:children]
 hu-prod
