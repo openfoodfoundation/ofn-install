@@ -55,10 +55,22 @@
   register: bundler
   changed_when: bundler.stdout | length > 0
 
+- name: configure bundler
+  command: >
+    bash -lc "
+      bundle config set --local path '{{ gem_path }}'
+      bundle config set --local deployment 'true'
+      bundle config set --local without 'development:test'
+    "
+  args:
+    chdir: "{{ build_path }}"
+  become: true
+  become_user: "{{ app_user }}"
+
 - name: bundle install app dependencies
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: >
-    bash -lc "bundle install --path {{ gem_path }} --deployment --without development test"
+    bash -lc "bundle install"
   args:
     chdir: "{{ build_path }}"
   environment:
