@@ -58,9 +58,9 @@
 - name: bundle install app dependencies
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: >
-    bash -lc "bundle install
-    --gemfile {{ build_path }}/Gemfile --path {{ gem_path }}
-    --deployment {{ '--without development test' if rails_env != 'development' else '' }}"
+    bash -lc "bundle install --path {{ gem_path }} --deployment --without development test"
+  args:
+    chdir: "{{ build_path }}"
   environment:
     LANG: "{{ language }}"
     LC_ALL: "{{ language }}"
