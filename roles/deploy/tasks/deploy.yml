@@ -35,16 +35,14 @@
 
 # Ensure the correct Ruby version is activated for this build
 
-- name: register ruby version in new build
-  slurp:
-    src: "{{ build_path }}/.ruby-version"
-  register: deploy_ruby_version
-  become: yes
-
-- name: use ruby {{ deploy_ruby_version['content'] | b64decode | trim }} # noqa 301
-  shell: bash -lc "{{ rbenv_bin_path }}/rbenv global {{ deploy_ruby_version['content'] | b64decode | trim }} && rbenv rehash"
-  become: yes
-  become_user: "{{ app_user }}"
+- name: Install required Ruby version if needed
+  command: bash -lc "./script/rbenv-install.sh"
+  args:
+    chdir: "{{ build_path }}"
+  environment:
+    RUBY_CONFIGURE_OPTS: "--with-jemalloc"
+  register: rbenv_install
+  changed_when: rbenv_install.stdout.find("Installing ruby") != -1
 
 # Install bundler and gems
 
@@ -57,12 +55,24 @@
   register: bundler
   changed_when: bundler.stdout | length > 0
 
+- name: configure bundler
+  command: >
+    bash -lc "
+      bundle config set --local path '{{ gem_path }}'
+      bundle config set --local deployment 'true'
+      bundle config set --local without 'development:test'
+    "
+  args:
+    chdir: "{{ build_path }}"
+  become: true
+  become_user: "{{ app_user }}"
+
 - name: bundle install app dependencies
   # Note: the 'LANG=...' is a fix for broken rubygems utf8 handling.
   command: >
-    bash -lc "bundle install
-    --gemfile {{ build_path }}/Gemfile --path {{ gem_path }}
-    --deployment {{ '--without development test' if rails_env != 'development' else '' }}"
+    bash -lc "bundle install"
+  args:
+    chdir: "{{ build_path }}"
   environment:
     LANG: "{{ language }}"
     LC_ALL: "{{ language }}"
