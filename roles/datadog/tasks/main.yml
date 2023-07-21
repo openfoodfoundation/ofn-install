@@ -21,12 +21,13 @@
       tags:
         - "env:{{ rails_env }}"
         - "host-id:{{ host_id | default(ansible_limit) }}"
-      logs_enabled: true
+      logs_enabled: false
       apm_config:
-        enabled: "{{ enable_rails_apm | default('false') }}"
+        enabled: false
     datadog_config_ex:
       trace.config:
         env: "{{ rails_env }}"
+    datadog_enabled: false
   when: datadog_key is defined
 
 - name: set up postgres stats collection
