@@ -243,6 +243,7 @@ core_devs:
   - filipe
   - jb
   - david
+  - gaetan
 
 retired_core_devs:
   - george
