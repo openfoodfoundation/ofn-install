@@ -131,6 +131,13 @@
     - rake
     - skip_ansible_lint
 
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ app_user }}"
+
 - name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
   args:
@@ -148,13 +155,6 @@
     - seed
     - skip_ansible_lint
   notify: restart puma
-
-- name: precompile assets # noqa 301
-  command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ build_path }}"
-  become: yes
-  become_user: "{{ app_user }}"
 
 # Note: this task can be removed after all servers have been provisioned and deployed
 - name: delete current path unless it's a symlink
