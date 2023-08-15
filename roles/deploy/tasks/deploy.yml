@@ -114,14 +114,9 @@
   changed_when: False
   tags: rake
 
-- name: load schema if it isn't loaded
-  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }} I_AM_SURE=1"
-  args:
-    chdir: "{{ build_path }}"
+- name: prepare database
+  include_tasks: prepare_database.yml
   when: table_exists.stdout.find('0 rows') != -1
-  tags:
-    - rake
-    - skip_ansible_lint
 
 - name: clear transient data
   command: bash -lc "bundle exec rake ofn:data:remove_transient_data RAILS_ENV={{ rails_env }}"
@@ -144,15 +139,6 @@
     chdir: "{{ build_path }}"
   tags:
     - rake
-    - skip_ansible_lint
-  notify: restart puma
-
-- name: seed database
-  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ build_path }}"
-  tags:
-    - seed
     - skip_ansible_lint
   notify: restart puma
 
