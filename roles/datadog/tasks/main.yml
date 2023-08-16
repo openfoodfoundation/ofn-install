@@ -11,24 +11,22 @@
     line: "deb https://apt.datadoghq.com/ stable 6"
     state: absent
 
-- name: configure datadog agent
-  include_role:
-    name: Datadog.datadog
-  vars:
-    datadog_api_key: "{{ datadog_key }}"
-    datadog_config:
-      hostname: "{{ inventory_hostname }}"
-      tags:
-        - "env:{{ rails_env }}"
-        - "host-id:{{ host_id | default(ansible_limit) }}"
-      logs_enabled: false
-      apm_config:
-        enabled: false
-    datadog_config_ex:
-      trace.config:
-        env: "{{ rails_env }}"
-    datadog_enabled: false
-  when: datadog_key is defined
+- name: remove current apt source
+  file:
+    path: "/etc/apt/sources.list.d/ansible_datadog_7.list"
+    state: absent
+
+- name: remove datadog package
+  apt:
+    name: datadog-agent
+    state: absent
+    autoremove: yes
+
+- name: remove datadog keys package
+  apt:
+    name: datadog-signing-keys
+    state: absent
+    autoremove: yes
 
 - name: set up postgres stats collection
   import_tasks: pg_stats.yml
@@ -37,9 +35,3 @@
 - name: set up nginx stats collection
   import_tasks: nginx_stats.yml
   when: datadog_key is defined
-
-- name: disable datadog agent
-  service:
-    name: datadog-agent
-    state: stopped
-  when: disable_datadog is defined

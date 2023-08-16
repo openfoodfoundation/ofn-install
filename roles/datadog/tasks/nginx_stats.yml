@@ -1,28 +1,14 @@
 ---
-- name: enable nginx stub_status
-  template:
-    src: status.conf.j2
-    dest: /etc/nginx/conf.d/status.conf
-    mode: 0644
-    owner: root
-    group: 'www-data'
+- name: remove nginx stub_status
+  file:
+    path: /etc/nginx/conf.d/status.conf
+    state: absent
   become: yes
   notify:
     - reload nginx
-    - restart datadog-agent
 
-- name: add datadog agent to adm group
-  user:
-    name: 'dd-agent'
-    groups: adm
-    append: yes
-
-- name: enable datadog nginx integration
-  template:
-    src: dd-nginx.j2
-    dest: /etc/datadog-agent/conf.d/nginx.d/conf.yaml
-    owner: 'dd-agent'
-    group: 'dd-agent'
-    mode: 0644
+- name: remove datadog nginx integration
+  file:
+    path: /etc/datadog-agent/conf.d/nginx.d/conf.yaml
+    state: absent
   become: true
-  notify: restart datadog-agent

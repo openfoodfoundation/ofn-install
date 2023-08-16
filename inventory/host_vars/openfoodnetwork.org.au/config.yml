@@ -31,8 +31,6 @@ custom_hba_entries:
   - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
   - { type: hostssl, database: "{{ db }}", user: zapier, address: '167.99.89.242/32', auth_method: md5 } # for metabase (data.openfoodnetwork.org.au)
 
-enable_rails_apm: "false" # has to be explicitly defined as a string due to some datadog bug
-
 # Images settings
 attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn_production.s3.us-east-1.amazonaws.com
