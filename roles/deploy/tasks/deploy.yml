@@ -114,7 +114,7 @@
   changed_when: False
   tags: rake
 
-- name: prepare database
+- name: prepare database for the first time
   include_tasks: prepare_database.yml
   when: table_exists.stdout.find('0 rows') != -1
 
