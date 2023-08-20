@@ -115,8 +115,13 @@
   tags: rake
 
 - name: prepare database for the first time
-  include_tasks: prepare_database.yml
+  command: bash -lc "bundle exec rails db:setup RAILS_ENV={{ rails_env }} I_AM_SURE=1"
+  args:
+    chdir: "{{ build_path }}"
   when: table_exists.stdout.find('0 rows') != -1
+  tags:
+    - rake
+    - skip_ansible_lint
 
 - name: clear transient data
   command: bash -lc "bundle exec rake ofn:data:remove_transient_data RAILS_ENV={{ rails_env }}"
