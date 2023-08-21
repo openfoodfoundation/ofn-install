@@ -114,8 +114,8 @@
   changed_when: False
   tags: rake
 
-- name: load schema if it isn't loaded
-  command: bash -lc "bundle exec rake db:schema:load RAILS_ENV={{ rails_env }} I_AM_SURE=1"
+- name: prepare database for the first time
+  command: bash -lc "bundle exec rails db:setup RAILS_ENV={{ rails_env }} I_AM_SURE=1"
   args:
     chdir: "{{ build_path }}"
   when: table_exists.stdout.find('0 rows') != -1
@@ -131,6 +131,13 @@
     - rake
     - skip_ansible_lint
 
+- name: precompile assets # noqa 301
+  command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ build_path }}"
+  become: yes
+  become_user: "{{ app_user }}"
+
 - name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
   args:
@@ -139,22 +146,6 @@
     - rake
     - skip_ansible_lint
   notify: restart puma
-
-- name: seed database
-  command: bash -lc "bundle exec rake db:seed RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ build_path }}"
-  tags:
-    - seed
-    - skip_ansible_lint
-  notify: restart puma
-
-- name: precompile assets # noqa 301
-  command: bash -lc "bundle exec rake assets:precompile RAILS_ENV={{ rails_env }}"
-  args:
-    chdir: "{{ build_path }}"
-  become: yes
-  become_user: "{{ app_user }}"
 
 # Note: this task can be removed after all servers have been provisioned and deployed
 - name: delete current path unless it's a symlink
