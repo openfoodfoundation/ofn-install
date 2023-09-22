@@ -14,7 +14,7 @@
   vars:
     packages:
       # Ansible support
-      - python-pycurl
+      - python3-pycurl
       - python3-psycopg2
 
       # unknown why or if needed
