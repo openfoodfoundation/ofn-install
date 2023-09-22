@@ -18,21 +18,28 @@
 #
 #   https://github.com/libre-ops/lexi
 
+set -e
+
 lxc launch ubuntu:20.04 ofn-dev
-lxc exec ofn-dev -- sh -c 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
 
-# Enable browsing the OFN app via https://localhost:4433
-lxc config device add ofn-dev myport4433 proxy listen=tcp:0.0.0.0:4433 connect=tcp:127.0.0.1:443
+# The launch can take some time.
+while ! lxc exec ofn-dev -- sh -c 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub; do
+  sleep 1
+done
 
-ip_address="$(lxc list | grep ofn-dev | cut -d' ' -f6)"
-echo "
-Host ofn.local
-  Hostname $ip_address
-  User root
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
-  PasswordAuthentication no
-  LogLevel FATAL
-" >> "$HOME/.ssh/config"
+# Allow connection via SSH.
+# Your config could look like this:
+# ```
+# Host ofn-dev.lxc
+#   HostName 127.0.0.1
+#   Port 1122
+#   User root
+#   UserKnownHostsFile /dev/null
+#   StrictHostKeyChecking no
+#   PasswordAuthentication no
+#   LogLevel FATAL
+# ```
+lxc config device add ofn-dev myport1122 proxy listen=tcp:0.0.0.0:1122 connect=tcp:127.0.0.1:22
 
-ansible-playbook -l lxc site.yml
+# Enable browsing the OFN app via https://localhost:1443
+lxc config device add ofn-dev myport1443 proxy listen=tcp:0.0.0.0:1443 connect=tcp:127.0.0.1:443
