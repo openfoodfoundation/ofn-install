@@ -64,6 +64,7 @@
     "
   args:
     chdir: "{{ build_path }}"
+    creates: "{{ build_path }}/.bundle/config"
   become: true
   become_user: "{{ app_user }}"
 
