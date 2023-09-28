@@ -254,6 +254,8 @@ retired_core_devs:
 # nginx config
 
 app_root: "{{ current_path }}"
+ssl_certificate: "/etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem"
+ssl_certificate_key:  "/etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem"
 
 nginx_official_repo: True
 
@@ -324,8 +326,8 @@ nginx_sites:
       listen [::]:443 ssl http2;
       server_name www.{{ domain }};
 
-      ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
-      ssl_certificate_key  /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem;
+      ssl_certificate      {{ ssl_certificate }};
+      ssl_certificate_key  {{ ssl_certificate_key }};
 
       {{ nginx_tls_cipher_suites }}
 
@@ -338,8 +340,8 @@ nginx_sites:
       server_name {{ certbot_domains | default([domain]) | join(' ') }};
       root {{ app_root }}/public;
 
-      ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
-      ssl_certificate_key  /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem;
+      ssl_certificate      {{ ssl_certificate }};
+      ssl_certificate_key  {{ ssl_certificate_key }};
 
       {{ nginx_tls_cipher_suites }}
 
