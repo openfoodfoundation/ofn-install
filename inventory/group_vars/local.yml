@@ -1,2 +1,4 @@
+rails_env: "staging"
+
 ssl_certificate: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
 ssl_certificate_key:  "/etc/ssl/private/ssl-cert-snakeoil.key"

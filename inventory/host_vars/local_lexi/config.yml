@@ -1,7 +1,6 @@
 ---
 
 domain: localhost
-rails_env: development
 
 admin_email: admin@example.com
 mail_domain: example.com
