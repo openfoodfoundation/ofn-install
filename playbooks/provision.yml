@@ -98,10 +98,6 @@
     - role: webserver
       tags: webserver
 
-    - role: datadog
-      become: yes
-      tags: datadog
-
     - role: arillso.logrotate
       become: yes
       tags: logrotate

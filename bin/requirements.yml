@@ -14,9 +14,6 @@
 - src: oefenweb.swapfile
   version: v2.0.14
 
-- src: Datadog.datadog
-  version: 4.16.0
-
 - src: geerlingguy.postgresql
   version: 3.4.0
 
