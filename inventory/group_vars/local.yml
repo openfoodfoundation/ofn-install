@@ -19,14 +19,16 @@ developer_email: admin@example.com
 users_sysadmin:
   - "{{ core_devs }}"
 
-# Test host configuration
-# This is usually set in the host config but the same for all local containers.
+# *** Test host configuration ***
+#
+# This is usually set in the host config but it's the same for all local
+# containers.
 domain: localhost
 
 admin_email: ofn@example.com
 mail_domain: example.com
 
-# Add missing vars to emulate /local_vagrant/secrets.yml
+# Add missing vars to emulate secrets.yml
 db_password: 'f00d'
 admin_password: 'ofn123'
 secret_token: '511a3d0fa1551b9fa75a1aef5b47684905c64807963fa2c190272878366365'
