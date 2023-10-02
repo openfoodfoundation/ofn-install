@@ -25,8 +25,8 @@
           server_name {{ certbot_domains | default([domain]) | join(' ') }};
           access_log off;
 
-          ssl_certificate      /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/fullchain.pem;
-          ssl_certificate_key  /etc/letsencrypt/live/{{ certbot_cert_name | default(domain) }}/privkey.pem;
+          ssl_certificate      {{ ssl_certificate }};
+          ssl_certificate_key  {{ ssl_certificate_key }};
 
           location / {
             proxy_pass https://{{ proxy_target }};
