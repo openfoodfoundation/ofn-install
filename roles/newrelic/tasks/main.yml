@@ -19,3 +19,11 @@
     NEW_RELIC_REGION: "{{ new_relic_region }}"
   args:
     creates: /usr/bin/newrelic-infra
+
+- name: Use our standard names in dashboard
+  lineinfile:
+    name: "/etc/newrelic-infra.yml"
+    line: "display_name: {{ host_id }}"
+    regex: "^display_name:"
+    state: present
+  notify: restart newrelic_infra
