@@ -1,0 +1,21 @@
+---
+
+- name: Download installer
+  ansible.builtin.get_url:
+    url: "https://download.newrelic.com/install/newrelic-cli/scripts/install.sh"
+    dest: "/tmp/new-relic-install.sh"
+    mode: "777"
+
+- name: Install New Relic command
+  ansible.builtin.command: "/tmp/new-relic-install.sh"
+  args:
+    creates: /usr/local/bin/newrelic
+
+- name: Install New Relic agent
+  command: /usr/local/bin/newrelic install -y
+  environment:
+    NEW_RELIC_API_KEY: "{{ new_relic_api_key }}"
+    NEW_RELIC_ACCOUNT_ID: "{{ new_relic_account_id }}"
+    NEW_RELIC_REGION: "{{ new_relic_region }}"
+  args:
+    creates: /usr/bin/newrelic-infra

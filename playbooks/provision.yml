@@ -105,6 +105,11 @@
       become: yes
       tags: logrotate
 
+    - role: newrelic
+      become: yes
+      when: new_relic_api_key is defined
+      tags: newrelic
+
   tasks:
     - name: Fix Ruby # noqa 301
       command:
