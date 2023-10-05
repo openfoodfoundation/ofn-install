@@ -1,0 +1,8 @@
+---
+- name: "Set journal log size limit" # to avoid hard drive filling up!
+  lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: '^#\s*SystemMaxUse='
+    line: 'SystemMaxUse=100M'
+  notify: Restart journald
+  become: yes

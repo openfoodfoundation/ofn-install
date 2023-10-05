@@ -29,6 +29,9 @@
     - role: app_user # Create unprivileged user to run the app
       tags: app_user
 
+    - role: config # System config to help things run smoothly
+      tags: config
+
     - role: common # Install common apps and libraries, and setup shell.
       tags: common
 
