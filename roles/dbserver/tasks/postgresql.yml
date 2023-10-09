@@ -33,3 +33,12 @@
         login_password: "{{ db_password }}"
         lc_collate: "{{ postgres_encoding }}"
         lc_ctype: "{{ postgres_encoding }}"
+
+- include_role:
+    name: geerlingguy.postgresql
+    tasks_from: users_props
+  vars:
+    postgresql_user: postgres
+    postgresql_users:
+      - name: "{{ db_user }}"
+        role_attr_flags: "{{ db_user_roles }}"

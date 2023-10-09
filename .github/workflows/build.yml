@@ -48,5 +48,8 @@ jobs:
             ${{ runner.os }}-ruby-
             ${{ runner.os }}-
 
+      - name: Uninstall conflicting packages
+        run: sudo apt remove nginx libgd3
+
       - name: Test Playbooks
         run: ansible-playbook tests/suite.yml --limit test --connection local
