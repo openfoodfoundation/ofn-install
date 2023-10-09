@@ -15,7 +15,7 @@
   version: v2.0.14
 
 - src: geerlingguy.postgresql
-  version: 3.4.0
+  version: 3.5.0
 
 - src: libre-ops.multi_redis
   version: 1.0.1
