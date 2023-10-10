@@ -1,0 +1,4 @@
+- name: restart newrelic_infra
+  service:
+    name: "newrelic-infra.service"
+    state: restarted
