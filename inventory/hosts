@@ -22,215 +22,215 @@ test
 #------------------------------------------------------------------------------
 # Australia
 
-[au_prod]
+[au-prod]
 openfoodnetwork.org.au ansible_host=43.239.97.238
 
-[au_staging]
+[au-staging]
 staging.openfoodnetwork.org.au
 
 [au:children]
-au_prod
-au_staging
+au-prod
+au-staging
 
 #------------------------------------------------------------------------------
 # Brazil
 
-[br_prod]
+[br-prod]
 openfoodbrasil.com.br ansible_host=52.20.5.42
 
-[br_staging]
+[br-staging]
 staging.openfoodbrasil.com.br ansible_host=54.242.172.26
 
 [br:children]
-br_prod
-br_staging
+br-prod
+br-staging
 
 #------------------------------------------------------------------------------
 # Colombia
 
-[co_prod]
+[co-prod]
 openfoodcolombia.org ansible_host=5.161.72.75
 
 [co:children]
-co_prod
+co-prod
 
 #------------------------------------------------------------------------------
 # Canada
 
-[ca_prod]
+[ca-prod]
 openfoodnetwork.ca ansible_host=68.183.204.127
 
 [ca:children]
-ca_prod
+ca-prod
 
 #------------------------------------------------------------------------------
 # Costa Rica
 
-[cr_prod]
+[cr-prod]
 laferia.cr ansible_host=95.217.177.232
 
 [cr:children]
-cr_prod
+cr-prod
 
 #------------------------------------------------------------------------------
 # Hungary
-[hu_prod]
+[hu-prod]
 csicsoka.org ansible_host=157.230.107.51
 
 [hu:children]
-hu_prod
+hu-prod
 
 #------------------------------------------------------------------------------
 ## Ireland
 
-[ie_prod]
+[ie-prod]
 openfoodnetwork.ie ansible_host=167.172.44.121
 
 [ie:children]
-ie_prod
+ie-prod
 
 #------------------------------------------------------------------------------
 # India
 
-[in_prod]
+[in-prod]
 openfoodnetwork.in
 
 [in:children]
-in_prod
+in-prod
 
 #------------------------------------------------------------------------------
 # Italy
 
-[it_prod]
+[it-prod]
 app.openfoodnetwork.it
 
-[it_staging]
+[it-staging]
 stg.openfoodnetwork.it
 
 [it:children]
-it_prod
-it_staging
+it-prod
+it-staging
 
 #------------------------------------------------------------------------------
 # New Zealand
 
-[nz_prod]
+[nz-prod]
 openfoodnetwork.org.nz ansible_host=45.64.60.7
 
 [nz:children]
-nz_prod
+nz-prod
 
 #------------------------------------------------------------------------------
 # UK
 
-[uk_prod]
+[uk-prod]
 openfoodnetwork.org.uk
 
-[uk_staging]
+[uk-staging]
 staging.openfoodnetwork.org.uk
 
-[uk_staging2]
+[uk-staging2]
 staging2.openfoodnetwork.org.uk
 
 [uk:children]
-uk_prod
-uk_staging
-uk_staging2
+uk-prod
+uk-staging
+uk-staging2
 
 
 #------------------------------------------------------------------------------
 # USA
 
-[us_prod]
+[us-prod]
 openfoodnetwork.net ansible_host=161.35.232.244
 
 [us:children]
-us_prod
+us-prod
 
 #------------------------------------------------------------------------------
 # Spain
 
-[es_prod]
+[es-prod]
 app.katuma.org ansible_host=116.203.60.113
 
 [es:children]
-es_prod
+es-prod
 
 #------------------------------------------------------------------------------
 # France
 
-[fr_prod]
+[fr-prod]
 coopcircuits.fr ansible_host=51.38.38.32
 
-[fr_staging]
+[fr-staging]
 staging.coopcircuits.fr ansible_host=51.178.24.33
 
 [fr:children]
-fr_prod
-fr_staging
+fr-prod
+fr-staging
 
 #------------------------------------------------------------------------------
 # Germany
 
-[de_prod]
+[de-prod]
 openfoodnetwork.de ansible_host=195.201.96.103
 
 [de:children]
-de_prod
+de-prod
 
 #------------------------------------------------------------------------------
 # Belgium
 
-[be_prod]
+[be-prod]
 openfoodnetwork.be ansible_host=51.75.124.147
 
 [be:children]
-be_prod
+be-prod
 
 #------------------------------------------------------------------------------
 # South Africa
 
-[za_prod]
+[za-prod]
 openfoodnetwork.org.za
 
 [za:children]
-za_prod
+za-prod
 
 #------------------------------------------------------------------------------
 # Europe
 
 [europe:children]
-be_prod
-es_prod
-fr_prod
-uk_prod
-de_prod
-ie_prod
-hu_prod
+be-prod
+es-prod
+fr-prod
+uk-prod
+de-prod
+ie-prod
+hu-prod
 
 #------------------------------------------------------------------------------
 # America
 
 [america:children]
-ca_prod
-us_prod
+ca-prod
+us-prod
 
 #------------------------------------------------------------------------------
 # Globally managed production servers
 
-[all_prod:children]
+[all-prod:children]
 europe
 america
-au_prod
-nz_prod
+au-prod
+nz-prod
 
 #------------------------------------------------------------------------------
 # Staging Servers
 
-[all_staging:children]
-au_staging
-uk_staging
-fr_staging
+[all-staging:children]
+au-staging
+uk-staging
+fr-staging
 
 #------------------------------------------------------------------------------
 # All
@@ -259,8 +259,8 @@ ch
 #------------------------------------------------------------------------------
 # Switzerland
 
-[ch_prod]
+[ch-prod]
 app.openfoodswitzerland.ch ansible_host=195.15.219.220
 
 [ch:children]
-ch_prod
+ch-prod
