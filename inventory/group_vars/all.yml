@@ -240,7 +240,6 @@ core_devs:
   - maikel
   - matt
   - filipe
-  - jb
   - david
   - gaetan
 
@@ -248,6 +247,7 @@ retired_core_devs:
   - george
   - pau
   - stveep
+  - jb
 
 #----------------------------------------------------------------------
 # nginx config
