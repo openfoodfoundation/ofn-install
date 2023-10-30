@@ -71,13 +71,13 @@ Some tasks require host-specific secrets, and will show an error if they haven't
 Secrets can be provided with a parameter like so:
 
 ```sh
-ansible-playbook playbooks/provision.yml --limit=au-staging -e "@../ofn-secrets/au-staging/secrets.yml"
+ansible-playbook playbooks/provision.yml --limit=au_staging -e "@../ofn-secrets/au_staging/secrets.yml" --ask-vault-pass
 ```
 
-If you have access to the `ofn-secrets` repository, you can fetch them with the `fetch_secrets.yml` playbook. The secrets for each host will be loaded into the relevant directory in `inventory/host_vars/`.
+If you have access to the `ofn-secrets` repository, you can fetch them with the `fetch_secrets.yml` playbook. The secrets for each host will be loaded into the relevant directory in `inventory/host_vars/`, then you can go ahead and provision. See the [readme](https://github.com/openfoodfoundation/ofn-secrets/#readme) for more tips on setup.
 
 ```sh
-ansible-playbook playbooks/fetch_secrets.yml
+ansible-playbook playbooks/fetch_secrets.yml && ansible-playbook playbooks/provision.yml
 ```
 
 ## Code quality
