@@ -70,7 +70,7 @@
     - role: postgres_tuning
       tags: postgres_tuning
 
-    - role: libre-ops.multi_redis
+    - role: libre_ops.multi_redis
       vars:
         multiredis_disable_default_instance: false
       become: yes
