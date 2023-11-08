@@ -13,3 +13,10 @@
     state: restarted
   become: yes
   become_user: root
+
+- name: restart sidekiq
+  service:
+    name: sidekiq
+    state: restarted
+  become: yes
+  become_user: root
