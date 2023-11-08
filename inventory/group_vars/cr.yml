@@ -19,3 +19,6 @@ developer_email: info@laferia.cr
 # Users listed here will have their key from /files/keys added to the app_user
 users_sysadmin:
   - rngkll
+  - "{{ core_devs }}"
+    #  - kmoragas
+    #  - valarauco
