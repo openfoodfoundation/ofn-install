@@ -4,10 +4,15 @@
 checkout_zone:
 country_code: IN
 currency: INR
-locale:
-language:
+locale: en
+language: en
 language_packages:
   - language-pack-en-base
 l10n_repo: https://github.com/openfoodfoundation/l10n_in.git
-timezone:
+timezone: "Asia/Kolkata"
 
+# Users listed here will have their key from /files/keys added to the app_user
+users_sysadmin:
+  - "{{ core_devs }}"
+  - dule
+developer_email: info@openfoodnetwork.in
