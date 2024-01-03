@@ -1,0 +1,33 @@
+---
+- name: Set Certbot package name and versions (Ubuntu >= 20.04)
+  set_fact:
+    certbot_version: 0.40.0-1ubuntu0.1
+    certbot_nginx_version: 0.40.0-0ubuntu0.1
+    certbot_nginx_name: python3-certbot-nginx
+  when: ansible_distribution_version >= "20.04"
+
+- name: Set Certbot package name and versions (Ubuntu < 20.04)
+  set_fact:
+    certbot_version: 0.31.0-2~deb10u1+ubuntu{{ ansible_distribution_version }}.1+certbot+3
+    certbot_nginx_version: 0.31.0-1+ubuntu{{ ansible_distribution_version }}.1+certbot+1
+    certbot_nginx_name: python-certbot-nginx
+  when: ansible_distribution_version < "20.04"
+
+- name: Add certbot repository
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    state: present
+  when: ansible_distribution_version < "20.04"
+
+- name: Install certbot
+  package:
+    name: "certbot={{ certbot_version }}"
+    state: present
+
+- name: Install certbot-nginx plugin
+  package:
+    name: "{{ certbot_nginx_name }}={{ certbot_nginx_version }}"
+    state: present
+
+- import_tasks: certificate.yml
+  when: domain_name is defined

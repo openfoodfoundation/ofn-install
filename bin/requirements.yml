@@ -8,8 +8,9 @@
 - src: jdauphant.nginx
   version: v2.21.2
 
-- src: coopdevs.certbot_nginx
-  version: v0.3.0
+# Currently offline
+#- src: coopdevs.certbot_nginx
+#  version: v0.3.0
 
 - src: oefenweb.swapfile
   version: v2.0.14
