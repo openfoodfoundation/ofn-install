@@ -5,7 +5,7 @@ checkout_zone:
 country_code: IN
 currency: INR
 locale: en_IN
-available_locales: en_IN,hi,mr
+available_locales: en_IN,hi,mr,ml,pa
 language: en
 language_packages:
   - language-pack-en-base
