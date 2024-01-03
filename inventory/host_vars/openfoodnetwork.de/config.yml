@@ -23,4 +23,4 @@ custom_hba_entries:
   - "{{ custom_hba_n8n }}"
 #  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
 
-unicorn_timeout: 360
+puma_timeout: 120
