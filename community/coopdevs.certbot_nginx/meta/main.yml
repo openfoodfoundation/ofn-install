@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: coopdevs
+  description: free software for Social and Solidarity Economy
+  company: coopdevs
+
+  license: BSD
+
+  min_ansible_version: 1.2
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+
+  galaxy_tags:
+    - certbot
+    - letsencrypt
+    - certificates
+    - ssl
+    - https
+    - nginx

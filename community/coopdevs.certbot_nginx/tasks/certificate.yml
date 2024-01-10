@@ -1,0 +1,44 @@
+---
+- name: Check if certificate already exists
+  stat:
+    path: "/etc/letsencrypt/live/{{ certbot_nginx_cert_name | default(domain_name, true) }}/cert.pem"
+  register: letsencrypt_cert
+
+- name: "Generate new certificate if one doesn't exist"
+  shell: >
+    certbot certonly --nginx --email '{{ letsencrypt_email }}'
+    --agree-tos -d '{{ domain_name }}'
+    {% if certbot_nginx_cert_name is defined %}
+    --cert-name '{{ certbot_nginx_cert_name }}'
+    {% endif %}
+    {% if letsencrypt_staging %} --staging {% endif %}
+  when: not letsencrypt_cert.stat.exists
+
+# Check if we need or don't need to force the generation of a new certificate
+- name: Extract current domains list from the certificate
+  shell: >
+    sudo certbot certificates | grep 'Domains:' | sed 's/\s*Domains: //'
+  register: old_domains_raw
+  when: certbot_force_update is not defined
+
+- name: Extract domains list
+  set_fact:
+    old_domains: "{{ old_domains_raw['stdout'].split(' ') | sort }}"
+  when: certbot_force_update is not defined
+
+- name: Compare domains with domains in certificate
+  set_fact:
+    certbot_force_update: "{{ old_domains | symmetric_difference(domains) | length | bool }}"
+  when: certbot_force_update is not defined
+
+- name: Force generation of a new certificate
+  shell: >
+    certbot certonly --force-renewal --nginx --email '{{ letsencrypt_email }}'
+    --agree-tos -d '{{ domain_name }}'
+    {% if certbot_nginx_cert_name is defined %}
+    --cert-name '{{ certbot_nginx_cert_name }}'
+    {% endif %}
+    {% if letsencrypt_staging %} --staging {% endif %}
+    {% if ansible_distribution_version >= "20.04" %} --non-interactive {% endif %}
+  when: letsencrypt_cert.stat.exists and certbot_force_update | bool
+  notify: reload nginx

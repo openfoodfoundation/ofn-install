@@ -4,7 +4,7 @@ domain: openfoodnetwork.org.uk
 host_id: uk-prod
 rails_env: production
 
-unicorn_timeout: 720
+puma_timeout: 120
 
 certbot_domains:
   - openfoodnetwork.org.uk

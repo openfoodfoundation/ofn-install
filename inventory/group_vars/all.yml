@@ -223,7 +223,6 @@ logrotate_applications:
 #----------------------------------------------------------------------
 # User name for the unprivileged user which runs the web server
 app_user: openfoodnetwork
-unicorn_timeout: 30
 
 puma_config: "{{ config_path }}/puma.rb"
 puma_log: "{{ log_path }}/puma.log"
@@ -231,7 +230,7 @@ puma_pid: "{{ pid_path }}/puma.pid"
 puma_sock: "{{ sock_path }}/puma.{{ app }}.sock"
 puma_workers: 2
 puma_threads: 3
-puma_timeout: "{{ unicorn_timeout | default('30') }}"
+puma_timeout: 30
 
 #----------------------------------------------------------------------
 # Core devs: users named here will have SSH access on all instances
