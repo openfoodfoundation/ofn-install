@@ -33,6 +33,18 @@
     - { src: "env.j2", dest: "{{ config_path }}/.env.{{ rails_env }}" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
   tags: app_templates
+  notify:
+    - restart puma
+    - restart postgres
+    - restart sidekiq
+
+# debugging
+- name: check sidekiq
+  command: "systemctl status sidekiq.service"
+- name: check puma
+  command: "systemctl status puma.service"
+- name: check postgres
+  command: "systemctl status postgres.service"
 
 - name: get l10n repo
   git:
