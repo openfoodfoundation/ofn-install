@@ -13,7 +13,7 @@ users_sysadmin:
   - konrad
 
 # activate the language switcher
-available_locales: en,fr,es
+available_locales: en_AU,fr,es
 
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
