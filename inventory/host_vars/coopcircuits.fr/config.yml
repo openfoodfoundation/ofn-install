@@ -26,6 +26,7 @@ custom_hba_entries:
   - "{{ custom_hba_n8n }}"
   - "{{ custom_hba_new_n8n }}"
   - "{{ custom_hba_new_n8n_IPv6 }}"
+  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
 
 attachment_path: "home/openfoodnetwork/apps/openfoodnetwork/current/public/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn-prod.s3.us-east-1.amazonaws.com
