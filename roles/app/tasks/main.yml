@@ -33,6 +33,10 @@
     - { src: "env.j2", dest: "{{ config_path }}/.env.{{ rails_env }}" }
     - { src: "postgresql.yml.j2", dest: "{{ config_path }}/database.yml" }
   tags: app_templates
+  notify:
+    - restart puma
+    - restart postgres
+    - restart sidekiq
 
 - name: get l10n repo
   git:

@@ -1,5 +1,10 @@
 # This role holds reusable handlers that can be included in multiple playbooks to keep things DRY
 
+- name: fetch services status # into the global variable ansible_facts.services
+  service_facts:
+  listen: # run if the following tasks have been notified:
+    - restart sidekiq
+
 - name: restart puma
   service:
     name: puma
@@ -13,3 +18,11 @@
     state: restarted
   become: yes
   become_user: root
+
+- name: restart sidekiq
+  service:
+    name: sidekiq
+    state: restarted
+  become: yes
+  become_user: root
+  when: ansible_facts.services['sidekiq.service']['state'] == 'running'
