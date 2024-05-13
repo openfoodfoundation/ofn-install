@@ -10,15 +10,17 @@ For deploying OFN versions below `v4.x.x`, please use the `ofn-v3` branch of thi
 
 ## Playbooks
 
-These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04 and 18.04 (64 bit)** on AWS, DigitalOcean and Scaleway cloud servers.
+These playbooks will install the Open Food Network app onto a server running an apt-compatible OS like Debian or Ubuntu. It has currently been tested on **Ubuntu 16.04, 18.04 and 20.04 (64 bit)** on AWS, DigitalOcean and Scaleway cloud servers.
 
-The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook.
+The playbooks take information from the inventory. Make sure that your host's information is up to date before running a playbook (see `host_vars/` and [secrets](#secrets)).
 
-These are the main playbooks. See inside each for more details.
+These are the main playbooks (found under `playbooks/`). See inside each for more details. They can be executed together with `site.yml`:
 
 * `setup.yml` - Use a root login to ensure python is installed and create a default user (defined in inventory/group_vars/all.yml) on the server for installation (mandatory the first time you provision a server).
 * `provision.yml` - Install and configure all required software on the server (requires secrets, see below).
 * `deploy.yml` - Deploy OFN to the server by copying a git repo to the server and using ruby/rake/rails tasks to configure and migrate.
+
+Other playbooks include:
 * `backup.yml` - Backup database and image files on the server to the local machine.
 * `rollback.yml` - Rollback the database and codebase to the previous version.
 
