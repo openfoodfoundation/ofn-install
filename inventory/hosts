@@ -79,7 +79,7 @@ cr_pruebas
 #------------------------------------------------------------------------------
 # Hungary
 [hu_prod]
-csicsoka.org ansible_host=157.230.107.51
+openfood.hu ansible_host=157.230.107.51
 
 [hu:children]
 hu_prod

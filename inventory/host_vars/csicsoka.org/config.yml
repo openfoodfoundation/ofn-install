@@ -1,6 +1,6 @@
 ---
 
-domain: csicsoka.org
+domain: openfood.hu
 host_id: hu-prod # country initials (eg uk, es, de) and environment (default is prod)
 rails_env: production
 
