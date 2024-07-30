@@ -21,3 +21,5 @@ custom_hba_entries:
   - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
 
 attachment_url: ofn-uk-production.s3.us-east-1.amazonaws.com
+
+rack_timeout_term_on_timeout: 3
