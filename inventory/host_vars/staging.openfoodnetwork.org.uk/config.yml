@@ -37,3 +37,5 @@ custom_hba_entries:
   - "{{ custom_hba_n8n }}"
   - "{{ custom_hba_new_n8n }}"
   - "{{ custom_hba_new_n8n_IPv6 }}"
+
+rack_timeout_term_on_timeout: 3
