@@ -6,6 +6,10 @@ rails_env: production
 
 admin_email: pragai.robert@abasys.hu
 
+# NOTE: custom pg_hba.conf and iptables are in use on the server, and the provision playbook will clobber them. 
+# Please avoid  running the whole playbook if not necessary, and notify the above email if you do.
+# See also thread: https://openfoodnetwork.slack.com/archives/C0DNLAZC7/p1722329658310779
+
 mail_domain: pecsikosar.hu
 
 # Optional list of subdomains to register in letsencrypt certificate
