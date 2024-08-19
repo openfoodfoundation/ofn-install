@@ -30,3 +30,5 @@ custom_hba_entries:
 
 attachment_path: "home/openfoodnetwork/apps/openfoodnetwork/current/public/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn-prod.s3.us-east-1.amazonaws.com
+
+rack_timeout_term_on_timeout: 3
