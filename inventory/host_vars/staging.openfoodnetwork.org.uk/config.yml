@@ -14,18 +14,6 @@ users_sysadmin:
   - bethan
   - mohamed
 
-# UK Staging is currently on holiday in Canada...
-checkout_zone: Canada
-country_code: CA
-currency: CAD
-locale: en_CA
-available_locales: en_CA,fr_CA,cy
-language: en_CA.UTF-8
-language_packages:
-  - language-pack-en-base
-l10n_repo: https://github.com/openfoodfoundation/l10n_ca.git
-timezone: "Eastern Time (US & Canada)"
-
 postgresql_version: 10
 
 # Enable external database access for third party integrations
