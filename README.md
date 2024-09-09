@@ -23,6 +23,7 @@ These are the main playbooks (found under `playbooks/`). See inside each for mor
 Other playbooks include:
 * `backup.yml` - Backup database and image files on the server to the local machine.
 * `rollback.yml` - Rollback the database and codebase to the previous version.
+* `db_transfer.yml` - Transfer the database directly from one host to another (see [Refreshing a staging server](https://github.com/openfoodfoundation/ofn-install/wiki/Refreshing-a-staging-server))
 
 You may want to use the [ansible option "checkrun"](http://docs.ansible.com/playbooks_checkmode.html) to do a dry-run of the playbooks. With this option, Ansible will run the playbooks, but not actually make changes on the server.
 

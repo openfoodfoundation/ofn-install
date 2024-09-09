@@ -1,7 +1,9 @@
 ---
 # Dumps the database on the target server, transfers the dump to a specified remote
 # using the SSH forwarding, then (forcibly) restores the dump to the database on the remote.
-# Requires "rsync_to" variable as remote server for rsync e.g: `-e "rsync_to=uk-staging"`.
+# Requires:
+# * ssh access for remote to access target
+# * "rsync_to" variable e.g.: `--limit=uk_prod -e "rsync_to=uk_staging"`.
 
 - name: Transfer database with SSH forwarding
   hosts: ofn_servers
