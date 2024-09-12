@@ -12,8 +12,6 @@ users_sysadmin:
   - konrad
   - bethan
 
-postgresql_version: 10
-
 # Enable external database access for third party integrations
 postgres_listen_addresses:
   - '*'
