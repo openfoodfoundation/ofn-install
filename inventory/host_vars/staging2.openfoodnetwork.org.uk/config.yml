@@ -1,0 +1,25 @@
+---
+
+domain: staging2.openfoodnetwork.org.uk
+host_id: uk_staging2
+rails_env: staging
+
+admin_email: dev.ofnuk@gmail.com
+
+users_sysadmin:
+  - "{{ core_devs }}"
+  - filipe
+  - konrad
+  - bethan
+
+# Enable external database access for third party integrations
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - "{{ custom_hba_metabase }}"
+  - "{{ custom_hba_n8n }}"
+  - "{{ custom_hba_new_n8n }}"
+  - "{{ custom_hba_new_n8n_IPv6 }}"
+
+rack_timeout_term_on_timeout: 3
