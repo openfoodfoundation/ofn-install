@@ -1,4 +1,9 @@
 ---
+- name: "Set hostname"
+  hostname:
+    name: "{{ host_id }}"
+  become: yes
+
 - name: "Set journal log size limit" # to avoid hard drive filling up!
   lineinfile:
     path: /etc/systemd/journald.conf
