@@ -9,6 +9,9 @@
 #
 # github_key: specify a forked branch instead. Eg:
 #  -e "github_key=jibees:upgrade-node-version"
+#
+#  This playbook is copied onto staging servers with setup_remote_deployment so they can deploy to
+#  themselves. Re-run setup_remote_deployment to copy the latest from master.
 
 - name: deploy
   hosts: ofn_servers
