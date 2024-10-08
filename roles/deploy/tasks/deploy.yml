@@ -11,9 +11,6 @@
     force: yes
   tags: clone
 
-- name: run preflight checks
-  include_tasks: preflight_checks.yml
-
 - name: symlink custom assets into the build
   file:
     src: "{{ item.src }}"

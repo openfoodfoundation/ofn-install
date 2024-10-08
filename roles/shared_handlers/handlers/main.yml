@@ -2,6 +2,7 @@
 
 - name: fetch services status # into the global variable ansible_facts.services
   service_facts:
+  ignore_errors: true # Temporary work around for ansible < 2.10 (https://github.com/ansible/ansible/issues/68536)
   listen: # run if the following tasks have been notified:
     - restart sidekiq
 
@@ -25,4 +26,6 @@
     state: restarted
   become: yes
   become_user: root
-  when: ansible_facts.services['sidekiq.service']['state'] == 'running'
+  # Can't check this on Ubuntu 20 with Ansible < 2.10. So always try restarting and ignore errors.
+  # when: ansible_facts.services['sidekiq.service']['state'] == 'running' # skip if not already running during first-time setup.
+  ignore_errors: true

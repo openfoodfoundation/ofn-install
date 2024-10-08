@@ -8,13 +8,9 @@ admin_email: dev.ofnuk@gmail.com
 
 users_sysadmin:
   - "{{ core_devs }}"
-  - lindhop
   - filipe
   - konrad
   - bethan
-  - mohamed
-
-postgresql_version: 10
 
 # Enable external database access for third party integrations
 postgres_listen_addresses:

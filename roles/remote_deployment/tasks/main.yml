@@ -1,4 +1,4 @@
---- # Set up Ansible and restricted deployment user for deployment via Semaphore
+--- # Set up Ansible and restricted user for deployment via CI runner (eg GitHub Actions)
 
 - name: add ansible ppa
   apt_repository:
@@ -48,20 +48,20 @@
     owner: "{{ user }}"
     mode: 0700
 
-- name: generate semaphore key pair
-  command: "ssh-keygen -f /home/{{ user }}/keys/semaphore -t rsa -b 4096 -C semaphore -N '' "
+- name: generate deployer key pair
+  command: "ssh-keygen -f /home/{{ user }}/keys/deployer -t rsa -b 4096 -C deployer -N '' "
   args:
-    creates: "/home/{{ user }}/keys/semaphore.pub"
+    creates: "/home/{{ user }}/keys/deployer.pub"
 
 - name: copy public key
   slurp:
-    src: "/home/{{ user }}/keys/semaphore.pub"
-  register: semaphore_public_key
+    src: "/home/{{ user }}/keys/deployer.pub"
+  register: deployer_public_key
   changed_when: False
 
-- name: add semaphore public key to deployment user's authorized_keys
+- name: add deployer public key to deployment user's authorized_keys
   authorized_key:
     user: "{{ deployment_user }}"
-    key: "{{ semaphore_public_key.content | b64decode }}"
+    key: "{{ deployer_public_key.content | b64decode }}"
     state: present
     key_options: 'restrict,command="sudo /home/{{ deployment_user }}/deploy \"$SSH_ORIGINAL_COMMAND\""'
