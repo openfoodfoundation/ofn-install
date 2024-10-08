@@ -44,11 +44,11 @@ It's recommended you set up your Python environment using [Pyenv](https://github
 * Install and configure [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 * Install the required Python version:
   ```
-  $ pyenv install 3.8.20
+  $ pyenv install 3.9.20
   ```
 * Create the virtualenv:
   ```
-  $ pyenv virtualenv 3.8.20 ofn-install
+  $ pyenv virtualenv 3.9.20 ofn-install-3.9.20
   ```
 
 ### Dependencies
