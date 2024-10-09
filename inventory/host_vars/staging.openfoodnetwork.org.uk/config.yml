@@ -23,3 +23,6 @@ custom_hba_entries:
   - "{{ custom_hba_new_n8n_IPv6 }}"
 
 rack_timeout_term_on_timeout: 3
+
+# VINE API settings
+vine_api_url: "https://vine-staging.openfoodnetwork.org.au/api/v1"
