@@ -44,22 +44,10 @@ It's recommended you set up your Python environment using [Pyenv](https://github
 
 * Install and configure [pyenv](https://github.com/pyenv/pyenv)
 * Install and configure [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
-* Install the required Python version:
+* Install the required Python version and install dependencies into a virtualenv for the project:
   ```
-  $ pyenv install 3.9.20
+  ./bin/pyenv-install
   ```
-* Create the virtualenv:
-  ```
-  $ pyenv virtualenv 3.9.20 ofn-install-3.9.20
-  ```
-
-### Dependencies
-
-You will need to install Ansible, alongside other dependencies, on your machine to run the playbooks. You can do so with:
-
-```
-pip install -r requirements.txt
-```
 
 ### Ansible Galaxy Roles
 
