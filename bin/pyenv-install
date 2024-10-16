@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+version="$(cat .python-version | cut -d '-' -f3)"
+
+if ! python --version; then
+  pyenv install "$version" --skip-existing
+  pyenv virtualenv "$version" "ofn-install-$version"
+  pip install -r requirements.txt
+fi
+
