@@ -21,6 +21,9 @@ attachment_url: ccs-ofn-staging.s3.eu-west-3.amazonaws.com
 postgres_listen_addresses:
   - '*'
 
+# The default is `false`, not installing a swapfile.
+swapfile_size: 1G
+
 custom_hba_entries:
   - "{{ custom_hba_metabase }}"
   - "{{ custom_hba_n8n }}"
