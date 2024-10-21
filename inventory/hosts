@@ -60,8 +60,12 @@ co_prod
 [ca_prod]
 openfoodnetwork.ca ansible_host=68.183.204.127
 
+[ca_prod2]
+prod2.openfoodnetwork.ca ansible_host=146.190.252.221
+
 [ca:children]
 ca_prod
+ca_prod2
 
 #------------------------------------------------------------------------------
 # Costa Rica

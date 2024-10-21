@@ -1,0 +1,28 @@
+---
+
+domain: openfoodnetwork.ca
+host_id: ca-prod2
+rails_env: production
+
+admin_email: admin@openfoodnetwork.ca
+mail_domain: openfoodnetwork.ca
+
+puma_timeout: 120
+
+certbot_cert_name: openfoodnetwork.ca
+certbot_domains:
+  - openfoodnetwork.ca
+  - www.openfoodnetwork.ca
+  - prod2.openfoodnetwork.ca
+
+postgres_listen_addresses:
+  - '*'
+
+custom_hba_entries:
+  - "{{ custom_hba_metabase }}"
+  - "{{ custom_hba_n8n }}"
+  - "{{ custom_hba_new_n8n }}"
+  - "{{ custom_hba_new_n8n_IPv6 }}"
+  - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
+
+enable_rails_apm: "false"
