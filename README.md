@@ -80,7 +80,7 @@ Run the [ansible-lint](https://github.com/willthames/ansible-lint) checks using:
 ansible-lint site.yml --exclude=community
 ```
 
-This is also run in CI.
+~~~This is also run in CI.~~~
 
 ## Security
 

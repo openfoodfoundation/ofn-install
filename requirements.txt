@@ -1,4 +1,7 @@
 ansible==2.10.7
-ansible-lint==4.2.0
+# This version doesn't work with the current Ansible version.
+# But upgrading seems to break the build.
+# TODO: upgrade ans fix ansible-lint
+#ansible-lint==4.2.0
 yamllint==1.21.0
 jinja2<3.1
