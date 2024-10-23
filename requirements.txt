@@ -1,4 +1,4 @@
-ansible==2.10.7
+ansible==10.5.0
 # This version doesn't work with the current Ansible version.
 # But upgrading seems to break the build.
 # TODO: upgrade ans fix ansible-lint
