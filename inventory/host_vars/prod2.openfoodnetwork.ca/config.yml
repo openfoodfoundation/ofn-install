@@ -1,6 +1,6 @@
 ---
 
-domain: openfoodnetwork.ca
+domain: prod2.openfoodnetwork.ca
 host_id: ca-prod2
 rails_env: production
 
