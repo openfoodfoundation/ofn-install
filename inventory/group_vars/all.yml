@@ -425,3 +425,7 @@ rbenv_plugins:
   - { name: "rbenv-update",       repo: "https://github.com/rkh/rbenv-update.git",         version: "master" }
   - { name: "rbenv-whatis",       repo: "https://github.com/rkh/rbenv-whatis.git",         version: "master" }
   - { name: "rbenv-use",          repo: "https://github.com/rkh/rbenv-use.git",            version: "master" }
+
+template_notice: |
+  # Managed via ofn-install, any changes will be overwritten.
+  # Please notify @devs of any changes in [#devops](https://openfoodnetwork.slack.com/archives/CEBMTRCNS) (But do not share secrets in public channel!)
