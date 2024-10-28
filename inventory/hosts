@@ -88,7 +88,7 @@ hu_prod
 ## Ireland
 
 [ie_prod]
-openfoodnetwork.ie ansible_host=167.172.44.121
+openfoodnetwork.ie ansible_host=64.227.64.162
 
 [ie:children]
 ie_prod
