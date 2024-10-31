@@ -58,7 +58,7 @@ co_prod
 # Canada
 
 [ca_prod]
-openfoodnetwork.ca ansible_host=68.183.204.127
+openfoodnetwork.ca ansible_host=146.190.252.221
 
 [ca:children]
 ca_prod
