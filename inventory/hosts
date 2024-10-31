@@ -133,13 +133,9 @@ openfoodnetwork.org.uk
 [uk_staging]
 staging.openfoodnetwork.org.uk
 
-[uk_staging2]
-staging2.openfoodnetwork.org.uk
-
 [uk:children]
 uk_prod
 uk_staging
-uk_staging2
 
 
 #------------------------------------------------------------------------------
