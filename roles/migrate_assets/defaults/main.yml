@@ -8,4 +8,5 @@ migrate_dirs:
   - images
   - files
   - spree
+  - storage # Required when local storage is used instead of S3
   - system
