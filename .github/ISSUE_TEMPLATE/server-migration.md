@@ -23,16 +23,20 @@ Checklist based on general guide https://github.com/openfoodfoundation/ofn-insta
    - Don't bother making a copy of this one
 
 ### setup
-Ensure you have the correct secrets.
+Enable passthrough on _current_ server to allow new server to generate a certificate:
+- [ ] `ansible-playbook playbooks/letsencrypt_proxy.yml -l x_prod -e "proxy_target=<ip>" `
+
+Then setup new server. Ensure you have the correct secrets (current secrets are usually fine).
 `ansible-playbook -l x_prod2 -e "@../ofn-secrets/x_prod/secrets.yml playbooks/`
-- [ ] `letsencrypt_proxy.yml`
 - [ ] `setup.yml`
 - [ ] `provision.yml`
 - [ ] `deploy.yml`
 - [ ] `db_integrations` (Permit DB access for n8n, Metabase)
-- [ ] Ensure sidekiq is disabled, to avoid creating subscription orders: `systemctl disable sidekiq`
 
 ### initial migration
+- [ ] Ensure sidekiq is disabled, to avoid creating subscription orders when data is loaded:
+    `sudo systemctl stop sidekiq && sudo systemctl disable sidekiq`
+
 `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/`
 - [ ] Setup direct ssh access for `ofn-admin` and `openfoodnetwork` as per guide
 - [ ] `db_transfer.yml`
@@ -56,11 +60,11 @@ Ensure you have the correct secrets.
 
 ### switchover: old server
 - [ ] 🚧 `maintenance_mode.yml`
-- [ ] `sudo systemctl stop sidekiq redis-jobs`
+- [ ] `sudo systemctl stop sidekiq redis-jobs puma`
 - [ ] Transfer `/var/lib/redis-jobs/dump.rdb` to new server (see guide)
 - [ ] `db_transfer.yml` ~3min
+- [ ] `sudo systemctl stop postgres` (ensure other integrations no longer touch it)
 - [ ] `transfer_assets.yml` just in case
-- [ ] `sudo systemctl stop puma postgres` (ensure other integrations no longer touch it)
 
 ### switchover: new server
 - [ ] `sudo systemctl restart puma; sudo systemctl start sidekiq redis-jobs`
@@ -87,7 +91,7 @@ Ensure you have the correct secrets.
 - [ ] check backups are functioning
 - Update documentation: 
   * [ ] https://github.com/openfoodfoundation/ofn-install/wiki/Current-servers
-  * migration guide if necessary
+  * [ ] This migration guide if necessary
 
 
 ## Rollback plan
