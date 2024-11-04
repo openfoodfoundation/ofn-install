@@ -2,7 +2,7 @@
 - name: create deploy user
   user:
     name="{{ user }}"
-    groups=adm,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,sudo
+    groups=adm,dialout,cdrom,floppy,audio,dip,video,plugdev,sudo
     append=yes
     state=present
     shell=/bin/bash
