@@ -55,6 +55,7 @@ Then setup new server. Ensure you have the correct secrets (current secrets are 
 
 ## 3. Migration
 ### preparation
+- [ ] new server: `bundle exec rake db:reset -e production`
 - [ ] `deploy.yml -l x_prod2 -e "git_version=vX.Y.Z"` matching version with current prod
 - [ ] old server: make a tiny data change to verify later (eg add `.` in meta description `/admin/general_settings/edit`)
 
