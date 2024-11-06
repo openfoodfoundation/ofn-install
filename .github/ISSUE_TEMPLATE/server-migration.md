@@ -24,7 +24,7 @@ Checklist based on general guide https://github.com/openfoodfoundation/ofn-insta
 
 ### setup
 Enable passthrough on _current_ server to allow new server to generate a certificate:
-- [ ] `ansible-playbook playbooks/letsencrypt_proxy.yml -l x_prod -e "proxy_target=<ip>" `
+- [ ] `ansible-playbook playbooks/letsencrypt_proxy.yml -l x_prod -e "proxy_target=<new_ip>" `
 
 Then setup new server. Ensure you have the correct secrets (current secrets are usually fine).
 `ansible-playbook -l x_prod2 -e "@../ofn-secrets/x_prod/secrets.yml playbooks/`
@@ -36,9 +36,9 @@ Then setup new server. Ensure you have the correct secrets (current secrets are 
 ### initial migration
 - [ ] Ensure sidekiq is disabled, to avoid creating subscription orders when data is loaded:
     `sudo systemctl stop sidekiq && sudo systemctl disable sidekiq`
+- [ ] Setup direct ssh access for `ofn-admin` and `openfoodnetwork` as per guide
 
 `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/`
-- [ ] Setup direct ssh access for `ofn-admin` and `openfoodnetwork` as per guide
 - [ ] `db_transfer.yml`
 - [ ] `transfer_assets.yml`
 
