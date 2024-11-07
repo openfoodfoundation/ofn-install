@@ -11,6 +11,7 @@ enable_nginx_logging: true
 certbot_domains:
   - openfoodnetwork.ie
   - www.openfoodnetwork.ie
+  - ubuntu-20.openfoodnetwork.ie # kept temporarily while some assets still load with this url (site logo)
 
 # Enable external database access for third party integrations
 postgres_listen_addresses:
