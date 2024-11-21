@@ -353,6 +353,12 @@ nginx_sites:
       brotli_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
 
       try_files $uri/index.html $uri @rails;
+
+      # Block scanning for scripts efficiently.
+      location ~ \.php(\?.*)?$ {
+        return 404;
+      }
+
       location @rails {
         {{ nginx_valid_methods }}
 
