@@ -10,7 +10,9 @@ assignees: ''
 Checklist based on general guide https://github.com/openfoodfoundation/ofn-install/wiki/Migrating-a-Production-Server
 
 ## 1. Setting up the new server
-- [ ] Check old server config for any additional services to be aware of (eg `/etc/nginx/sites-available`). Document any necessary steps for migration.
+- [ ] Check old server config for any additional services to be aware of. Document any necessary steps for migration. Eg:
+  - `ls /etc/nginx/sites-enabled`
+  - `systemctl --state=running`
 - [ ] Hosting: provision new server with Ubuntu 20
 - [ ] DNS: add temporary domain (eg `prod2.openfoodnetwork.org`)
 
@@ -27,7 +29,7 @@ Enable passthrough on _current_ server to allow new server to generate a certifi
 - [ ] `ansible-playbook playbooks/letsencrypt_proxy.yml -l x_prod -e "proxy_target=<new_ip>" `
 
 Then setup new server. Ensure you have the correct secrets (current secrets are usually fine).
-`ansible-playbook -l x_prod2 -e "@../ofn-secrets/x_prod/secrets.yml playbooks/`
+`ansible-playbook -l x_prod2 -e "@../ofn-secrets/x_prod/secrets.yml" playbooks/`
 - [ ] `setup.yml`
 - [ ] `provision.yml`
 - [ ] `deploy.yml`
@@ -42,6 +44,9 @@ Then setup new server. Ensure you have the correct secrets (current secrets are 
 - [ ] `db_transfer.yml`
 - [ ] `transfer_assets.yml`
 
+Make sure to clear cache so that instance settings are applied:
+`cd ~/apps/openfoodnetwork/current; bin/rails runner -e production "Rails.cache.clear"`
+
 ## 2. Testing
  - [ ] test `reboot`
  - [ ] send test mail (`/admin/mail_methods/edit`). 
@@ -55,7 +60,7 @@ Then setup new server. Ensure you have the correct secrets (current secrets are 
 
 ## 3. Migration
 ### preparation
-- [ ] new server: `bundle exec rake db:reset -e production`
+- [ ] **new server**: `bin/rake db:reset -e production` (important: make sure you're on the new server!)
 - [ ] `deploy.yml -l x_prod2 -e "git_version=vX.Y.Z"` matching version with current prod
 - [ ] old server: make a tiny data change to verify later (eg add `.` in meta description `/admin/general_settings/edit`)
 
