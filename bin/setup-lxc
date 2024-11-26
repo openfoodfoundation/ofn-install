@@ -20,7 +20,7 @@
 
 set -e
 
-lxc launch ubuntu:20.04 ofn-dev
+lxc launch ubuntu:22.04 ofn-dev
 
 # The launch can take some time.
 while ! lxc exec ofn-dev -- sh -c 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub; do
