@@ -9,6 +9,8 @@ assignees: ''
 
 Checklist based on general guide https://github.com/openfoodfoundation/ofn-install/wiki/Migrating-a-Production-Server
 
+Tip: find/replace to set up most commands ready to go, eg: `x_prod` -> `ca_prod`
+
 ## 1. Setting up the new server
 - [ ] Check old server config for any additional services to be aware of. Document any necessary steps for migration. Eg:
   - `ls /etc/nginx/sites-enabled`
@@ -20,6 +22,7 @@ Checklist based on general guide https://github.com/openfoodfoundation/ofn-insta
 - [ ] Add temporary name to `inventory/hosts`
 - [ ] Review `host_vars/x/config.yml`, clean up if needed
   - Make a copy for the temp hostname, add temp domain to bottom of `certbot_domains`
+- [ ] Review `group_vars/x.yml`, clean up if needed
 - [ ] Review `ofn-secrets:x_prod/secrets.yml`, clean up if needed
    - Change to shared bugsnag projects
    - Don't bother making a copy of this one
@@ -41,7 +44,7 @@ Then setup new server. Ensure you have the correct secrets (current secrets are 
 - [ ] Setup direct ssh access for `ofn-admin` and `openfoodnetwork` as per guide
 
 `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/`
-- [ ] `db_transfer.yml`
+- [ ] `db_transfer.yml` &&
 - [ ] `transfer_assets.yml`
 
 Make sure to clear cache so that instance settings are applied:
@@ -60,44 +63,45 @@ Make sure to clear cache so that instance settings are applied:
 
 ## 3. Migration
 ### preparation
-- [ ] **new server**: `bin/rake db:reset -e production` (important: make sure you're on the new server!)
+- [ ] Reset database on new server, to avoid any migration issues due to being out of sync
+  `bin/rake db:reset` (You will need to confirm. Make sure you're on the new server!)
 - [ ] `deploy.yml -l x_prod2 -e "git_version=vX.Y.Z"` matching version with current prod
 - [ ] old server: make a tiny data change to verify later (eg add `.` in meta description `/admin/general_settings/edit`)
 
 ### switchover: old server
-- [ ] 🚧 `maintenance_mode.yml`
+- [ ] 🚧 `ansible-playbook playbooks/maintenance_mode.yml -l x_prod`
 - [ ] `sudo systemctl stop sidekiq redis-jobs puma`
+- [ ] `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/db_transfer.yml &&`
+- [ ] `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/transfer_assets.yml`
 - [ ] Transfer `/var/lib/redis-jobs/dump.rdb` to new server (see guide)
-- [ ] `db_transfer.yml` ~3min
-- [ ] `sudo systemctl stop postgres` (ensure other integrations no longer touch it)
-- [ ] `transfer_assets.yml` just in case
+- [ ] `sudo systemctl stop postgresql` (ensure other integrations no longer touch it)
 
 ### switchover: new server
 - [ ] `sudo systemctl restart puma; sudo systemctl start sidekiq redis-jobs`
-- [ ] `Rails.cache.clear` (or migrate redis-cache/dump.rdb also)
-- [ ] ⏭️ `temporary_proxy.yml -e 'proxy_target=<ip>'` redirect traffic to new prod
+- [ ] `cd ~/apps/openfoodnetwork/current; bin/rails runner -e production "Rails.cache.clear"` (or migrate redis-cache/dump.rdb also)
+- [ ] ⏭️ `ansible-playbook -l x_prod playbooks/temporary_proxy.yml -e 'proxy_target=<new_ip>'` redirect traffic to new prod
   * Note: this doesn't include webservices, and doesn't handle images. So it's a very short-term fix if at all.
   * Use a `hosts` file entry to test a direct connection
 - Check there are no alarm bells, eg:
-  - [ ] `~/apps/openfoodnetwork/current/logs/production.log` and `sidekiq.log`
   - [ ] tiny data change is present. undo it.
   - [ ] shopfront and checkout looks good
   - [ ] upload a product image
-  - [ ] get confirmation from local team
+  - [ ] `~/apps/openfoodnetwork/current/log/production.log` and `sidekiq.log`
 - [ ] Update DNS to point to new server
+- [ ] get confirmation from local team
+- [ ] make sure the entries in ofn-install are up to date: set the new IP address and remove any temporary entry made for the migration
+- Update documentation: 
+  * [ ] https://github.com/openfoodfoundation/ofn-install/wiki/Current-servers
+  * [ ] This migration guide if necessary
 
 ## 4. Cleanup (after 48hrs)
 - [ ] check server access logs to verify no traffic
 - [ ] shut down the old server, cancel old VPS
 - [ ] remove DNS for temporary subdomain
-- [ ] make sure the entries in ofn-install are up to date: remove the temporary entry made for the migration, and set the new IP address. 
 - [ ] validate that `provision.yml` still works. This will rename x-prod2 to x-prod
 - [ ] check metabase sync if required: https://data.openfoodnetwork.org/admin/databases/
 - [ ] check n8n
 - [ ] check backups are functioning
-- Update documentation: 
-  * [ ] https://github.com/openfoodfoundation/ofn-install/wiki/Current-servers
-  * [ ] This migration guide if necessary
 
 
 ## Rollback plan
