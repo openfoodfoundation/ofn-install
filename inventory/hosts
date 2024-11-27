@@ -173,7 +173,7 @@ fr_staging
 # Germany
 
 [de_prod]
-openfoodnetwork.de ansible_host=195.201.96.103
+openfoodnetwork.de ansible_host=94.130.107.90
 
 [de:children]
 de_prod
