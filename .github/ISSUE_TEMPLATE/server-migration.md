@@ -19,7 +19,7 @@ Tip: find/replace to set up most commands ready to go, eg: `x_prod` -> `ca_prod`
 - [ ] DNS: add temporary domain (eg `prod2.openfoodnetwork.org`)
 
 ### config
-- [ ] Add temporary name to `inventory/hosts`
+- [ ] Add temporary name to `inventory/hosts` (suggest doing this on separate branch)
 - [ ] Review `host_vars/x/config.yml`, clean up if needed
   - Make a copy for the temp hostname, add temp domain to bottom of `certbot_domains`
 - [ ] Review `group_vars/x.yml`, clean up if needed
@@ -65,7 +65,9 @@ Make sure to clear cache so that instance settings are applied:
 ### preparation
 - [ ] Reset database on new server, to avoid any migration issues due to being out of sync
   `bin/rake db:reset` (You will need to confirm. Make sure you're on the new server!)
-- [ ] `deploy.yml -l x_prod2 -e "git_version=vX.Y.Z"` matching version with current prod
+- [ ] Update ansible_host IP in `inventory/hosts` and ensure provision works (this will update host in `.env.production`).
+    `ansible-playbook playbooks/provision.yml -l x_prod`
+- [ ] `ansible-playbook playbooks/deploy.yml -l x_prod -e "git_version=vX.Y.Z"` matching version with current prod
 - [ ] old server: make a tiny data change to verify later (eg add `.` in meta description `/admin/general_settings/edit`)
 
 ### switchover: old server
@@ -98,7 +100,6 @@ Make sure to clear cache so that instance settings are applied:
 - [ ] check server access logs to verify no traffic
 - [ ] shut down the old server, cancel old VPS
 - [ ] remove DNS for temporary subdomain
-- [ ] validate that `provision.yml` still works. This will rename x-prod2 to x-prod
 - [ ] check metabase sync if required: https://data.openfoodnetwork.org/admin/databases/
 - [ ] check n8n
 - [ ] check backups are functioning
