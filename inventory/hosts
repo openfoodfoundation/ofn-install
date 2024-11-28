@@ -128,7 +128,7 @@ nz_prod
 # UK
 
 [uk_prod]
-openfoodnetwork.org.uk
+openfoodnetwork.org.uk ansible_host=91.214.191.167
 
 [uk_staging]
 staging.openfoodnetwork.org.uk
