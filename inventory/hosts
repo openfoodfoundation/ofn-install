@@ -23,7 +23,7 @@ test
 # Australia
 
 [au_prod]
-openfoodnetwork.org.au ansible_host=43.239.97.238
+openfoodnetwork.org.au ansible_host=43.239.97.226 # prod4
 
 [au_staging]
 staging.openfoodnetwork.org.au
