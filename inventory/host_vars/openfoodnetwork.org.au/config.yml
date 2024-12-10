@@ -4,7 +4,7 @@ domain: openfoodnetwork.org.au
 host_id: au-prod
 rails_env: production
 
-admin_email: maikel@openfoodnetwork.org.au
+admin_email: core-devs@openfoodnetwork.org.au
 
 mail_domain: openfoodnetwork.org
 
@@ -13,7 +13,6 @@ mail_domain: openfoodnetwork.org
 certbot_domains:
   - openfoodnetwork.org.au
   - www.openfoodnetwork.org.au
-  - prod3.openfoodnetwork.org.au
 
 # Size in bytes. You can also use units like 1G, 512MiB or 1000KB. See: `man fallocate`
 # The default is `false`, not installing a swapfile.
