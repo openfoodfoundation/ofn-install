@@ -5,3 +5,10 @@
     name: redis-server
     state: restarted
   become: yes
+
+- name: restart newrelic
+  service:
+    name: newrelic-infra
+    state: restarted
+  become: yes
+

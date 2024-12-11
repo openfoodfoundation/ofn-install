@@ -119,6 +119,16 @@
       become_user: "{{ app_user }}"
       when: ansible_distribution_major_version >= '20'
 
+    - name: update new relic redis configuration # update redis port to monitor cache instance
+      replace:
+        dest: "/etc/newrelic-infra/integrations.d/redis-config.yml"
+        regexp: '^(\s*PORT:)\s6379$'
+        replace: '\1 6380'
+      become: yes
+      notify: restart newrelic
+      tags:
+       - newrelic_redis
+
     - meta: flush_handlers # Ensure handlers run successfully before reporting success
 
     - name: notify slack
