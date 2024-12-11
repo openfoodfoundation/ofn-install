@@ -1,7 +1,7 @@
 ---
 
 domain: openfoodnetwork.org.au
-host_id: au-prod
+host_id: au-prod4
 rails_env: production
 
 admin_email: core-devs@openfoodnetwork.org.au
