@@ -17,8 +17,3 @@ developer_email: ofn-usa@openfoodnetwork.net
 
 users_sysadmin:
   - "{{ core_devs }}"
-  - brandy
-  - dani
-  - tim
-  - ravi
-  - andy
