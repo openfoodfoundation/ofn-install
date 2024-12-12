@@ -142,7 +142,7 @@ uk_staging
 # USA
 
 [us_prod]
-openfoodnetwork.net ansible_host=161.35.232.244
+openfoodnetwork.net ansible_host=24.199.99.209 # prod2
 
 [us:children]
 us_prod
