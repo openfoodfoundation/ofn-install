@@ -13,7 +13,7 @@ timezone: Melbourne
 
 
 # Used for the LetsEncrypt email setting
-developer_email: maikel@openfoodnetwork.org.au
+developer_email: core-devs@openfoodnetwork.org.au
 
 users_sysadmin:
   - "{{ core_devs }}"
