@@ -28,7 +28,7 @@ custom_hba_entries:
   - "{{ custom_hba_n8n }}"
   - "{{ custom_hba_n8n_IPv6 }}"
   - "{{ custom_hba_new_metabase }}"
-  - "{{custom_hba_new_metabase_IPv6 }}"
+  - "{{ custom_hba_new_metabase_IPv6 }}"
 
 #custom_env_vars: |
 #  OFN_FEATURE_CONNECT_AND_LEARN="true"
