@@ -27,8 +27,7 @@ swapfile_size: 1G
 custom_hba_entries:
   - "{{ custom_hba_metabase }}"
   - "{{ custom_hba_n8n }}"
-  - "{{ custom_hba_new_n8n }}"
-  - "{{ custom_hba_new_n8n_IPv6 }}"
+  - "{{ custom_hba_n8n_IPv6 }}"
 
 # VINE API settings
 vine_api_url: "https://vine-staging.openfoodnetwork.org.au/api/v1"
