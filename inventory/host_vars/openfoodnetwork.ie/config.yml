@@ -19,5 +19,4 @@ postgres_listen_addresses:
 custom_hba_entries:
   - "{{ custom_hba_metabase }}"
   - "{{ custom_hba_n8n }}"
-  - "{{ custom_hba_new_n8n }}"
-  - "{{ custom_hba_new_n8n_IPv6 }}"
+  - "{{ custom_hba_n8n_IPv6 }}"
