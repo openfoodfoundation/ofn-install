@@ -113,6 +113,8 @@ default_hba_entries:
   - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}
 
 custom_hba_metabase: {type: hostssl, database: "{{ db }}", user: "metabase", address: "167.99.89.242/32", auth_method: md5}
+custom_hba_new_metabase: {type: hostssl, database: "{{ db }}", user: "metabase", address: "89.47.50.240/32", auth_method: md5}
+custom_hba_new_metabase_IPv6: {type: hostssl, database: "{{ db }}", user: "metabase", address: "2001:1600:13:101::8d6/128", auth_method: md5}
 custom_hba_n8n: {type: hostssl, database: "{{ db }}", user: "n8n", address: "128.65.199.88/32", auth_method: md5}
 custom_hba_n8n_IPv6: {type: hostssl, database: "{{ db }}", user: "n8n", address: "2001:1600:13:101::633/128", auth_method: md5}
 

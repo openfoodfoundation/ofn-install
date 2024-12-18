@@ -92,7 +92,7 @@ Make sure to clear cache so that instance settings are applied:
 - [ ] remove DNS for temporary subdomain
 - [ ] make sure the entries in ofn-install are up to date: remove the temporary entry made for the migration, and set the new IP address. 
 - [ ] validate that `provision.yml` still works. This will rename x-prod2 to x-prod
-- [ ] check metabase sync if required: https://data.openfoodnetwork.org.uk/admin/databases/
+- [ ] check metabase sync if required: https://data.openfoodnetwork.org/admin/databases/
 - [ ] check n8n
 - [ ] check backups are functioning
 - Update documentation: 
