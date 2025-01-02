@@ -41,7 +41,7 @@ Then setup new server. Ensure you have the correct secrets (current secrets are 
 ### initial migration
 - [ ] Ensure sidekiq is disabled, to avoid creating subscription orders when data is loaded:
     `sudo systemctl stop sidekiq && sudo systemctl disable sidekiq`
-- [ ] Setup direct ssh access for `ofn-admin` and `openfoodnetwork` as per guide
+- [ ] Setup direct ssh access for `ofn-admin` and `openfoodnetwork` as per [guide](https://github.com/openfoodfoundation/ofn-install/wiki/Migrating-a-Production-Server)
 
 `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/`
 - [ ] `db_transfer.yml` &&
@@ -72,11 +72,11 @@ Make sure to clear cache so that instance settings are applied:
 
 ### switchover: old server
 - [ ] 🚧 `ansible-playbook playbooks/maintenance_mode.yml -l x_prod`
-- [ ] `sudo systemctl stop sidekiq redis-jobs puma`
+- [ ] `sudo systemctl disable --now sidekiq redis-jobs puma`
 - [ ] `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/db_transfer.yml &&`
 - [ ] `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/transfer_assets.yml`
 - [ ] Transfer `/var/lib/redis-jobs/dump.rdb` to new server (see guide)
-- [ ] `sudo systemctl stop postgresql` (ensure other integrations no longer touch it)
+- [ ] `sudo systemctl disable --now postgresql` (ensure other integrations no longer touch it)
 
 ### switchover: new server
 - [ ] `sudo systemctl restart puma; sudo systemctl start sidekiq redis-jobs`
