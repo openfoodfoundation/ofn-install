@@ -1,4 +1,7 @@
-ansible==2.10.7
+# Ansible community package
+# https://github.com/ansible-community/ansible-build-data
+ansible==3.0.0
+
 # This version doesn't work with the current Ansible version.
 # But upgrading seems to break the build.
 # TODO: upgrade ans fix ansible-lint
