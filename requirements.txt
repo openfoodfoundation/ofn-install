@@ -1,6 +1,6 @@
 # Ansible community package
 # https://github.com/ansible-community/ansible-build-data
-ansible==4.0.0
+ansible==5.0.1
 
 # This version doesn't work with the current Ansible version.
 # But upgrading seems to break the build.
