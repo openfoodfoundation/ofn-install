@@ -3,7 +3,7 @@ nodenv_plugins:
   # Allow installation of node versions
   - name: "node-build"
     repo: "https://github.com/nodenv/node-build.git"
-    version: master
+    version: main
   # Automatically install yarn after installing node
   - name: "nodenv-yarn-install"
     repo: "https://github.com/pine/nodenv-yarn-install"
