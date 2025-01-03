@@ -13,7 +13,7 @@
     pg_new: 10
 
   handlers:
-    - include: ../roles/shared_handlers/handlers/main.yml
+    - import_tasks: ../roles/shared_handlers/handlers/main.yml
 
   pre_tasks:
     - name: enable maintenance mode
