@@ -59,15 +59,18 @@ $ bin/setup
 
 ## Secrets
 
-Some tasks require host-specific secrets, and will show an error if they haven't been provided. These can change from time to time, so **always ensure you have the latest before provisioning**.
+Some tasks (eg provision.yml) require host-specific secrets, and will show an error if they haven't been provided. Secrets can be added to the relevant `host_vars` subfolder (see [wiki](https://github.com/openfoodfoundation/ofn-install/wiki/Configuration#add-host_vars)) where they will be loaded automatically.
 
-Secrets can be provided with a parameter like so:
+Secrets can also be loaded from a different folder with a parameter like so:
 
 ```sh
 ansible-playbook playbooks/provision.yml --limit=au_staging -e "@../ofn-secrets/au_staging/secrets.yml" --ask-vault-pass
 ```
 
-If you have access to the `ofn-secrets` repository, you can fetch them with the `fetch_secrets.yml` playbook. The secrets for each host will be loaded into the relevant directory in `inventory/host_vars/`, then you can go ahead and provision. See the [readme](https://github.com/openfoodfoundation/ofn-secrets/#readme) for more tips on setup.
+Many servers are managed by the OFN core team, so we have a copy of secrets in a shared repository which is considered the source of truth. Once your server is managed by the core team, ensure any config changes are sent to them.
+
+Core team members can fetch the latest with the `fetch_secrets.yml` playbook. The secrets for each host will be loaded into the relevant directory in `inventory/host_vars/`, then you can go ahead and provision. See the [ofn-secrets readme](https://github.com/openfoodfoundation/ofn-secrets/#readme) for more tips on setup.
+These can change from time to time, so **always ensure you have the latest before provisioning**.
 
 ```sh
 ansible-playbook playbooks/fetch_secrets.yml && ansible-playbook playbooks/provision.yml
