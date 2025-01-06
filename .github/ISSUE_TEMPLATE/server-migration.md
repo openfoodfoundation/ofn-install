@@ -98,7 +98,8 @@ Make sure to clear cache so that instance settings are applied:
 
 ## 4. Cleanup (after 48hrs)
 - [ ] check server access logs to verify no traffic
-- [ ] shut down the old server, cancel old VPS
+- [ ] shut down the old VPS
+- [ ] delete old VPS (or rename for future deletion)
 - [ ] remove DNS for temporary subdomain
 - [ ] check metabase sync if required: https://data.openfoodnetwork.org/admin/databases/
 - [ ] check n8n
