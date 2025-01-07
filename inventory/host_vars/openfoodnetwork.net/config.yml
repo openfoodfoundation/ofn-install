@@ -21,8 +21,7 @@ postgres_listen_addresses:
 
 custom_hba_entries:
   - "{{ custom_hba_metabase }}"
-  - "{{ custom_hba_new_metabase }}"
-  - "{{ custom_hba_new_metabase_IPv6 }}"
+  - "{{ custom_hba_metabase_IPv6 }}"
   - "{{ custom_hba_n8n }}"
   - "{{ custom_hba_n8n_IPv6 }}"
   - { type: hostssl, database: "{{ db }}", user: zapier, address: '54.86.9.50/32', auth_method: md5 }
