@@ -50,18 +50,6 @@ swapfile_size: false
 
 #----------------------------------------------------------------------
 # Rails variables
-ruby_version: 3.1.4
-
-rbenv_extra_depends:
-  - libjemalloc-dev
-
-ruby_compile_options: "--with-jemalloc"
-
-ruby_versions:
-  - version: 3.1.4
-    env:
-      RUBY_CONFIGURE_OPTS: "{{ ruby_compile_options }}"
-
 env:
   RAILS_ENV: "{{ rails_env }}"
   PATH: "{{ gem_home }}/bin:{{ ansible_env.PATH }}"
@@ -421,16 +409,6 @@ nginx_configs:
 
 # Set python interpeter to the symlink created by setup
 ansible_python_interpreter: '/usr/bin/python'
-
-# Fix for renamed branch in rbenv-install repo
-rbenv_plugins:
-  - { name: "rbenv-vars",         repo: "https://github.com/rbenv/rbenv-vars.git",         version: "master" }
-  - { name: "ruby-build",         repo: "https://github.com/rbenv/ruby-build.git",         version: "master" }
-  - { name: "rbenv-default-gems", repo: "https://github.com/rbenv/rbenv-default-gems.git", version: "master" }
-  - { name: "rbenv-installer",    repo: "https://github.com/rbenv/rbenv-installer.git",    version: "main" }
-  - { name: "rbenv-update",       repo: "https://github.com/rkh/rbenv-update.git",         version: "master" }
-  - { name: "rbenv-whatis",       repo: "https://github.com/rkh/rbenv-whatis.git",         version: "master" }
-  - { name: "rbenv-use",          repo: "https://github.com/rkh/rbenv-use.git",            version: "master" }
 
 template_notice: |
   # Managed via ofn-install, any changes will be overwritten.

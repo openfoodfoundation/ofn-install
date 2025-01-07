@@ -27,6 +27,7 @@
 
       # build ruby and gems
       - build-essential
+      - libjemalloc-dev
 
       # manage code
       - git-core
