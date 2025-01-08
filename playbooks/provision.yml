@@ -41,17 +41,6 @@
     - role: language # Setup locale.
       tags: language
 
-    - role: zzet.rbenv # Install ruby. If missing run: ansible-galaxy install zzet.rbenv
-      rbenv:
-        env: user
-        version: v1.0.0
-        default_ruby: "{{ ruby_version }}"
-        rubies: "{{ ruby_versions }}"
-      rbenv_set_vars: false
-      rbenv_users:
-        - "{{ app_user }}"
-      tags: ruby
-
     - role: app # Build the app directory structure and support files.
       become: yes
       become_user: "{{ app_user }}"
@@ -111,14 +100,6 @@
       tags: newrelic
 
   tasks:
-    - name: Fix Ruby # no-changed-when
-      command:
-        cmd: bash -lc "rbenv uninstall -f {{ ruby_version }} && rbenv install {{ ruby_version }} && touch ~/.rbenv/versions/{{ ruby_version }}/.reinstalled"
-        creates: "~/.rbenv/versions/{{ ruby_version }}/.reinstalled"
-      become: yes
-      become_user: "{{ app_user }}"
-      when: ansible_distribution_major_version >= '20'
-
     - meta: flush_handlers # Ensure handlers run successfully before reporting success
 
     - name: notify slack
