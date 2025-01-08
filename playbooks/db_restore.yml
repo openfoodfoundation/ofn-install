@@ -5,7 +5,7 @@
   remote_user: "{{ user }}"
 
   handlers:
-    - include: ../roles/shared_handlers/handlers/main.yml
+    - import_tasks: ../roles/shared_handlers/handlers/main.yml
 
   roles:
     - role: db_restore

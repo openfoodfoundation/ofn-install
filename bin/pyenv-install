@@ -2,11 +2,12 @@
 
 set -e
 
-version="$(cat .python-version | cut -d '-' -f3)"
+env_version="$(cat .python-version)"
+python_version="$(cat .python-version | cut -d '-' -f3)"
 
 if ! python --version; then
-  pyenv install "$version" --skip-existing
-  pyenv virtualenv "$version" "ofn-install-$version"
+  pyenv install "$python_version" --skip-existing
+  pyenv virtualenv "$python_version" "$env_version"
   pip install -r requirements.txt
 fi
 

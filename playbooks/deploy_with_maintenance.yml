@@ -20,7 +20,7 @@
   become_user: "{{ app_user }}"
 
   handlers:
-    - include: ../roles/shared_handlers/handlers/main.yml
+    - import_tasks: ../roles/shared_handlers/handlers/main.yml
 
   tasks:
     - block:
