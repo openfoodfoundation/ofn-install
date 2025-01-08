@@ -4,7 +4,7 @@
   remote_user: "{{ app_user }}"
 
   tasks:
-    - name: restore backup # noqa 301
+    - name: restore backup # no-changed-when
       command: "{{ bundle_path }} exec rake db2fog:restore"
       args:
         chdir: "{{ current_path }}"

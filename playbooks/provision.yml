@@ -111,7 +111,7 @@
       tags: newrelic
 
   tasks:
-    - name: Fix Ruby # noqa 301
+    - name: Fix Ruby # no-changed-when
       command:
         cmd: bash -lc "rbenv uninstall -f {{ ruby_version }} && rbenv install {{ ruby_version }} && touch ~/.rbenv/versions/{{ ruby_version }}/.reinstalled"
         creates: "~/.rbenv/versions/{{ ruby_version }}/.reinstalled"

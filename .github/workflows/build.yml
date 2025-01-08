@@ -6,23 +6,23 @@ on:
   pull_request:
 
 jobs:
-  #ansible-lint:
-  #  runs-on: ubuntu-20.04
+  ansible-lint:
+    runs-on: ubuntu-20.04
 
-  #  steps:
-  #    - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #    - uses: actions/setup-python@v4
-  #      with:
-  #        python-version: '3.10.15'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.15'
 
-  #    - name: Set up Ansible
-  #      run: |
-  #        pip install -r requirements.txt
-  #        bin/setup
+      - name: Set up Ansible
+        run: |
+          pip install -r requirements.txt
+          bin/setup
 
-  #    - name: Ansible Lint
-  #      run: ansible-lint playbooks/*.yml --exclude community
+      - name: Ansible Lint
+        run: bin/lint
 
   playbook-tests:
     runs-on: ubuntu-20.04
