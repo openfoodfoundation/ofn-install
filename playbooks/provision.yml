@@ -81,6 +81,7 @@
       tags: certbot
 
     - role: brotli_nginx
+      when: ansible_distribution_major_version <= '20'
       tags: brotli
 
     - role: jdauphant.nginx
