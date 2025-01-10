@@ -127,8 +127,6 @@ postgresql_global_config_options:
   - option: log_directory
     value: "log"
 
-debezium_version: "0.10.0.Final"
-
 #----------------------------------------------------------------------
 # App variables
 app: openfoodnetwork
