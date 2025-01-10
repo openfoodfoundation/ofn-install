@@ -14,6 +14,7 @@
     repo: "{{ item.repo }}"
     dest: "{{ nodenv_root }}/plugins/{{ item.name }}"
     version: "{{ item.version }}"
+    force: yes # because node-build keeps updating a tag ref
 
 - name: add nodenv to user path
   blockinfile:
