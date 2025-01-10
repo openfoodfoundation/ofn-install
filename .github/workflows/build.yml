@@ -7,7 +7,7 @@ on:
 
 jobs:
   ansible-lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v3
@@ -60,7 +60,7 @@ jobs:
         run: ansible-playbook tests/suite.yml --limit lxc
 
   playbook-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
 
