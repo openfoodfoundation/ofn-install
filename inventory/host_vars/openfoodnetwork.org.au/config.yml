@@ -34,3 +34,5 @@ custom_hba_entries:
 # Images settings
 attachment_path: "public/images/spree/products/:id/:style/:basename.:extension"
 attachment_url: ofn_production.s3.us-east-1.amazonaws.com
+
+vine_api_url: "https://vine.openfoodnetwork.org.au/api/v1"
