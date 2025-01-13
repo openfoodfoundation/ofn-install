@@ -1,0 +1,87 @@
+{{ template_notice }}
+
+integrations:
+  - name: nri-redis
+    env:
+      METRICS: true
+      HOSTNAME: localhost
+      PORT: 6379
+      KEYS: 
+      PASSWORD: ''
+      CONFIG_INVENTORY: true
+      KEYS_LIMIT: 30
+      REMOTE_MONITORING: true
+      USE_UNIX_SOCKET: false
+    interval: 60s
+    labels: 
+      role: default 
+
+  - name: nri-redis
+    env:
+      INVENTORY: true
+      HOSTNAME: localhost
+      PORT: 6379
+      PASSWORD: ''
+      REMOTE_MONITORING: true
+      USE_UNIX_SOCKET: false
+    inventory_source: config/redis
+    interval: 24h
+    labels: 
+      role: default 
+
+  - name: nri-redis
+    env:
+      METRICS: true
+      HOSTNAME: localhost
+      PORT: 6380
+      KEYS: 
+      PASSWORD: ''
+      CONFIG_INVENTORY: true
+      KEYS_LIMIT: 30
+      REMOTE_MONITORING: true
+      USE_UNIX_SOCKET: false
+    interval: 60s 
+    labels: 
+      role: cache 
+
+  - name: nri-redis
+    env:
+      INVENTORY: true
+      HOSTNAME: localhost
+      PORT: 6380
+      PASSWORD: ''
+      REMOTE_MONITORING: true
+      USE_UNIX_SOCKET: false
+    inventory_source: config/redis
+    interval: 24h
+    labels: 
+      role: cache 
+
+  - name: nri-redis
+    env:
+      METRICS: true
+      HOSTNAME: localhost
+      PORT: 6381
+      KEYS: 
+      PASSWORD: ''
+      CONFIG_INVENTORY: true
+      KEYS_LIMIT: 30
+      REMOTE_MONITORING: true
+      USE_UNIX_SOCKET: false
+    interval: 60s 
+    labels: 
+      role: job 
+
+  - name: nri-redis
+    env:
+      INVENTORY: true
+      HOSTNAME: localhost
+      PORT: 6381
+      PASSWORD: ''
+      REMOTE_MONITORING: true
+      USE_UNIX_SOCKET: false
+    inventory_source: config/redis
+    interval: 24h
+    labels: 
+      role: job
+
