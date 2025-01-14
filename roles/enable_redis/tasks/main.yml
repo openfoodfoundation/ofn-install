@@ -1,0 +1,11 @@
+---
+
+# According to the docs Redis should be started automatically :
+#   https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/#install-on-ubuntudebian
+# But in reality the default instance is not always enabled so we do it manually
+- name: Enable default redis instance
+  service:
+    name: redis-server
+    state: started
+    enabled: true 
+  become: true 
