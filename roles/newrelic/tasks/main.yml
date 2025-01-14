@@ -27,3 +27,13 @@
     regex: "^display_name:"
     state: present
   notify: restart newrelic_infra
+
+# Monitor all three Redis instances:
+#  - Metrics every 60s
+#  - Inventory every 24h 
+- name: Update new relic redis configuration 
+  template:
+    src: redis-config.j2
+    dest: /etc/newrelic-infra/integrations.d/redis-config.yml
+  become: yes
+  notify: restart newrelic_infra
