@@ -82,7 +82,7 @@ postgres_encoding: en_US.utf8
 # Entries marked custom_* can be defined in /host_vars files, and will be appended
 # to the defaults if present. Make sure you use the "list" notation with the dashes!
 
-postgresql_version: "{% if ansible_distribution_major_version == '16' %}9.5{% elif ansible_distribution_major_version == '18' %}10{% elif ansible_distribution_major_version == '20' %}12{% else %}14{% endif %}"
+postgresql_version: "{% if ansible_distribution_major_version == '16' %}9.5{% elif ansible_distribution_major_version == '18' %}10{% elif ansible_distribution_major_version == '20' %}12{% elif ansible_distribution_major_version == '22' %}14{% else %}16{% endif %}"
 postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 postgresql_bin_path: "/usr/lib/postgresql/{{ postgresql_version }}/bin"
 postgresql_config_path: "/etc/postgresql/{{ postgresql_version }}/main"
