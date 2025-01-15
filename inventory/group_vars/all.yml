@@ -407,9 +407,6 @@ nginx_configs:
   upstream:
     - upstream rails { server unix:{{ puma_sock }} fail_timeout=0; }
 
-# Set python interpeter to the symlink created by setup
-ansible_python_interpreter: '/usr/bin/python'
-
 template_notice: |
   # Managed via ofn-install, any changes will be overwritten.
   # Please notify @devs of any changes in [#devops](https://openfoodnetwork.slack.com/archives/CEBMTRCNS) (But do not share secrets in public channel!)

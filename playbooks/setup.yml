@@ -14,10 +14,9 @@
     - name: Install python
       become: yes
       raw: |
-        test -e /usr/bin/python || (
+        test -e /usr/bin/python3 || (
           apt-get update -qq &&\
-          apt-get install -q --yes python3 &&\
-          ln -s /usr/bin/python3 /usr/bin/python
+          apt-get install -q --yes python3
         )
       register: python_install
       changed_when: python_install.stdout == ""
