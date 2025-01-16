@@ -20,7 +20,10 @@
 
 set -e
 
-lxc launch ubuntu:24.04 ofn-dev
+: ${LXC_IMAGE='ubuntu:24.04'}
+
+echo "Launching $LXC_IMAGE container:"
+lxc launch "$LXC_IMAGE" ofn-dev
 
 # The launch can take some time.
 while ! lxc exec ofn-dev -- sh -c 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub; do

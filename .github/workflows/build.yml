@@ -29,6 +29,13 @@ jobs:
     # When we need to update from Ubuntu 20 then we can use incus which is
     # now the better fork of lxd.
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - "ubuntu:20.04"
+          - "ubuntu:22.04"
+          - "ubuntu:24.04"
     steps:
       - uses: actions/checkout@v3
 
@@ -57,7 +64,7 @@ jobs:
           sudo lxd init --auto
           sudo usermod -aG lxd "$USER"
           ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-          sudo su -c "`pwd`/bin/setup-lxc" - "$USER"
+          sudo su -c "LXC_IMAGE='${{ matrix.image }}' `pwd`/bin/setup-lxc" - "$USER"
 
       - name: Test Playbooks
         run: ansible-playbook tests/suite.yml --limit lxc
