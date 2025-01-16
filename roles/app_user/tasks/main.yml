@@ -9,6 +9,12 @@
     shell: /bin/bash
   become: yes
 
+- name: Open home directory for reading by nginx
+  file:
+    path: "{{ app_user_home_path }}"
+    mode: "o+x" # Add execute to directory for other users.
+  become: yes
+
 - name: add ssh key
   authorized_key:
     user: "{{ app_user }}"
