@@ -82,7 +82,7 @@ postgres_encoding: en_US.utf8
 # Entries marked custom_* can be defined in /host_vars files, and will be appended
 # to the defaults if present. Make sure you use the "list" notation with the dashes!
 
-postgresql_version: "{% if ansible_distribution_major_version == '16' %}9.5{% elif ansible_distribution_major_version == '18' %}10{% else %}12{% endif %}"
+postgresql_version: "{% if ansible_distribution_major_version == '16' %}9.5{% elif ansible_distribution_major_version == '18' %}10{% elif ansible_distribution_major_version == '20' %}12{% elif ansible_distribution_major_version == '22' %}14{% else %}16{% endif %}"
 postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 postgresql_bin_path: "/usr/lib/postgresql/{{ postgresql_version }}/bin"
 postgresql_config_path: "/etc/postgresql/{{ postgresql_version }}/main"
@@ -126,8 +126,6 @@ postgresql_global_config_options:
     value: "conf.d"
   - option: log_directory
     value: "log"
-
-debezium_version: "0.10.0.Final"
 
 #----------------------------------------------------------------------
 # App variables
@@ -244,9 +242,12 @@ ssl_certificate_key:  "/etc/letsencrypt/live/{{ certbot_cert_name | default(doma
 
 nginx_official_repo: True
 
-nginx_extra_root_params:
-  - load_module modules/ngx_http_brotli_filter_module.so
-  - load_module modules/ngx_http_brotli_static_module.so
+possible_nginx_extra_root_params:
+  - "{{ (ansible_distribution_major_version <= '20') | ternary('load_module modules/ngx_http_brotli_filter_module.so','') }}"
+  - "{{ (ansible_distribution_major_version <= '20') | ternary('load_module modules/ngx_http_brotli_static_module.so','') }}"
+
+# Filter out empty items:
+nginx_extra_root_params: "{{ possible_nginx_extra_root_params | select }}"
 
 nginx_http_params:
   - sendfile "on"
@@ -337,8 +338,10 @@ nginx_sites:
       gzip_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
       gzip_disable "msie6";
 
+      {% if ansible_distribution_major_version <= "20" %}
       brotli on;
       brotli_types text/css text/javascript text/plain application/javascript application/x-javascript application/json;
+      {% endif %}
 
       try_files $uri/index.html $uri @rails;
 
@@ -368,7 +371,9 @@ nginx_sites:
       location ~ ^/(assets)/ {
         {{ nginx_valid_methods }}
         gzip_static on;
+        {% if ansible_distribution_major_version <= "20" %}
         brotli_static on;
+        {% endif %}
         expires max;
         add_header Cache-Control public;
       }

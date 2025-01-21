@@ -15,7 +15,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "generic/ubuntu2004"
+  # Not available in the generic repository yet.
+  #config.vm.box = "generic/ubuntu2404"
+  config.vm.box = "alvistack/ubuntu-24.04"
 
   # VM network config.
   config.vm.network "forwarded_port", guest: 22, host: 2222
