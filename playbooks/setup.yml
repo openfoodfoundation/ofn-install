@@ -5,21 +5,21 @@
 # Use: `ansible-playbook playbooks/setup.yml -e "ansible_user=ubuntu" --limit <server_tag>` if
 # provisioning an EC2 instance for the first time (this only needs to be run once).
 
-# Ensure python is set up and accessible on the server before starting.
-- name: python check
+# Make the machine ready for basic setup.
+- name: Ensure machine is ready as Ansible host
   hosts: ofn_servers
   gather_facts: no
   remote_user: root
   tasks:
-    - name: Install python
+    - name: apt update
       become: yes
-      raw: |
-        test -e /usr/bin/python3 || (
-          apt-get update -qq &&\
-          apt-get install -q --yes python3
-        )
+      raw: apt-get update -qq
+      changed_when: true
+    - name: Install python if missing
+      become: yes
+      raw: test -e /usr/bin/python3 || apt-get install -q --yes python3
       register: python_install
-      changed_when: python_install.stdout == ""
+      changed_when: python_install.stdout != ""
 
 # Add the default user and ssh keys as root
 - name: set up default_user

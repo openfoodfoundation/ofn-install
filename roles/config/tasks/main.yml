@@ -3,6 +3,7 @@
   hostname:
     name: "{{ host_id }}"
   become: yes
+  when: inventory_hostname not in groups['lxc']
 
 - name: "Set journal log size limit" # to avoid hard drive filling up!
   lineinfile:

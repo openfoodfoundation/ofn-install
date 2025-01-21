@@ -24,6 +24,41 @@ jobs:
       - name: Ansible Lint
         run: bin/lint
 
+  playbook-tests-lxc:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.15'
+
+      - name: Set up Ansible
+        run: |
+          pip install -r requirements.txt
+          bin/setup
+
+      - name: Cache Ruby binary compiling
+        id: cache-ruby
+        uses: actions/cache@v3
+        with:
+          path: ~/.rbenv
+          key: ${{ runner.os }}-ruby-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-ruby-
+            ${{ runner.os }}-
+
+      - name: Set up LXD
+        run: |
+          sudo apt-get install --yes lxd
+          sudo lxd init --auto
+          sudo usermod -aG lxd "$USER"
+          ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+          sudo su -c "`pwd`/bin/setup-lxc" - "$USER"
+
+      - name: Test Playbooks
+        run: ansible-playbook tests/suite.yml --limit lxc
+
   playbook-tests:
     runs-on: ubuntu-20.04
     steps:
