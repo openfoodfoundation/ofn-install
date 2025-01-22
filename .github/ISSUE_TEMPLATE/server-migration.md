@@ -16,7 +16,7 @@ Tip: find/replace to set up most commands ready to go, eg: `x_prod` -> `ca_prod`
   - `ls /etc/nginx/sites-enabled`
   - `systemctl --state=running`
 - [ ] Hosting: provision new server with Ubuntu 20
-- [ ] DNS: add temporary domain (eg `prod2.openfoodnetwork.org`)
+- [ ] DNS: add temporary domain (eg `prod2.openfoodnetwork.org`) and drop TTL of root and www records.
 
 ### config
 - [ ] Add temporary name to `inventory/hosts` (suggest doing this on separate branch)
