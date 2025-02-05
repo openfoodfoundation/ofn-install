@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# Ensure nobody is using the database
+sudo systemctl stop puma sidekiq
+
+# Save baseline data backup and
+# (Re-)load sample data
+sudo su - {{ app_user }} -c "cd {{ current_path }} && script/ci/save-staging-baseline.sh && bundle exec rake ofn:sample_data"
+
+sudo systemctl start puma sidekiq
