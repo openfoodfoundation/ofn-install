@@ -20,13 +20,16 @@
     shell: /bin/bash
   become: yes
 
-- name: add deploy script
+- name: scripts
   template:
-    src: deploy.j2
-    dest: "/home/{{ deployment_user }}/deploy"
-    owner: root
-    mode: 0700
-  tags: provision_deploy_script
+    src={{ item.src }}
+    dest={{ item.dest }}
+    owner=root
+    mode=0700
+  with_items:
+    - { src: "deploy.j2", dest: "/home/{{ deployment_user }}/deploy" }
+    - { src: "sample_data.j2", dest: "/home/{{ deployment_user }}/sample_data" }
+  tags: scripts
 
 - name: add sudoers file
   template:
