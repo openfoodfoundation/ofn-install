@@ -68,7 +68,7 @@
   become: yes
   template:
     src: "cert-renewal-hook.sh.j2"
-    dest: "/etc/letsencrypt/renewal-hooks/postgresql.sh"
+    dest: "/etc/letsencrypt/renewal-hooks/post/postgresql.sh"
     owner: "root"
     mode: "0755"
   when: inventory_hostname not in groups['local']
