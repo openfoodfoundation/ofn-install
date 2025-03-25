@@ -78,7 +78,6 @@
   command: >-
     certbot renew --force-renewal --no-random-sleep-on-renew
     --cert-name "{{ certbot_cert_name | default(domain) }}"
-    --deploy-hook "/etc/letsencrypt/renewal-hooks/postgresql.sh"
   args:
     creates: "/etc/postgresql/fullchain.pem"
   when: inventory_hostname not in groups['local']
