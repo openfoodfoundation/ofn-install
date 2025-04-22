@@ -22,7 +22,7 @@ These are the main playbooks (found under `playbooks/`). See inside each for mor
 
 Other playbooks include:
 * `backup.yml` - Backup database and image files on the server to the local machine.
-* `rollback.yml` - Rollback the database and codebase to the previous version.
+* `rollback.yml` - Rollback the database and codebase to the previous version. (Warning, this will discard any changes since the backup)
 * `db_transfer.yml` - Transfer the database directly from one host to another (see [Refreshing a staging server](https://github.com/openfoodfoundation/ofn-install/wiki/Refreshing-a-staging-server))
 * `setup_remote_deployment.yml` - Set up a staging server to allow remote triggering of the deploy playbook (eg from a GitHub Action)
 * and more...
