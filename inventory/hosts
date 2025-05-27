@@ -207,6 +207,7 @@ uk_prod
 de_prod
 ie_prod
 hu_prod
+fi_prod
 
 #------------------------------------------------------------------------------
 # America
@@ -256,6 +257,7 @@ co
 cr
 hu
 ch
+fi
 
 #------------------------------------------------------------------------------
 # Switzerland
@@ -265,3 +267,12 @@ app.openfoodswitzerland.ch ansible_host=195.15.219.220
 
 [ch:children]
 ch_prod
+
+#------------------------------------------------------------------------------
+# Finland
+
+[fi_prod]
+openfoodnetwork.fi ansible_host=157.180.89.177
+
+[fi:children]
+fi_prod

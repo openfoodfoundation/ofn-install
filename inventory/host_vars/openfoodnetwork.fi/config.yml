@@ -1,0 +1,14 @@
+---
+
+domain: openfoodnetwork.fi
+host_id: fi-prod # country initials (eg uk, es, de) and environment (default is prod)
+rails_env: production
+
+admin_email: hello@openfoodnetwork.fi
+mail_domain: openfoodnetwork.fi
+
+# Optional list of subdomains to register in letsencrypt certificate
+# Defaults to {{ domain }} if list is undefined
+certbot_domains:
+  - openfoodnetwork.fi
+  - www.openfoodnetwork.fi
