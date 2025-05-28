@@ -5,9 +5,11 @@ checkout_zone: Europe
 country_code: fi
 currency: EUR
 locale: fi                  # Default locale for OFN instance
-available_locales: fi,en    # Available locales for OFN instance
-language: fi_FI.UTF-8       # Default language for the server
+default_country_code: FI
+available_locales: fi,en_US    # Available locales for OFN instance
+language: fi       # Default language for the server
 language_packages:          # Language packages for the server
+  - language-pack-fi-base
   - language-pack-en-base
 l10n_repo: https://github.com/jarihu/l10n_fi.git
 timezone: Helsinki
