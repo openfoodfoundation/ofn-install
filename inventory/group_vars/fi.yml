@@ -1,0 +1,23 @@
+---
+
+# See https://github.com/openfoodfoundation/ofn-install/wiki/Setup for more info
+checkout_zone: Europe
+country_code: fi
+currency: EUR
+locale: fi                  # Default locale for OFN instance
+default_country_code: FI
+available_locales: fi,en_US    # Available locales for OFN instance
+language: fi       # Default language for the server
+language_packages:          # Language packages for the server
+  - language-pack-fi-base
+  - language-pack-en-base
+l10n_repo: https://github.com/jarihu/l10n_fi.git
+timezone: Helsinki
+
+
+# Used for the LetsEncrypt email setting
+developer_email: hello@openfoodnetwork.fi
+
+# Users listed here will have their key from /files/keys added to the app_user
+users_sysadmin:
+  - jari-fi
