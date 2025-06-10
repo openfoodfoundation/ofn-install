@@ -61,11 +61,3 @@
 
 - name: set up redis
   include_tasks: redis.yml
-
-- name: shut down memcached if present
-  service:
-    name: memcached
-    state: stopped
-  ignore_errors: yes
-  failed_when: false
-  become: yes
