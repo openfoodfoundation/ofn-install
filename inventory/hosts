@@ -150,7 +150,7 @@ us_prod
 # Spain
 
 [es_prod]
-app.katuma.org ansible_host=116.203.60.113
+app.katuma.org ansible_host=23.88.97.55
 
 [es:children]
 es_prod
