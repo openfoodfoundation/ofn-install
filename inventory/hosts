@@ -152,6 +152,8 @@ us_prod
 
 [es_prod]
 app.katuma.org ansible_host=116.203.60.113
+
+[es_new]
 app-new.katuma.org ansible_host=23.88.97.55
 
 [es:children]
@@ -204,6 +206,7 @@ za_prod
 [europe:children]
 be_prod
 es_prod
+es_new
 fr_prod
 uk_prod
 de_prod
