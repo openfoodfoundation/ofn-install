@@ -19,6 +19,7 @@ users_sysadmin:
   - dani
   - enricostn
   - mikel
+  - cesar
 
 maintenance_mode_message: >
   El lloc està en procés de manteniment temporal. Si us plau, torneu-ho a intentar més tard.
