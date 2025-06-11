@@ -24,18 +24,26 @@ jobs:
       - name: Ansible Lint
         run: bin/lint
 
-  playbook-tests-lxc:
-    # Ubuntu 22 and newer install lxd via snap which complicates things.
-    # When we need to update from Ubuntu 20 then we can use incus which is
-    # now the better fork of lxd.
-    runs-on: ubuntu-20.04
+  playbook-tests:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         image:
-          - "ubuntu:20.04"
-          - "ubuntu:22.04"
-          - "ubuntu:24.04"
+          # Most servers use Ubuntu 20. ~ 2025-06
+          #
+          #   ansible all_prod -u openfoodnetwork -a "lsb_release -d"
+          #   - Ubuntu 18:  2 servers
+          #   - Ubuntu 20: 10 servers
+          - "images:ubuntu/20.04"
+
+          # A dependency tries to install firefox and it fails.
+          # But we don't have any servers on this version anyway.
+          # We can skip it.
+          # - "images:ubuntu/22.04"
+
+          # Ready for the latest version. Finland uses this already.
+          - "images:ubuntu/24.04"
     steps:
       - uses: actions/checkout@v3
 
@@ -58,13 +66,16 @@ jobs:
             ${{ runner.os }}-ruby-
             ${{ runner.os }}-
 
-      - name: Set up LXD
+      - name: Reset the firewall for container network access
+        run: sudo nft flush ruleset
+
+      - name: Set up Incus
         run: |
-          sudo apt-get install --yes lxd
-          sudo lxd init --auto
-          sudo usermod -aG lxd "$USER"
+          sudo apt-get install --yes incus
+          sudo incus admin init --auto
+          sudo usermod -aG incus-admin "$USER"
           ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-          sudo su -c "LXC_IMAGE='${{ matrix.image }}' `pwd`/bin/setup-lxc" - "$USER"
+          sudo su -c "LXC_IMAGE='${{ matrix.image }}' `pwd`/bin/setup-incus" - "$USER"
 
       - name: Test Playbooks
         run: ansible-playbook tests/suite.yml --limit lxc

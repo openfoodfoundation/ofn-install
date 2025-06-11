@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Set up Linux Containers with Incus
+#
+# If you don't run Linux, you better look at Vagrant to set up virtual machines.
+#
+# But if you run Linux anyway then you can use containers to run virtual
+# machines on the same kernel instead of creating a full virtual machine.
+#
+# Installation in Debian:
+#
+#   sudo apt install incus
+#   sudo incus init
+#   sudo usermod -aG incus "$USER"
+#   # Restart your user's session to gain the new group privilege.
+
+set -e
+
+: ${LXC_IMAGE='images:ubuntu/24.04'}
+
+echo "Launching $LXC_IMAGE container:"
+incus launch "$LXC_IMAGE" ofn-dev
+incus exec ofn-dev -- apt-get update
+incus exec ofn-dev -- apt purge openssh-client --yes
+incus exec ofn-dev -- apt install openssh-server --yes
+incus exec ofn-dev -- mkdir -m 700 -p /root/.ssh
+incus file push --uid 0 --gid 0 ~/.ssh/id_rsa.pub ofn-dev/root/.ssh/authorized_keys
+
+incus config device add ofn-dev myport1122 proxy listen=tcp:0.0.0.0:1122 connect=tcp:127.0.0.1:22
+
+# Enable browsing the OFN app via https://localhost:1443
+incus config device add ofn-dev myport1443 proxy listen=tcp:0.0.0.0:1443 connect=tcp:127.0.0.1:443
