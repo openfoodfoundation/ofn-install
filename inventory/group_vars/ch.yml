@@ -4,11 +4,11 @@
 checkout_zone: Europe
 country_code: CH
 currency: CHF
-locale: en_CH               # Default locale for OFN instance
+locale: de_CH               # Default locale for OFN instance
 available_locales: de_CH,fr_CH,it_CH,en_CH    # Available locales for OFN instance
 language: en_US.UTF-8       # Default language for the server
 language_packages:          # Language packages for the server
-  - language-pack-en-base
+  - language-pack-de-base
 l10n_repo: https://github.com/openfoodfoundation/l10n_ch.git
 timezone: Vienna
 
