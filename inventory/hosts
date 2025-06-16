@@ -207,6 +207,7 @@ uk_prod
 de_prod
 ie_prod
 hu_prod
+gr_prod
 
 #------------------------------------------------------------------------------
 # America
@@ -232,6 +233,7 @@ in_prod
 au_staging
 uk_staging
 fr_staging
+gr_staging
 
 #------------------------------------------------------------------------------
 # All
@@ -257,6 +259,7 @@ cr
 hu
 ch
 fi
+gr
 
 #------------------------------------------------------------------------------
 # Switzerland
@@ -275,3 +278,16 @@ openfoodnetwork.fi ansible_host=157.180.89.177
 
 [fi:children]
 fi_prod
+
+#------------------------------------------------------------------------------
+# Greece
+
+[gr_prod]
+www.openfoodnetwork.gr ansible_host=185.4.135.184
+
+[gr_staging]
+staging.openfoodnetwork.gr ansible_host=185.4.132.192
+
+[gr:children]
+gr_prod
+gr_staging
