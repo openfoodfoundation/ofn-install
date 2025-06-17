@@ -19,5 +19,6 @@ developer_email: mikel.cordovilla@tegonal.com
 # Users listed here will have their key from /files/keys added to the app_user
 users_sysadmin:
   - mikel
+  - marco
   - "{{ core_devs }}"
 
