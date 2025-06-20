@@ -1,10 +1,10 @@
 ---
 
-domain: app.openfoodswitzerland.ch
-host_id: ch-prod # country initials (eg uk, es, de) and environment (default is prod)
-rails_env: production
+domain: staging.openfoodswitzerland.ch
+host_id: ch-staging # country initials (eg uk, es, de) and environment (default is prod)
+rails_env: staging
 
-admin_email: info@openfoodswitzerland.ch
+admin_email: mikel.cordovilla@openfoodswitzerland.ch
 
 # Optional list of subdomains to register in letsencrypt certificate
 # Defaults to {{ domain }} if list is undefined

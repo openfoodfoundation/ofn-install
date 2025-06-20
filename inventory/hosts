@@ -137,7 +137,6 @@ staging.openfoodnetwork.org.uk
 uk_prod
 uk_staging
 
-
 #------------------------------------------------------------------------------
 # USA
 
@@ -233,6 +232,7 @@ in_prod
 au_staging
 uk_staging
 fr_staging
+ch_staging
 gr_staging
 
 #------------------------------------------------------------------------------
@@ -265,10 +265,14 @@ gr
 # Switzerland
 
 [ch_prod]
-app.openfoodswitzerland.ch ansible_host=195.15.219.220
+app.openfoodswitzerland.ch ansible_host=89.47.51.245
+
+[ch_staging]
+staging.openfoodswitzerland.ch ansible_host=185.143.102.14
 
 [ch:children]
 ch_prod
+ch_staging
 
 #------------------------------------------------------------------------------
 # Finland
