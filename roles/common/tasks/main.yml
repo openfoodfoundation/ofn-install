@@ -45,6 +45,7 @@
       - libxml2-dev
       - libxslt1-dev
       - libxrender1
+      - libyaml-dev
       - webp
   tags: packages
 
