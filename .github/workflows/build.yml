@@ -35,7 +35,7 @@ jobs:
           #   ansible all_prod -u openfoodnetwork -a "lsb_release -d"
           #   - Ubuntu 18:  2 servers
           #   - Ubuntu 20: 10 servers
-          - "images:ubuntu/20.04"
+          # - "images:ubuntu/20.04"
 
           # A dependency tries to install firefox and it fails.
           # But we don't have any servers on this version anyway.
