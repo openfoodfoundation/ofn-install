@@ -1,7 +1,12 @@
 Certbot NGINX [![Build Status](https://travis-ci.org/coopdevs/certbot_nginx.svg?branch=master)](https://travis-ci.org/coopdevs/certbot_nginx)
 =========
 
-Simple Ansible role to install `certbot` with NGINX plugin on **Ubuntu 16.04** and **Ubuntu 18.04**.
+Simple Ansible role to install `certbot` with NGINX plugin on:
+* **Ubuntu 16.04**
+* **Ubuntu 18.04**.
+* **Ubuntu 20.04**.
+* **Ubuntu 22.04**.
+* **Ubuntu 24.04**.
 
 This role will:
 1. Add `certbot` PPA repository

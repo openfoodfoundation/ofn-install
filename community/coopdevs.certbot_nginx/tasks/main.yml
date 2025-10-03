@@ -1,10 +1,24 @@
 ---
+- name: Set Certbot package name and versions (Ubuntu >= 24.04)
+  set_fact:
+    certbot_version: 2.9.0-1
+    certbot_nginx_version: 2.9.0-1
+    certbot_nginx_name: python3-certbot-nginx
+  when: ansible_distribution_version >= "24.04"
+
+- name: Set Certbot package name and versions (Ubuntu >= 22.04)
+  set_fact:
+    certbot_version: 1.21.0-1build1
+    certbot_nginx_version: 1.21.0-1
+    certbot_nginx_name: python3-certbot-nginx
+  when: ansible_distribution_version >= "22.04" and ansible_distribution_version < "24.04"
+
 - name: Set Certbot package name and versions (Ubuntu >= 20.04)
   set_fact:
     certbot_version: 0.40.0-1ubuntu0.1
     certbot_nginx_version: 0.40.0-0ubuntu0.1
     certbot_nginx_name: python3-certbot-nginx
-  when: ansible_distribution_version >= "20.04"
+  when: ansible_distribution_version >= "20.04" and ansible_distribution_version < "22.04"
 
 - name: Set Certbot package name and versions (Ubuntu < 20.04)
   set_fact:
