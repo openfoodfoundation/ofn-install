@@ -30,19 +30,20 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          # Most servers use Ubuntu 20. ~ 2025-06
-          #
+          # Most servers use Ubuntu 20. ~ 2025-10
           #   ansible all_prod -u openfoodnetwork -a "lsb_release -d"
-          #   - Ubuntu 18:  2 servers
-          #   - Ubuntu 20: 10 servers
-          - "images:ubuntu/20.04"
+          #   - Ubuntu 20: 11 servers
+          #   - Ubuntu 24: 1 server
+          #
+          # But it is no longer supported by GitHub.
+          # - "images:ubuntu/20.04"
 
           # A dependency tries to install firefox and it fails.
-          # But we don't have any servers on this version anyway.
+          # But we don't manage any servers on this version anyway.
           # We can skip it.
           # - "images:ubuntu/22.04"
 
-          # Ready for the latest version. Finland uses this already.
+          # Ready for the latest version. Finland and Katuma use this already.
           - "images:ubuntu/24.04"
     steps:
       - uses: actions/checkout@v3
