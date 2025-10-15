@@ -72,6 +72,14 @@
     - role: sidekiq
       tags: sidekiq
 
+    - role: jdauphant.nginx
+      become: yes
+      tags: nginx
+
+    - role: brotli_nginx
+      when: ansible_distribution_major_version <= '20'
+      tags: brotli
+
     - role: coopdevs.certbot_nginx
       become: yes
       vars:
@@ -82,14 +90,6 @@
         certbot_version: "0.31.0-2~deb10u1+ubuntu{{ ansible_distribution_version }}.1+certbot+3"
       when: inventory_hostname not in groups['local']
       tags: certbot
-
-    - role: brotli_nginx
-      when: ansible_distribution_major_version <= '20'
-      tags: brotli
-
-    - role: jdauphant.nginx
-      become: yes
-      tags: nginx
 
     - role: webserver
       tags: webserver
