@@ -1,0 +1,84 @@
+---
+nginx_pkgs:
+  - nginx
+
+nginx_install_epel_repo: True
+
+nginx_official_repo: False
+nginx_official_repo_mainline: False
+
+nginx_keep_only_specified: "{{ keep_only_specified | default(False) }}"
+
+# Whether load vars/{{ ansible_os_family }}.yml or not
+nginx_load_default_vars: true
+
+nginx_installation_type: "packages"
+nginx_binary_name: "nginx"
+nginx_service_name: "{{nginx_binary_name}}"
+nginx_conf_dir: /etc/nginx # For this variable, a specific value for the OS can be apply in vars/{{ ansible_os_family }}.yml
+nginx_default_site_template: "site.conf.j2"
+
+nginx_user: nginx  # For this variable, a specific value for the OS can be apply in vars/{{ ansible_os_family }}.
+nginx_group: "{{nginx_user}}"
+
+nginx_pid_file: '/var/run/{{nginx_service_name}}.pid'
+
+nginx_worker_processes: "{% if ansible_processor_vcpus is defined %}{{ ansible_processor_vcpus }}{% else %}auto{% endif %}"
+nginx_worker_rlimit_nofile: 1024
+nginx_log_dir: "/var/log/nginx"
+nginx_log_user: "{% if ansible_os_family == 'Debian' %}root{% else %}{{nginx_user}}{% endif %}"
+nginx_log_group: "{% if ansible_os_family == 'Debian' %}adm{% else %}{{nginx_group}}{% endif %}"
+nginx_log_perm: 0755
+nginx_error_log_level: "error"
+
+nginx_conf_user: root
+nginx_conf_group: root
+nginx_dir_perm: 0755
+
+nginx_extra_root_params: []
+nginx_events_params:
+  - worker_connections {% if nginx_max_clients is defined %}{{nginx_max_clients}}{% else %}512{% endif %}
+
+nginx_http_params: "{{ nginx_http_default_params }}"
+
+nginx_stream_params: []
+
+nginx_sites_default_root: /usr/share/nginx/html  # For this variable, a specific value for the OS can be apply in vars/{{ ansible_os_family }}.
+
+nginx_sites:
+  default:
+    - listen 80 default_server
+    - server_name _
+    - root "{{ nginx_sites_default_root }}"
+    - index index.html
+nginx_remove_sites: []
+nginx_disabled_sites: []
+
+nginx_module_configs: []
+nginx_remove_modules: []
+nginx_disabled_modules: []
+
+nginx_configs: {}
+nginx_snippets: {}
+nginx_stream_configs: {}
+nginx_remove_configs: []
+nginx_remove_snippets: []
+
+nginx_auth_basic_files: {}
+nginx_remove_auth_basic_files: []
+
+nginx_daemon_mode: "on"
+# Set wether to start the service during the role run or keep it stopped
+nginx_start_service: true
+# Set wether enable Nginx service on boot or not
+nginx_start_at_boot: true
+
+nginx_set_real_ip_from_cloudflare: False
+nginx_cloudflare_real_ip_header: "CF-Connecting-IP" # See: https://support.cloudflare.com/hc/en-us/articles/200170706-How-do-I-restore-original-visitor-IP-with-Nginx-
+nginx_cloudflare_configuration_name: "cloudflare" # Name for the conf file in the conf.d directory
+
+nginx_amplify: false
+nginx_amplify_api_key: ""
+nginx_amplify_update_agent: false
+nginx_amplify_script_url: "https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh"
+nginx_amplify_script_path: "/tmp/install-amplify-agent.sh"
