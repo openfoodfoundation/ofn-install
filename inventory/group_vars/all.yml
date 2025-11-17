@@ -205,6 +205,18 @@ logrotate_applications:
         lastaction:       # delete log files older than 1 day
           - "find /var/log/pg_log/ -name '*.log' -mtime +1 -exec rm {};"
 
+  - name: redis
+    definitions:
+      - logs:
+          - "/var/log/redis/redis-cache*.log"
+          - "/var/log/redis/redis-jobs*.log"
+        options:
+          - weekly        # run weekly
+          - rotate 12     # delete logs older than 12 weeks
+          - missingok     # ignore missing lofs
+          - compress      # compress rotated  logs
+          - notifempty    # don't rotate if empty
+
 #----------------------------------------------------------------------
 # User name for the unprivileged user which runs the web server
 app_user: openfoodnetwork
