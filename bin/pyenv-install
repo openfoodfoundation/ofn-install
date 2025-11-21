@@ -7,9 +7,5 @@ python_version="$(cat .python-version)"
 # Install python version
 pyenv install --skip-existing
 
-# Create python virtual environment
-if pyenv virtualenvs 2>&1 | grep -q "not installed"; then
-  pyenv virtualenv "$python_version" "ofn-install-$python_version"
-fi
 pip install -r requirements.txt
 
