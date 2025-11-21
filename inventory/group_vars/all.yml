@@ -213,7 +213,7 @@ logrotate_applications:
         options:
           - weekly        # run weekly
           - rotate 12     # delete logs older than 12 weeks
-          - missingok     # ignore missing lofs
+          - missingok     # ignore missing logs
           - compress      # compress rotated  logs
           - notifempty    # don't rotate if empty
 
