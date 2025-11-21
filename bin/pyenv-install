@@ -2,15 +2,10 @@
 
 set -e
 
-env_version="$(cat .python-version)"
-python_version="$(cat .python-version | cut -d '-' -f3)"
+python_version="$(cat .python-version)"
 
 # Install python version
-pyenv install "$python_version" --skip-existing
+pyenv install --skip-existing
 
-# Create python virtual environment
-if pyenv virtualenvs 2>&1 | grep -q "not installed"; then
-  pyenv virtualenv "$python_version" "$env_version"
-fi
 pip install -r requirements.txt
 

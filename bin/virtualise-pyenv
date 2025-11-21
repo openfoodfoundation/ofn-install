@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Test different Ansible version in virtual python environments.
+# Create and activate a new env with:
+#
+#   source bin/virtualise-pyenv
+#
+# The env is only active for you current shell.
+# Closing your shell will revert back to the default python environment.
+
+set -e
+
+python_version="$(cat .python-version)"
+ansible_version="$(grep "^ansible==" requirements.txt)"
+venv="$python_version-$ansible_version"
+
+# Install python version
+pyenv install --skip-existing
+
+# Create python virtual environment
+if ! pyenv shell "$venv"; then
+  pyenv virtualenv "$venv"
+  pyenv shell "$venv"
+fi
+
+pip install -r requirements.txt
