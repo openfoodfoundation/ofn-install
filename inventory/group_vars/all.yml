@@ -158,8 +158,8 @@ l10n_path: "{{ shared_path }}/l10n"
 #----------------------------------------------------------------------
 # Node variables
 
-node_version: 14.21.2
-nodenv_version: 1.4.1
+node_version: 24.10.0
+nodenv_version: 1.6.2
 nodenv_root: "{{ app_user_home_path }}/.nodenv"
 
 #----------------------------------------------------------------------
