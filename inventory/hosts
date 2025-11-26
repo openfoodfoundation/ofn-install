@@ -206,6 +206,7 @@ uk_prod
 de_prod
 ie_prod
 gr_prod
+hu_prod
 
 #------------------------------------------------------------------------------
 # America
@@ -216,6 +217,9 @@ us_prod
 
 #------------------------------------------------------------------------------
 # Globally managed production servers
+#
+# We deploy weekly releases to these instances.
+# This includes all "basic" instances as listed here: https://docs.google.com/spreadsheets/d/1uHc3Pn-XSi5vJ95YIvWRtRJCbz3nXL5apdBWipmHUYc/edit?gid=0#gid=0
 
 [all_prod:children]
 europe
