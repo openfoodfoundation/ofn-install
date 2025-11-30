@@ -18,3 +18,4 @@ developer_email: admin@openfoodnetwork.be
 
 users_sysadmin:
   - "{{ core_devs }}"
+  - paco
