@@ -5,7 +5,12 @@ set -e
 python_version="$(cat .python-version)"
 
 # Install python version
-pyenv install --skip-existing
+# List available versions:
+#   pyenv install --list | grep '^  3\.1.\.[0-9]*$'
+if ! pyenv install --skip-existing; then
+  (cd "$(pyenv root)/plugins/python-build/../.." && git pull)
+  pyenv install --skip-existing
+fi
 
 pip install -r requirements.txt
 
