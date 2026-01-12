@@ -5,12 +5,19 @@ set -e
 python_version="$(cat .python-version)"
 
 # Install python version
+# On failure, update pyenv to find new version and try again
 # List available versions:
 #   pyenv install --list | grep '^  3\.1.\.[0-9]*$'
 if ! pyenv install --skip-existing; then
-  (cd "$(pyenv root)" && git pull)
+  # If installed with homebrew, use that to update
+  if (command -v brew && brew list --versions pyenv); then
+    brew update && brew upgrade pyenv
+  else
+    # Update with git
+    (cd "$(pyenv root)" && git pull)
+  fi
+
   pyenv install --skip-existing
 fi
 
 pip install -r requirements.txt
-
