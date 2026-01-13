@@ -14,6 +14,7 @@ users_sysadmin:
   - filipe
   - konrad
   - mohamed
+  - ahmed
 
 attachment_url: ccs-ofn-staging.s3.eu-west-3.amazonaws.com
 

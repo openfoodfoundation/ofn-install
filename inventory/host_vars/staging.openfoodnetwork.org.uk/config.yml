@@ -11,6 +11,7 @@ users_sysadmin:
   - filipe
   - konrad
   - bethan
+  - ahmed
 
 # Enable external database access for third party integrations
 postgres_listen_addresses:
