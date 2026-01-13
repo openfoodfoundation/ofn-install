@@ -11,9 +11,7 @@ mail_domain: coopcircuits.fr
 users_sysadmin:
   - "{{ core_devs }}"
   - paco
-  - filipe
   - konrad
-  - mohamed
   - ahmed
 
 attachment_url: ccs-ofn-staging.s3.eu-west-3.amazonaws.com
