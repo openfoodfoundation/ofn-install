@@ -11,6 +11,7 @@ mail_domain: "smtp.gmail.com"
 users_sysadmin:
   - "{{ core_devs }}"
   - konrad
+  - ahmed
 
 # activate the language switcher
 available_locales: en_AU,fr,es

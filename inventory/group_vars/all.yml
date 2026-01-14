@@ -237,7 +237,6 @@ puma_timeout: 30
 core_devs:
   - maikel
   - matt
-  - filipe
   - david
   - gaetan
 
@@ -246,6 +245,7 @@ retired_core_devs:
   - pau
   - stveep
   - jb
+  - filipe
 
 #----------------------------------------------------------------------
 # nginx config
