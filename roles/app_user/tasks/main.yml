@@ -49,7 +49,13 @@
     group: "{{ app_user }}"
     mode: 0640
 
-# Temporary task to migrate to new managed block (see next)
+# Temporary tasks to migrate to new managed block (see next)
+- name: ensure file exist
+  become: true
+  become_user: "{{ app_user }}"
+  file:
+    path: "~/.bash_profile"
+    state: touch
 - name: Remove known un-managed bash_profile content
   become: true
   become_user: "{{ app_user }}"
