@@ -40,17 +40,6 @@
   register: rbenv_install
   changed_when: rbenv_install.stdout.find("Installing ruby") != -1
 
-# Install bundler and gems
-
-- name: install bundler
-  # This needs to be run inside a bash shell to initialise rbenv
-  # See http://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
-  command: bash -lc "./script/install-bundler"
-  args:
-    chdir: "{{ build_path }}"
-  register: bundler
-  changed_when: bundler.stdout | length > 0
-
 - name: configure bundler
   command: >
     bash -lc "
