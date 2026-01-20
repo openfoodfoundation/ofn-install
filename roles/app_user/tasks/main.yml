@@ -49,14 +49,32 @@
     group: "{{ app_user }}"
     mode: 0640
 
-- name: Write bash_profile for app user
+# Temporary tasks to migrate to new managed block (see next)
+- name: ensure file exist
   become: true
-  template:
-    src: bash_profile.j2
-    dest: "/home/{{ app_user }}/.bash_profile"
-    owner: "{{ app_user }}"
-    group: "{{ app_user }}"
-    mode: 0644
+  become_user: "{{ app_user }}"
+  file:
+    path: "~/.bash_profile"
+    state: touch
+- name: Remove known un-managed bash_profile content
+  become: true
+  become_user: "{{ app_user }}"
+  replace:
+    path: "~/.bash_profile"
+    regexp: |
+      {{ template_notice | regex_escape() }}
+
+      {{ lookup('template', 'templates/bash_profile.j2') | regex_escape() }}
+
+- name: Load OFN environment vars for user
+  become: true
+  become_user: "{{ app_user }}"
+  blockinfile:
+    create: true
+    dest: "~/.bash_profile"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: app_user"
+    block: |
+      {{ lookup('template', 'templates/bash_profile.j2') }}
 
 - name: Create sudoers configuration for app user
   become: true
