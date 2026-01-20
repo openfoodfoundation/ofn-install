@@ -12,3 +12,8 @@
   changed_when: True
   args:
     chdir: "{{ current_path }}"
+
+- name: clear rails cache
+  command: bash -lc "bundle exec bin/rails runner Rails.cache.clear RAILS_ENV={{ rails_env }}"
+  args:
+    chdir: "{{ current_path }}"

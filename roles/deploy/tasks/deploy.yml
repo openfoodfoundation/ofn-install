@@ -166,3 +166,4 @@
     - restart puma
     - restart sidekiq
     - update whenever
+    - clear rails cache
