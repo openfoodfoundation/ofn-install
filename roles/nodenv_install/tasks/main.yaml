@@ -7,4 +7,4 @@
 - name: node installation messages
   debug:
     msg: "{{nodenv_install.stderr}}"
-  when: nodenv_install.stderr
+  when: nodenv_install.stderr | length > 0
