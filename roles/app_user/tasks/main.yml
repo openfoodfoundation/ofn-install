@@ -39,6 +39,7 @@
     user: "{{ app_user }}"
     key: "{{ lookup('file', inventory_dir + '/../files/keys/' + item + '.pub') }}"
     state: absent
+  become: yes
   with_flattened: "{{ retired_core_devs }}"
 
 - name: Write OFN environment variables defaults
