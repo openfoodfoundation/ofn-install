@@ -8,3 +8,24 @@
     group: www-data
   become: yes
   become_user: root
+
+- name: stop sidekiq
+  service:
+    name: sidekiq
+    state: stopped
+  become: yes
+  become_user: root
+
+- name: stop redis-jobs
+  service:
+    name: redis-jobs
+    state: stopped
+  become: yes
+  become_user: root
+
+- name: stop puma
+  service:
+    name: puma
+    state: stopped
+  become: yes
+  become_user: root
