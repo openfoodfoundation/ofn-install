@@ -72,7 +72,6 @@ Use a `hosts` file entry to test new server using the domain name
 
 ### switchover: old server
 - [ ] 🚧 `ansible-playbook playbooks/maintenance_mode.yml -l x_prod`
-- [ ] `sudo systemctl stop sidekiq redis-jobs puma`
 - [ ] `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/db_transfer.yml &&`
 - [ ] `ansible-playbook -l x_prod -e rsync_to=x_prod2 playbooks/transfer_assets.yml`
 - [ ] Transfer `/var/lib/redis-jobs/dump.rdb` to new server (see [guide][guide]
@@ -104,7 +103,7 @@ Use a `hosts` file entry to test new server using the domain name
 
 ## Rollback plan
 * If an error occurs after dns change, users may have interacted with the new server (eg made payments).
-   * if serious, consider putting new server into maintenance mode (and stop sidekiq) to avoid further changes, while investigating
+   * if serious, consider putting new server into maintenance mode to avoid further changes, while investigating
    * otherwise seek to resolve issue in-place.
    * avoid changing dns back to old server, because it could be missing any new payments.
 
