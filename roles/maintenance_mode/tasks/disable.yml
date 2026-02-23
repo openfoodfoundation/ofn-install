@@ -6,3 +6,24 @@
     state: absent
   become: yes
   become_user: root
+
+- name: start redis-jobs
+  service:
+    name: redis-jobs
+    state: started
+  become: yes
+  become_user: root
+
+- name: start sidekiq
+  service:
+    name: sidekiq
+    state: started
+  become: yes
+  become_user: root
+
+- name: start puma
+  service:
+    name: puma
+    state: started
+  become: yes
+  become_user: root
