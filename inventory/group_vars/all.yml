@@ -239,6 +239,7 @@ core_devs:
   - matt
   - david
   - gaetan
+  - ahmed
 
 retired_core_devs:
   - george
