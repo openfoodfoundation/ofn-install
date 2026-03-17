@@ -123,6 +123,8 @@
     chdir: "{{ build_path }}"
   become: yes
   become_user: "{{ app_user }}"
+  async: 1800
+  poll: 10
 
 - name: migrate database
   command: bash -lc "bundle exec rake db:migrate RAILS_ENV={{ rails_env }}"
