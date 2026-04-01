@@ -162,7 +162,7 @@ es_prod
 coopcircuits.fr ansible_host=51.38.38.32
 
 [fr_staging]
-staging.coopcircuits.fr ansible_host=51.178.24.33
+staging.coopcircuits.fr ansible_host=57.131.49.35
 
 [fr:children]
 fr_prod
