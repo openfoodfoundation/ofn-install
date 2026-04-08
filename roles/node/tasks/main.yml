@@ -23,8 +23,3 @@
     block: |
       export PATH="$HOME/.nodenv/bin:$PATH"
       eval "$(nodenv init -)"
-
-# Install node and yarn, ready for deploy!
-- name: install node version (and yarn)
-  include_role:
-    name: nodenv_install
