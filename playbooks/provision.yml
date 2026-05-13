@@ -35,6 +35,10 @@
     - role: common # Install common apps and libraries, and setup shell.
       tags: common
 
+    - role: chromium # Install Chromium for Ferrum headless browser PDF rendering.
+      become: yes
+      tags: chromium
+
     - role: compatibility # Handle version-specific OS dependencies and configuration
       tags: compatibility
 
