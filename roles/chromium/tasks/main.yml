@@ -1,0 +1,30 @@
+---
+# Install Chromium for Ferrum/FerrumPDF headless browser rendering.
+#
+# Ferrum requires a Chrome/Chromium binary to render PDFs and take
+# screenshots.
+
+# Using Savoury PPA to install chromium-browser on all Ubuntu versions
+
+- name: Add chromium PPA
+  apt_repository:
+    repo: ppa:savoury1/chromium
+    state: present
+  become: yes
+
+- name: Install chromium-browser
+  apt:
+    update_cache: yes
+    name: chromium-browser
+    state: present
+  become: yes
+
+# Runtime libraries required by headless Chromium that may not be pulled
+# in automatically on minimal Ubuntu server installations.
+- name: install headless chrome runtime dependencies
+  apt:
+    name:
+      - libgbm1          # GPU buffer management, required even in headless mode
+      - libxshmfence1    # Shared memory fences for X11 shm rendering
+    state: present
+  become: yes
