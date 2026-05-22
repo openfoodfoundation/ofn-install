@@ -12,6 +12,12 @@
     state: present
   become: yes
 
+- name: Add ffmpeg4 PPA for newer libpipewire
+  apt_repository:
+    repo: ppa:savoury1/ffmpeg4
+    state: present
+  become: yes
+
 - name: Install chromium-browser
   apt:
     update_cache: yes
