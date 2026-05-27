@@ -1,11 +1,11 @@
 ---
 domain: pruebas.laferia.cr
-host_id: cr_pruebas
+host_id: cr-pruebas
 rails_env: staging
 
-admin_email: info@laferia.cr
+admin_email: info@pruebas.laferia.cr
 
-mail_domain: laferia.cr
+mail_domain: pruebas.laferia.cr
 available_locales: en,fr,es
 
 # Optional list of subdomains to register in letsencrypt certificate
