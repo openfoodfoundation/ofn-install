@@ -70,7 +70,7 @@ ca_prod
 laferia.cr ansible_host=95.217.177.232
 
 [cr_pruebas]
-pruebas.laferia.cr ansible_host=198.58.117.96
+pruebas.laferia.cr ansible_host=172.233.183.57
 
 [cr:children]
 cr_prod
