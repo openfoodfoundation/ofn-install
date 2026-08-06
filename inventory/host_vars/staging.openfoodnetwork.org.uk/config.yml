@@ -10,6 +10,7 @@ users_sysadmin:
   - "{{ core_devs }}"
   - konrad
   - bethan
+  - paco
 
 # Enable external database access for third party integrations
 postgres_listen_addresses:
