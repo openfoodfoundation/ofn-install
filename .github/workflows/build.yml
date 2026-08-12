@@ -69,7 +69,7 @@ jobs:
       - name: Set up Incus
         run: |
           sudo apt update
-          sudo apt  install --yes incus
+          sudo apt install --yes incus
           sudo incus admin init --auto
           sudo usermod -aG incus-admin "$USER"
           ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
