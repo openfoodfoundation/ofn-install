@@ -15,6 +15,15 @@
     mode: "o+x" # Add execute to directory for other users.
   become: yes
 
+- name: Keep cache directory private
+  file:
+    path: "{{ app_user_home_path }}/.cache"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0700
+  become: yes
+
 - name: add ssh key
   authorized_key:
     user: "{{ app_user }}"
