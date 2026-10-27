@@ -33,9 +33,13 @@ admin_email: "admin@{{ domain }}"
 #----------------------------------------------------------------------
 # security role variables
 security_autoupdate_mail_to: "{{ developer_email }}"
-security_autoupdate_blacklist:
-  - nginx
-  - nginx-common
+
+possible_autoupdate_blacklist:
+  - "{{ (ansible_distribution_major_version <= '20') | ternary('nginx','') }}"
+  - "{{ (ansible_distribution_major_version <= '20') | ternary('nginx-common','') }}"
+
+# Filter out empty items:
+security_autoupdate_blacklist: "{{ possible_autoupdate_blacklist | select }}"
 
 #----------------------------------------------------------------------
 # Database backup variables
