@@ -323,8 +323,8 @@ nginx_sites:
 
   000_redirect_www:
     - |
-      listen 443 ssl http2;
-      listen [::]:443 ssl http2;
+      listen 443 ssl;
+      listen [::]:443 ssl;
       server_name www.{{ domain }};
 
       ssl_certificate      {{ ssl_certificate }};
@@ -336,8 +336,8 @@ nginx_sites:
 
   ofn_443:
     - |
-      listen 443 ssl http2;
-      listen [::]:443 ssl http2;
+      listen 443 ssl;
+      listen [::]:443 ssl;
       server_name {{ certbot_domains | default([domain]) | join(' ') }};
       root {{ app_root }}/public;
 
