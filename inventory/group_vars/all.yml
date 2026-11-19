@@ -323,9 +323,10 @@ nginx_sites:
 
   000_redirect_www:
     - |
-      listen 443 ssl http2;
-      listen [::]:443 ssl http2;
+      listen 443 ssl;
+      listen [::]:443 ssl;
       server_name www.{{ domain }};
+      # http2 on; # Disabled until nginx 1.31.9
 
       ssl_certificate      {{ ssl_certificate }};
       ssl_certificate_key  {{ ssl_certificate_key }};
@@ -336,10 +337,11 @@ nginx_sites:
 
   ofn_443:
     - |
-      listen 443 ssl http2;
-      listen [::]:443 ssl http2;
+      listen 443 ssl;
+      listen [::]:443 ssl;
       server_name {{ certbot_domains | default([domain]) | join(' ') }};
       root {{ app_root }}/public;
+      # http2 on; # Disabled until nginx 1.31.9
 
       ssl_certificate      {{ ssl_certificate }};
       ssl_certificate_key  {{ ssl_certificate_key }};
