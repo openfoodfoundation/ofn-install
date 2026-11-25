@@ -14,6 +14,10 @@ certbot_domains:
 
 attachment_url: ofn-belgium.s3.us-east-1.amazonaws.com
 
+# Lescommuns keycloak client, used to link an account for DFC catalog imports.
+# The matching secret is in secrets.yml.
+openid_app_id: ofn-be-prod
+
 # Enable external database access for third party integrations
 postgres_listen_addresses:
   - '*'
